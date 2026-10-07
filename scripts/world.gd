@@ -113,6 +113,11 @@ func load_floor(number: int, resume: bool = false) -> void:
 		camera.position = Vector2(768,510)-player.position
 		camera.position_smoothing_enabled = false
 	camera.make_current()
+	if not village:
+		dungeon.reveal(player.position)
+		var fog: DungeonFog = DungeonFog.new()
+		fog.world = self
+		add_child(fog)
 	var atmosphere: WorldAtmosphere = WorldAtmosphere.new()
 	atmosphere.world = self
 	add_child(atmosphere)
@@ -173,7 +178,7 @@ func _physics_process(delta: float) -> void:
 		hint = "Talk to the villagers, then enter the tower."
 	else:
 		reveal_timer -= delta
-		if reveal_timer<=0:
+		if reveal_timer<=0 or Vector2i((player.position/Dungeon.CELL).floor())!=dungeon.sight_origin:
 			dungeon.reveal(player.position)
 			reveal_timer = 0.25
 		var room: int = dungeon.room_at(player.position)
@@ -208,6 +213,7 @@ func closest_prop() -> WorldProp:
 	var best: float = 120
 	for prop: WorldProp in props:
 		if prop.record.kind in ["torch","urn"] or prop.record.get("opened",false): continue
+		if not village and prop.record.id!="gate" and not dungeon.explored_position(prop.position): continue
 		var distance: float = prop.position.distance_to(player.position)
 		if distance<best:
 			found = prop
@@ -341,6 +347,8 @@ func snapshot() -> void:
 		enemy.record.hp = enemy.hp
 		enemy.record.pos = Dungeon.pair(enemy.position)
 	floor_data.revealed = dungeon.revealed.keys()
+	floor_data.visited_rooms = dungeon.visited_rooms.keys()
+	floor_data.visibility_version = Dungeon.VISIBILITY_VERSION
 	floor_data.loot = loot
 	State.run.floors[str(State.run.floor)] = floor_data
 

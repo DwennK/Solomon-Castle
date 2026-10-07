@@ -28,6 +28,7 @@ func _draw() -> void:
 	if is_instance_valid(world) and not world.village:
 		for drop: Dictionary in world.loot:
 			var pos: Vector2 = Dungeon.vec(drop.pos)
+			if not world.dungeon.explored_position(pos): continue
 			var texture: Texture2D = Catalog.texture("staff" if drop.kind=="item" and drop.item.slot=="staff" else ("ring" if drop.kind=="item" else drop.kind))
 			var color: Color = Color("ce9cfa") if drop.kind=="item" else Color("edbe69")
 			ArcaneArt.glow(self,pos,35,Color(color,0.4))

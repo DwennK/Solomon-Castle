@@ -8,6 +8,11 @@ var data: Dictionary = {}
 var astar: AStarGrid2D
 var cells: Dictionary = {}
 var revealed: Dictionary = {}
+var visited_rooms: Dictionary = {}
+var visibility_revision: int = 0
+var sight_origin: Vector2i = Vector2i(-1,-1)
+const SIGHT_RADIUS: int = 12
+const VISIBILITY_VERSION: int = 1
 var village: bool = false
 var interior: DungeonInterior
 
@@ -58,6 +63,9 @@ static func vec(a: Array) -> Vector2:
 func build(value: Dictionary) -> void:
 	data = value
 	cells.clear()
+	revealed.clear()
+	visited_rooms.clear()
+	sight_origin = Vector2i(-1,-1)
 	astar = AStarGrid2D.new()
 	astar.region = Rect2i(0,0,WIDTH,HEIGHT)
 	astar.cell_size = Vector2(CELL,CELL)
@@ -87,7 +95,17 @@ func build(value: Dictionary) -> void:
 				shape.position = Vector2((start+x)*CELL/2.0,y*CELL+CELL/2.0)
 				body.add_child(shape)
 				start = -1
-	for cell_key: String in data.revealed: revealed[cell_key] = true
+	# Legacy radius-based discovery cannot prove a room was entered. Only its
+	# exploration mask is reset; geometry, enemies, rewards and progress stay intact.
+	if int(data.get("visibility_version",0)) == VISIBILITY_VERSION:
+		for index: Variant in data.get("visited_rooms",[]):
+			if int(index)>=0 and int(index)<data.rooms.size(): visited_rooms[int(index)] = true
+		for cell_key: String in data.revealed:
+			var bits: PackedStringArray = cell_key.split(",")
+			if bits.size()!=2: continue
+			var cell: Vector2i = Vector2i(int(bits[0]),int(bits[1]))
+			var room: int = room_at(to_world(cell))
+			if cells.has(cell) and (room<0 or visited_rooms.has(room)): revealed[cell_key] = true
 	if int(data.number)>0:
 		interior = DungeonInterior.new(self)
 		var lighting: DungeonLighting = DungeonLighting.new()
@@ -119,11 +137,56 @@ func path(a: Vector2, b: Vector2) -> PackedVector2Array:
 	return astar.get_point_path(aa,bb)
 
 func reveal(p: Vector2) -> void:
+	if not walkable(p): return
 	var cell: Vector2i = Vector2i((p/CELL).floor())
-	for x: int in range(cell.x-7,cell.x+8):
-		for y: int in range(cell.y-6,cell.y+7):
+	var room: int = room_at(p)
+	if room>=0: visited_rooms[room] = true
+	sight_origin = cell
+	for x: int in range(maxi(0,cell.x-SIGHT_RADIUS),mini(WIDTH,cell.x+SIGHT_RADIUS+1)):
+		for y: int in range(maxi(0,cell.y-SIGHT_RADIUS),mini(HEIGHT,cell.y+SIGHT_RADIUS+1)):
 			var c: Vector2i = Vector2i(x,y)
-			if cells.has(c): revealed["%d,%d"%[x,y]] = true
+			if Vector2(c-cell).length_squared()>SIGHT_RADIUS*SIGHT_RADIUS: continue
+			if discovery_line(p,to_world(c)): revealed["%d,%d"%[x,y]] = true
+	visibility_revision += 1
+
+func discovery_open(cell: Vector2i) -> bool:
+	if not cells.has(cell): return false
+	var room: int = room_at(to_world(cell))
+	return room<0 or visited_rooms.has(room)
+
+func discovery_line(a: Vector2,b: Vector2) -> bool:
+	# Grid traversal visits every crossed cell, including both sides of a corner.
+	# Unlike sampled rays, it cannot jump over a thin wall or a diagonal seam.
+	var start: Vector2 = a/CELL
+	var finish: Vector2 = b/CELL
+	var cell: Vector2i = Vector2i(start.floor())
+	var target: Vector2i = Vector2i(finish.floor())
+	var direction: Vector2 = finish-start
+	var step: Vector2i = Vector2i(int(signf(direction.x)),int(signf(direction.y)))
+	var delta: Vector2 = Vector2(INF if direction.x==0 else absf(1.0/direction.x),INF if direction.y==0 else absf(1.0/direction.y))
+	var next: Vector2 = Vector2(INF,INF)
+	if step.x!=0: next.x = (cell.x+(1 if step.x>0 else 0)-start.x)/direction.x
+	if step.y!=0: next.y = (cell.y+(1 if step.y>0 else 0)-start.y)/direction.y
+	while true:
+		if not discovery_open(cell): return false
+		if cell==target: return true
+		if is_equal_approx(next.x,next.y):
+			if not discovery_open(cell+Vector2i(step.x,0)) or not discovery_open(cell+Vector2i(0,step.y)): return false
+			cell += step
+			next += delta
+		elif next.x<next.y:
+			cell.x += step.x
+			next.x += delta.x
+		else:
+			cell.y += step.y
+			next.y += delta.y
+	return false
+
+func explored_position(p: Vector2) -> bool:
+	var room: int = room_at(p)
+	if room>=0: return visited_rooms.has(room)
+	var cell: Vector2i = Vector2i((p/CELL).floor())
+	return revealed.has("%d,%d"%[cell.x,cell.y])
 
 func room_at(p: Vector2) -> int:
 	var cell: Vector2 = p/CELL

@@ -1,0 +1,35 @@
+{
+  "checks": 26,
+  "engine": "4.7.2-stable (official)",
+  "failures": [],
+  "renderer": "macOS",
+  "native_viewports": [
+    "1440x900",
+    "960x600"
+  ],
+  "native_captures_reviewed": [
+    "corridor-1440x900",
+    "corridor-960x600",
+    "room-entered-1440x900",
+    "generated-entry-1440x900",
+    "generated-corridor-1440x900"
+  ],
+  "regressions": {
+    "core": {
+      "checks": 75082,
+      "generated_floors": 1300,
+      "failures": []
+    },
+    "encounters": {
+      "checks": 845,
+      "distinct_layouts": 90,
+      "failures": []
+    },
+    "loot": {
+      "checks": 48846,
+      "failures": []
+    }
+  },
+  "legacy_saves": "Old rectangle-based exploration is reset once; floor geometry, progression and loot are retained. Versioned exploration and entered rooms persist on reload.",
+  "platform_limit": "Native rendering verified on macOS Apple M4; no executable export or Windows execution."
+}
