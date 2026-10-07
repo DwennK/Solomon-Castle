@@ -20,7 +20,9 @@ static func attack(id: String, next_rank: bool = false, source: Node = null) -> 
 			"teleport": result.effect="Last safe position · 1 s invulnerability";result.range_label="Destination"
 			"shield": result.effect="Absorbs %.0f damage" % p.power;result.range_label="Target"
 			"circle": result.effect="18 s · +6 health/s and +18 mana/s · slows enemies and shots"
-			"freeze": result.effect="Freeze %.1f s (bosses: max. 0.35 s)" % p.duration
+			"freeze":
+				result.effect="Freeze %.1f s (bosses: max. 0.35 s)" % p.duration
+				result.extra.append(freeze_recovery_text())
 			"ring_fire": result.effect="Instant wave with knockback"
 			"acid":
 				result.unit="/full zone duration"
@@ -66,6 +68,8 @@ static func attack(id: String, next_rank: bool = false, source: Node = null) -> 
 		if embers>0:
 			var shard: float = p.damage*0.25
 			result.extra.append("%d embers / impact: %.1f damage each · +%.1f DPS if one ember hits per volley" % [embers*3,shard,shard/p.cooldown])
+	if id in ["blizzard","frost_missile"] or ("lightning" in p.elements and source.rank("stun",p.snapshot)>0):
+		result.extra.append(freeze_recovery_text())
 	if id in ["blizzard","ball_lightning"] and source.rank("chain",p.snapshot)>0:
 		result.extra.append("Chains: up to %d additional targets, without repeated hits" % source.rank("chain",p.snapshot))
 	if p.channel and "fire" in p.elements:
@@ -116,6 +120,7 @@ static func text(id: String, compare: bool = true, acquiring: bool = false) -> S
 			lines.append(compare_values(extra,str(future.extra[i])) if show_next and i<future.extra.size() else extra)
 		lines.append(compare_values(a.effect,future.effect) if show_next else a.effect)
 		if d.kind=="fusion": lines.append("Snapshot ranks; learning again updates the fusion.")
+	if d.kind=="passive" and id=="stun": lines.append(freeze_recovery_text())
 	return "\n".join(lines)
 
 static func passive_effect(id: String, rank_value: int, source: Node = null) -> String:
@@ -146,7 +151,7 @@ static func passive_effect(id: String, rank_value: int, source: Node = null) -> 
 		"embers": return "%d embers / impact, each dealing 25 %% of projectile damage" % (3*rank_value)
 		"cone": return "+%d u range; +%.2f rad half-angle for Ice and Steam" % [18*rank_value,0.12*rank_value]
 		"potent": return "+%.0f %% missile speed (except Orb); may retarget; +%d mana" % [100*CombatSystem.missile_speed_bonus(rank_value),rank_value]
-		"chill": return "Ice: enemy speed ×%.3f; stronger knockback" % maxf(0.10,0.55-0.045*rank_value)
+		"chill": return "Ice: enemy speed ×%.3f; stronger knockback; bosses resist slows beyond 35 %%" % maxf(0.10,0.55-0.045*rank_value)
 		"stun": return "Interrupt %.2f s (bosses: max. 0.35 s)" % (0.05+0.08*rank_value) if rank_value>0 else "No lightning interrupt"
 	return Catalog.definition(id).description
 
@@ -165,3 +170,6 @@ static func compare_values(current: String, future: String) -> String:
 			if old.get_string()!=next.get_string(): result=result.substr(0,old.get_start())+old.get_string()+" → "+next.get_string()+result.substr(old.get_end())
 		return result
 	return current+" → "+future
+
+static func freeze_recovery_text() -> String:
+	return "Cannot refresh freeze/stun; immunity after thawing: %.2f s (bosses: %.1f s)" % [TowerEnemy.FREEZE_RECOVERY,TowerEnemy.BOSS_FREEZE_RECOVERY]

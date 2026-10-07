@@ -58,6 +58,8 @@ func run_all() -> void:
 	check(State.run.hp<hp,"Incoming projectile can still hit the mage after knockback effects")
 	shot.free()
 	target.hp=target.max_hp;target.knockback=Vector2.ZERO;target.slow_time=0;target.cooldown=100
+	# Start a new freeze scenario after the preceding channel tests.
+	target.frozen=0;target.freeze_guard=0
 	target.freeze(5);target._physics_process(0)
 	var position_before: Vector2 = target.position
 	target.take_damage(200)

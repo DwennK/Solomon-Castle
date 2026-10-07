@@ -154,8 +154,10 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 		if not is_instance_valid(enemy) or not enemy.is_targetable(): continue
 		enemy.take_damage(p.damage*delta,player.aim*delta*(70+State.rank("chill",p.snapshot)*35) if "ice" in p.elements else Vector2.ZERO,true)
 		if "ice" in p.elements: enemy.chill(0.5,maxf(0.10,0.55-State.rank("chill",p.snapshot)*0.045))
-		if id == "blizzard": enemy.freeze(0.09)
-		if "lightning" in p.elements and State.rank("stun",p.snapshot)>0: enemy.freeze(0.05+State.rank("stun",p.snapshot)*0.08)
+		var freeze_duration: float = 0.09 if id=="blizzard" else 0.0
+		if "lightning" in p.elements and State.rank("stun",p.snapshot)>0:
+			freeze_duration = maxf(freeze_duration,0.05+State.rank("stun",p.snapshot)*0.08)
+		if freeze_duration>0: enemy.freeze(freeze_duration)
 		if id == "flame_lash": enemy.burn = 1.0
 		if enemy.dead and "fire" in p.elements:
 			if splash_ratio(p)>0: explosion(enemy.position,splash_radius(p),p.damage*splash_ratio(p),p.color)

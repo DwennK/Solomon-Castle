@@ -12,4 +12,4 @@ icon = ""
 max_rank = 5
 min_level = 1
 prerequisite = ""
-values = {"hp": 35, "speed": 105, "damage": 9, "behavior": "melee", "sprite": 1, "undead": true, "resistance": 0}
+values = {"hp": 35, "speed": 140, "damage": 12, "behavior": "melee", "sprite": 1, "undead": true, "resistance": 0}
