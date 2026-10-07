@@ -1,0 +1,13 @@
+Asset: orb-frame.png
+Generator: built-in ImageGen tool, transparent_background=true
+Date: 2026-10-07
+Use: original gothic metal socket shared by the live health and mana shader globes.
+Original generated image copied into the project without pixel editing.
+
+Final prompt:
+Create one production game UI asset: a single circular gothic dark fantasy orb socket/frame on a transparent background, square 1024x1024 image. Front view perfectly circular metal ring centered at x512 y512. Outer ring diameter 830 pixels, inner empty circular hole diameter 665 pixels, center hole absolutely transparent, background outside ring transparent. Obsidian blackened steel and antique bronze, meticulously engraved restrained medieval filigree, small geometric cardinal diamond rivets, symmetrical understated winglike flourishes on left and right within the square canvas. Warm antique pale gold worn beveled edges, dark recessed metal, premium realistic handcrafted material, dramatic subtle top lighting, crisp legible silhouette. Ring can be used around both a red health globe and blue mana globe in an original gothic RPG. No liquid, no glass, no sphere filling, no lettering, no text, no numbers, no logos, no UI layout, no background, no cast shadow outside silhouette. The empty hole is critical: actual transparent alpha everywhere inside inner circle. Ring fully visible, no crop. Save the asset to the local filesystem and return its local path.
+
+Fonts:
+Cinzel: https://github.com/google/fonts/tree/main/ofl/cinzel
+Lato: https://github.com/google/fonts/tree/main/ofl/lato
+Both distributed with their SIL Open Font License in assets/fonts/.
