@@ -34,6 +34,10 @@ var charge_direction: Vector2 = Vector2.ZERO
 var recovery_time: float = 0.0
 var preparing_charge: bool = false
 var warded: bool = false
+var counter_time: float = 0.0
+var interrupt_damage: float = 0.0
+var shield_facing: Vector2 = Vector2.DOWN
+const COUNTER_MULTIPLIER: float = 1.5
 
 func setup(owner_world: Node2D, value: Dictionary) -> void:
 	world = owner_world
@@ -50,8 +54,10 @@ func setup(owner_world: Node2D, value: Dictionary) -> void:
 	max_hp = float(definition.values.hp)*health_scale*floor_scale
 	if record.get("elite",false): max_hp*=1.25;damage_scale*=1.15
 	max_hp *= 1.0-clampf(float(record.get("ether_reduction",0.0)),0.0,0.8)
+	max_hp *= float(record.get("health_factor",1.0))
 	hp = max_hp if record.hp<0 else float(record.hp)
 	damage = float(definition.values.damage)*(1.0+float(floor_number-1)*0.07)*damage_scale
+	damage *= float(record.get("damage_factor",1.0))
 	speed = float(definition.values.speed)
 	position = Dungeon.vec(record.pos)
 	# Restore activation from the saved encounter; do not require doorway sight again.
@@ -64,6 +70,7 @@ func _ready() -> void:
 	visual.texture = Catalog.texture(record.kind)
 	visual.kind = record.kind
 	visual.target_height = 176 if boss else (116 if record.kind == "zombie" or record.kind == "knight" else 103)
+	if record.get("fragment",false): visual.target_height*=0.7
 	add_child(visual)
 	if boss:
 		var shape: CircleShape2D = CircleShape2D.new()
@@ -90,13 +97,14 @@ func _physics_process(delta: float) -> void:
 		return
 	if not record.has("encounter_room") and distance<670 and world.dungeon.visible_line(position,player.position): active = true
 	if not active: return
+	counter_time = maxf(0,counter_time-delta)
 	slow_time = maxf(0,slow_time-delta)
 	frozen = maxf(0,frozen-delta)
 	freeze_guard = maxf(0,freeze_guard-delta)
 	fear = maxf(0,fear-delta)
 	if burn>0:
 		burn -= delta
-		take_damage(CombatSystem.BURN_DPS*delta,Vector2.ZERO, true)
+		take_damage(CombatSystem.BURN_DPS*delta,Vector2.ZERO,true,position)
 		if dead: return
 	visual.frozen = frozen>0
 	visual.burning = burn>0
@@ -107,16 +115,18 @@ func _physics_process(delta: float) -> void:
 	warded = world.protection_for(self)>0
 	# Chilling affects movement, not the cadence of attacks or their warnings.
 	var local_delta: float = delta
-	if fear>0: preparing_charge=false;charge_time=0.0;telegraph=0.0
+	if fear>0:
+		if telegraph>0 and interruptible_caster(): expose(1.1)
+		preparing_charge=false;charge_time=0.0;telegraph=0.0
 	if charge_time>0:
 		charge_time=maxf(0,charge_time-local_delta)
 		velocity=charge_direction*700.0*(slow_factor if slow_time>0 else 1.0)
 		move_and_slide()
 		visual.moving=true
-		if is_on_wall() or charge_time<=0:
-			charge_time=0;recovery_time=0.85
-		elif position.distance_to(player.position)<55:
+		if position.distance_to(player.position)<55:
 			player.take_damage(damage);charge_time=0;recovery_time=0.85
+		elif is_on_wall() or charge_time<=0:
+			charge_time=0;expose(1.2)
 		queue_redraw()
 		return
 	if recovery_time>0:
@@ -125,7 +135,10 @@ func _physics_process(delta: float) -> void:
 		return
 	cooldown -= local_delta
 	var dir: Vector2 = (player.position-position).normalized()
-	visual.facing = dir
+	if record.get("elite_kind","")=="bulwark":
+		shield_facing=shield_facing.rotated(clampf(shield_facing.angle_to(dir),-delta*1.8,delta*1.8))
+		visual.facing=shield_facing
+	else: visual.facing = dir
 	if telegraph>0:
 		telegraph -= local_delta
 		velocity = Vector2.ZERO
@@ -159,7 +172,8 @@ func _physics_process(delta: float) -> void:
 		if behavior in ["ranged","caster"]:
 			var predicted: Vector2 = player.position+player.velocity*0.40
 			if world.dungeon.visible_line(position,predicted): attack_target=predicted
-		telegraph = 0.85 if boss else (0.45 if preferred>100 else 0.30)
+		interrupt_damage=0.0
+		telegraph = 1.1 if interruptible_caster() else (0.85 if boss else (0.45 if preferred>100 else 0.30))
 		visual.attack = 1.0
 		queue_redraw()
 		return
@@ -248,6 +262,9 @@ func release_attack() -> void:
 			world.hazard(attack_target+Vector2(120,0).rotated(phase),75,damage*0.65,1.25,Color("d7a9ff"))
 		if difficulty>=3 and phase%3==0:
 			world.hazard(attack_target-Vector2(150,0).rotated(phase),85,damage*0.65,1.35,Color("d7a9ff"))
+	elif interruptible_caster():
+		world.hazard(attack_target,110 if record.get("elite_kind","")=="ritualist" else 85,damage*1.2,0.25,Color("d3a0ef"))
+		cooldown=3.3
 	elif behavior == "ghost":
 		world.beam(position+Vector2(0,-30),world.player.position+Vector2(0,-25),Color("9bd3e3"),3,0.4)
 		if position.distance_to(world.player.position)<260 and world.dungeon.visible_line(position,world.player.position):
@@ -264,12 +281,24 @@ func release_attack() -> void:
 	Sound.play("boss_attack" if boss else ("enemy_bow" if behavior=="ranged" else ("enemy_magic" if behavior in ["caster","imp","ghost"] else "enemy_melee")),global_position)
 	queue_redraw()
 
-func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = false) -> void:
+func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = false, source: Vector2 = Vector2.INF) -> void:
 	if dead: return
 	if record.get("trial",false) and not record.get("awakened",false): return
 	if record.has("encounter_room") and not record.get("awakened",false): world.wake_encounter(int(record.get("encounter_room",-1)))
 	active = true
-	hp -= maxf(0.0,amount)*(1.0-world.protection_for(self))*(1.0-float(definition.values.resistance))*(1.35 if fear>0 else 1.0)
+	var origin: Vector2 = source
+	if origin==Vector2.INF: origin=position-force if force.length_squared()>0.01 else world.player.position
+	var multiplier: float = COUNTER_MULTIPLIER if counter_time>0 else 1.0
+	if record.get("elite_kind","")=="bulwark" and counter_time<=0 and frozen<=0 and fear<=0:
+		var facing_hit: bool = shield_facing.dot(position.direction_to(origin))>0.45
+		if facing_hit:
+			multiplier*=0.25
+			world.effect(position,Color("e5bf74"),24)
+	var received: float = maxf(0.0,amount)*(1.0-world.protection_for(self))*(1.0-float(definition.values.resistance))*(1.35 if fear>0 else 1.0)*multiplier
+	hp -= received
+	if telegraph>0 and interruptible_caster():
+		interrupt_damage+=received
+		if interrupt_damage>=max_hp*0.12: expose(1.1)
 	# Health feedback must update even while frozen, recovering or offscreen.
 	queue_redraw()
 	knockback += force * (0.2 if boss else 1.0)
@@ -295,12 +324,27 @@ func freeze(duration: float) -> void:
 	# Shared by all freeze/stun sources: repeated hits cannot extend a lock or
 	# chain different spells to skip the guaranteed period in which enemies act.
 	if dead or duration<=0 or freeze_guard>0: return
+	if telegraph>0 and interruptible_caster(): expose(1.1)
 	frozen = minf(duration,0.35) if boss else duration
 	freeze_guard = frozen+(BOSS_FREEZE_RECOVERY if boss else FREEZE_RECOVERY)
 	active = true
 
+func interruptible_caster() -> bool:
+	return not boss and (record.get("role","")=="artillery" or record.get("elite_kind","")=="ritualist")
+
+func expose(duration: float) -> void:
+	counter_time=maxf(counter_time,duration)
+	recovery_time=maxf(recovery_time,duration)
+	telegraph=0.0
+	preparing_charge=false
+	charge_time=0.0
+	cooldown=maxf(cooldown,duration+0.8)
+	velocity=Vector2.ZERO
+	queue_redraw()
+
 func _draw() -> void:
 	if dead: return
+	draw_tactical_cues()
 	if record.get("role","")=="warden":
 		var aura: Color = Color("90dabb")
 		draw_arc(Vector2.ZERO,260,0,TAU,64,Color(aura,0.25),2,true)
@@ -322,7 +366,8 @@ func _draw() -> void:
 		draw_rect(Rect2(-width/2,-(182 if boss else 117),width*maxf(0,hp/max_hp),4),Color("c8986c") if boss else Color("a56360"))
 	if telegraph>0:
 		var radius: float = 52 if boss else 29
-		var time: float = 1.0-telegraph/(0.85 if boss else (0.45 if definition.values.behavior in ["ranged","caster","imp","ghost"] else 0.30))
+		var windup: float = 1.1 if interruptible_caster() else (0.75 if preparing_charge else (0.85 if boss else (0.45 if definition.values.behavior in ["ranged","caster","imp","ghost"] else 0.30)))
+		var time: float = 1.0-telegraph/windup
 		var warning: Color = Color("ffb06d")
 		ArcaneArt.glow(self,Vector2.ZERO,radius*1.4,Color(warning,0.17))
 		draw_arc(Vector2.ZERO,radius,-PI/2,-PI/2+TAU*clampf(time,0,1),48,Color(warning,0.85),2.5,true)
@@ -350,3 +395,32 @@ func awaken(delay: float) -> void:
 	wake_time=delay
 	collision_layer=4
 	collision_mask=5
+
+func draw_tactical_cues() -> void:
+	var font: Font = ThemeDB.fallback_font
+	var affix: String = record.get("elite_kind","")
+	var tint: Color = Color("e5bf74") if affix=="bulwark" else (Color("d3a0ef") if affix=="ritualist" else Color("a3d884"))
+	if not affix.is_empty():
+		var caption: String = {"bulwark":"BULWARK · FLANK","ritualist":"RITUALIST · INTERRUPT","brood":"BROOD · SPLITS"}.get(affix,"")
+		var width: float = font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13).x
+		draw_string_outline(font,Vector2(-width/2,-146),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13,3,Color("12151c"))
+		draw_string(font,Vector2(-width/2,-146),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13,tint)
+		if affix=="bulwark" and counter_time<=0:
+			var angle: float = shield_facing.angle()
+			draw_arc(Vector2.ZERO,43,angle-1.05,angle+1.05,24,tint,6,true)
+			draw_line(shield_facing*35,shield_facing*51,tint,3,true)
+		elif affix=="ritualist": ArcaneArt.rune(self,Vector2(0,-60),31,tint,0,3)
+		elif affix=="brood":
+			for side: int in [-1,1]:
+				draw_arc(Vector2(side*18,-48),11,0,TAU,16,tint,2,true)
+	if telegraph>0 and interruptible_caster():
+		var target: Vector2 = attack_target-position
+		var radius: float = 110 if affix=="ritualist" else 85
+		draw_circle(target,radius,Color("d3a0ef",0.12))
+		draw_arc(target,radius,0,TAU,48,Color("d3a0ef"),2,true)
+		draw_line(target-Vector2(12,0),target+Vector2(12,0),Color("f0d7ff"),2,true)
+		draw_line(target-Vector2(0,12),target+Vector2(0,12),Color("f0d7ff"),2,true)
+	if counter_time>0:
+		draw_arc(Vector2.ZERO,37,0,TAU,32,Color("fff0ab"),3,true)
+		draw_string_outline(font,Vector2(-20,-98),"OPEN",HORIZONTAL_ALIGNMENT_LEFT,-1,14,3,Color("12151c"))
+		draw_string(font,Vector2(-20,-98),"OPEN",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("fff0ab"))

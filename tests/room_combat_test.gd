@@ -48,7 +48,7 @@ func run_all() -> void:
 				var r: Array = data.rooms[i]
 				if r[2]>=12 and r[3]>=12:
 					spacious+=1
-					check(data.shapes[i]=="octagon","Large combat rooms remain clear of interior pillars")
+					check(data.shapes[i]=="octagon","Large combat rooms retain their open octagonal outline")
 			check(spacious>=2,"Two large combat rooms on every generated floor")
 			for record: Dictionary in data.enemies:
 				if not record.has("encounter_room"): continue

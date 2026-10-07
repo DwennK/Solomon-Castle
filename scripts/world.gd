@@ -197,7 +197,7 @@ func _physics_process(delta: float) -> void:
 	var nearest_prop: WorldProp = closest_prop()
 	if nearest_prop:
 		var label: String = {"chest":"Open chest","merchant":"Talk to Basile","teacher":"Study with Orme","healer":"Rest for free","tower":"Enter the tower","entry":"Back to the village","exit":"Ascend to the next floor","gate":"Open the guardian’s seal"}.get(nearest_prop.record.id,{"chest":"Open chest"}.get(nearest_prop.record.kind,"Interact"))
-		if nearest_prop.record.kind in ["reliquary","blood_font"]: label=discovery_hint(nearest_prop)
+		if nearest_prop.record.kind in ["reliquary","blood_font","rest_font"]: label=discovery_hint(nearest_prop)
 		hint = "[%s]  %s"%[Controls.caption("interact"),label]
 	if Input.is_action_just_pressed("interact"): interact()
 	if Input.is_action_just_pressed("portal"): use_portal()
@@ -213,7 +213,7 @@ func closest_prop() -> WorldProp:
 	var found: WorldProp
 	var best: float = 120
 	for prop: WorldProp in props:
-		if prop.record.kind in ["torch","urn"] or prop.record.get("opened",false): continue
+		if prop.record.kind in ["torch","urn","brazier"] or prop.record.get("opened",false): continue
 		if not village and prop.record.id!="gate" and not dungeon.explored_position(prop.position): continue
 		var distance: float = prop.position.distance_to(player.position)
 		if distance<best:
@@ -240,7 +240,7 @@ func interact() -> void:
 	elif id=="exit": advance()
 	elif id=="gate": unlock_gate()
 	elif prop.record.kind=="chest": open_prop(prop)
-	elif prop.record.kind in ["reliquary","blood_font"]: use_discovery(prop)
+	elif prop.record.kind in ["reliquary","blood_font","rest_font"]: use_discovery(prop)
 
 func enter_tower() -> void:
 	load_floor(int(State.run.return_floor))
@@ -277,7 +277,14 @@ func add_supplies(reward: Dictionary, pos: Vector2) -> void:
 			loot.append({"kind":kind,"pos":Dungeon.pair(pos+Vector2(-24 if kind=="health" else 24,36))})
 
 func break_urn(prop: WorldProp) -> void:
-	if prop.record.kind!="urn" or prop.record.get("opened",false): return
+	if prop.record.kind not in ["urn","brazier"] or prop.record.get("opened",false): return
+	if prop.record.kind=="brazier":
+		prop.record.opened=true
+		prop.opened_time=0.0
+		zones.append({"pos":prop.position,"radius":120.0,"damage":30.0+int(State.run.floor)*5.0,"delay":0.7,"life":0.4,"color":Color("ffaf69"),"kind":"environment","tick":0.0,"detonated":false})
+		Sound.play("urn",prop.global_position)
+		prop.queue_redraw()
+		return
 	prop.record.opened = true
 	prop.opened_time = 0.0
 	grant_container_reward(prop)
@@ -288,7 +295,7 @@ func urn_on_segment(a: Vector2, b: Vector2) -> WorldProp:
 	var found: WorldProp
 	var best: float = INF
 	for prop: WorldProp in props:
-		if prop.record.kind!="urn" or prop.record.get("opened",false): continue
+		if prop.record.kind not in ["urn","brazier"] or prop.record.get("opened",false): continue
 		var hit: Vector2 = Geometry2D.get_closest_point_to_segment(prop.position,a,b)
 		if hit.distance_to(prop.position)>22 or not dungeon.visible_line(a,prop.position): continue
 		var distance: float = a.distance_squared_to(hit)
@@ -299,12 +306,12 @@ func urn_on_segment(a: Vector2, b: Vector2) -> WorldProp:
 
 func break_urns_in_radius(origin: Vector2, radius: float) -> void:
 	for prop: WorldProp in props:
-		if prop.record.kind=="urn" and not prop.record.get("opened",false) and origin.distance_to(prop.position)<=radius and dungeon.visible_line(origin,prop.position):
+		if prop.record.kind in ["urn","brazier"] and not prop.record.get("opened",false) and origin.distance_to(prop.position)<=radius and dungeon.visible_line(origin,prop.position):
 			break_urn(prop)
 
 func break_urns_in_cone(origin: Vector2, aim: Vector2, distance: float, width: float) -> void:
 	for prop: WorldProp in props:
-		if prop.record.kind!="urn" or prop.record.get("opened",false): continue
+		if prop.record.kind not in ["urn","brazier"] or prop.record.get("opened",false): continue
 		var offset: Vector2 = prop.position-origin
 		if offset.length()<=distance and aim.dot(offset.normalized())>cos(width) and dungeon.visible_line(origin,prop.position):
 			break_urn(prop)
@@ -376,6 +383,7 @@ func enemy_bolt(pos: Vector2,direction: Vector2,damage: float,speed: float,color
 
 func enemy_killed(enemy: TowerEnemy) -> void:
 	enemies.erase(enemy)
+	if enemy.record.get("elite_kind","")=="brood": split_brood(enemy)
 	State.add_xp(float(enemy.record.get("xp_reward",0.0)))
 	update_discoveries()
 	add_supplies(enemy.record.get("reward",{}),enemy.position)
@@ -426,7 +434,15 @@ func update_zones(delta: float) -> void:
 		if z.life<=0:
 			zones.remove_at(i)
 			continue
-		if z.kind=="hostile":
+		if z.kind=="environment":
+			if not z.get("detonated",false):
+				z.detonated=true
+				effect(z.pos,z.color,z.radius,"fire")
+				for enemy: TowerEnemy in enemies.duplicate():
+					if enemy.is_targetable() and enemy.position.distance_to(z.pos)<z.radius and dungeon.visible_line(z.pos,enemy.position):
+						enemy.take_damage(z.damage,z.pos.direction_to(enemy.position)*130,false,z.pos)
+				if player.position.distance_to(z.pos)<z.radius and dungeon.visible_line(z.pos,player.position): player.take_damage(z.damage*0.4,"fire")
+		elif z.kind=="hostile":
 			z.tick -= delta
 			if z.tick<=0 and player.position.distance_to(z.pos)<z.radius:
 				player.take_damage(z.damage,z.get("damage_type","physical"))
@@ -527,7 +543,8 @@ func wake_encounter(room: int) -> void:
 	for encounter: Dictionary in floor_data.get("encounters",[]):
 		if int(encounter.room)!=room or encounter.triggered: continue
 		encounter.triggered=true
-		if encounter.type=="ambush": State.message.emit("Ambush! The sentries are awakening.")
+		if encounter.type=="rest": State.message.emit("A quiet chamber. The sanctuary restores some health and mana once.")
+		elif encounter.type=="ambush": State.message.emit("Ambush! The sentries are awakening.")
 		elif encounter.type=="ward": State.message.emit("A warden protects nearby enemies. Break its green aura first.")
 		elif encounter.type=="pursuit": State.message.emit("Hunters ahead. Step aside when a charge is marked.")
 		for enemy: TowerEnemy in enemies:
@@ -544,6 +561,7 @@ func protection_for(target: TowerEnemy) -> float:
 	return 0.0
 
 func discovery_hint(prop: WorldProp) -> String:
+	if prop.record.kind=="rest_font": return "Sanctuary: recover 20% health and 40% mana (once, out of combat)"
 	if prop.record.kind=="blood_font": return "Blood font: spend 20% max health to refill mana (once)"
 	match prop.record.get("phase","idle"):
 		"active": return "Defeat the awakened sentries to unseal the rare item"
@@ -552,6 +570,22 @@ func discovery_hint(prop: WorldProp) -> String:
 
 func use_discovery(prop: WorldProp) -> void:
 	if prop.record.get("opened",false): return
+	if prop.record.kind=="rest_font":
+		if enemies.any(func(e: TowerEnemy)->bool:return e.is_targetable() and e.active and e.position.distance_to(player.position)<600):
+			State.message.emit("Defeat or escape nearby enemies before resting.")
+			return
+		var stats: Dictionary = State.stats()
+		if State.run.hp>=stats.max_hp and State.run.mp>=stats.max_mana:
+			State.message.emit("You are already rested. The sanctuary remains available.")
+			return
+		State.run.hp=minf(stats.max_hp,State.run.hp+stats.max_hp*0.2)
+		State.run.mp=minf(stats.max_mana,State.run.mp+stats.max_mana*0.4)
+		prop.record.opened=true
+		prop.refresh_texture()
+		Sound.play("potion",prop.global_position)
+		State.message.emit("Sanctuary used. Health and mana partially restored.")
+		snapshot()
+		return
 	if prop.record.kind=="blood_font":
 		var cost: float = State.stats().max_hp*0.20
 		if State.run.hp<=cost or State.run.mp>=State.stats().max_mana:
@@ -588,3 +622,21 @@ func update_discoveries() -> void:
 		if not guards_left:
 			prop.record.phase="ready"
 			State.message.emit("The reliquary is unsealed. Return to claim its reward.")
+
+func split_brood(parent: TowerEnemy) -> void:
+	if parent.record.get("split_done",false): return
+	parent.record.split_done=true
+	var room: int = int(parent.record.get("encounter_room",-1))
+	if room<0 or room>=floor_data.rooms.size(): return
+	var used: Array[Vector2i] = []
+	for index: int in range(2):
+		var pos: Vector2 = EncounterRules.free_position(floor_data.grid,floor_data.rooms[room],Vector2i(parent.position/Dungeon.CELL)+Vector2i(-1 if index==0 else 1,0),used)
+		used.append(Vector2i(pos/Dungeon.CELL))
+		var record: Dictionary = {"id":String(parent.record.id)+"_fragment_%d"%index,"kind":"ghoul","role":"flanker","pos":Dungeon.pair(pos),"home_pos":Dungeon.pair(pos),"hp":-1.0,"dead":false,"encounter_room":room,"awakened":true,"elite":false,"fragment":true,"health_factor":0.35,"damage_factor":0.55,"xp_reward":0.0,"reward":{}}
+		floor_data.enemies.append(record)
+		var child: TowerEnemy = ENEMY_SCENE.instantiate() as TowerEnemy
+		child.setup(self,record)
+		actors.add_child(child)
+		child.visual.environment=dungeon.interior
+		child.wake_time=0.65
+		enemies.append(child)

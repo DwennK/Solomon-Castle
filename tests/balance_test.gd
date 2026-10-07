@@ -82,7 +82,8 @@ func run_all() -> void:
 			var floor_value: Dictionary=Dungeon.generate(seed_value,number)
 			for encounter: Dictionary in floor_value.encounters:
 				var pack: Array=floor_value.enemies.filter(func(e:Dictionary)->bool:return int(e.get("encounter_room",-1))==int(encounter.room) and not e.get("trial",false))
-				check(pack.size()==(4 if number<5 else 5 if number<9 else 6),"New encounters contain complete complementary packs")
+				var expected: int = {"rest":0,"skirmish":2,"pressure":3 if number<5 else 4,"setpiece":5 if number<9 else 6}[encounter.tempo]
+				check(pack.size()==expected,"Encounter size matches its intended pacing")
 				var cells: Dictionary={}
 				for enemy: Dictionary in pack: cells[str(enemy.pos)]=true
 				check(cells.size()==pack.size(),"Pack members never spawn on the same tile")

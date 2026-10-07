@@ -69,10 +69,18 @@ static func prepare_floor(data: Dictionary, seed_value: int, difficulty: int) ->
 	data.props = kept
 	var regular: Array = []
 	for enemy: Dictionary in data.enemies:
-		if enemy.id not in ["boss","guardian"] and not enemy.get("trial",false): regular.append(enemy)
+		if enemy.id not in ["boss","guardian"] and not enemy.get("trial",false) and not enemy.get("fragment",false): regular.append(enemy)
 	regular = shuffled(regular,rng)
 	for i: int in range(regular.size()):
 		regular[i].reward = {"gold":8+number*2 if rng.randf()<0.35 else 0,"health":1 if i==0 else 0,"mana":1 if i==1 else 0}
+	# Fewer but more deliberate packs must not silently reduce the gold economy.
+	if int(data.get("tactical_version",0))>=1 and not regular.is_empty():
+		var former_count: int = (data.rooms.size()-1-(0 if data.boss.is_empty() else 1))*(4+int(number>=5)+int(number>=9))
+		var budget: int = roundi(former_count*0.35*(8+number*2))
+		var carriers: int = maxi(1,roundi(regular.size()*0.35))
+		for i: int in range(regular.size()):
+			regular[i].reward.gold=(budget/carriers+int(i<budget%carriers)) if i<carriers else 0
+		data.enemy_gold_budget=budget
 	data.loot_version = VERSION
 
 static func rarity(rng: RandomNumberGenerator, floor_number: int, difficulty: int, boss: bool = false) -> int:

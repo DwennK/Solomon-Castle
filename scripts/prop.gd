@@ -23,6 +23,8 @@ func _ready() -> void:
 		add_child(actor)
 
 func refresh_texture() -> void:
+	if record.kind=="brazier": texture=null;return
+	if record.kind=="rest_font": texture=EnvironmentArt.prop("urn",false);return
 	if record.kind in ["reliquary","blood_font"]:
 		texture=EnvironmentArt.prop("chest" if record.kind=="reliquary" else "urn",record.get("opened",false))
 		return
@@ -36,6 +38,9 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var kind: String = record.kind
+	if kind in ["brazier","rest_font"]:
+		draw_tactical_prop(kind)
+		return
 	if kind in ["reliquary","blood_font"]:
 		draw_discovery(kind)
 		return
@@ -103,3 +108,32 @@ func draw_discovery(kind: String) -> void:
 		var width: float = font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17).x
 		draw_string_outline(font,Vector2(-width/2,34),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17,3,Color("15121c"))
 		draw_string(font,Vector2(-width/2,34),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17,color)
+
+func draw_tactical_prop(kind: String) -> void:
+	var used: bool = record.get("opened",false)
+	var tint: Color = Color("ffb66c") if kind=="brazier" else Color("90d7d0")
+	if used: tint=Color("726b61")
+	draw_set_transform(Vector2(0,5),0,Vector2(1,0.35))
+	draw_circle(Vector2.ZERO,27,Color(0,0,0,0.55))
+	if not used: draw_arc(Vector2.ZERO,34,0,TAU,32,Color(tint,0.55),2,true)
+	draw_set_transform(Vector2.ZERO)
+	if kind=="rest_font":
+		if texture:
+			var size: Vector2 = texture.get_size()*52.0/texture.get_width()
+			draw_texture_rect(texture,Rect2(Vector2(-size.x/2,-size.y),size),false,tint)
+		if not used: ArcaneArt.glow(self,Vector2(0,-28),46,Color(tint,0.25))
+	else:
+		# A standing iron bowl, distinct from wall torches and loot urns.
+		for side: int in [-1,1]: draw_line(Vector2(side*10,-22),Vector2(side*18,3),Color("807b72"),4,true)
+		draw_colored_polygon(PackedVector2Array([Vector2(-24,-33),Vector2(24,-33),Vector2(15,-15),Vector2(-15,-15)]),Color("4e5154"))
+		draw_line(Vector2(-24,-33),Vector2(24,-33),Color("b59b78"),3,true)
+		if not used:
+			ArcaneArt.glow(self,Vector2(0,-44),52,Color(tint,0.3))
+			for index: int in range(5):
+				var phase: float = fposmod(time*0.9+index*0.21,1.0)
+				draw_circle(Vector2(sin(time*5+index)*8,-35-phase*37),8*(1-phase)+1,Color(tint,1-phase))
+	if not used:
+		var caption: String = "Explosive brazier" if kind=="brazier" else "Sanctuary · once"
+		var width: float = font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,14).x
+		draw_string_outline(font,Vector2(-width/2,28),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,14,3,Color("15121c"))
+		draw_string(font,Vector2(-width/2,28),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,14,tint)

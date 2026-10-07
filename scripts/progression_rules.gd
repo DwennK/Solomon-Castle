@@ -19,6 +19,7 @@ static func floor_budget(number: int) -> float:
 	return total_xp(FLOOR_LEVELS[index])-total_xp(FLOOR_LEVELS[index-1])
 
 static func threat(enemy: Dictionary) -> float:
+	if enemy.get("fragment",false): return 0.0
 	return float(THREAT.get(enemy.kind,1.0))*(1.35 if enemy.get("elite",false) else 1.0)
 
 static func prepare_floor(data: Dictionary) -> void:

@@ -13,7 +13,8 @@ the player retreats farther. Returning does not heal enemies or reset encounters
 Players can still retreat, and existing boss seals remain the special locked fights.
 
 New layout version 3 reserves two combat rooms of at least 12 by 12 tiles,
-with open octagonal interiors. Other rooms retain varied shapes and pillars.
+with open octagonal interiors. Tactical encounters may add one off-centre cover
+pillar. Other rooms retain varied shapes and pillars.
 Some main links are five tiles wide instead of three; the optional branch and
 boss seal retain their narrower approaches. The layout remains seeded and
 mirrored/transposed. Existing saved geometry is never regenerated. Saved rooms
