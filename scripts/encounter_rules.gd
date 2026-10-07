@@ -3,7 +3,7 @@ extends RefCounted
 
 const TYPES: Array[String] = ["crossfire","pursuit","ward","ambush"]
 
-static func populate(data: Dictionary,rng: RandomNumberGenerator) -> void:
+static func populate(data: Dictionary,rng: RandomNumberGenerator, difficulty: int = 0) -> void:
 	var offset: int = rng.randi_range(0,3)
 	data.encounters = []
 	for i: int in range(1,data.rooms.size()):
@@ -16,6 +16,8 @@ static func populate(data: Dictionary,rng: RandomNumberGenerator) -> void:
 			"ward": group=["sorcerer","skeleton","skeleton","archer"]
 			"ambush": group=["ghoul","skeleton","archer","skeleton"]
 		if int(data.number)>=5: group.append("zombie" if type=="ward" else "imp")
+		if difficulty>=2 and type=="pursuit": group[2]="imp"
+		if difficulty>=3 and type=="ambush": group[2]="ghost"
 		if int(data.number)>=9: group.append("knight" if type=="crossfire" else "ghost")
 		data.encounters.append({"room":i,"type":type,"triggered":false})
 		var r: Array = data.rooms[i]
@@ -27,7 +29,7 @@ static func populate(data: Dictionary,rng: RandomNumberGenerator) -> void:
 		for j: int in range(group.size()):
 			var role: String = "charger" if group[j]=="ghoul" else ("warden" if type=="ward" and j==0 else ("flanker" if group[j]=="skeleton" else ""))
 			var p: Vector2 = TowerLayout.open_position(data.grid,r,center_cell+offsets[j])
-			data.enemies.append({"id":"enemy_%d_%d"%[i,j],"kind":group[j],"pos":Dungeon.pair(p),"hp":-1.0,"dead":false,"role":role,"encounter_room":i,"dormant":type=="ambush","awakened":false})
+			data.enemies.append({"id":"enemy_%d_%d"%[i,j],"kind":group[j],"pos":Dungeon.pair(p),"hp":-1.0,"dead":false,"role":role,"encounter_room":i,"dormant":type=="ambush","awakened":false,"elite":difficulty>0 and j==0 and (i+offset)%maxi(1,5-difficulty)==0})
 	# One deliberate detour: the reward is disclosed before the player awakens its guards.
 	var optional: int = int(data.optional_room)
 	var room: Array = data.rooms[optional]
@@ -39,8 +41,3 @@ static func populate(data: Dictionary,rng: RandomNumberGenerator) -> void:
 	var font_room: int = 1 if optional!=1 else 2
 	room=data.rooms[font_room]
 	data.props.append({"id":"blood_font","kind":"blood_font","pos":Dungeon.pair(TowerLayout.open_position(data.grid,room,Vector2i(room[0]+room[2]/2,room[1]+2))),"opened":false})
-
-static func kill_xp(floor_number: int,boss: bool = false) -> float:
-	# Fewer early upgrades; later floors keep enough XP to reach major skills.
-	var ramp: float = minf(1.0,0.45+maxi(0,floor_number-1)*0.055)
-	return (19.0+floor_number*4.5)*ramp*(9 if boss else 1)

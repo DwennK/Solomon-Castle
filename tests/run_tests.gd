@@ -150,7 +150,7 @@ func run_all() -> void:
 	state.learn("fire");state.win()
 	check(state.run.victory and state.unlocked>=1,"Victory unlocks next difficulty")
 	state.next_difficulty()
-	check(state.run.difficulty==1 and not state.run.victory and state.rank("fire")==1 and state.run.floors.is_empty(),"NG+ preserves build and resets tower")
+	check(state.run.difficulty==1 and not state.run.victory and state.rank("fire")==0 and state.run.level==1 and state.run.floors.is_empty(),"Next difficulty starts a fresh character and tower")
 	await test_combat()
 	var report: Dictionary = {"checks":checks,"generated_floors":generations,"failures":failures,"engine":Engine.get_version_info().string,"item_combinations_observed":varieties.size()}
 	var file: FileAccess = FileAccess.open("res://outputs/tests.json",FileAccess.WRITE)

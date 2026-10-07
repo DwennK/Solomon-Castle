@@ -34,7 +34,7 @@ func _ready() -> void:
 	apply_options()
 
 func fresh(seed_value: int = 0, difficulty: int = 0, hardcore: bool = false) -> void:
-	run = {"seed":seed_value if seed_value != 0 else int(Time.get_unix_time_from_system()),"difficulty":difficulty,"hardcore":hardcore,"level":1,"xp":0.0,"gold":140,"hp":110.0,"mp":100.0,"skills":{},"secondary":[],"active":"","fusion":{},"inventory":[],"equipped":{"staff":"","ring1":"","ring2":""},"hp_potions":3,"mp_potions":3,"floor":0,"deepest":1,"floors":{},"position":[720,580],"return_position":[],"return_floor":1,"dead":false,"victory":false,"deaths":0,"pending":[],"offers":[],"shop":[],"serial":0,"wisdom":0,"insight":1,"reroll_serial":0}
+	run = {"seed":seed_value if seed_value != 0 else int(Time.get_unix_time_from_system()),"difficulty":difficulty,"hardcore":hardcore,"level":1,"xp":0.0,"gold":140,"hp":110.0,"mp":100.0,"skills":{},"secondary":[],"active":"","fusion":{},"inventory":[],"equipped":{"staff":"","ring1":"","ring2":""},"hp_potions":3,"mp_potions":3,"floor":0,"deepest":1,"floors":{},"position":[720,580],"return_position":[],"return_floor":1,"dead":false,"victory":false,"deaths":0,"pending":[],"offers":[],"shop":[],"serial":0,"wisdom":0,"insight":1,"reroll_serial":0,"ascent_version":1}
 	checkpoint = {}
 	notice_times.clear()
 	changed.emit()
@@ -122,7 +122,7 @@ func pay_mana(base: float, offensive: bool = true) -> bool:
 	return true
 
 func xp_threshold(level: int) -> float:
-	return 32.0 + level * 19.0 + pow(level, 1.5) * 2.0
+	return ProgressionRules.threshold(level)
 
 func add_xp(amount: float) -> void:
 	run.xp += amount
@@ -354,21 +354,34 @@ func win() -> void:
 	save_options()
 	save_game()
 
-func next_difficulty() -> void:
-	run.difficulty = mini(4,int(run.difficulty)+1)
-	run.hardcore = run.hardcore or int(run.difficulty) == 4
-	run.floors = {}
-	run.floor = 0
-	run.deepest = 1
-	run.return_floor = 1
-	run.return_position = []
-	run.victory = false
-	run.seed += 104729
-	run.shop = []
-	run.hp = stats().max_hp
-	run.mp = stats().max_mana
-	mark_checkpoint()
-	save_game()
+func next_difficulty() -> bool:
+	if not run.get("victory",false): return false
+	var previous: Dictionary = run.duplicate(true)
+	var previous_checkpoint: Dictionary = checkpoint.duplicate(true)
+	var next: int = mini(4,int(run.difficulty)+1)
+	var seed_value: int = int(run.seed)+104729
+	var hardcore: bool = bool(run.hardcore) or next==4
+	fresh(seed_value,next,hardcore)
+	mark_checkpoint("New ascent")
+	if save_game(): return true
+	run=previous
+	checkpoint=previous_checkpoint
+	changed.emit()
+	return false
+
+func lesson_limit() -> int:
+	return 1+clampi((int(run.deepest)-1)/4,0,3)
+
+func lesson_price() -> int:
+	return 80+int(run.wisdom)*65
+
+func buy_lesson() -> bool:
+	if run.active.is_empty() or int(run.wisdom)>=lesson_limit() or int(run.gold)<lesson_price(): return false
+	run.gold-=lesson_price()
+	run.wisdom+=1
+	run.pending.append(run.level)
+	level_pending.emit()
+	return true
 
 func save_game() -> bool:
 	return SaveStore.write_save(save_path, {"run":run,"checkpoint":checkpoint})

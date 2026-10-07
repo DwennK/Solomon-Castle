@@ -431,11 +431,11 @@ func show_pause() -> void:
 func show_teacher() -> void:
 	if State.run.active.is_empty(): show_initial();return
 	var v: VBoxContainer = panel("Orme’s wisdom","“Books are expensive. Ignorance costs more.”","teacher")
-	var price: int = 80+int(State.run.wisdom)*65
+	var price: int = State.lesson_price()
 	label(v,"Buying wisdom offers three upgrades eligible at your level. Cost: %d gold."%price)
 	button(v,"Buy a lesson · %d gold"%price,func()->void:
-		if State.run.gold>=price:
-			State.run.gold-=price;State.run.wisdom+=1;State.run.pending.append(State.run.level);close_modal(),State.run.gold<price)
+		if State.buy_lesson(): close_modal(),State.run.gold<price or int(State.run.wisdom)>=State.lesson_limit())
+	label(v,"Lessons learned: %d / %d. Another lesson unlocks on reaching floors 5, 9 and 13."%[State.run.wisdom,State.lesson_limit()],17)
 	button(v,"Open the grimoire",show_skills)
 	label(v,"Fusions: learn two elements. Every five levels, a fusion may be offered. It captures your current ranks and subskills; learning it again updates that snapshot.",18)
 	button(v,"Back to the village",close_modal)
@@ -526,8 +526,11 @@ func show_victory() -> void:
 	Sound.play("victory")
 	var v: VBoxContainer = panel("Dawn over the ashes","Thirteen floors. One exam passed. Orme will claim he never doubted you.","victory",900)
 	label(v,"Level %d · %d deaths · %d gold\nDifficulty completed: %s"%[State.run.level,State.run.deaths,State.run.gold,Catalog.definition("campaign").values.difficulties[int(State.run.difficulty)]],23)
-	label(v,"The next ascent keeps your skills and equipment. The tower and its rewards are renewed. The Eternal Trial enforces permanent death.",18)
-	button(v,"Start the next difficulty",func()->void:State.next_difficulty();close_modal();world.load_floor(0))
+	label(v,"A new ascent starts at level 1 with fresh skills, equipment, gold and supplies. Unlocked difficulties are kept. Higher difficulties add elites and boss attacks. The Eternal Trial enforces permanent death.",18)
+	button(v,"Start a fresh ascent",func()->void:
+		if State.next_difficulty():
+			close_modal();world.load_floor(0);show_initial()
+		else: label(v,SaveStore.last_error))
 	button(v,"Back to menu",func()->void:close_modal();show_menu())
 	focus_first(v)
 

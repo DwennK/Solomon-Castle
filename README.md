@@ -32,7 +32,7 @@ No account, server, plugin, or asset-generation step is needed. All runtime art 
 - **Seven rituals and 24 passives/specializations:** equip two rituals, with a third slot at level 20. Choose an upgrade at each level and spend Knowledge Shards to reroll eligible choices.
 - **Equipment with tradeoffs:** one staff, two rings, and a 48-item bag. Search and sort loot, compare effective stats after caps, and inspect how items affect your current spells.
 - **Thirteen procedural floors:** explore rooms and corridors, find guardian keys, defeat bosses on floors 4, 8, 11, and 13, then finish the summit encounter.
-- **Five difficulties:** Apprentice, Sorcerer, Archmage, Demigod, and the Eternal Trial. A completed ascent unlocks the next difficulty while retaining your skills and gear.
+- **Five difficulties:** Apprentice, Sorcerer, Archmage, Demigod, and the Eternal Trial. A completed ascent unlocks the next difficulty. Starting it creates a level-1 mage with fresh skills, equipment and supplies; difficulty unlocks and settings persist. Existing saves are not reset on load.
 
 In the village, **Basile** buys and sells equipment and potions, **Orme** teaches magic and sells lessons, and **Ysee** restores health and mana for free. Your portal lets you return to the village and resume exploring the same floor.
 

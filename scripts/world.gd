@@ -74,6 +74,7 @@ func load_floor(number: int, resume: bool = false) -> void:
 		if not State.run.floors.has(key): State.run.floors[key] = Dungeon.generate(State.run.seed,number,State.run.difficulty)
 		floor_data = State.run.floors[key]
 		LootRules.prepare_floor(floor_data,int(State.run.seed),int(State.run.difficulty))
+		ProgressionRules.prepare_floor(floor_data)
 		dungeon.build(floor_data)
 		dungeon.interior.mount_decorations(actors)
 		loot = floor_data.loot
@@ -375,7 +376,7 @@ func enemy_bolt(pos: Vector2,direction: Vector2,damage: float,speed: float,color
 
 func enemy_killed(enemy: TowerEnemy) -> void:
 	enemies.erase(enemy)
-	State.add_xp(EncounterRules.kill_xp(int(State.run.floor),enemy.boss))
+	State.add_xp(float(enemy.record.get("xp_reward",0.0)))
 	update_discoveries()
 	add_supplies(enemy.record.get("reward",{}),enemy.position)
 	if enemy.boss:
@@ -547,7 +548,7 @@ func discovery_hint(prop: WorldProp) -> String:
 	match prop.record.get("phase","idle"):
 		"active": return "Defeat the awakened sentries to unseal the rare item"
 		"ready": return "Claim the reliquary's rare equipment"
-	return "Optional trial: awaken three sentries for rare equipment"
+	return "Optional trial: awaken three sentries for bonus XP and rare equipment"
 
 func use_discovery(prop: WorldProp) -> void:
 	if prop.record.get("opened",false): return

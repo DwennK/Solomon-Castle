@@ -91,8 +91,7 @@ func run_all() -> void:
 					check(pack.all(func(e:Dictionary)->bool:return Dungeon.vec(e.pos).distance_to(Dungeon.vec(warden.pos))<260),"Warden begins within protection range of every guard")
 			for enemy: Dictionary in floor_value.enemies:
 				if enemy.get("trial",false): continue
-				var is_boss: bool=Catalog.definition(enemy.kind).values.behavior.begins_with("boss")
-				total_xp+=EncounterRules.kill_xp(number,is_boss)
+				total_xp+=float(enemy.xp_reward)
 			if number==1: first_xp=total_xp
 		var level: int=level_for_xp(first_xp)
 		check(level>=3 and level<=5,"First floor grants fewer early upgrades even in large layouts")

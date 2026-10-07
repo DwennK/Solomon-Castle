@@ -25,7 +25,7 @@ Une exploration complète fournit donc quatre potions garanties (deux de chaque 
 
 Chaque difficulté supplémentaire déplace 5 points de probabilité vers Rare et 3 vers Épique. Les boss ont 20 % d'Épique avant l'étage 8, puis 35 %, avec 5 points supplémentaires par difficulté ; le reste est Rare. Le marchand utilise la courbe ordinaire lors du renouvellement de son stock. Le stock existant est conservé.
 
-Les récompenses alternent bâton / anneau / anneau pour correspondre aux trois emplacements équipables. Les quatre dernières recettes obtenues sont écartées du tirage lorsque des alternatives de même emplacement et rareté existent. Cela évite les doublons immédiats sans garantir une amélioration à chaque découverte. Les achats ne consomment pas cette séquence. La séquence et l'historique sont sauvegardés et conservés en NG+.
+Les récompenses alternent bâton / anneau / anneau pour correspondre aux trois emplacements équipables. Les quatre dernières recettes obtenues sont écartées du tirage lorsque des alternatives de même emplacement et rareté existent. Cela évite les doublons immédiats sans garantir une amélioration à chaque découverte. Les achats ne consomment pas cette séquence. La séquence et l'historique sont sauvegardés pendant l'ascension et réinitialisés au lancement de la difficulté suivante.
 
 Le tirage des ressources est fixé par graine, étage et difficulté. L'ordre des éliminations ne change pas les ressources. Le tirage d'équipement dépend également de la séquence/historique enregistrés ; recharger le même état et reproduire la même ouverture rend le même objet. Revenir dans un étage ne repeuple rien.
 

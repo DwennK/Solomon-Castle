@@ -1,0 +1,391 @@
+{
+  "date": "2026-10-07",
+  "engine": "Godot 4.7.2 macOS",
+  "scope": "Global floor XP budgets, fresh characters between ascents, bounded difficulty statistics, elites and extra boss hazards, limited lessons, late-floor health curve.",
+  "validation_base": "3f6f1e6 plus this task only, isolated from concurrent audio and fog work",
+  "progression": {
+    "checks": 5832,
+    "failures": [],
+    "floors_tested": 1300,
+    "level_ranges_regular_then_optional": {
+      "1": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "10": [
+        28,
+        28,
+        29,
+        29
+      ],
+      "11": [
+        31,
+        31,
+        32,
+        32
+      ],
+      "12": [
+        33,
+        33,
+        34,
+        35
+      ],
+      "13": [
+        36,
+        36,
+        37,
+        37
+      ],
+      "2": [
+        6,
+        6,
+        6,
+        7
+      ],
+      "3": [
+        8,
+        8,
+        9,
+        9
+      ],
+      "4": [
+        11,
+        11,
+        11,
+        11
+      ],
+      "5": [
+        13,
+        14,
+        14,
+        14
+      ],
+      "6": [
+        16,
+        16,
+        17,
+        17
+      ],
+      "7": [
+        19,
+        19,
+        19,
+        19
+      ],
+      "8": [
+        22,
+        22,
+        22,
+        23
+      ],
+      "9": [
+        25,
+        25,
+        26,
+        26
+      ]
+    }
+  },
+  "pre_late_health_tuning": {
+    "victories": 8,
+    "deaths": 4,
+    "timeouts": 0,
+    "cleared_floors": 120,
+    "simulated_seconds": 13731.0333333333,
+    "wall_seconds": 896.717,
+    "cases": [
+      {
+        "difficulty": 0,
+        "primary": "fire",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 14,
+        "mp_potions_used": 8
+      },
+      {
+        "difficulty": 0,
+        "primary": "missile",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 7,
+        "mp_potions_used": 28
+      },
+      {
+        "difficulty": 0,
+        "primary": "ice",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 13,
+        "mp_potions_used": 12
+      },
+      {
+        "difficulty": 0,
+        "primary": "lightning",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 16,
+        "mp_potions_used": 13
+      },
+      {
+        "difficulty": 2,
+        "primary": "fire",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 18,
+        "mp_potions_used": 5
+      },
+      {
+        "difficulty": 2,
+        "primary": "missile",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 12,
+        "mp_potions_used": 18
+      },
+      {
+        "difficulty": 2,
+        "primary": "ice",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 23,
+        "mp_potions_used": 7
+      },
+      {
+        "difficulty": 2,
+        "primary": "lightning",
+        "victory": false,
+        "died": true,
+        "last_floor": 9,
+        "end_level": 23,
+        "hp_potions_used": 17,
+        "mp_potions_used": 0
+      },
+      {
+        "difficulty": 4,
+        "primary": "fire",
+        "victory": false,
+        "died": true,
+        "last_floor": 5,
+        "end_level": 13,
+        "hp_potions_used": 13,
+        "mp_potions_used": 5
+      },
+      {
+        "difficulty": 4,
+        "primary": "missile",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 17,
+        "mp_potions_used": 9
+      },
+      {
+        "difficulty": 4,
+        "primary": "ice",
+        "victory": false,
+        "died": true,
+        "last_floor": 1,
+        "end_level": 1,
+        "hp_potions_used": 3,
+        "mp_potions_used": 0
+      },
+      {
+        "difficulty": 4,
+        "primary": "lightning",
+        "victory": false,
+        "died": true,
+        "last_floor": 5,
+        "end_level": 13,
+        "hp_potions_used": 13,
+        "mp_potions_used": 2
+      }
+    ]
+  },
+  "final": {
+    "victories": 7,
+    "deaths": 5,
+    "timeouts": 0,
+    "cleared_floors": 116,
+    "simulated_seconds": 14198.9666666667,
+    "wall_seconds": 932.053,
+    "cases": [
+      {
+        "difficulty": 0,
+        "primary": "fire",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 12,
+        "mp_potions_used": 23
+      },
+      {
+        "difficulty": 0,
+        "primary": "missile",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 8,
+        "mp_potions_used": 29
+      },
+      {
+        "difficulty": 0,
+        "primary": "ice",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 22,
+        "mp_potions_used": 27
+      },
+      {
+        "difficulty": 0,
+        "primary": "lightning",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 18,
+        "mp_potions_used": 28
+      },
+      {
+        "difficulty": 2,
+        "primary": "fire",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 16,
+        "mp_potions_used": 3
+      },
+      {
+        "difficulty": 2,
+        "primary": "missile",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 10,
+        "mp_potions_used": 28
+      },
+      {
+        "difficulty": 2,
+        "primary": "ice",
+        "victory": false,
+        "died": true,
+        "last_floor": 8,
+        "end_level": 20,
+        "hp_potions_used": 17,
+        "mp_potions_used": 0
+      },
+      {
+        "difficulty": 2,
+        "primary": "lightning",
+        "victory": false,
+        "died": true,
+        "last_floor": 8,
+        "end_level": 21,
+        "hp_potions_used": 16,
+        "mp_potions_used": 1
+      },
+      {
+        "difficulty": 4,
+        "primary": "fire",
+        "victory": false,
+        "died": true,
+        "last_floor": 7,
+        "end_level": 18,
+        "hp_potions_used": 15,
+        "mp_potions_used": 4
+      },
+      {
+        "difficulty": 4,
+        "primary": "missile",
+        "victory": true,
+        "died": false,
+        "last_floor": 13,
+        "end_level": 36,
+        "hp_potions_used": 19,
+        "mp_potions_used": 29
+      },
+      {
+        "difficulty": 4,
+        "primary": "ice",
+        "victory": false,
+        "died": true,
+        "last_floor": 3,
+        "end_level": 7,
+        "hp_potions_used": 7,
+        "mp_potions_used": 1
+      },
+      {
+        "difficulty": 4,
+        "primary": "lightning",
+        "victory": false,
+        "died": true,
+        "last_floor": 4,
+        "end_level": 10,
+        "hp_potions_used": 11,
+        "mp_potions_used": 2
+      }
+    ]
+  },
+  "gates": {
+    "core": 85630,
+    "balance": 4852,
+    "skills": 101,
+    "combat_feedback": 24,
+    "loot": 48846,
+    "english": 20,
+    "encounters": 845
+  },
+  "native_ui": {
+    "sizes": [
+      "1440x900",
+      "960x600"
+    ],
+    "interactions": [
+      "victory button starts fresh mage and opens first spell selection",
+      "teacher purchase disables the next lesson even with enough gold"
+    ]
+  },
+  "limits": [
+    "One combat seed (829), four starting spells, difficulty 0/2/4. Generation budgets cover twenty seeds at all five difficulties.",
+    "Bots auto aim, know layout for navigation and use actual earned consumables/rituals. No village services, optional trials, deaths retried or injected stats.",
+    "Enemy wandering includes wall-clock timing, so accelerated runs are not deterministic replays.",
+    "A cleared campaign does not measure human enjoyment. No Windows execution or export.",
+    "Normal difficulty remains generous in healing for an automated player."
+  ],
+  "source_sha256": {
+    "scripts/progression_rules.gd": "a83c22f66caca83f4f5168962095998ce46d7a82c2042f518e1203209cac335d",
+    "scripts/dungeon.gd": "2907c81e980195e814f90ec38ac903e913e2c2e09b6fd05a05fb14f9504031e1",
+    "scripts/encounter_rules.gd": "cea5925bb8de598b06314f7f15cc2f3b75ed05df82cf0abde0766464412db45c",
+    "scripts/enemy.gd": "10f1a46227d04ccc224d8c2fa97bd2410a5fc0a3477b1aa0fe72e2a0bce9a6cc",
+    "scripts/main.gd": "6edbc528a07ce2f7d3e2a2839b4b5fe585f1e9a3c2238face6c044b926e06ff6",
+    "scripts/state.gd": "3022673f9cf7955a18dae45c42ee93a482f72ca6ecb0ff295b0881253c4ef963",
+    "scripts/world.gd": "9a392a6c96c0a7f54acfb2d7b92933afca2985eb79fb1d287767631dbe804d8c"
+  },
+  "commands": [
+    "./tools/godot.sh --headless --disable-render-loop --fixed-fps 60 --path . tests/progression_campaign_audit.tscn -- --test --final",
+    "./tools/godot.sh --path . tests/progression_test.tscn -- --test --visual",
+    "./tools/godot.sh --headless --path . tests/tests.tscn -- --test"
+  ]
+}

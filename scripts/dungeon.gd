@@ -44,7 +44,8 @@ static func generate(seed_value: int, floor_number: int, difficulty: int = 0) ->
 		enemies.append({"id":"boss","kind":boss,"pos":[p.x,p.y],"hp":-1.0,"dead":false})
 	var result: Dictionary = {"grid":grid,"rooms":rooms,"enemies":enemies,"props":props,"loot":[],"revealed":[],"boss":boss,"boss_dead":false,"key_chest":key_chest,"has_key":false,"gate_open":boss.is_empty(),"gate_cells":gate_cells,"guardian_dead":floor_number!=13,"entry":pair(to_world(room_center(rooms[0]))),"exit":pair(to_world(room_center(rooms[-1]))+Vector2(0,-128)),"number":floor_number}
 	for key: String in ["links","shapes","optional_room","gate_position","layout_version"]: result[key]=layout[key]
-	EncounterRules.populate(result,rng)
+	EncounterRules.populate(result,rng,difficulty)
+	ProgressionRules.prepare_floor(result)
 	LootRules.prepare_floor(result,seed_value,difficulty)
 	return result
 
