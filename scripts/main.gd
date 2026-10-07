@@ -125,11 +125,8 @@ func panel(title: String, subtitle: String = "", kind: String = "general", width
 	modal.add_child(center)
 	var box: PanelContainer = PanelContainer.new()
 	box.custom_minimum_size = Vector2(minf(width,get_viewport().get_visible_rect().size.x-80),0)
-	var frame: StyleBoxFlat = GameTheme.panel(Color("101113"),Color("897048"),28)
-	frame.border_width_top = 3
-	frame.shadow_color = Color(0,0,0,0.65)
-	frame.shadow_size = 24
-	box.add_theme_stylebox_override("panel",frame)
+	box.set_meta("parchment",true)
+	box.add_theme_stylebox_override("panel",GameTheme.parchment())
 	center.add_child(box)
 	var outer: VBoxContainer = VBoxContainer.new()
 	outer.add_theme_constant_override("separation",14)
@@ -160,6 +157,7 @@ func panel(title: String, subtitle: String = "", kind: String = "general", width
 			item.alignment = HORIZONTAL_ALIGNMENT_CENTER
 			if kind==tab[0]: item.add_theme_stylebox_override("normal",GameTheme.panel(Color("34291a"),GameTheme.GOLD,14))
 	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.follow_focus = true
 	scroll.custom_minimum_size = Vector2(0,minf(285 if kind in ["pause","death","teacher"] else (590 if kind in ["level","initial","skills"] else 470),get_viewport().get_visible_rect().size.y-310))
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	outer.add_child(scroll)
@@ -174,8 +172,9 @@ func label(parent: Node, text: String, size: int = 19, color: Color = Color("e5d
 	var l: Label = Label.new()
 	l.text = tr(text)
 	l.add_theme_font_size_override("font_size",size)
-	l.add_theme_color_override("font_color",color)
+	l.add_theme_color_override("font_color",GameTheme.surface_text(parent,color))
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.set_meta("ink",GameTheme.is_parchment(parent))
 	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	parent.add_child(l)
 	return l
@@ -195,12 +194,11 @@ func button(parent: Node, text: String, action: Callable, disabled: bool = false
 		b.add_theme_constant_override("icon_max_width",38)
 	b.pressed.connect(func()->void: Sound.play("ui");action.call())
 	parent.add_child(b)
-	if parent.get_child_count()==1: call_deferred("safe_focus",weakref(b))
 	return b
 
 func focus_first(parent: Node) -> bool:
 	for child: Node in parent.get_children():
-		if child is Button and not child.disabled:
+		if child is HSlider or (child is Button and not child.disabled):
 			call_deferred("safe_focus",weakref(child))
 			return true
 		if focus_first(child): return true
@@ -231,22 +229,27 @@ func show_menu() -> void:
 	var margin: MarginContainer = MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left",90)
-	margin.add_theme_constant_override("margin_top",78)
+	margin.add_theme_constant_override("margin_top",38)
 	margin.add_theme_constant_override("margin_bottom",38)
 	modal.add_child(margin)
 	var column: VBoxContainer = VBoxContainer.new()
-	column.custom_minimum_size.x = 480
+	column.custom_minimum_size.x = 440
 	column.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	column.add_theme_constant_override("separation",14)
-	margin.add_child(column)
+	column.add_theme_constant_override("separation",8)
+	var menu_page: PanelContainer=PanelContainer.new()
+	menu_page.size_flags_horizontal=Control.SIZE_SHRINK_BEGIN
+	menu_page.set_meta("parchment",true)
+	menu_page.add_theme_stylebox_override("panel",GameTheme.parchment())
+	margin.add_child(menu_page)
+	menu_page.add_child(column)
 	label(column,"U N  E X A M E N .   T R E I Z E  É T A G E S .",12,GameTheme.GOLD)
-	var title: Label = label(column,"LA TOUR\nDES CENDRES",57)
+	var title: Label = label(column,"LA TOUR\nDES CENDRES",44)
 	GameTheme.heading(title)
-	title.add_theme_constant_override("outline_size",2)
+	title.add_theme_constant_override("outline_size",0)
 	title.add_theme_color_override("font_outline_color",Color("0a0c0f"))
 	column.add_child(UIOrnament.new())
 	label(column,"Le dernier cours de magie commence ici.",18,Color("bab1a2"))
-	var space: Control = Control.new();space.custom_minimum_size.y = 27;column.add_child(space)
+	var space: Control = Control.new();space.custom_minimum_size.y = 12;column.add_child(space)
 	var saved: Dictionary = SaveStore.read_save(State.save_path)
 	var valid: bool = State.valid_payload(saved) and not saved.run.dead
 	var resume: Button = button(column,"Continuer l’ascension",continue_game,not valid)
@@ -264,7 +267,7 @@ func show_menu() -> void:
 		var b: Button = button(column,entry[0],entry[1])
 		b.custom_minimum_size.y = 42
 		b.alignment = HORIZONTAL_ALIGNMENT_CENTER
-		b.add_theme_stylebox_override("normal",GameTheme.panel(Color(0,0,0,0),Color(0,0,0,0),9))
+		b.add_theme_stylebox_override("normal",GameTheme.panel(Color("29231f"),Color("68523d"),9))
 	var stretch: Control = Control.new();stretch.size_flags_vertical=Control.SIZE_EXPAND_FILL;column.add_child(stretch)
 	label(column,"LA TOUR DES CENDRES    /    CHAPITRE I",12,GameTheme.GOLD)
 	label(column,"VERSION 0.2  ·  UNE ASCENSION EN SOLITAIRE",11,Color("8e887d"))
@@ -280,6 +283,7 @@ func show_new() -> void:
 		choice.set_item_disabled(i,i>State.unlocked)
 	v.add_child(choice)
 	var hardcore: CheckBox = CheckBox.new()
+	GameTheme.paper_checkbox(hardcore)
 	hardcore.text = "Hardcore — une seule vie, mort définitive"
 	v.add_child(hardcore)
 	label(v,"Mode normal : reprise au dernier point de sauvegarde d’étage ou de portail. Les actions depuis ce point sont annulées. Le mode hardcore interdit toute reprise après la mort.",17)
@@ -483,40 +487,22 @@ func show_inventory(selling: bool = false) -> void:
 
 func on_inventory_section(section_name: String) -> void:
 	match section_name:
+		"inventory": show_inventory()
+		"pause": show_pause()
 		"skills": show_skills()
 		"map": show_map()
 		"merchant": show_merchant()
 
 func show_skills() -> void:
-	var v: VBoxContainer = panel("Le grimoire","Magies actives, rituels et savoirs acquis. Les fusions se choisissent lors des niveaux multiples de cinq.","skills",1000)
-	label(v,"DPS théorique par ennemi, avant résistance, à mana disponible. Moyenne des rituels : dégâts ÷ recharge. Portées en unités du monde (u), limitées par les murs.",14,GameTheme.MUTED)
-	for kind: String in ["primary","secondary","passive"]:
-		label(v,{"primary":"LES QUATRE ÉLÉMENTS","secondary":"RITUELS  ·  %d / %d emplacements"%[State.secondary_skills().size(),3 if State.run.level>=20 else 2],"passive":"SAVOIRS ET SPÉCIALISATIONS"}[kind],20,Color("d1ba8c"))
-		var grid: GridContainer = GridContainer.new();grid.columns = 2;v.add_child(grid)
-		var known: int = 0
-		for id: String in Catalog.ids(kind):
-			if State.rank(id)==0: continue
-			known += 1
-			var d: ContentDefinition = Catalog.definition(id)
-			var box: PanelContainer = PanelContainer.new();grid.add_child(box)
-			box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			box.add_theme_stylebox_override("panel",GameTheme.panel(Color("19191a"),Color("443b2f"),14))
-			var body: VBoxContainer = VBoxContainer.new();box.add_child(body)
-			if kind=="primary":
-				button(body,d.title+" · rang %d"%State.rank(id)+("  [actif]" if State.run.active==id else "  · activer"),func()->void:State.run.active=id;show_skills(),false,id)
-			else: label(body,d.title+" · rang %d"%State.rank(id),18,GameTheme.GOLD)
-			if State.rank(id)>State.learned_rank(id): label(body,"Appris : %d · Équipement : +%d"%[State.learned_rank(id),State.rank(id)-State.learned_rank(id)],14,GameTheme.GOLD)
-			elif State.rank(id)<State.learned_rank(id): label(body,"Rang historique conservé : %d · effet à rang unique"%State.learned_rank(id),14,GameTheme.MUTED)
-			if kind=="secondary" and id not in State.secondary_skills(): label(body,"Rituel fourni par l’équipement : emplacements occupés.",14,GameTheme.MUTED)
-			label(body,d.description,16,GameTheme.MUTED)
-			add_skill_details(body,id)
-		if known==0: label(v,"Aucun savoir acquis dans cette discipline.",16,GameTheme.MUTED)
-	if not State.run.fusion.is_empty():
-		var id: String = State.run.fusion.id
-		button(v,Catalog.title(id)+" · activer la fusion",func()->void:State.run.active=id;show_skills(),false,Catalog.definition(id).icon)
-		label(v,SkillDetails.text(id)+"\nFigée au niveau %d."%State.run.fusion.level,16)
-	button(v,"Fermer",close_modal)
-	focus_first(v)
+	destroy_modal()
+	modal_kind="skills"
+	get_tree().paused=is_instance_valid(world)
+	if get_tree().paused: Sound.stop_world()
+	var grimoire: GrimoireView=GrimoireView.new()
+	grimoire.close_requested.connect(close_modal)
+	grimoire.section_requested.connect(on_inventory_section)
+	modal=grimoire
+	ui.add_child(grimoire)
 
 func show_map() -> void:
 	var v: VBoxContainer = panel("Les salles explorées","Ivoire : vous · or : escalier · turquoise : coffre non ouvert.","map",870)
@@ -564,6 +550,7 @@ func show_options() -> void:
 	slider(v,"Luminosité","brightness",0.7,1.5)
 	for option: String in ["fullscreen","reduced_effects"]:
 		var check: CheckBox = CheckBox.new()
+		GameTheme.paper_checkbox(check)
 		check.text = "Plein écran" if option=="fullscreen" else "Réduire les flashs et les effets brusques"
 		check.button_pressed = State.options[option]
 		check.toggled.connect(func(value:bool)->void:State.options[option]=value;State.save_options())
@@ -586,8 +573,18 @@ func show_credits() -> void:
 	focus_first(v)
 
 func safe_focus(reference: WeakRef) -> void:
+	# Wait for container layout before ScrollContainer follows keyboard focus.
+	await get_tree().process_frame
+	await get_tree().process_frame
 	var control: Control = reference.get_ref() as Control
-	if is_instance_valid(control) and control.is_inside_tree(): control.grab_focus()
+	if not is_instance_valid(control) or not control.is_inside_tree(): return
+	control.grab_focus()
+	var parent: Node=control.get_parent()
+	while parent:
+		if parent is ScrollContainer:
+			parent.ensure_control_visible(control)
+			break
+		parent=parent.get_parent()
 
 func quit_game() -> void:
 	Sound.stop_all()

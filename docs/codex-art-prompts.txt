@@ -1,0 +1,19 @@
+Assets du codex, générés avec image_gen, le 2026-10-07.
+
+codex-book-prompt.txt
+Use case: precise-object-edit.
+Asset type: reusable game UI open-book background texture, blank parchment for dynamic interface text.
+Input image: selected Codex de Cuir concept, style reference and edit target.
+Primary request: Extract and reconstruct ONLY the open dark leatherbound book from this concept, removing absolutely all interface, lettering, illustrations, buttons, icons, items, tabs, title, screen environment. The result is a clean blank open-book texture.
+Output canvas: 1536 x 1024 pixels landscape. Book fills approximately 97% width and 96% height, symmetrical frontal orthographic view, no perspective skew. The vertical binding is exactly centered. Flat, broad rectangular page faces with a very gentle center fold. Rich aged dark brown leather binding, thin ornate worn antique brass corner hardware, multiple dark layered page edges.
+Pages: warm smoky tan parchment, subtle authentic fine paper grain. Darker burnt umber aged margins, softly vignetted. Main writing areas must remain medium-light tan, smooth low contrast and clearly readable for dark brown UI text. Each page's central 85% is completely empty, clean and calm. Match the premium dark fantasy painterly material treatment of the reference, like a wizard's medieval grimoire.
+Constraints: NO text, NO letters, NO handwriting, NO symbols, NO runes, NO magic circles, NO diagrams, NO drawings, NO items, NO slots, NO UI, NO navigation tabs, NO jewels, NO scenery, NO table. Decorative detail restricted to leather binding and thin brass corners. Do not stamp any design into parchment. Actual transparent background outside the book silhouette. Preserve broad usable writing areas and clean symmetrical framing.
+
+
+codex-parchment-prompt.txt
+Use case: stylized-concept.
+Asset type: reusable dark fantasy game menu background texture.
+Primary request: One single square parchment panel, 1024x1024 pixels. Match an aged wizard's dark leatherbound grimoire with tan smoky parchment and worn antique brass corners. A single continuous flat sheet, no book spine, no page fold. Thin dark brown aged leather border, very restrained worn brass corner hardware, broad flat parchment occupying central 90% area.
+Composition: perfectly front-facing orthographic square panel, fills 98% canvas with narrow dark outer margin.
+Materials and colors: medium-light warm tan parchment, fine subtle paper grain, softly aged smoky umber edges, premium painterly fantasy texture. Interior should be almost uniform and clean for readable dark brown game UI text. Leather very dark brown, tiny muted brass highlights. Overall understated wizard atmosphere.
+Constraints: completely blank, NO text, NO markings, NO letters, NO symbols, NO runes, NO circles, NO icons, NO objects, NO gemstones, NO diagrams, NO UI controls, NO slots, NO scenery, NO book spine, NO central vertical line. Decorative detail only in thin border. Genuine transparent exterior outside the panel silhouette.

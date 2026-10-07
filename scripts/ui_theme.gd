@@ -63,7 +63,35 @@ static func create() -> Theme:
 
 static func heading(label: Label) -> void:
 	label.add_theme_font_override("font", TITLE)
-	label.add_theme_color_override("font_color", IVORY)
+	label.add_theme_color_override("font_color", CodexShell.INK if label.get_meta("ink",false) else IVORY)
+
+static func parchment() -> StyleBoxTexture:
+	var style: StyleBoxTexture=StyleBoxTexture.new()
+	style.texture=preload("res://assets/ui/codex-parchment.png")
+	style.modulate_color=Color(0.78,0.75,0.72)
+	for side: int in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]:
+		style.set_texture_margin(side,70)
+		style.set_content_margin(side,60)
+	return style
+
+static func is_parchment(node: Node) -> bool:
+	var current: Node=node
+	while current:
+		if current.has_meta("parchment"): return current.get_meta("parchment")
+		if current is PanelContainer and current.has_theme_stylebox_override("panel"): return false
+		current=current.get_parent()
+	return false
+
+static func surface_text(parent: Node, color: Color) -> Color:
+	if not is_parchment(parent): return color
+	return CodexShell.MUTED if color==MUTED or color==GOLD else CodexShell.INK
+
+static func paper_checkbox(check: CheckBox) -> void:
+	for state: String in ["font_color","font_hover_color","font_pressed_color","font_hover_pressed_color","font_focus_color"]:
+		check.add_theme_color_override(state,CodexShell.INK)
+	for state: String in ["normal","pressed","hover","hover_pressed"]:
+		check.add_theme_stylebox_override(state,panel(Color(0,0,0,0),Color(0,0,0,0),10))
+	check.add_theme_stylebox_override("focus",panel(Color(0,0,0,0),CodexShell.ACCENT,10))
 
 static func enter(control: Control) -> void:
 	if State.options.get("reduced_effects", false): return

@@ -4,13 +4,19 @@ extends Control
 signal close_requested
 signal section_requested(section: String)
 
-const GAIN: Color = Color("9fd5ad")
-const LOSS: Color = Color("efa59c")
+const GAIN: Color = Color("234e2b")
+const LOSS: Color = Color("7c2822")
 const RARITIES: Array[String] = ["Enchanté", "Rare", "Épique"]
 var selling: bool = false
 var selected_uid: String = ""
 var filter: String = "all"
 var target_slot: String = "ring1"
+var query: String = ""
+var sort_mode: int = 0
+var details_expanded: bool = false
+var all_changes: VBoxContainer
+var search_field: LineEdit
+var result_count: Label
 var equipment_body: VBoxContainer
 var bag_grid: GridContainer
 var bag_scroll: ScrollContainer
@@ -24,56 +30,45 @@ var cells: Dictionary = {}
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.015,0.018,0.024,0.9)
-	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(shade)
-	var margin: MarginContainer = MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for side: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+side,28)
-	add_child(margin)
-	var frame: PanelContainer = PanelContainer.new()
-	frame.add_theme_stylebox_override("panel",GameTheme.panel(Color("101113"),GameTheme.GOLD.darkened(0.3),22))
-	margin.add_child(frame)
-	var root: VBoxContainer = VBoxContainer.new();frame.add_child(root)
-	var header: HBoxContainer = HBoxContainer.new();root.add_child(header)
-	var title: Label = text(header,"Votre sac" if not selling else "Vendre à Basile",28)
-	GameTheme.heading(title)
-	wallet = text(header,"",16,GameTheme.GOLD)
-	wallet.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	var close: Button = action(header,"×",func()->void:close_requested.emit())
-	close.custom_minimum_size = Vector2(44,44)
-	close.size_flags_horizontal = Control.SIZE_SHRINK_END
-	close.tooltip_text = "Fermer"
-	var nav: HBoxContainer = HBoxContainer.new();root.add_child(nav)
-	for entry: Array in [["inventory","Inventaire"],["skills","Grimoire"],["map","Carte"]]:
-		var tab: Button = action(nav,entry[1],func()->void:
-			if entry[0] != "inventory": section_requested.emit(entry[0]))
-		if entry[0] == "inventory": tab.add_theme_stylebox_override("normal",GameTheme.panel(Color("34291a"),GameTheme.GOLD,8))
-	root.add_child(HSeparator.new())
-	var columns: HBoxContainer = HBoxContainer.new()
-	columns.name = "InventoryColumns"
-	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	columns.add_theme_constant_override("separation",22)
-	root.add_child(columns)
-	var left: VBoxContainer = column(columns,0.24)
-	left.name = "EquipmentColumn"
-	text(left,"ÉQUIPEMENT PORTÉ",14,GameTheme.GOLD)
-	equipment_body = scroll_body(left)
-	columns.add_child(VSeparator.new())
-	var center: VBoxContainer = column(columns,0.38)
-	center.name = "BagColumn"
-	text(center,"DANS VOTRE SAC",14,GameTheme.GOLD)
-	var filters: HBoxContainer = HBoxContainer.new();center.add_child(filters)
+	var shell: CodexShell = CodexShell.new()
+	shell.section = "inventory"
+	shell.close_requested.connect(func()->void:close_requested.emit())
+	shell.section_requested.connect(func(value: String)->void:section_requested.emit(value))
+	add_child(shell)
+	var left: VBoxContainer = shell.left
+	left.name = "BagColumn"
+	CodexShell.heading(left,"Inventaire" if not selling else "Vendre à Basile")
+	text(left,"ÉQUIPEMENT PORTÉ",12,CodexShell.MUTED)
+	equipment_body = VBoxContainer.new()
+	equipment_body.name = "EquipmentColumn"
+	left.add_child(equipment_body)
+	left.add_child(HSeparator.new())
+	var tools: HBoxContainer = HBoxContainer.new();left.add_child(tools)
+	search_field = CodexShell.search(tools,"Rechercher un objet…")
+	search_field.text_changed.connect(func(value: String)->void:
+		query=value
+		bag_scroll.scroll_vertical=0
+		refresh())
+	var sorting: OptionButton = OptionButton.new()
+	sorting.name="InventorySort"
+	sorting.add_theme_font_size_override("font_size",14)
+	for title: String in ["Ordre du sac", "Nom", "Rareté"]: sorting.add_item(title)
+	sorting.tooltip_text="Trier les objets du sac"
+	sorting.item_selected.connect(func(index: int)->void:
+		sort_mode=index
+		bag_scroll.scroll_vertical=0
+		refresh())
+	tools.add_child(sorting)
+	var filters: HBoxContainer = HBoxContainer.new();left.add_child(filters)
 	filters.add_theme_constant_override("separation",6)
 	for entry: Array in [["all","Tous"],["staff","Bâtons"],["ring","Anneaux"]]:
-		var b: Button = action(filters,entry[1],func()->void:set_filter(entry[0]))
-		filter_buttons[entry[0]] = b
+		filter_buttons[entry[0]] = action(filters,entry[1],func()->void:set_filter(entry[0]))
+	result_count=text(left,"",13,CodexShell.MUTED)
 	bag_scroll = ScrollContainer.new()
 	bag_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	bag_scroll.follow_focus = true
 	bag_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	center.add_child(bag_scroll)
+	left.add_child(bag_scroll)
 	bag_grid = GridContainer.new()
 	bag_grid.name = "BagGrid"
 	bag_grid.columns = 4
@@ -82,21 +77,19 @@ func _ready() -> void:
 	bag_grid.add_theme_constant_override("v_separation",8)
 	bag_scroll.add_child(bag_grid)
 	bag_scroll.resized.connect(fit_grid)
-	columns.add_child(VSeparator.new())
-	var right: VBoxContainer = column(columns,0.38)
+	var right: VBoxContainer = shell.right
 	right.name = "DetailsColumn"
-	text(right,"OBJET SÉLECTIONNÉ",14,GameTheme.GOLD)
+	text(right,"OBJET SÉLECTIONNÉ",12,CodexShell.MUTED)
 	detail_header = VBoxContainer.new();right.add_child(detail_header)
 	detail_body = scroll_body(right)
 	detail_scroll = detail_body.get_parent()
 	action_body = VBoxContainer.new();right.add_child(action_body)
-	root.add_child(HSeparator.new())
-	var footer: HBoxContainer = HBoxContainer.new();root.add_child(footer)
-	text(footer,"Sélectionnez un objet pour comparer ses effets.",14,GameTheme.MUTED)
-	if selling: action(footer,"Retour à l’échoppe",func()->void:section_requested.emit("merchant"))
+	wallet = text(shell.footer,"",15,GameTheme.GOLD)
+	var hint: Label=text(shell.footer,"Sélectionner pour examiner · Échap pour reprendre",14,GameTheme.MUTED)
+	hint.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
+	if selling: action(shell.footer,"Retour à l’échoppe",func()->void:section_requested.emit("merchant"))
 	refresh()
 	if cells.has(selected_uid): cells[selected_uid].grab_focus()
-	GameTheme.enter(frame)
 
 func column(parent: Node, ratio: float) -> VBoxContainer:
 	var box: VBoxContainer = VBoxContainer.new()
@@ -116,7 +109,7 @@ func scroll_body(parent: Node) -> VBoxContainer:
 	scroll.add_child(body)
 	return body
 
-func text(parent: Node, value: String, font_size: int = 16, color: Color = GameTheme.IVORY) -> Label:
+func text(parent: Node, value: String, font_size: int = 16, color: Color = CodexShell.INK) -> Label:
 	var label: Label = Label.new()
 	label.text = value
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -160,10 +153,14 @@ func slot_name(slot: String) -> String:
 	return "Bâton" if slot == "staff" else "Anneau "+slot[-1]
 
 func visible_items() -> Array:
-	return State.run.inventory.filter(func(item: Dictionary)->bool:return filter=="all" or item.slot==filter)
+	var result: Array = State.run.inventory.filter(func(item: Dictionary)->bool:
+		return (filter=="all" or item.slot==filter) and CodexShell.matches_query(item.name,query))
+	if sort_mode==1: result.sort_custom(func(a: Dictionary,b: Dictionary)->bool:return a.name.naturalnocasecmp_to(b.name)<0)
+	elif sort_mode==2: result.sort_custom(func(a: Dictionary,b: Dictionary)->bool:return int(a.rarity)>int(b.rarity) if a.rarity!=b.rarity else a.name.naturalnocasecmp_to(b.name)<0)
+	return result
 
 func fit_grid() -> void:
-	bag_grid.columns = maxi(2,mini(5,int((bag_scroll.size.x-14)/96)))
+	bag_grid.columns = 1 if cells.is_empty() else maxi(2,mini(5,int((bag_scroll.size.x-14)/96)))
 
 func set_filter(value: String) -> void:
 	filter = value
@@ -173,6 +170,7 @@ func set_filter(value: String) -> void:
 func refresh() -> void:
 	wallet.text = "%d / 48 objets   ·   %d or" % [State.run.inventory.size(),State.run.gold]
 	var visible: Array = visible_items()
+	result_count.text = "%d objet%s" % [visible.size(),"s" if visible.size()!=1 else ""]
 	if not visible.any(func(item: Dictionary)->bool:return item.uid==selected_uid):
 		selected_uid = "" if visible.is_empty() else visible[0].uid
 		choose_target()
@@ -209,14 +207,15 @@ func badge_text(item: Dictionary) -> String:
 func refresh_grid() -> void:
 	clear(bag_grid);cells.clear()
 	for key: String in filter_buttons:
-		filter_buttons[key].add_theme_stylebox_override("normal",GameTheme.panel(Color("34291a") if filter==key else Color("1d1c1a"),GameTheme.GOLD if filter==key else Color("514633"),8))
+		filter_buttons[key].add_theme_stylebox_override("normal",CodexShell.selected_style() if filter==key else GameTheme.panel(Color("29231f"),Color("68523d"),8))
 	var visible: Array = visible_items()
 	if visible.is_empty():
-		text(bag_grid,"Aucun objet." if not State.run.inventory.is_empty() else "Votre sac est vide.",15,GameTheme.MUTED)
+		bag_grid.columns=1
+		text(bag_grid,"Aucun objet ne correspond à votre recherche." if not State.run.inventory.is_empty() else "Votre sac est vide.",15,CodexShell.MUTED)
 		return
 	for item: Dictionary in visible:
 		var cell: Button = action(bag_grid,"",func()->void:select_item(item.uid))
-		cell.custom_minimum_size = Vector2(88,118)
+		cell.custom_minimum_size = Vector2(88,132)
 		cell.name = item.uid
 		cell.tooltip_text = item.name+"\n"+RARITIES[clampi(int(item.rarity),0,2)]
 		cell.add_theme_stylebox_override("normal",GameTheme.panel(Color("30291e") if selected_uid==item.uid else Color("191a1d"),GameTheme.GOLD if selected_uid==item.uid else rarity(item).darkened(0.45),8))
@@ -231,46 +230,57 @@ func refresh_grid() -> void:
 		badge.name = "Badge";badge.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 		var icon: TextureRect = art(inner,item.slot,64)
 		icon.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		var caption: Label = text(inner,"Bâton" if item.slot=="staff" else "Anneau",13)
+		var caption: Label = text(inner,item.name,12,GameTheme.IVORY)
+		caption.max_lines_visible=2
+		caption.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 		caption.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 		cells[item.uid] = cell
 	fit_grid()
 
 func refresh_equipment() -> void:
 	clear(equipment_body)
+	var row: HBoxContainer=HBoxContainer.new();equipment_body.add_child(row)
 	for slot: String in ["staff","ring1","ring2"]:
 		var item: Dictionary = State.find_item(State.run.equipped[slot])
-		var line: HBoxContainer = HBoxContainer.new();equipment_body.add_child(line)
-		art(line,"staff" if slot=="staff" else "ring",58)
-		var b: Button = action(line,slot_name(slot)+("\nVide" if item.is_empty() else "\n"+RARITIES[clampi(int(item.rarity),0,2)]),func()->void:
-			if filter!="all" and filter!=item.slot: set_filter(item.slot)
+		var b: Button = action(row,slot_name(slot)+("\nVide" if item.is_empty() else "\n"+RARITIES[clampi(int(item.rarity),0,2)]),func()->void:
+			query="";search_field.text=""
+			if filter!="all" and filter!=item.slot: filter=item.slot
+			selected_uid=item.uid
+			refresh()
 			select_item(item.uid))
+		b.icon=Catalog.texture("staff" if slot=="staff" else "ring")
+		b.expand_icon=true;b.add_theme_constant_override("icon_max_width",30)
+		b.custom_minimum_size.y=64
 		b.disabled = item.is_empty()
 		b.tooltip_text = item.get("name","Emplacement vide")
-		if not item.is_empty():
-			for key: String in item.bonuses: text(equipment_body,Equipment.bonus_text(key,item.bonuses[key]),14,rarity(item))
-		equipment_body.add_child(HSeparator.new())
-	var s: Dictionary = State.stats()
-	text(equipment_body,"VOTRE PERSONNAGE",14,GameTheme.GOLD)
-	for line: String in ["Vie maximale   %.0f" % s.max_hp,"Mana maximal   %.0f" % s.max_mana,"Mana régénéré   %.2f/s" % s.mana_regen,"Résistance   %.0f %%" % (s.resistance*100)]: text(equipment_body,line,15)
+	var stats: Dictionary=State.stats()
+	text(equipment_body,"Vie max. %.0f · Mana max. %.0f\nRégénération %.2f mana/s · Résistance %.0f %%" % [stats.max_hp,stats.max_mana,stats.mana_regen,stats.resistance*100],14,CodexShell.MUTED)
 
 func refresh_details() -> void:
 	clear(detail_header);clear(detail_body);clear(action_body)
 	var item: Dictionary = State.find_item(selected_uid)
 	if item.is_empty():
-		text(detail_body,"Sélectionnez un objet dans le sac.",17,GameTheme.MUTED)
+		text(detail_body,"Sélectionnez un objet dans le sac.",17,CodexShell.MUTED)
 		return
 	var intro: HBoxContainer = HBoxContainer.new();detail_header.add_child(intro)
-	art(intro,item.slot,88)
+	art(intro,item.slot,72)
 	var names: VBoxContainer = VBoxContainer.new();names.size_flags_horizontal=Control.SIZE_EXPAND_FILL;intro.add_child(names)
-	text(names,RARITIES[clampi(int(item.rarity),0,2)],14,rarity(item))
-	text(names,item.name,19)
-	for key: String in item.bonuses: text(detail_header,Equipment.bonus_text(key,item.bonuses[key]),16,rarity(item))
+	text(names,RARITIES[clampi(int(item.rarity),0,2)],14,rarity(item).darkened(0.58))
+	# Generated catalogue names already contain every bonus; print those once below.
+	var display_name: String = item.name
+	if display_name==Equipment.item_name(item.slot,item.bonuses): display_name="Bâton" if item.slot=="staff" else "Anneau"
+	var title: Label = text(names,display_name,22)
+	title.tooltip_text=item.name
+	title.mouse_filter=Control.MOUSE_FILTER_PASS
+	title.add_theme_font_override("font",GameTheme.TITLE)
+	var bonuses: Array[String] = []
+	for key: String in item.bonuses: bonuses.append(Equipment.bonus_text(key,item.bonuses[key]))
+	text(detail_header," · ".join(bonuses),15,CodexShell.INK)
 	detail_header.add_child(HSeparator.new())
 	if item.slot=="ring":
 		var targets: HBoxContainer = HBoxContainer.new();detail_header.add_child(targets)
 		for slot: String in ["ring1","ring2"]:
-			var b: Button = action(targets,"Remplacer anneau "+slot[-1],func()->void:
+			var b: Button = action(targets,"Anneau "+slot[-1],func()->void:
 				target_slot=slot
 				refresh_details()
 				focus_target.call_deferred())
@@ -279,18 +289,47 @@ func refresh_details() -> void:
 	else: target_slot="staff"
 	var current: Dictionary = State.find_item(State.run.equipped[target_slot])
 	var removing: bool = current.get("uid","")==item.uid
-	text(detail_body,"Après retrait" if removing else "Remplacement · "+slot_name(target_slot),17,GameTheme.GOLD)
-	text(detail_body,"Actuellement : "+current.get("name","emplacement vide"),14,GameTheme.MUTED)
 	var comparison: Dictionary = EquipmentPreview.compare(item.uid,target_slot,removing)
-	text(detail_body,"AVANT → APRÈS",12,GameTheme.MUTED)
-	if comparison.rows.is_empty(): text(detail_body,"Aucun changement effectif : bonus identiques, plafonnés ou déjà actifs.",16)
-	for row: Dictionary in comparison.rows:
-		var neutral: bool = row.get("neutral",false)
-		var color: Color = GameTheme.IVORY if neutral else (GAIN if row.gain else LOSS)
-		text(detail_body,row.title,14,GameTheme.MUTED)
-		text(detail_body,("" if neutral else ("Gain · " if row.gain else "Perte · "))+row.text,15,color)
-	if not State.run.fusion.is_empty(): text(detail_body,"Fusion : ses rangs et spécialisations restent figés à sa création.",13,GameTheme.MUTED)
-	text(detail_body,"Valeurs après plafonds. DPS théoriques par ennemi, avant résistance et à mana disponible.",13,GameTheme.MUTED)
+	var summary: Dictionary = EquipmentPreview.compact(comparison)
+	text(detail_body,"SI TU LE RETIRES" if removing else "SI TU L’ÉQUIPES",13,CodexShell.MUTED)
+	if not summary.active.is_empty(): text(detail_body,"Magie active · "+Catalog.title(summary.active),15,CodexShell.INK)
+	var metrics: VBoxContainer = VBoxContainer.new();detail_body.add_child(metrics)
+	metrics.name="CompactMetrics"
+	metrics.add_theme_constant_override("separation",7)
+	for row: Dictionary in summary.metrics: compact_row(metrics,row)
+	if not summary.effects.is_empty():
+		detail_body.add_child(HSeparator.new())
+		text(detail_body,"EFFETS & SYNERGIES",12,CodexShell.MUTED)
+		var effects: VBoxContainer = VBoxContainer.new();detail_body.add_child(effects)
+		effects.name="CompactEffects"
+		effects.add_theme_constant_override("separation",7)
+		for row: Dictionary in summary.effects: compact_row(effects,row)
+	if summary.metrics.is_empty() and summary.effects.is_empty():
+		text(detail_body,"Autres effets dans les détails." if not comparison.rows.is_empty() else "Aucun changement effectif.",15,CodexShell.MUTED)
+	if not comparison.rows.is_empty():
+		var toggle: Button = action(detail_body,"",func()->void:pass)
+		toggle.name="ToggleChanges"
+		toggle.toggle_mode=true
+		toggle.button_pressed=details_expanded
+		toggle.custom_minimum_size.y=34
+		toggle.text=("▾" if details_expanded else "▸")+" Tous les changements"
+		toggle.add_theme_stylebox_override("normal",GameTheme.panel(Color(0,0,0,0),Color("84694c"),6))
+		toggle.add_theme_stylebox_override("pressed",GameTheme.panel(Color(0,0,0,0),Color("84694c"),6))
+		for state: String in ["font_color","font_pressed_color"]: toggle.add_theme_color_override(state,CodexShell.INK)
+		all_changes=VBoxContainer.new();detail_body.add_child(all_changes)
+		all_changes.name="AllChanges"
+		all_changes.visible=details_expanded
+		toggle.toggled.connect(func(expanded: bool)->void:
+			details_expanded=expanded
+			all_changes.visible=expanded
+			toggle.text=("▾" if expanded else "▸")+" Tous les changements")
+		for row: Dictionary in comparison.rows:
+			var neutral: bool = row.get("neutral",false)
+			var color: Color = CodexShell.INK if neutral else (GAIN if row.gain else LOSS)
+			text(all_changes,row.title,13,CodexShell.MUTED)
+			text(all_changes,("" if neutral else ("Gain · " if row.gain else "Perte · "))+row.text,14,color)
+		text(all_changes,"Valeurs après plafonds. DPS théoriques par ennemi, avant résistance et à mana disponible. Les salves et effets conditionnels sont détaillés séparément.",13,CodexShell.MUTED)
+
 	var button: Button
 	var action_uid: String = item.uid
 	var action_slot: String = target_slot
@@ -318,7 +357,7 @@ func refresh_details() -> void:
 			refresh()
 			focus_selection.call_deferred())
 	button.name = "InventoryAction"
-	button.add_theme_stylebox_override("normal",GameTheme.panel(Color("34291a"),GameTheme.GOLD,12))
+	button.add_theme_stylebox_override("normal",CodexShell.selected_style())
 
 func focus_selection() -> void:
 	if not is_inside_tree(): return
@@ -329,3 +368,20 @@ func focus_target() -> void:
 	if not is_inside_tree(): return
 	var target: Node = detail_header.find_child("Target_"+target_slot,true,false)
 	if target: target.grab_focus()
+
+func compact_row(parent: Node, row: Dictionary) -> void:
+	var line: HBoxContainer = HBoxContainer.new();parent.add_child(line)
+	line.add_theme_constant_override("separation",12)
+	line.tooltip_text=row.get("tooltip",row.title+" · "+row.text)
+	line.focus_mode=Control.FOCUS_ALL
+	line.mouse_filter=Control.MOUSE_FILTER_STOP
+	var title: Label=text(line,row.title,15,CodexShell.MUTED)
+	title.size_flags_stretch_ratio=1.0
+	var value: Label=text(line,row.text,16,CodexShell.INK if row.get("neutral",false) else (GAIN if row.gain else LOSS))
+	value.size_flags_stretch_ratio=1.15
+	value.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
+	# Tooltip values must also be available to keyboard users.
+	var exact: Label=text(parent,line.tooltip_text,13,CodexShell.MUTED)
+	exact.visible=false
+	line.focus_entered.connect(func()->void:exact.show())
+	line.focus_exited.connect(func()->void:exact.hide())

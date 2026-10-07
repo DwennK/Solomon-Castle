@@ -12,6 +12,7 @@ func _ready() -> void:
 		return
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	DirAccess.make_dir_recursive_absolute("res://outputs/ui-redesign")
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	DisplayServer.window_set_size(Vector2i(1440,900))
 	main = load("res://scenes/main.tscn").instantiate()
 	add_child(main)
@@ -102,7 +103,7 @@ func settle() -> void:
 
 func capture(title: String) -> void:
 	await settle()
-	await RenderingServer.frame_post_draw
+	RenderingServer.force_draw()
 	var rendered: Image = get_viewport().get_texture().get_image()
 	rendered.save_png("res://outputs/ui-redesign/"+title+".png")
 	rendered_sizes[title] = [rendered.get_width(),rendered.get_height()]
@@ -110,7 +111,7 @@ func capture(title: String) -> void:
 
 func click(control: Control) -> void:
 	await get_tree().process_frame
-	var point: Vector2 = control.get_global_rect().get_center()
+	var point: Vector2 = get_viewport().get_final_transform()*control.get_global_rect().get_center()
 	var motion: InputEventMouseMotion = InputEventMouseMotion.new()
 	motion.position=point;motion.global_position=point
 	Input.parse_input_event(motion)
