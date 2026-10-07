@@ -6,7 +6,7 @@
 script = ExtResource("1")
 id = "hurricane"
 title = "Hurricane"
-description = "A storm damages and deflects enemies and their shots while casting Lightning. Does not affect fusions."
+description = "A storm damages and pushes enemies while casting Lightning. Does not affect fusions."
 kind = "passive"
 icon = "lightning"
 prerequisite = "lightning"

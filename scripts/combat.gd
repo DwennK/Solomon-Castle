@@ -160,12 +160,6 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 		if enemy.dead and "fire" in p.elements:
 			if splash_ratio(p)>0: explosion(enemy.position,splash_radius(p),p.damage*splash_ratio(p),p.color)
 			emit_embers(enemy.position,p,p.damage)
-	if "ice" in p.elements and State.rank("chill",p.snapshot)>0:
-		for shot: MagicProjectile in world.shots.get_children():
-			if not shot.hostile: continue
-			var offset: Vector2 = shot.position-origin
-			if offset.length()<distance and player.aim.dot(offset.normalized())>cos(0.30+State.rank("cone",p.snapshot)*0.12) and world.dungeon.visible_line(origin,shot.position):
-				shot.direction = shot.direction.lerp(offset.normalized(),minf(1,delta*State.rank("chill",p.snapshot)*5)).normalized()
 
 func nearest(origin: Vector2, radius: float, excluded: Array = []) -> TowerEnemy:
 	var found: TowerEnemy
@@ -256,10 +250,6 @@ func hurricane(player: MagePlayer, delta: float) -> void:
 		if not enemy.is_targetable() or offset.length()>520: continue
 		enemy.take_damage(dps*delta,offset.normalized().orthogonal()*150*delta,true)
 		enemy.chill(0.2,0.7)
-	for shot: MagicProjectile in world.shots.get_children():
-		if shot.hostile and shot.position.distance_to(player.position)<520:
-			var outward: Vector2 = player.position.direction_to(shot.position)
-			shot.direction=shot.direction.lerp(outward.orthogonal(),minf(1,delta*4)).normalized()
 
 func ether_pulse(player: MagePlayer) -> void:
 	var charges: int = mini(player.ether_charges,State.rank("ether_charge"))

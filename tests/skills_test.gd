@@ -197,7 +197,7 @@ func actual_combat() -> void:
 	shot=world.shots.get_child(0)
 	world.player._physics_process(0.1)
 	check(behind.hp<10000 and world.player.storm_active,"Hurricane damages enemies outside aiming beam")
-	check(shot.direction!=Vector2.RIGHT,"Hurricane deflects hostile projectiles")
+	check(shot.direction==Vector2.RIGHT,"Hurricane leaves hostile projectile trajectories unchanged")
 	clear_shots()
 	# Ether maximum health reduction is bounded and persistent per enemy.
 	State.run.skills={"missile":1,"ether_charge":2};State.run.active="missile"

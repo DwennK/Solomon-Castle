@@ -136,7 +136,7 @@ static func passive_effect(id: String, rank_value: int, source: Node = null) -> 
 		"poison_resist": return "−%d %% poison damage; combines multiplicatively with items" % int([0,10,20,30,35,40,45,50,55,60][clampi(rank_value,0,9)])
 		"immolation": return "Embers: explode after 0.6 s, radius 65 u, ember damage ×%.1f; +%d mana/shot. No explosion if intercepted." % [1+0.2*rank_value,10*rank_value]
 		"ether_charge": return "While not firing: 1 charge/s, up to %d; next shot: 320 u wave, −10 %% max. health/charge (does not stack)" % rank_value
-		"hurricane": return "While casting Lightning: %.1f storm DPS, radius 520 u, deflects enemies and shots; +%d mana/s" % [float([0,10,15,18,21,24,25,26,27][clampi(rank_value,0,8)])*source.stats().damage,6*rank_value]
+		"hurricane": return "While casting Lightning: %.1f storm DPS, radius 520 u, pushes enemies; +%d mana/s" % [float([0,10,15,18,21,24,25,26,27][clampi(rank_value,0,8)])*source.stats().damage,6*rank_value]
 		"harden":
 			var armor: Dictionary = CombatSystem.harden_profile(rank_value)
 			return "While casting Ice Stream: +%d armor/s, up to %d; includes poison; +%d mana/s. Lost when casting stops." % [armor.regen,armor.cap,6*rank_value]
