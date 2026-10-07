@@ -469,52 +469,23 @@ func item_description(item: Dictionary) -> String:
 		bits.append(Equipment.bonus_text(key,float(item.bonuses[key])))
 	return ["Enchanté","Rare","Épique"][int(item.rarity)]+" · "+" / ".join(bits)
 
-func compare_item(item: Dictionary, slot: String = "") -> String:
-	if slot.is_empty(): slot = "staff" if item.slot=="staff" else "ring1"
-	var old: Dictionary = State.find_item(State.run.equipped[slot])
-	var changes: Array[String] = []
-	var keys: Array = item.bonuses.keys()
-	for key: String in old.get("bonuses",{}):
-		if not key in keys: keys.append(key)
-	for key: String in keys:
-		var diff: float = float(item.bonuses.get(key,0))-float(old.get("bonuses",{}).get(key,0))
-		if not is_zero_approx(diff): changes.append(Equipment.bonus_text(key,diff))
-	return "Remplace "+("le bâton" if slot=="staff" else "l’anneau "+slot[-1])+" : "+(", ".join(changes) if not changes.is_empty() else "bonus identiques")
-
 func show_inventory(selling: bool = false) -> void:
-	var v: VBoxContainer = panel("Votre sac" if not selling else "Vendre à Basile","%d / 48 objets · %d or · Un bâton et deux anneaux."%[State.run.inventory.size(),State.run.gold],"inventory",1120)
-	var s: Dictionary = State.stats()
-	label(v,"Éclats de savoir : %d" % State.run.get("insight",1),16,GameTheme.GOLD)
-	label(v,"Vie %.0f · Mana %.0f · Régén. %.1f/s · Dégâts +%.0f puis ×%.2f · Coût ×%.2f"%[s.max_hp,s.max_mana,s.mana_regen,s.flat_damage,s.damage,1-s.cost_reduction],18)
-	label(v,"Or +%.0f %% · XP +%.0f %% · Poison −%.0f %% · Cadence ×%.2f"%[s.gold_bonus*100,s.xp_bonus*100,s.poison_resistance*100,s.cast_speed],16,GameTheme.MUTED)
-	var powers: Array[String] = []
-	if s.telekinesis: powers.append("Télékinésie : ramassage étendu")
-	if s.meditation: powers.append("Méditation : mana ×4 au repos")
-	if s.mental_focus: powers.append("Concentration mentale : recharge des rituels ÷2")
-	if not powers.is_empty(): label(v," · ".join(powers),16,GameTheme.GOLD)
-	section(v,"Équipement porté")
-	var equipment: HBoxContainer = HBoxContainer.new();v.add_child(equipment)
-	for slot: String in ["staff","ring1","ring2"]:
-		var equipped: Dictionary = State.find_item(State.run.equipped[slot])
-		button(equipment,("Bâton" if slot=="staff" else "Anneau "+slot[-1])+" : "+equipped.get("name","vide")+ (" — retirer" if not equipped.is_empty() else ""),func()->void:State.unequip(slot);show_inventory(selling),equipped.is_empty(),"staff" if slot=="staff" else "ring")
-	section(v,"Dans votre sac")
-	if State.run.inventory.is_empty(): label(v,"Votre sac est vide. Les coffres et les gardiens renferment des objets.")
-	for item: Dictionary in State.run.inventory:
-		var item_box: PanelContainer = PanelContainer.new();v.add_child(item_box)
-		item_box.add_theme_stylebox_override("panel",GameTheme.panel(Color("18181a"),rarity_color(item.rarity).darkened(0.6),12))
-		var item_body: VBoxContainer = VBoxContainer.new();item_box.add_child(item_body)
-		var equipped: bool = item.uid in State.run.equipped.values()
-		label(item_body,item.name+("  [équipé]" if equipped else ""),18,GameTheme.IVORY)
-		label(item_body,item_description(item),16,rarity_color(item.rarity))
-		if selling:
-			button(item_body,"Vendre · %d or"%maxi(1,int(item.price/3)),func()->void:State.sell(item.uid);show_inventory(true),equipped)
-		elif not equipped:
-			for slot: String in (["staff"] if item.slot=="staff" else ["ring1","ring2"]):
-				label(item_body,compare_item(item,slot),14,GameTheme.MUTED)
-				button(item_body,"Équiper le bâton" if slot=="staff" else "Équiper — anneau "+slot[-1],func()->void:State.equip(item.uid,slot);show_inventory(),false,"staff" if slot=="staff" else "ring")
+	destroy_modal()
+	modal_kind = "inventory"
+	get_tree().paused = is_instance_valid(world)
+	if get_tree().paused: Sound.stop_world()
+	var inventory: InventoryView = InventoryView.new()
+	inventory.selling = selling
+	inventory.close_requested.connect(close_modal)
+	inventory.section_requested.connect(on_inventory_section)
+	modal = inventory
+	ui.add_child(inventory)
 
-	button(v,"Retour à l’échoppe" if selling else "Fermer",show_merchant if selling else close_modal)
-	focus_first(v)
+func on_inventory_section(section_name: String) -> void:
+	match section_name:
+		"skills": show_skills()
+		"map": show_map()
+		"merchant": show_merchant()
 
 func show_skills() -> void:
 	var v: VBoxContainer = panel("Le grimoire","Magies actives, rituels et savoirs acquis. Les fusions se choisissent lors des niveaux multiples de cinq.","skills",1000)

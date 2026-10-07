@@ -15,6 +15,7 @@ func _ready() -> void:
 		return
 	process_mode=Node.PROCESS_MODE_ALWAYS
 	State.save_path="user://qa_equipment_ui.json"
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	DisplayServer.window_set_size(Vector2i(1440,900))
 	DirAccess.make_dir_recursive_absolute("res://outputs/equipment-ui")
 	main=load("res://scenes/main.tscn").instantiate()
@@ -32,12 +33,14 @@ func _ready() -> void:
 	main.show_inventory()
 	await settle()
 	var ring: Dictionary = State.run.inventory[0]
+	await click_text("Remplacer anneau 2")
 	await click_text("Équiper — anneau 2")
 	check(State.run.equipped.ring2==ring.uid and State.run.equipped.ring1.is_empty(),"Click equips the selected ring slot")
 	check(State.stats().xp_bonus==1,"Equipped ring changes real XP multiplier")
 	await capture("inventory-1440x900")
-	await click_prefix("Anneau 2 :")
+	await click_text("Retirer · Anneau 2")
 	check(State.run.equipped.ring2.is_empty() and State.stats().xp_bonus==0,"Click removes ring and its bonus")
+	await click_text("Remplacer anneau 1")
 	await click_text("Équiper — anneau 1")
 	check(State.run.equipped.ring1==ring.uid,"Same ring can be placed in the first slot")
 	State.equip(State.run.inventory[1].uid)
@@ -58,15 +61,22 @@ func _ready() -> void:
 	await capture("selling-1440x900")
 	var sale: Dictionary=State.run.inventory[3]
 	var gold_before: int=State.run.gold
+	main.modal.select_item(sale.uid)
+	await settle()
 	await click_text("Vendre · %d or"%maxi(1,int(sale.price/3)))
-	check(State.find_item(sale.uid).is_empty() and State.run.gold==gold_before+maxi(1,int(sale.price/3)),"Sale button removes one item and pays exactly once")
+	check(State.find_item(sale.uid).is_empty() and State.run.gold==gold_before+maxi(1,int(sale.price/3)),"Sale button removes one item and pays exactly once: selected=%s sold=%s gold=%d expected=%d" % [main.modal.selected_uid,sale.uid,State.run.gold,gold_before+maxi(1,int(sale.price/3))])
+	main.modal.select_item(State.run.equipped.ring2)
+	await click_text("Retirer · Anneau 2")
+	check(State.run.equipped.ring2.is_empty(),"Equipped item can be removed in sale mode")
 	for size: Vector2i in [Vector2i(960,600)]:
 		DisplayServer.window_set_size(size)
 		main.show_inventory()
 		await capture("inventory-960x600")
-		await click_prefix("Anneau 1 :")
+		main.modal.select_item(ring.uid)
+		await click_text("Retirer · Anneau 1")
 		check(State.run.equipped.ring1.is_empty(),"Remove remains usable in minimum desktop window")
 	DisplayServer.window_set_size(Vector2i(1440,900))
+	await full_inventory_checks()
 	var report: Dictionary={"errors":errors,"captures":captures,"interactions":"Native mouse clicks: equip each ring slot, remove, buy; grimoire, merchant and sale rendering"}
 	var file: FileAccess=FileAccess.open("res://outputs/equipment-ui/report.json",FileAccess.WRITE)
 	file.store_string(JSON.stringify(report,"\t"));file.close()
@@ -122,3 +132,95 @@ func capture(name: String) -> void:
 	var rendered: Image=get_viewport().get_texture().get_image()
 	rendered.save_png("res://outputs/equipment-ui/"+name+".png")
 	captures.append({"name":name,"width":rendered.get_width(),"height":rendered.get_height()})
+
+func fixture(id: String, rng: RandomNumberGenerator) -> Dictionary:
+	for template: Dictionary in Equipment.templates():
+		if template.id==id:
+			var item: Dictionary=State.make_equipment(template,rng)
+			State.run.inventory.append(item)
+			return item
+	return {}
+
+func full_inventory_checks() -> void:
+	await settle()
+	State.fresh(881)
+	for id: String in ["missile","fire","life","mana","regen","shield"]: State.learn(id)
+	State.run.skills.life=2;State.run.skills.regen=2
+	var rng: RandomNumberGenerator=RandomNumberGenerator.new();rng.seed=81
+	var staff: Dictionary=fixture("staff_2_27",rng)
+	var ring_a: Dictionary=fixture("ring_1_19",rng)
+	var ring_b: Dictionary=fixture("ring_0_07",rng)
+	var candidate: Dictionary=fixture("ring_1_17",rng)
+	State.equip(staff.uid,"staff");State.equip(ring_a.uid,"ring1");State.equip(ring_b.uid,"ring2")
+	for i: int in range(44): State.run.inventory.append(State.make_item(1100+i,8))
+	main.show_inventory()
+	await settle()
+	var view: InventoryView=main.modal
+	check(view.cells.size()==48,"Full bag renders all 48 objects")
+	await click_button(view.cells[candidate.uid])
+	await click_text("Remplacer anneau 1")
+	check(view.selected_uid==candidate.uid and view.target_slot=="ring1","Mouse selects candidate and first ring comparison")
+	var detail: String=all_text(view.detail_body)
+	check(detail.contains("Gain ·") and detail.contains("Perte ·") and detail.contains("→"),"Comparison shows real before/after gains and losses together")
+	check(State.run.equipped.ring1==ring_a.uid,"Selecting comparison never equips")
+	await capture("comparison-full-bag-1440x900")
+	var bounds: Rect2=view.detail_body.get_parent().get_global_rect()
+	view.bag_scroll.scroll_vertical=500
+	await settle()
+	check(view.bag_scroll.scroll_vertical>0,"Full bag scrolls")
+	check(view.detail_body.get_parent().get_global_rect()==bounds,"Detail column stays fixed while bag scrolls")
+	var last: Dictionary=State.run.inventory[-1]
+	check(view.cells[last.uid].get_node("Content/Badge").text=="NOUVEAU","Uninspected loot marked new")
+	await click_button(view.cells[last.uid])
+	check(last.get("inspected",false),"Selecting loot marks it inspected")
+	check(view.cells[last.uid].get_node("Content/Badge").text!="NOUVEAU","New marker disappears on inspection")
+	var scroll_before: int=view.bag_scroll.scroll_vertical
+	await click_button(view.action_body.get_node("InventoryAction"))
+	check(view.selected_uid==last.uid and view.bag_scroll.scroll_vertical==scroll_before,"Equipping retains selection and bag scroll")
+	check(get_viewport().gui_get_focus_owner()==view.cells[last.uid],"Keyboard focus survives equipment action")
+	await click_text("Bâtons")
+	check(view.visible_items().all(func(item: Dictionary)->bool:return item.slot=="staff"),"Staff filter contains only staves")
+	check(view.cells.size()==view.visible_items().size(),"Filter updates visible grid")
+	await click_text("Anneaux")
+	check(view.visible_items().all(func(item: Dictionary)->bool:return item.slot=="ring"),"Ring filter contains only rings")
+	await click_text("Tous")
+	check(view.cells.size()==48,"All filter restores all items")
+	await click_button(view.cells[candidate.uid])
+	await click_text("Remplacer anneau 2")
+	check(view.target_slot=="ring2","Second ring can be compared independently")
+	check(State.run.equipped.ring2!=candidate.uid,"Ring target selection remains read-only")
+	await capture("comparison-ring2-1440x900")
+	await click_text("Équiper — anneau 2")
+	check(State.run.equipped.ring2==candidate.uid,"Comparison action equips the chosen second ring")
+	# Check the same open panel at desktop window sizes, without reconstruction.
+	for size: Vector2i in [Vector2i(1600,1000),Vector2i(960,600)]:
+		DisplayServer.window_set_size(size)
+		await settle()
+		for name: String in ["EquipmentColumn","BagColumn","DetailsColumn"]:
+			var column: Control=view.find_child(name,true,false)
+			check(get_viewport().get_visible_rect().encloses(column.get_global_rect()),"Column fits viewport: "+name+str(size))
+		check(view.detail_body.size.x<=view.detail_scroll.size.x,"Detail content fits column: %s / %s" % [view.detail_body.size.x,view.detail_scroll.size.x])
+		check(view.detail_scroll.get_h_scroll_bar().max_value<=view.detail_scroll.size.x+1,"Detail has no horizontal overflow: %s / %s" % [view.detail_scroll.get_h_scroll_bar().max_value,view.detail_scroll.size.x])
+		check(view.bag_scroll.get_h_scroll_bar().max_value<=view.bag_scroll.size.x+1,"Bag has no horizontal overflow")
+		await capture("full-bag-%dx%d" % [size.x,size.y])
+	DisplayServer.window_set_size(Vector2i(1440,900))
+	await settle()
+	await click_text("Grimoire")
+	check(main.modal_kind=="skills","Inventory navigation opens grimoire")
+	main.show_inventory()
+	var key: InputEventKey=InputEventKey.new();key.keycode=KEY_ESCAPE;key.physical_keycode=KEY_ESCAPE;key.pressed=true
+	Input.parse_input_event(key)
+	await settle()
+	key=InputEventKey.new();key.keycode=KEY_ESCAPE;key.physical_keycode=KEY_ESCAPE;key.pressed=false
+	Input.parse_input_event(key)
+	check(main.modal_kind.is_empty() and not get_tree().paused,"Escape closes inventory and resumes gameplay")
+	main.show_inventory()
+	# Empty bag and an empty filter retain a reachable close/navigation path.
+	State.run.equipped={"staff":"","ring1":"","ring2":""};State.run.inventory=[]
+	view=main.modal;view.refresh()
+	check(view.cells.is_empty() and all_text(view.detail_body).contains("Sélectionnez"),"Empty bag clears stale selection and comparison")
+	fixture("staff_0_00",rng)
+	view.refresh()
+	await click_text("Anneaux")
+	check(view.cells.is_empty() and view.selected_uid.is_empty(),"Empty filter clears stale item")
+	await capture("empty-filter-1440x900")

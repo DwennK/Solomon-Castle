@@ -2,14 +2,16 @@ class_name CombatSystem
 extends RefCounted
 
 var world: Node2D
+# A detached State instance may supply read-only equipment previews.
+var stats_source: Node = State
 const COLORS: Dictionary = {"missile":Color("bba2f1"),"fire":Color("ffac62"),"lightning":Color("f7df94"),"ice":Color("8bdce9"),"fire_missile":Color("ffc486"),"flame_lash":Color("ffa568"),"steam":Color("d3e0df"),"ball_lightning":Color("ceb7ff"),"frost_missile":Color("a3e8fd"),"blizzard":Color("b9f5ff")}
 
 func profile(id: String, preview_rank: int = -1, refresh_fusion: bool = false) -> Dictionary:
 	var d: ContentDefinition = Catalog.definition(id)
-	var snapshot: Dictionary = State.run.fusion.get("snapshot",{}) if d.kind == "fusion" and State.run.fusion.get("id","")==id and not refresh_fusion else {}
+	var snapshot: Dictionary = stats_source.run.fusion.get("snapshot",{}) if d.kind == "fusion" and stats_source.run.fusion.get("id","")==id and not refresh_fusion else {}
 	var elements: Array = d.values.get("elements",[id])
 	var level: float = 0.0
-	for element: String in elements: level += maxf(1,State.rank(element,snapshot))
+	for element: String in elements: level += maxf(1,stats_source.rank(element,snapshot))
 	level /= elements.size()
 	if preview_rank>=0 and d.kind=="primary": level=maxi(1,preview_rank)
 	var channel: bool = id in ["lightning","ice","flame_lash","steam","blizzard"]
@@ -19,15 +21,15 @@ func profile(id: String, preview_rank: int = -1, refresh_fusion: bool = false) -
 	var mana: float = {"missile":6.0,"fire":10.0,"lightning":17.0,"ice":14.0,"fire_missile":14.0,"flame_lash":26.0,"steam":25.0,"ball_lightning":16.0,"frost_missile":13.0,"blizzard":26.0}.get(id,6.0)
 	if d.kind == "primary": mana = float(d.values.mana)
 	mana *= 1.0+(level-1)*0.10
-	var multi: int = 1+State.rank("multishot",snapshot) if "missile" in elements else 1
+	var multi: int = 1+stats_source.rank("multishot",snapshot) if "missile" in elements else 1
 	mana += (multi-1)*2.0
 	for element: String in elements:
 		for sub: String in {"missile":["potent"],"fire":["explode","embers"],"lightning":["chain","stun"],"ice":["cone","chill"]}[element]:
-			mana += State.rank(sub,snapshot)*(1.0 if sub=="potent" else 2.0)
+			mana += stats_source.rank(sub,snapshot)*(1.0 if sub=="potent" else 2.0)
 	if d.kind=="primary":
 		var major: String = {"missile":"ether_charge","fire":"immolation","lightning":"hurricane","ice":"harden"}[id]
-		mana += State.rank(major)*(0.0 if id=="missile" else (10.0 if id=="fire" else 6.0))
-	return {"id":id,"damage":(damage+State.stats().flat_damage)*State.stats().damage,"mana":mana,"channel":channel,"cooldown":(0.55 if "fire" in elements else 0.38)/State.stats().cast_speed,"multi":multi,"snapshot":snapshot,"elements":elements,"color":COLORS.get(id,Color.WHITE)}
+		mana += stats_source.rank(major)*(0.0 if id=="missile" else (10.0 if id=="fire" else 6.0))
+	return {"id":id,"damage":(damage+stats_source.stats().flat_damage)*stats_source.stats().damage,"mana":mana,"channel":channel,"cooldown":(0.55 if "fire" in elements else 0.38)/stats_source.stats().cast_speed,"multi":multi,"snapshot":snapshot,"elements":elements,"color":COLORS.get(id,Color.WHITE)}
 
 const PROJECTILE_SPEED: float = 510.0
 const PROJECTILE_LIFETIME: float = 2.1
@@ -39,32 +41,32 @@ const ORB_PULSE_RADIUS: float = 125.0
 const BURN_DPS: float = 8.0
 
 func channel_range(p: Dictionary) -> float:
-	return 350.0+State.rank("cone",p.snapshot)*18 if "ice" in p.elements else 470.0
+	return 350.0+stats_source.rank("cone",p.snapshot)*18 if "ice" in p.elements else 470.0
 
 func splash_ratio(p: Dictionary) -> float:
 	if p.get("ember",false): return 0.0
-	if "fire" in p.elements and State.rank("explode",p.snapshot)>0:
-		return 0.55+0.05*(State.rank("explode",p.snapshot)-1)
+	if "fire" in p.elements and stats_source.rank("explode",p.snapshot)>0:
+		return 0.55+0.05*(stats_source.rank("explode",p.snapshot)-1)
 	return 0.3 if p.id=="frost_missile" else 0.0
 
 func splash_radius(p: Dictionary) -> float:
-	if p.id=="frost_missile": return 75.0+State.rank("cone",p.snapshot)*18.0
-	return 60.0+State.rank("explode",p.snapshot)*18 if splash_ratio(p)>0 else 0.0
+	if p.id=="frost_missile": return 75.0+stats_source.rank("cone",p.snapshot)*18.0
+	return 60.0+stats_source.rank("explode",p.snapshot)*18 if splash_ratio(p)>0 else 0.0
 
 func secondary_profile(id: String, preview_rank: int = -1) -> Dictionary:
 	var d: ContentDefinition = Catalog.definition(id)
-	var rank_value: int = maxi(1,State.rank(id) if preview_rank<0 else preview_rank)
+	var rank_value: int = maxi(1,stats_source.rank(id) if preview_rank<0 else preview_rank)
 	var p: Dictionary = {"mana":float(d.values.mana),"cooldown":float(d.values.cooldown),"damage":0.0,"radius":0.0,"duration":0.0,"power":0.0,"rank":rank_value,"offensive":id in ["freeze","ring_fire","acid","undead"]}
-	if State.stats().mental_focus: p.cooldown *= 0.5
+	if stats_source.stats().mental_focus: p.cooldown *= 0.5
 	# Utility and offensive rituals retain their local base costs; upgrades cost mana.
 	if id not in ["teleport","shield"]: p.mana += (rank_value-1)*5.0
 	match id:
 		"teleport": p.duration=1.0
 		"shield": p.power=45.0*rank_value
 		"circle": p.radius=150.0+rank_value*25;p.duration=18.0
-		"freeze": p.radius=260.0;p.damage=8.0*rank_value+State.stats().flat_damage;p.duration=2.0+rank_value
-		"ring_fire": p.radius=250.0;p.damage=(45.0*rank_value+State.stats().flat_damage)*State.stats().damage
-		"acid": p.radius=180.0;p.duration=7.0;p.power=(14.0*rank_value+State.stats().flat_damage)*State.stats().damage;p.damage=p.power*p.duration
+		"freeze": p.radius=260.0;p.damage=8.0*rank_value+stats_source.stats().flat_damage;p.duration=2.0+rank_value
+		"ring_fire": p.radius=250.0;p.damage=(45.0*rank_value+stats_source.stats().flat_damage)*stats_source.stats().damage
+		"acid": p.radius=180.0;p.duration=7.0;p.power=(14.0*rank_value+stats_source.stats().flat_damage)*stats_source.stats().damage;p.damage=p.power*p.duration
 		"undead": p.radius=340.0;p.duration=4.0+rank_value
 	return p
 

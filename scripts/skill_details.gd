@@ -3,14 +3,16 @@ extends RefCounted
 
 # Figures describe one enemy before its resistance, with uninterrupted hits and mana.
 # Conditional damage is kept separate instead of assuming a crowd or perfect overlap.
-static func attack(id: String, next_rank: bool = false) -> Dictionary:
+static func attack(id: String, next_rank: bool = false, source: Node = null) -> Dictionary:
+	if source == null: source = State
 	var d: ContentDefinition = Catalog.definition(id)
 	var combat: CombatSystem = CombatSystem.new()
-	var rank_value: int = maxi(1,State.effective_rank(id,State.learned_rank(id)+1,State.equipment_bonuses()) if next_rank else State.rank(id))
+	combat.stats_source = source
+	var rank_value: int = maxi(1,source.effective_rank(id,source.learned_rank(id)+1,source.equipment_bonuses()) if next_rank else source.rank(id))
 	var result: Dictionary = {"damage":0.0,"dps":0.0,"cost":0.0,"range":0.0,"cooldown":0.0,"unit":"/impact","extra":[],"effect":"","range_label":"Portée","dps_label":"DPS / ennemi"}
 	if d.kind=="secondary":
 		var p: Dictionary = combat.secondary_profile(id,rank_value)
-		result.damage=p.damage;result.cost=State.mana_cost(p.mana,p.offensive)
+		result.damage=p.damage;result.cost=source.mana_cost(p.mana,p.offensive)
 		result.cooldown=p.cooldown;result.range=p.radius;result.range_label="Rayon"
 		result.dps=p.damage/p.cooldown
 		result.dps_label="DPS moyen / ennemi"
@@ -28,24 +30,24 @@ static func attack(id: String, next_rank: bool = false) -> Dictionary:
 		return result
 	var preview: int = rank_value if d.kind=="primary" else -1
 	var p: Dictionary = combat.profile(id,preview,next_rank)
-	result.cost=State.mana_cost(p.mana)
+	result.cost=source.mana_cost(p.mana)
 	result.cooldown=0.0 if p.channel else p.cooldown
 	result.damage=p.damage
 	result.dps=p.damage if p.channel else p.damage/p.cooldown
 	if p.channel:
 		result.unit="/s";result.range=combat.channel_range(p)
 		if id in ["lightning","flame_lash"]:
-			result.effect="Jusqu’à %d cibles · rebonds de 180 u · DPS identique par cible" % (1+State.rank("chain",p.snapshot)+(1 if id=="flame_lash" else 0))
+			result.effect="Jusqu’à %d cibles · rebonds de 180 u · DPS identique par cible" % (1+source.rank("chain",p.snapshot)+(1 if id=="flame_lash" else 0))
 		else: result.effect="Traverse les ennemis du jet · DPS identique par cible"
 		if "ice" in p.elements:
 			result.effect += " · ralentit"
 		if id=="blizzard": result.effect += " et fige"
 		if id=="flame_lash":
 			result.extra.append("Brûlure : +%.1f DPS / ennemi, puis 1 s après contact (non cumulable)" % CombatSystem.BURN_DPS)
-		if "lightning" in p.elements and State.rank("stun",p.snapshot)>0:
-			result.extra.append("Interruption : %.2f s (boss : 0,35 s max.)" % (0.05+State.rank("stun",p.snapshot)*0.08))
+		if "lightning" in p.elements and source.rank("stun",p.snapshot)>0:
+			result.extra.append("Interruption : %.2f s (boss : 0,35 s max.)" % (0.05+source.rank("stun",p.snapshot)*0.08))
 	else:
-		result.range=CombatSystem.PROJECTILE_SPEED*(1+CombatSystem.missile_speed_bonus(State.rank("potent",p.snapshot)) if "missile" in p.elements else 1.0)*CombatSystem.PROJECTILE_LIFETIME
+		result.range=CombatSystem.PROJECTILE_SPEED*(1+CombatSystem.missile_speed_bonus(source.rank("potent",p.snapshot)) if "missile" in p.elements else 1.0)*CombatSystem.PROJECTILE_LIFETIME
 		result.effect="Un projectile touche une cible par salve"
 		var splash: float = combat.splash_ratio(p)
 		if splash>0:
@@ -60,18 +62,18 @@ static func attack(id: String, next_rank: bool = false) -> Dictionary:
 			result.extra.append("Pulsations : +%.1f DPS par orbe sur l’ennemi le plus proche à %.0f u" % [p.damage*CombatSystem.ORB_PULSE_RATIO/CombatSystem.ORB_PULSE_INTERVAL,CombatSystem.ORB_PULSE_RADIUS])
 			result.effect="Orbe guidée · pulsations toutes les 0,25 s, jusqu’à l’impact (3 s max.)"
 		if id=="frost_missile": result.effect+=" · gel 0,8 s direct / 0,5 s zone (boss : 0,35 s max.)"
-		var embers: int = State.rank("embers",p.snapshot) if "fire" in p.elements else 0
+		var embers: int = source.rank("embers",p.snapshot) if "fire" in p.elements else 0
 		if embers>0:
 			var shard: float = p.damage*0.25
 			result.extra.append("%d éclats / impact : %.1f dégâts chacun · +%.1f DPS si un éclat touche à chaque salve" % [embers*3,shard,shard/p.cooldown])
-	if id in ["blizzard","ball_lightning"] and State.rank("chain",p.snapshot)>0:
-		result.extra.append("Chaînes : jusqu’à %d cibles supplémentaires, sans double impact" % State.rank("chain",p.snapshot))
+	if id in ["blizzard","ball_lightning"] and source.rank("chain",p.snapshot)>0:
+		result.extra.append("Chaînes : jusqu’à %d cibles supplémentaires, sans double impact" % source.rank("chain",p.snapshot))
 	if p.channel and "fire" in p.elements:
 		if combat.splash_ratio(p)>0: result.extra.append("À la mort d’une cible : explosion de %.1f dégâts, rayon %.0f u" % [p.damage*combat.splash_ratio(p),combat.splash_radius(p)])
-		if State.rank("embers",p.snapshot)>0: result.extra.append("À la mort d’une cible : %d braises de %.1f dégâts" % [State.rank("embers",p.snapshot)*3,p.damage*0.25])
+		if source.rank("embers",p.snapshot)>0: result.extra.append("À la mort d’une cible : %d braises de %.1f dégâts" % [source.rank("embers",p.snapshot)*3,p.damage*0.25])
 	if d.kind=="primary":
 		var major: String = {"missile":"ether_charge","fire":"immolation","lightning":"hurricane","ice":"harden"}[id]
-		if State.rank(major)>0: result.extra.append(passive_effect(major,State.rank(major)))
+		if source.rank(major)>0: result.extra.append(passive_effect(major,source.rank(major),source))
 	return result
 
 static func rows(id: String, next_rank: bool = false) -> Dictionary:
@@ -116,7 +118,8 @@ static func text(id: String, compare: bool = true, acquiring: bool = false) -> S
 		if d.kind=="fusion": lines.append("Rangs figés ; réapprendre actualise la fusion.")
 	return "\n".join(lines)
 
-static func passive_effect(id: String, rank_value: int) -> String:
+static func passive_effect(id: String, rank_value: int, source: Node = null) -> String:
+	if source == null: source = State
 	match id:
 		"life": return "+%d vie max." % (24*rank_value)
 		"mana": return "+%d mana max." % (28*rank_value)
@@ -133,7 +136,7 @@ static func passive_effect(id: String, rank_value: int) -> String:
 		"poison_resist": return "−%d %% dégâts de poison ; se combine multiplicativement avec les objets" % int([0,10,20,30,35,40,45,50,55,60][clampi(rank_value,0,9)])
 		"immolation": return "Braises : explosion après 0,6 s, rayon 65 u, dégâts de braise ×%.1f ; +%d mana/tir. Aucune explosion si interceptée." % [1+0.2*rank_value,10*rank_value]
 		"ether_charge": return "Au repos du tir : 1 charge/s, maximum %d ; prochain tir : onde de 320 u, −10 %% vie max./charge (non cumulable)" % rank_value
-		"hurricane": return "Pendant Éclair : %.1f DPS de tempête, rayon 520 u, dévie ennemis et tirs ; +%d mana/s" % [float([0,10,15,18,21,24,25,26,27][clampi(rank_value,0,8)])*State.stats().damage,6*rank_value]
+		"hurricane": return "Pendant Éclair : %.1f DPS de tempête, rayon 520 u, dévie ennemis et tirs ; +%d mana/s" % [float([0,10,15,18,21,24,25,26,27][clampi(rank_value,0,8)])*source.stats().damage,6*rank_value]
 		"harden":
 			var armor: Dictionary = CombatSystem.harden_profile(rank_value)
 			return "Pendant Jet de glace : +%d armure/s, maximum %d ; poison inclus ; +%d mana/s. Disparaît à l’arrêt." % [armor.regen,armor.cap,6*rank_value]
