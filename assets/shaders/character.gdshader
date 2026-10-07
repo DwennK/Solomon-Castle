@@ -4,6 +4,9 @@ uniform float clock = 0.0;
 uniform float flash = 0.0;
 uniform float dissolve = 0.0;
 uniform vec4 rim_color : source_color = vec4(0.25, 0.65, 0.72, 1.0);
+uniform vec4 environment_color : source_color = vec4(1.0);
+uniform vec2 light_direction = vec2(-0.6, -0.8);
+uniform float light_strength = 0.0;
 varying vec4 vertex_tint;
 void vertex() {
 	vertex_tint = COLOR;
@@ -14,7 +17,9 @@ void fragment() {
 	vec4 tex = texture(TEXTURE, UV);
 	vec2 step_uv = TEXTURE_PIXEL_SIZE * 1.5;
 	float edge = max(0.0, tex.a - texture(TEXTURE, UV + vec2(step_uv.x, 0.0)).a);
-	vec3 lit = tex.rgb + edge * rim_color.rgb * 0.65;
+	vec3 lit = tex.rgb * environment_color.rgb + edge * rim_color.rgb * 0.65;
+	float local_edge = max(0.0, tex.a - texture(TEXTURE, UV + step_uv * light_direction).a);
+	lit += local_edge * environment_color.rgb * light_strength * 0.22;
 	lit = mix(lit, vec3(1.0, 0.88, 0.66), flash * 0.7);
 	float noise = fract(sin(dot(floor(UV * 130.0), vec2(12.9898,78.233))) * 43758.5453);
 	float threshold = dissolve * 1.4 - (1.0 - UV.y) * 0.35;

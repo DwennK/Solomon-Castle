@@ -74,6 +74,7 @@ func load_floor(number: int, resume: bool = false) -> void:
 		if not State.run.floors.has(key): State.run.floors[key] = Dungeon.generate(State.run.seed,number,State.run.difficulty)
 		floor_data = State.run.floors[key]
 		dungeon.build(floor_data)
+		dungeon.interior.mount_decorations(actors)
 		loot = floor_data.loot
 		for record: Dictionary in floor_data.props: add_prop(record)
 		add_prop({"kind":"stairs","pos":floor_data.exit,"id":"exit"},"Sommet" if number==13 else "Étage suivant")
@@ -88,6 +89,9 @@ func load_floor(number: int, resume: bool = false) -> void:
 	player = PLAYER_SCENE.instantiate() as MagePlayer
 	player.world = self
 	actors.add_child(player)
+	if not village:
+		player.visual.environment = dungeon.interior
+		for enemy: TowerEnemy in enemies: enemy.visual.environment = dungeon.interior
 	player.cooldowns = State.run.get("cooldowns",{}).duplicate()
 	player.shield = float(State.run.get("shield",0.0))
 	if village:

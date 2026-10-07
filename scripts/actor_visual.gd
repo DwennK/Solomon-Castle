@@ -18,6 +18,12 @@ var sprite: Sprite2D
 var cloth: ShaderMaterial
 var gait: float = 0.0
 var elapsed: float = 0.0
+var environment: DungeonInterior
+var environment_clock: float = 0.0
+var environment_target: Color = Color.WHITE
+var environment_color: Color = Color.WHITE
+var light_direction: Vector2 = Vector2(-0.6,-0.8)
+var light_strength: float = 0.0
 
 func _ready() -> void:
 	phase = float(get_instance_id()%29)*0.21
@@ -30,6 +36,15 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	elapsed += delta
+	if environment:
+		environment_clock -= delta
+		if environment_clock<=0:
+			environment_clock = 0.12
+			var sample: Dictionary = environment.sample_light(global_position)
+			environment_target = sample.color
+			light_direction = sample.direction
+			light_strength = sample.strength
+		environment_color = environment_color.lerp(environment_target,minf(1.0,delta*6.0))
 	gait = move_toward(gait,1.0 if moving and not frozen else 0.0,delta*7.0)
 	phase += delta*lerpf(2.0,10.0,gait)*(0.0 if frozen else 1.0)
 	attack = maxf(0.0,attack-delta*4.0)
@@ -49,6 +64,9 @@ func _process(delta: float) -> void:
 		cloth.set_shader_parameter("flash",hit_flash*(0.2 if State.options.reduced_effects else 1.0))
 		cloth.set_shader_parameter("dissolve",dying)
 		cloth.set_shader_parameter("rim_color",aura())
+		cloth.set_shader_parameter("environment_color",environment_color)
+		cloth.set_shader_parameter("light_direction",light_direction)
+		cloth.set_shader_parameter("light_strength",light_strength)
 	queue_redraw()
 
 func aura() -> Color:
@@ -57,6 +75,13 @@ func aura() -> Color:
 
 func _draw() -> void:
 	var color: Color = aura()
+	if environment:
+		var grounded: float = (1.0-dying)*(0.65 if kind=="ghost" else 1.0)
+		# Tight foot contact plus a softer shadow opposite the nearest source.
+		draw_set_transform(Vector2(-light_direction.x*light_strength*12,5),0,Vector2(1,0.24))
+		ArcaneArt.glow(self,Vector2.ZERO,target_height*0.32,Color(0,0,0,0.8*grounded))
+		draw_set_transform(Vector2(0,5),0,Vector2(1,0.25))
+		ArcaneArt.glow(self,Vector2.ZERO,target_height*0.16,Color(0,0,0,0.95*grounded))
 	draw_set_transform(Vector2.ZERO,0,Vector2(1,0.35))
 	ArcaneArt.glow(self,Vector2.ZERO,target_height*0.44,Color(0.0,0.0,0.0,0.85*(1.0-dying)))
 	if kind in ["mage","ghost","lich","demon"]:

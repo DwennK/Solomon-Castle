@@ -28,6 +28,10 @@ func _draw() -> void:
 	var kind: String = record.kind
 	if kind=="urn" and record.get("opened",false): return
 	var height: float = {"torch":100,"chest":65,"chest_open":65,"portal":125,"stairs":150,"merchant":115,"teacher":120,"healer":112,"urn":58}.get(kind,65)
+	if kind in ["chest","urn","stairs","torch"]:
+		draw_set_transform(Vector2(0,8),0,Vector2(1,0.3))
+		ArcaneArt.glow(self,Vector2.ZERO,height*0.44,Color(0,0,0,0.66))
+		draw_set_transform(Vector2.ZERO)
 	if kind in ["torch","portal"]:
 		var color: Color = Color("e3a051") if kind=="torch" else Color("69ccd9")
 		var origin: Vector2 = Vector2(0,-65 if kind=="torch" else -40)

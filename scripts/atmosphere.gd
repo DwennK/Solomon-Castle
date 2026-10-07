@@ -12,14 +12,9 @@ func _draw() -> void:
 	if not is_instance_valid(world.player): return
 	var center: Vector2 = world.player.position
 	if world.village: center = Vector2(768,510)
-	var color: Color = Color("8bbec9") if int(State.run.floor)<7 else Color("9e9bd2")
 	if not world.village:
-		# Soft pools make the room topology legible without changing collision geometry.
-		for room: Array in world.floor_data.rooms:
-			var p: Vector2 = Dungeon.to_world(Dungeon.room_center(room))
-			if p.distance_to(center)>1100: continue
-			ArcaneArt.glow(self,p,330,Color(color,0.065))
-		ArcaneArt.glow(self,world.player.position-Vector2(0,35),185,Color("9ce5e4",0.055))
+		# Hero-local fill preserves orientation; architectural pools now provide the room light.
+		ArcaneArt.glow(self,world.player.position-Vector2(0,35),155,Color("9ce5e4",0.035))
 	var count: int = 18 if State.options.reduced_effects else 48
 	for i: int in range(count):
 		var p: Vector2 = Vector2(fposmod(i*379.7+sin(time*0.13+i)*35,1600)-800,fposmod(i*231.3-time*(4+i%4),1000)-500)
