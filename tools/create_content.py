@@ -27,6 +27,8 @@ for i,(name,stat,value) in enumerate([('de braise','damage',0.12),('de lucidité
 for id,t,stat,value in [('ash_staff','Bâton de frêne','damage',0.06),('crystal_staff','Bâton de cristal','max_mana',14),('bone_staff','Bâton d’os','mana_regen',1.2),('copper_ring','Anneau de cuivre','max_hp',12),('silver_ring','Anneau d’argent','cost_reduction',0.03),('onyx_ring','Anneau d’onyx','resistance',0.04)]:
  write('item',id,t,'',dict(slot='staff' if 'staff' in id else 'ring',stat=stat,amount=value), 'staff' if 'staff' in id else 'ring')
 write('progression','campaign','La Tour des Cendres','Treize étages. Deux rituels secondaires, puis trois au niveau 20.',dict(floors=13,boss_floors=[4,8,11,13],difficulties=['Apprenti','Sorcier','Archimage','Demi-dieu','Épreuve éternelle']))
+from skill_catalog import apply
+apply(root)
 paths=sorted((root/'resources').glob('*/*.tres'))
 (root/'scripts/content_index.gd').write_text('extends RefCounted\n\nconst ALL: Array[Resource] = [\n'+''.join('\tpreload("res://'+p.relative_to(root).as_posix()+'"),\n' for p in paths)+']\n')
 print(len(paths),'definitions')

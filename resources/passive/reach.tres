@@ -6,10 +6,10 @@
 script = ExtResource("1")
 id = "reach"
 title = "Télékinésie"
-description = "+45 portée de ramassage par rang."
+description = "Ramasse le butin à quatre fois la distance normale."
 kind = "passive"
 icon = "book"
-max_rank = 4
-min_level = 3
+max_rank = 1
+min_level = 10
 prerequisite = ""
-values = {}
+values = {"equipment_cap": 1}

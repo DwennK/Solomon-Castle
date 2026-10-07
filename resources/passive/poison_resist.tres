@@ -4,12 +4,12 @@
 
 [resource]
 script = ExtResource("1")
-id = "haste"
-title = "Incantation rapide"
-description = "+10 % cadence des projectiles par rang. Sans effet sur les jets continus."
+id = "poison_resist"
+title = "Résistance au poison"
+description = "Réduit uniquement les dégâts de poison : 10 %, 20 %, puis 30 %."
 kind = "passive"
-icon = "book"
-max_rank = 4
-min_level = 25
+icon = "mana"
 prerequisite = ""
+max_rank = 3
+min_level = 6
 values = {"equipment_cap": 9}

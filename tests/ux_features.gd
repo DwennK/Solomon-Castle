@@ -42,8 +42,8 @@ func run_all() -> void:
 			check(not SkillDetails.text(id).is_empty(),"Sheet exists: "+id)
 	check(JSON.stringify(State.run)==before,"Previews never mutate campaign")
 	State.run.skills.acid=2;State.run.skills.focus=2;State.run.skills.economy=2
-	near(SkillDetails.attack("acid").dps,196.0/20.0,"Acid average includes duration and cooldown")
-	near(SkillDetails.attack("acid").cost,35*0.82,"Actual reduced mana cost shown")
+	near(SkillDetails.attack("acid").dps,196.0/12.5,"Acid average includes duration and cooldown")
+	near(SkillDetails.attack("acid").cost,40*0.82,"Actual reduced mana cost shown")
 	near(SkillDetails.attack("shield").dps,0,"Utility spell never invents damage")
 	check("DPS actif / ennemi : 28.0" in SkillDetails.text("acid"),"Active zone DPS shown")
 	State.run.skills.shield=1

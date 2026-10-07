@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "ether_charge"
+title = "Charge d’éther"
+description = "Accumule des charges au repos ; le tir astral libère une onde qui réduit la vie maximale des ennemis."
+kind = "passive"
+icon = "missile"
+prerequisite = "missile"
+max_rank = 5
+min_level = 30
+values = {"requires": ["multishot", "potent"], "major": true, "equipment_cap": 8}

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "harden"
+title = "Armure de glace"
+description = "Jet de glace construit une armure qui absorbe les dégâts, poison inclus. Elle disparaît à l’arrêt du jet."
+kind = "passive"
+icon = "ice"
+prerequisite = "ice"
+max_rank = 5
+min_level = 30
+values = {"requires": ["cone", "chill"], "major": true, "equipment_cap": 10}

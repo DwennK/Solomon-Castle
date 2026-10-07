@@ -12,4 +12,4 @@ icon = "ice"
 max_rank = 5
 min_level = 2
 prerequisite = "ice"
-values = {}
+values = {"equipment_cap": 10}

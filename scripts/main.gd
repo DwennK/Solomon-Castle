@@ -400,7 +400,7 @@ func show_level() -> void:
 	reroll_button.tooltip_text = "Un éclat offert au départ, puis un par gardien principal. Les choix précédents sont évités ; une fusion unique ou un choix sans alternative peut revenir."
 	label(v,"Éclats de savoir : 1 au départ, puis 1 par gardien principal. Une relance coûte 1 éclat.",14,GameTheme.MUTED)
 	if not State.can_reroll(): label(v,"Plus d’éclats disponibles." if State.run.get("insight",1)<=0 else "Aucune autre amélioration éligible.",14,GameTheme.MUTED)
-	var grid: GridContainer = GridContainer.new();grid.columns = 3;v.add_child(grid)
+	var grid: GridContainer = GridContainer.new();grid.columns = 2 if offered.size()==4 else 3;v.add_child(grid)
 	for id: String in offered:
 		var d: ContentDefinition = Catalog.definition(id)
 		var note: String = ""
@@ -534,7 +534,8 @@ func show_skills() -> void:
 			if kind=="primary":
 				button(body,d.title+" · rang %d"%State.rank(id)+("  [actif]" if State.run.active==id else "  · activer"),func()->void:State.run.active=id;show_skills(),false,id)
 			else: label(body,d.title+" · rang %d"%State.rank(id),18,GameTheme.GOLD)
-			if State.rank(id)!=State.learned_rank(id): label(body,"Appris : %d · Équipement : +%d"%[State.learned_rank(id),State.rank(id)-State.learned_rank(id)],14,GameTheme.GOLD)
+			if State.rank(id)>State.learned_rank(id): label(body,"Appris : %d · Équipement : +%d"%[State.learned_rank(id),State.rank(id)-State.learned_rank(id)],14,GameTheme.GOLD)
+			elif State.rank(id)<State.learned_rank(id): label(body,"Rang historique conservé : %d · effet à rang unique"%State.learned_rank(id),14,GameTheme.MUTED)
 			if kind=="secondary" and id not in State.secondary_skills(): label(body,"Rituel fourni par l’équipement : emplacements occupés.",14,GameTheme.MUTED)
 			label(body,d.description,16,GameTheme.MUTED)
 			add_skill_details(body,id)

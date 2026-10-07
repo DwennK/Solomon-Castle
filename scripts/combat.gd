@@ -21,6 +21,12 @@ func profile(id: String, preview_rank: int = -1, refresh_fusion: bool = false) -
 	mana *= 1.0+(level-1)*0.10
 	var multi: int = 1+State.rank("multishot",snapshot) if "missile" in elements else 1
 	mana += (multi-1)*2.0
+	for element: String in elements:
+		for sub: String in {"missile":["potent"],"fire":["explode","embers"],"lightning":["chain","stun"],"ice":["cone","chill"]}[element]:
+			mana += State.rank(sub,snapshot)*(1.0 if sub=="potent" else 2.0)
+	if d.kind=="primary":
+		var major: String = {"missile":"ether_charge","fire":"immolation","lightning":"hurricane","ice":"harden"}[id]
+		mana += State.rank(major)*(0.0 if id=="missile" else (10.0 if id=="fire" else 6.0))
 	return {"id":id,"damage":(damage+State.stats().flat_damage)*State.stats().damage,"mana":mana,"channel":channel,"cooldown":(0.55 if "fire" in elements else 0.38)/State.stats().cast_speed,"multi":multi,"snapshot":snapshot,"elements":elements,"color":COLORS.get(id,Color.WHITE)}
 
 const PROJECTILE_SPEED: float = 510.0
@@ -36,18 +42,22 @@ func channel_range(p: Dictionary) -> float:
 	return 350.0+State.rank("cone",p.snapshot)*18 if "ice" in p.elements else 470.0
 
 func splash_ratio(p: Dictionary) -> float:
-	if p.id=="fire_missile" or (p.id=="fire" and State.rank("explode",p.snapshot)>0): return 0.55
+	if p.get("ember",false): return 0.0
+	if "fire" in p.elements and State.rank("explode",p.snapshot)>0:
+		return 0.55+0.05*(State.rank("explode",p.snapshot)-1)
 	return 0.3 if p.id=="frost_missile" else 0.0
 
 func splash_radius(p: Dictionary) -> float:
-	if p.id=="frost_missile": return 75.0
+	if p.id=="frost_missile": return 75.0+State.rank("cone",p.snapshot)*18.0
 	return 60.0+State.rank("explode",p.snapshot)*18 if splash_ratio(p)>0 else 0.0
 
 func secondary_profile(id: String, preview_rank: int = -1) -> Dictionary:
 	var d: ContentDefinition = Catalog.definition(id)
 	var rank_value: int = maxi(1,State.rank(id) if preview_rank<0 else preview_rank)
-	var p: Dictionary = {"mana":float(d.values.mana),"cooldown":float(d.values.cooldown)*maxf(0.4,1.0-State.rank("focus")*0.1),"damage":0.0,"radius":0.0,"duration":0.0,"power":0.0,"rank":rank_value}
+	var p: Dictionary = {"mana":float(d.values.mana),"cooldown":float(d.values.cooldown),"damage":0.0,"radius":0.0,"duration":0.0,"power":0.0,"rank":rank_value,"offensive":id in ["freeze","ring_fire","acid","undead"]}
 	if State.stats().mental_focus: p.cooldown *= 0.5
+	# Utility and offensive rituals retain their local base costs; upgrades cost mana.
+	if id not in ["teleport","shield"]: p.mana += (rank_value-1)*5.0
 	match id:
 		"teleport": p.duration=1.0
 		"shield": p.power=45.0*rank_value
@@ -68,10 +78,18 @@ func fire(player: MagePlayer, delta: float) -> void:
 	if p.channel:
 		if not spend_primary_mana(p.mana*delta): return
 		channel(player,p,delta)
+		if p.id=="ice" and State.rank("harden")>0:
+			var armor: Dictionary = harden_profile(State.rank("harden"))
+			player.ice_armor = minf(armor.cap,player.ice_armor+armor.regen*delta)
+			player.harden_active = true
+		if p.id=="lightning" and State.rank("hurricane")>0: hurricane(player,delta)
 		Sound.sustain(p.id)
 	else:
 		if player.fire_timer>0: return
 		if not spend_primary_mana(p.mana): return
+		if p.id=="missile":
+			if player.ether_charges>0: ether_pulse(player)
+			player.ether_timer=0.0
 		player.fire_timer = p.cooldown
 		player.visual.attack = 1.0
 		for i: int in range(p.multi):
@@ -112,12 +130,33 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 			targets.append(candidate)
 			previous = candidate
 	world.beam(origin,end,p.color,13 if id in ["ice","steam"] else 4,0.07,id in ["ice","steam"],id)
+	if id=="blizzard":
+		# One chain budget for the beam; a target cannot be hit twice in one tick.
+		var beam_targets: Array[TowerEnemy] = targets.duplicate()
+		for source: TowerEnemy in beam_targets:
+			var previous: TowerEnemy = source
+			for i: int in range(State.rank("chain",p.snapshot)):
+				var candidate: TowerEnemy = nearest(previous.position,180,targets)
+				if candidate==null: break
+				world.beam(previous.position,candidate.position,p.color,3,0.1,false,id)
+				targets.append(candidate);previous=candidate
+			break
 	for enemy: TowerEnemy in targets:
+		if not is_instance_valid(enemy) or enemy.dead: continue
 		enemy.take_damage(p.damage*delta,player.aim*delta*(70+State.rank("chill",p.snapshot)*35) if "ice" in p.elements else Vector2.ZERO,true)
-		if "ice" in p.elements: enemy.chill(0.5,0.55-State.rank("chill",p.snapshot)*0.045)
+		if "ice" in p.elements: enemy.chill(0.5,maxf(0.10,0.55-State.rank("chill",p.snapshot)*0.045))
 		if id == "blizzard": enemy.freeze(0.09)
 		if "lightning" in p.elements and State.rank("stun",p.snapshot)>0: enemy.freeze(0.05+State.rank("stun",p.snapshot)*0.08)
 		if id == "flame_lash": enemy.burn = 1.0
+		if enemy.dead and "fire" in p.elements:
+			if splash_ratio(p)>0: explosion(enemy.position,splash_radius(p),p.damage*splash_ratio(p),p.color)
+			emit_embers(enemy.position,p,p.damage)
+	if "ice" in p.elements and State.rank("chill",p.snapshot)>0:
+		for shot: MagicProjectile in world.shots.get_children():
+			if not shot.hostile: continue
+			var offset: Vector2 = shot.position-origin
+			if offset.length()<distance and player.aim.dot(offset.normalized())>cos(0.30+State.rank("cone",p.snapshot)*0.12) and world.dungeon.visible_line(origin,shot.position):
+				shot.direction = shot.direction.lerp(offset.normalized(),minf(1,delta*State.rank("chill",p.snapshot)*5)).normalized()
 
 func nearest(origin: Vector2, radius: float, excluded: Array = []) -> TowerEnemy:
 	var found: TowerEnemy
@@ -144,7 +183,7 @@ func secondary(player: MagePlayer, index: int) -> bool:
 	var id: String = available[index]
 	var p: Dictionary = secondary_profile(id)
 	if float(player.cooldowns.get(id,0.0))>0.0: return false
-	if not State.pay_mana(p.mana):
+	if not State.pay_mana(p.mana,p.offensive):
 		State.message.emit("Mana insuffisant pour ce rituel.")
 		return false
 	player.cooldowns[id] = p.cooldown
@@ -169,3 +208,52 @@ func secondary(player: MagePlayer, index: int) -> bool:
 	world.effect(player.position,Color("9cdde5") if id in ["shield","freeze","circle"] else Color("d6a6f5"),60,id)
 	Sound.play(id,player.global_position)
 	return true
+
+static func missile_speed_bonus(rank_value: int) -> float:
+	return [0.0,0.10,0.25,0.40,0.55,1.0,1.1,1.2,1.3,1.4,1.5][clampi(rank_value,0,10)]
+
+static func harden_profile(rank_value: int) -> Dictionary:
+	var r: int = clampi(rank_value,0,10)
+	return {"regen":[0,8,12,18,25,30,35,40,45,50,60][r],"cap":[0,25,50,75,100,125,150,175,200,250,300][r]}
+
+func emit_embers(origin: Vector2, p: Dictionary, damage: float) -> void:
+	var count: int = State.rank("embers",p.snapshot)*3
+	if "fire" not in p.elements or p.get("ember",false): return
+	for i: int in range(count):
+		# Embers have no primary/sub effects, even with equipment. Major only on Fireball.
+		var child: Dictionary = {"id":"fire","damage":damage*0.25,"color":p.color,"elements":["fire"],"snapshot":{"embers":0},"ember":true,"detonate":State.rank("immolation") if p.id=="fire" else 0}
+		world.spawn_projectile(origin,Vector2.RIGHT.rotated(i*TAU/count),child,0.6)
+
+func orb_pulse(origin: Vector2, p: Dictionary) -> void:
+	var targets: Array = []
+	var previous: Vector2 = origin
+	for i: int in range(1+State.rank("chain",p.snapshot)):
+		var victim: TowerEnemy = nearest(previous,ORB_PULSE_RADIUS if i==0 else 180.0,targets)
+		if victim==null: break
+		world.beam(previous,victim.position,p.color,3)
+		victim.take_damage(p.damage*ORB_PULSE_RATIO)
+		if State.rank("stun",p.snapshot)>0: victim.freeze(0.05+State.rank("stun",p.snapshot)*0.08)
+		targets.append(victim);previous=victim.position
+
+func hurricane(player: MagePlayer, delta: float) -> void:
+	var rank_value: int = clampi(State.rank("hurricane"),0,8)
+	var dps: float = [0,10,15,18,21,24,25,26,27][rank_value]*State.stats().damage
+	player.storm_active = true
+	for enemy: TowerEnemy in world.enemies.duplicate():
+		var offset: Vector2 = enemy.position-player.position
+		if enemy.dead or offset.length()>520: continue
+		enemy.take_damage(dps*delta,offset.normalized().orthogonal()*150*delta,true)
+		enemy.chill(0.2,0.7)
+	for shot: MagicProjectile in world.shots.get_children():
+		if shot.hostile and shot.position.distance_to(player.position)<520:
+			var outward: Vector2 = player.position.direction_to(shot.position)
+			shot.direction=shot.direction.lerp(outward.orthogonal(),minf(1,delta*4)).normalized()
+
+func ether_pulse(player: MagePlayer) -> void:
+	var charges: int = mini(player.ether_charges,State.rank("ether_charge"))
+	player.ether_charges=0;player.ether_timer=0.0
+	if charges<=0: return
+	world.effect(player.position,COLORS.missile,320)
+	for enemy: TowerEnemy in world.enemies.duplicate():
+		if enemy.dead or enemy.position.distance_to(player.position)>320 or not world.dungeon.visible_line(player.position,enemy.position): continue
+		enemy.apply_ether(charges)

@@ -10,7 +10,7 @@ static func attack(id: String, next_rank: bool = false) -> Dictionary:
 	var result: Dictionary = {"damage":0.0,"dps":0.0,"cost":0.0,"range":0.0,"cooldown":0.0,"unit":"/impact","extra":[],"effect":"","range_label":"Portée","dps_label":"DPS / ennemi"}
 	if d.kind=="secondary":
 		var p: Dictionary = combat.secondary_profile(id,rank_value)
-		result.damage=p.damage;result.cost=p.mana*(1-State.stats().cost_reduction)
+		result.damage=p.damage;result.cost=State.mana_cost(p.mana,p.offensive)
 		result.cooldown=p.cooldown;result.range=p.radius;result.range_label="Rayon"
 		result.dps=p.damage/p.cooldown
 		result.dps_label="DPS moyen / ennemi"
@@ -28,7 +28,7 @@ static func attack(id: String, next_rank: bool = false) -> Dictionary:
 		return result
 	var preview: int = rank_value if d.kind=="primary" else -1
 	var p: Dictionary = combat.profile(id,preview,next_rank)
-	result.cost=p.mana*(1-State.stats().cost_reduction)
+	result.cost=State.mana_cost(p.mana)
 	result.cooldown=0.0 if p.channel else p.cooldown
 	result.damage=p.damage
 	result.dps=p.damage if p.channel else p.damage/p.cooldown
@@ -45,13 +45,13 @@ static func attack(id: String, next_rank: bool = false) -> Dictionary:
 		if "lightning" in p.elements and State.rank("stun",p.snapshot)>0:
 			result.extra.append("Interruption : %.2f s (boss : 0,35 s max.)" % (0.05+State.rank("stun",p.snapshot)*0.08))
 	else:
-		result.range=CombatSystem.PROJECTILE_SPEED*(1+State.rank("potent",p.snapshot)*0.2)*CombatSystem.PROJECTILE_LIFETIME
+		result.range=CombatSystem.PROJECTILE_SPEED*(1+CombatSystem.missile_speed_bonus(State.rank("potent",p.snapshot)) if "missile" in p.elements else 1.0)*CombatSystem.PROJECTILE_LIFETIME
 		result.effect="Un projectile touche une cible par salve"
 		var splash: float = combat.splash_ratio(p)
 		if splash>0:
 			result.damage *= 1+splash
 			result.dps *= 1+splash
-			result.extra.append("Zone : %.1f DPS / autre ennemi (1 explosion / salve) · rayon %.0f u" % [p.damage*splash/p.cooldown,combat.splash_radius(p)])
+			result.extra.append("Zone : %.1f DPS / autre ennemi (1 explosion / projectile) · rayon %.0f u" % [p.damage*splash/p.cooldown,combat.splash_radius(p)])
 			result.effect="Cible directe : impact + explosion, un impact par salve"
 		if p.multi>1:
 			result.extra.append("%d projectiles : jusqu’à %.1f DPS sur une cible si toute la salve la touche" % [p.multi,result.dps*p.multi])
@@ -62,8 +62,16 @@ static func attack(id: String, next_rank: bool = false) -> Dictionary:
 		if id=="frost_missile": result.effect+=" · gel 0,8 s direct / 0,5 s zone (boss : 0,35 s max.)"
 		var embers: int = State.rank("embers",p.snapshot) if "fire" in p.elements else 0
 		if embers>0:
-			var shard: float = p.damage*0.25*(1.55 if id=="fire_missile" else 1.0)
+			var shard: float = p.damage*0.25
 			result.extra.append("%d éclats / impact : %.1f dégâts chacun · +%.1f DPS si un éclat touche à chaque salve" % [embers*3,shard,shard/p.cooldown])
+	if id in ["blizzard","ball_lightning"] and State.rank("chain",p.snapshot)>0:
+		result.extra.append("Chaînes : jusqu’à %d cibles supplémentaires, sans double impact" % State.rank("chain",p.snapshot))
+	if p.channel and "fire" in p.elements:
+		if combat.splash_ratio(p)>0: result.extra.append("À la mort d’une cible : explosion de %.1f dégâts, rayon %.0f u" % [p.damage*combat.splash_ratio(p),combat.splash_radius(p)])
+		if State.rank("embers",p.snapshot)>0: result.extra.append("À la mort d’une cible : %d braises de %.1f dégâts" % [State.rank("embers",p.snapshot)*3,p.damage*0.25])
+	if d.kind=="primary":
+		var major: String = {"missile":"ether_charge","fire":"immolation","lightning":"hurricane","ice":"harden"}[id]
+		if State.rank(major)>0: result.extra.append(passive_effect(major,State.rank(major)))
 	return result
 
 static func rows(id: String, next_rank: bool = false) -> Dictionary:
@@ -114,20 +122,28 @@ static func passive_effect(id: String, rank_value: int) -> String:
 		"mana": return "+%d mana max." % (28*rank_value)
 		"regen": return "+%.1f mana/s" % (2.5*rank_value)
 		"power": return "+%d %% dégâts" % (14*rank_value)
-		"haste": return "+%d %% cadence des projectiles" % (12*rank_value)
-		"economy": return "−%d %% coût (réduction totale plafonnée à 80 %%)" % (9*rank_value)
+		"haste": return "+%d %% cadence des projectiles" % (10*rank_value)
+		"economy": return "−%d %% coût des sorts offensifs (total plafonné à 80 %%)" % (9*rank_value)
 		"rush": return "+%d %% vitesse" % (7*rank_value)
 		"resist": return "−%d %% dégâts subis (total plafonné à 75 %%)" % (7*rank_value)
-		"meditation": return "Après 1 s immobile sans tirer : +%.1f mana/s, +%.1f vie/s" % [3.0*rank_value,0.8*rank_value]
-		"focus": return "−%d %% recharge des rituels" % (10*rank_value)
-		"reach": return "%d u de ramassage" % (65+45*rank_value)
+		"meditation": return "Après 1 s immobile sans agir : mana régénéré ×4 (non cumulable)"
+		"focus": return "Recharge des rituels ÷2 (non cumulable avec l’équipement)"
+		"reach": return "260 u de ramassage (distance ×4 ; non cumulable)"
+		"creativity": return "Quatre choix distincts aux prochains niveaux"
+		"poison_resist": return "−%d %% dégâts de poison ; se combine multiplicativement avec les objets" % int([0,10,20,30,35,40,45,50,55,60][clampi(rank_value,0,9)])
+		"immolation": return "Braises : explosion après 0,6 s, rayon 65 u, dégâts de braise ×%.1f ; +%d mana/tir. Aucune explosion si interceptée." % [1+0.2*rank_value,10*rank_value]
+		"ether_charge": return "Au repos du tir : 1 charge/s, maximum %d ; prochain tir : onde de 320 u, −10 %% vie max./charge (non cumulable)" % rank_value
+		"hurricane": return "Pendant Éclair : %.1f DPS de tempête, rayon 520 u, dévie ennemis et tirs ; +%d mana/s" % [float([0,10,15,18,21,24,25,26,27][clampi(rank_value,0,8)])*State.stats().damage,6*rank_value]
+		"harden":
+			var armor: Dictionary = CombatSystem.harden_profile(rank_value)
+			return "Pendant Jet de glace : +%d armure/s, maximum %d ; poison inclus ; +%d mana/s. Disparaît à l’arrêt." % [armor.regen,armor.cap,6*rank_value]
 		"multishot": return "%d projectiles / salve ; +%d mana avant réduction" % [1+rank_value,2*rank_value]
-		"chain": return "+%d cibles pour Éclair et Fouet de flammes" % rank_value
-		"explode": return "Explosion : rayon %d u, 55 %% des dégâts directs" % (60+18*rank_value) if rank_value>0 else "Pas d’explosion de Boule de feu"
+		"chain": return "+%d cibles pour Éclair et ses fusions ; +%d mana" % [rank_value,2*rank_value]
+		"explode": return "Explosion : rayon %d u, %.0f %% des dégâts directs ; +%d mana" % [60+18*rank_value,55+5*(rank_value-1),2*rank_value] if rank_value>0 else "Pas d’explosion de Boule de feu"
 		"embers": return "%d éclats / impact, chacun à 25 %% des dégâts du projectile" % (3*rank_value)
 		"cone": return "+%d u de portée ; +%.2f rad de demi-angle pour Glace et Vapeur" % [18*rank_value,0.12*rank_value]
-		"potent": return "+%d %% vitesse des projectiles (hors Orbe électrique)" % (20*rank_value)
-		"chill": return "Glace : vitesse ennemie ×%.3f ; recul renforcé" % (0.55-0.045*rank_value)
+		"potent": return "+%.0f %% vitesse des missiles (hors Orbe) ; nouvelle cible possible ; +%d mana" % [100*CombatSystem.missile_speed_bonus(rank_value),rank_value]
+		"chill": return "Glace : vitesse ennemie ×%.3f ; recul renforcé" % maxf(0.10,0.55-0.045*rank_value)
 		"stun": return "Interruption %.2f s (boss : 0,35 s max.)" % (0.05+0.08*rank_value) if rank_value>0 else "Pas d’interruption électrique"
 	return Catalog.definition(id).description
 

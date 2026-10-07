@@ -20,8 +20,8 @@ func _ready() -> void:
 	if not hostile:
 		damage = profile.damage
 		color = profile.color
-		homing = "missile" in profile.elements
-		speed *= 1.0+State.rank("potent",profile.snapshot)*0.2
+		homing = "missile" in profile.elements and not profile.get("ember",false)
+		if homing: speed *= 1.0+CombatSystem.missile_speed_bonus(State.rank("potent",profile.snapshot))
 		if profile.id == "ball_lightning":
 			speed = CombatSystem.ORB_SPEED
 			lifetime = CombatSystem.ORB_LIFETIME
@@ -31,11 +31,14 @@ func _physics_process(delta: float) -> void:
 	age += delta
 	lifetime -= delta
 	if lifetime<=0:
+		if not hostile and profile.get("ember",false) and int(profile.get("detonate",0))>0:
+			world.combat.explosion(position,65.0,damage*(1.0+0.2*int(profile.detonate)),color)
 		queue_free()
 		return
 	if homing:
-		if not is_instance_valid(target) or target.dead: target = world.combat.nearest(position,340)
-		if is_instance_valid(target): direction = direction.lerp(position.direction_to(target.position),minf(1,delta*6)).normalized()
+		if not is_instance_valid(target) or target.dead:
+			target = world.combat.nearest(position,340) if State.rank("potent",profile.snapshot)>0 else null
+		if is_instance_valid(target) and not target.dead: direction = direction.lerp(position.direction_to(target.position),minf(1,delta*6)).normalized()
 	var step: Vector2 = direction*speed*delta
 	var previous: Vector2 = position
 	if not world.dungeon.visible_line(position,position+step):
@@ -53,10 +56,7 @@ func _physics_process(delta: float) -> void:
 			pulse -= delta
 			if pulse<=0:
 				pulse = CombatSystem.ORB_PULSE_INTERVAL
-				var victim: TowerEnemy = world.combat.nearest(position,CombatSystem.ORB_PULSE_RADIUS)
-				if victim:
-					world.beam(position,victim.position+Vector2(0,-15),color,3)
-					victim.take_damage(damage*CombatSystem.ORB_PULSE_RATIO)
+				world.combat.orb_pulse(position,profile)
 		for enemy: TowerEnemy in world.enemies:
 			if enemy.dead: continue
 			if Geometry2D.get_closest_point_to_segment(enemy.position,previous,position).distance_to(enemy.position)<(36 if enemy.boss else 24):
@@ -74,18 +74,14 @@ func impact(enemy: TowerEnemy) -> void:
 	var id: String = profile.id
 	if enemy:
 		enemy.take_damage(damage,direction*60)
-		if id == "frost_missile" and not enemy.dead: enemy.freeze(0.8)
+		if id == "frost_missile" and not enemy.dead:
+			enemy.freeze(0.8)
+			enemy.chill(1.0,maxf(0.1,0.55-State.rank("chill",profile.snapshot)*0.045))
+			enemy.knockback+=direction*State.rank("chill",profile.snapshot)*20
 	if world.combat.splash_ratio(profile)>0:
 		world.combat.explosion(position,world.combat.splash_radius(profile),damage*world.combat.splash_ratio(profile),color,0.5 if id=="frost_missile" else 0.0)
 	else: world.effect(position,color,25)
-	var ember_rank: int = State.rank("embers",profile.snapshot)
-	if "fire" in profile.elements and ember_rank>0 and not profile.get("ember",false):
-		for i: int in range(ember_rank*3):
-			var child: Dictionary = profile.duplicate(true)
-			child.damage = damage*0.25
-			child.ember = true
-			child.snapshot = {"embers":0}
-			world.spawn_projectile(position,Vector2.RIGHT.rotated(i*TAU/(ember_rank*3)),child,0.3)
+	world.combat.emit_embers(position,profile,damage)
 	Sound.impact(id,global_position)
 	queue_free()
 

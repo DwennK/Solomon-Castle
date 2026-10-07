@@ -6,10 +6,10 @@
 script = ExtResource("1")
 id = "explode"
 title = "Explosion"
-description = "Impact explosif : rayon 60 + 18 par rang."
+description = "Ajoute une explosion ; puissance et rayon augmentent avec le rang."
 kind = "passive"
 icon = "fire"
-max_rank = 5
+max_rank = 6
 min_level = 2
 prerequisite = "fire"
-values = {}
+values = {"equipment_cap": 11}

@@ -50,17 +50,21 @@ func equipment_bonuses() -> Dictionary:
 	return result
 
 func rank(id: String, snapshot: Dictionary = {}) -> int:
-	return effective_rank(id, learned_rank(id,snapshot), equipment_bonuses())
+	# A fusion snapshot already contains effective ranks, including equipment at welding.
+	if not snapshot.is_empty(): return int(snapshot.get(id,0))
+	return effective_rank(id, learned_rank(id), equipment_bonuses())
 
 func effective_rank(id: String, learned: int, bonuses: Dictionary) -> int:
+	var grant_id: String = "mental_focus" if id=="focus" else id
 	var specific: int = int(bonuses.get("skill:"+id,0))
+	if id in ["focus","meditation","reach","creativity"]:
+		return 1 if learned+specific>0 or float(bonuses.get("grant:"+grant_id,0))>0 else 0
 	# All-skills improves acquired skills, without learning the entire grimoire.
 	var extra: int = specific+(int(bonuses.get("all_skills",0)) if learned+specific>0 else 0)
 	if extra<=0: return learned
 	var definition: ContentDefinition = Catalog.definition(id)
 	if not definition: return learned
-	var cap: int = 11 if id=="shield" else definition.max_rank+7
-	if id in ["meditation","reach"]: return learned
+	var cap: int = int(definition.values.get("equipment_cap",25 if definition.kind=="primary" else definition.max_rank+5))
 	return maxi(learned,mini(cap,learned+extra))
 
 func secondary_skills() -> Array:
@@ -86,23 +90,30 @@ func stats() -> Dictionary:
 	var ranks: Dictionary = {}
 	for id: String in ["life","mana","regen","power","haste","economy","rush","resist"]:
 		ranks[id] = effective_rank(id,learned_rank(id),bonuses)
-	var s: Dictionary = {"max_hp":110.0+ranks.life*24, "max_mana":100.0+ranks.mana*28, "mana_regen":7.5+ranks.regen*2.5, "hp_regen":0.12, "damage":1.0+ranks.power*0.14, "cast_speed":1.0+ranks.haste*0.12, "cost_reduction":ranks.economy*0.09, "speed":220.0*(1.0+ranks.rush*0.07), "resistance":ranks.resist*0.07,"flat_damage":0.0,"poison_resistance":0.0,"gold_bonus":0.0,"xp_bonus":0.0,"mana_recovery":0.0,"hp_recovery":0.0}
+	var s: Dictionary = {"max_hp":110.0+ranks.life*24, "max_mana":100.0+ranks.mana*28, "mana_regen":7.5+ranks.regen*2.5, "hp_regen":0.12, "damage":1.0+ranks.power*0.14, "cast_speed":1.0+ranks.haste*0.10, "cost_reduction":ranks.economy*0.09, "speed":220.0*(1.0+ranks.rush*0.07), "resistance":ranks.resist*0.07,"flat_damage":0.0,"poison_resistance":0.0,"gold_bonus":0.0,"xp_bonus":0.0,"mana_recovery":0.0,"hp_recovery":0.0}
 	for key: String in bonuses:
 		if key in s: s[key] += float(bonuses[key])*(220.0 if key=="speed" else 1.0)
 	s.mana_regen *= 1.0+s.mana_recovery
 	s.hp_regen *= 1.0+s.hp_recovery
-	s.telekinesis = float(bonuses.get("grant:reach",0))>0
-	s.meditation = float(bonuses.get("grant:meditation",0))>0
-	s.mental_focus = float(bonuses.get("grant:mental_focus",0))>0
-	s.pickup_radius = 65.0+learned_rank("reach")*45.0+(180.0 if s.telekinesis else 0.0)
+	s.telekinesis = rank("reach")>0
+	s.meditation = rank("meditation")>0
+	s.mental_focus = rank("focus")>0
+	s.pickup_radius = 260.0 if s.telekinesis else 65.0
+	var poison_rank: int = clampi(rank("poison_resist"),0,9)
+	var poison_reduction: float = [0.0,0.1,0.2,0.3,0.35,0.4,0.45,0.5,0.55,0.6][poison_rank]
+	s.poison_resistance = 1.0-(1.0-clampf(s.poison_resistance,0,1))*(1.0-poison_reduction)
 	s.poison_resistance = clampf(s.poison_resistance,0.0,1.0)
 	s.cost_reduction = clampf(s.cost_reduction, 0.0, 0.8)
 	s.resistance = clampf(s.resistance, 0.0, 0.75)
 	s.cast_speed = maxf(s.cast_speed, 0.1)
 	return s
 
-func pay_mana(base: float) -> bool:
-	var cost: float = maxf(0.0, base) * (1.0 - stats().cost_reduction)
+func mana_cost(base: float, offensive: bool = true) -> float:
+	var reduction: float = stats().cost_reduction if offensive else clampf(float(equipment_bonuses().get("cost_reduction",0.0)),0,0.8)
+	return maxf(0.0,base)*(1.0-reduction)
+
+func pay_mana(base: float, offensive: bool = true) -> bool:
+	var cost: float = mana_cost(base,offensive)
 	if float(run.mp) + 0.00001 < cost:
 		return false
 	run.mp = maxf(0.0, float(run.mp) - cost)
@@ -129,17 +140,22 @@ func eligible(level: int) -> Array[String]:
 		for id: String in Catalog.ids(kind):
 			var d: ContentDefinition = Catalog.definition(id)
 			var cap: int = mini(d.max_rank, 12) if kind == "primary" and level < 25 else d.max_rank
+			if level<25: cap=mini(cap,int(d.values.get("early_cap",cap)))
+			if d.values.get("legacy",false): continue
 			if level < d.min_level or learned_rank(id) >= cap:
 				continue
-			if not d.prerequisite.is_empty() and learned_rank(d.prerequisite) == 0:
-				continue
+			if not d.prerequisite.is_empty() and rank(d.prerequisite) == 0: continue
+			var missing: bool = false
+			for requirement: String in d.values.get("requires",[]):
+				if rank(requirement)==0: missing=true
+			if missing or (d.values.get("requires_secondary",false) and secondary_skills().is_empty()): continue
 			if kind == "secondary" and learned_rank(id) == 0 and run.secondary.size() >= (3 if level >= 20 else 2):
 				continue
 			result.append(id)
 	if level % 5 == 0:
 		for id: String in Catalog.ids("fusion"):
 			var elements: Array = Catalog.definition(id).values.elements
-			if learned_rank(elements[0]) > 0 and learned_rank(elements[1]) > 0:
+			if rank(elements[0]) > 0 and rank(elements[1]) > 0:
 				result.append(id)
 	return result
 
@@ -164,7 +180,7 @@ func offers(excluded: Array = []) -> Array:
 		var fusion: String = fusion_choices[rng.randi_range(0, fusion_choices.size()-1)]
 		run.offers.append(fusion)
 		choices.erase(fusion)
-	while run.offers.size() < 3:
+	while run.offers.size() < (4 if rank("creativity")>0 else 3):
 		if choices.is_empty():
 			choices = fallback.filter(func(id: String) -> bool: return id not in run.offers)
 			if choices.is_empty(): break
@@ -198,7 +214,12 @@ func learn(id: String) -> bool:
 		return false
 	var d: ContentDefinition = Catalog.definition(id)
 	if d.kind == "fusion":
-		run.fusion = {"id":id,"snapshot":run.skills.duplicate(true),"level":run.level}
+		var captured: Dictionary = {"_effective":1}
+		for skill: String in Catalog.ids("primary")+Catalog.ids("passive"):
+			var source: ContentDefinition = Catalog.definition(skill)
+			if source.kind=="primary" or not source.prerequisite.is_empty():
+				captured[skill] = 0 if source.values.get("major",false) else rank(skill)
+		run.fusion = {"id":id,"snapshot":captured,"level":run.level}
 		run.active = id
 	else:
 		run.skills[id] = learned_rank(id) + 1

@@ -66,8 +66,8 @@ func run_tests() -> void:
 	wear({"skill:fire":2,"all_skills":1})
 	check(State.rank("fire")==4 and State.learned_rank("fire")==1,"Effective and learned ranks separated")
 	check(State.rank("missile")==2 and State.rank("ice")==0,"All skills improves learned spells only")
-	check(combat.profile("fire_missile").damage>damage,"Equipment affects fused spell")
-	check(State.run.fusion==fusion_before,"Fusion snapshot never stores equipment ranks")
+	check(combat.profile("fire_missile").damage==damage,"Equipment ranks do not alter an existing fusion")
+	check(State.run.fusion==fusion_before,"Existing fusion snapshot remains unchanged when equipping")
 	State.learn("fire")
 	State.unequip("ring1")
 	check(State.rank("fire")==2,"Learning with gear does not bake in its ranks")
@@ -117,7 +117,7 @@ func run_tests() -> void:
 	world.player.resting=2
 	world.player._physics_process(0.1)
 	check(is_equal_approx(State.run.mp,6.0),"Granted meditation quadruples actual resting mana regeneration")
-	check(world.player.cached_stats.pickup_radius==245,"Granted telekinesis increases real pickup range")
+	check(world.player.cached_stats.pickup_radius==260,"Granted telekinesis increases real pickup range")
 	world.loot=[{"kind":"gold","amount":10,"pos":Dungeon.pair(world.player.position+Vector2(200,0))}]
 	world.collect_loot()
 	check(world.loot.is_empty() and State.run.gold==150,"Telekinesis collects actual distant loot")

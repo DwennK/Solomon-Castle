@@ -6,10 +6,10 @@
 script = ExtResource("1")
 id = "potent"
 title = "Projectiles véloces"
-description = "+20 % vitesse des projectiles par rang, hors Orbe électrique."
+description = "Accélère les missiles et leur permet de changer de cible. Coût +1 mana par rang."
 kind = "passive"
 icon = "missile"
 max_rank = 5
 min_level = 2
 prerequisite = "missile"
-values = {}
+values = {"equipment_cap": 10}

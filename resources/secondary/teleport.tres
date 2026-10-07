@@ -12,4 +12,4 @@ icon = "portal"
 max_rank = 1
 min_level = 3
 prerequisite = ""
-values = {"mana": 10, "cooldown": 14}
+values = {"mana": 10, "cooldown": 14, "equipment_cap": 1}

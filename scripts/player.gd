@@ -6,6 +6,11 @@ var visual: ActorVisual
 var aim: Vector2 = Vector2.RIGHT
 var fire_timer: float = 0.0
 var shield: float = 0.0
+var ice_armor: float = 0.0
+var harden_active: bool = false
+var storm_active: bool = false
+var ether_charges: int = 0
+var ether_timer: float = 0.0
 var invulnerable: float = 0.0
 var cooldowns: Dictionary = {}
 var resting: float = 0.0
@@ -60,11 +65,21 @@ func _physics_process(delta: float) -> void:
 	invulnerable = maxf(0.0,invulnerable-delta)
 	for key: String in cooldowns: cooldowns[key] = maxf(0.0,cooldowns[key]-delta)
 	resting = 0.0 if firing or direction.length()>0.1 else resting+delta
-	var regen: float = cached_stats.mana_regen + (State.rank("meditation")*3.0 if resting>1.0 else 0.0)
+	var regen: float = cached_stats.mana_regen
 	if resting>1.0 and cached_stats.meditation: regen *= 4.0
 	State.run.mp = minf(cached_stats.max_mana,float(State.run.mp)+regen*delta)
-	State.run.hp = minf(cached_stats.max_hp,float(State.run.hp)+(cached_stats.hp_regen+(State.rank("meditation")*0.8 if resting>1.0 else 0.0))*delta)
+	State.run.hp = minf(cached_stats.max_hp,float(State.run.hp)+cached_stats.hp_regen*delta)
+	harden_active=false;storm_active=false
 	if firing and not world.village and not State.run.active.is_empty(): world.combat.fire(self,delta)
+	if not harden_active: ice_armor=0.0
+	if State.run.active=="missile" and State.rank("ether_charge")>0:
+		if not firing:
+			ether_timer+=delta
+			while ether_timer>=1.0:
+				ether_charges=mini(State.rank("ether_charge"),ether_charges+1)
+				ether_timer-=1.0
+	else:
+		ether_charges=0;ether_timer=0.0
 	for i: int in range(3):
 		if Input.is_action_just_pressed("secondary_%d"%i): world.combat.secondary(self,i)
 	if Input.is_action_just_pressed("hp_potion") and State.potion("hp"): Sound.play("potion")
@@ -75,6 +90,12 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 	if invulnerable>0.0 or State.run.dead: return
 	if damage_type=="poison": amount *= 1.0-cached_stats.poison_resistance
 	if amount<=0.0: return
+	resting=0.0
+	if ice_armor>0:
+		var blocked: float = minf(ice_armor,amount*(1.0-cached_stats.resistance))
+		ice_armor-=blocked
+		amount=maxf(0.0,amount-blocked/(1.0-cached_stats.resistance))
+		if amount<=0.0: return
 	var absorbed: bool = shield>0.0 and damage_type!="poison"
 	if absorbed:
 		shield = maxf(0.0,shield-amount)
@@ -97,6 +118,14 @@ func _draw() -> void:
 		for i: int in range(3):
 			draw_arc(center,49+i*3,time*0.5+i*TAU/3,time*0.5+i*TAU/3+1.5,24,Color(0.55,0.85,1,0.65),1.5,true)
 		ArcaneArt.rune(self,center,54,Color(0.6,0.87,1,0.5),-time*0.22,8)
+	if ice_armor>0:
+		ArcaneArt.rune(self,Vector2(0,-40),46,Color("b9f5ff"),time*0.2,6)
+	if storm_active:
+		for i: int in range(4):
+			var angle: float = time*3+i*TAU/4
+			draw_arc(Vector2.ZERO,120+i*15,angle,angle+1.4,24,Color(0.7,0.8,1,0.35),3,true)
+	for i: int in range(ether_charges):
+		draw_circle(Vector2.from_angle(time+i*TAU/maxi(1,ether_charges))*42+Vector2(0,-32),4,Color("ceb7ff"))
 	if not world or world.village: return
 	draw_set_transform(Vector2(0,5),0,Vector2(1,0.42))
 	ArcaneArt.rune(self,Vector2.ZERO,29,Color(color,0.35),time*0.2,8)

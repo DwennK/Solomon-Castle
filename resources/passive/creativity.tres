@@ -4,12 +4,12 @@
 
 [resource]
 script = ExtResource("1")
-id = "haste"
-title = "Incantation rapide"
-description = "+10 % cadence des projectiles par rang. Sans effet sur les jets continus."
+id = "creativity"
+title = "Créativité"
+description = "Propose quatre compétences au lieu de trois aux prochains niveaux."
 kind = "passive"
 icon = "book"
-max_rank = 4
-min_level = 25
 prerequisite = ""
-values = {"equipment_cap": 9}
+max_rank = 1
+min_level = 7
+values = {"equipment_cap": 1}

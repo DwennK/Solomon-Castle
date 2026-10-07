@@ -4,12 +4,12 @@
 
 [resource]
 script = ExtResource("1")
-id = "stun"
-title = "Étourdissement"
-description = "Les éclairs interrompent les attaques ; durée +0,08 s/rang."
+id = "hurricane"
+title = "Ouragan"
+description = "Une tempête blesse et dévie les ennemis et leurs tirs pendant Éclair. Sans effet sur les fusions."
 kind = "passive"
 icon = "lightning"
-max_rank = 4
-min_level = 3
 prerequisite = "lightning"
-values = {"equipment_cap": 10}
+max_rank = 5
+min_level = 30
+values = {"requires": ["chain", "stun"], "major": true, "equipment_cap": 8}

@@ -34,6 +34,7 @@ func setup(owner_world: Node2D, value: Dictionary) -> void:
 	var floor_number: int = int(State.run.floor)
 	var scaling: float = (1.0+float(floor_number-1)*0.16)*pow(1.65,int(State.run.difficulty))
 	max_hp = float(definition.values.hp) * (pow(1.8,int(State.run.difficulty)) if boss else scaling)
+	max_hp *= 1.0-clampf(float(record.get("ether_reduction",0.0)),0.0,0.8)
 	hp = max_hp if record.hp<0 else float(record.hp)
 	damage = float(definition.values.damage)*(1.0+float(floor_number-1)*0.07)*pow(1.35,int(State.run.difficulty))
 	speed = float(definition.values.speed)
@@ -78,6 +79,7 @@ func _physics_process(delta: float) -> void:
 	cooldown -= local_delta
 	var dir: Vector2 = (player.position-position).normalized()
 	visual.facing = dir
+	if fear>0: telegraph=0.0
 	if telegraph>0:
 		telegraph -= local_delta
 		velocity = Vector2.ZERO
@@ -88,7 +90,7 @@ func _physics_process(delta: float) -> void:
 	var line: bool = world.dungeon.visible_line(position,player.position)
 	var preferred: float = 270 if behavior in ["ranged","caster","imp"] else (175 if behavior == "ghost" else 35)
 	if boss: preferred = 240
-	if cooldown<=0 and distance<(600 if boss else (500 if preferred>100 else 62)) and line:
+	if fear<=0 and cooldown<=0 and distance<(600 if boss else (500 if preferred>100 else 62)) and line:
 		attack_target = player.position
 		telegraph = 0.85 if boss else (0.45 if preferred>100 else 0.30)
 		visual.attack = 1.0
@@ -199,3 +201,13 @@ func _draw() -> void:
 		var direction: Vector2 = position.direction_to(attack_target)
 		var tip: Vector2 = direction*(radius+10)
 		draw_polyline(PackedVector2Array([tip-direction.rotated(-0.55)*9,tip,tip-direction.rotated(0.55)*9]),Color(warning,0.8),2,true)
+
+func apply_ether(charges: int) -> void:
+	var before: float = float(record.get("ether_reduction",0.0))
+	var after: float = maxf(before,clampf(charges*0.1,0.0,0.8))
+	if after<=before: return
+	max_hp = max_hp/(1.0-before)*(1.0-after)
+	hp = minf(hp,max_hp)
+	record.ether_reduction=after
+	record.hp=hp
+	active=true
