@@ -40,6 +40,8 @@ In the village, **Basile** buys and sells equipment and potions, **Orme** teache
 
 ![Inventory and equipment comparison](docs/screenshots/inventory-english.png)
 
+Equipment no longer grants XP bonuses. Loading a save removes these bonuses from existing items, merchant stock, ground loot, and checkpoints. Items with no remaining bonus are removed and their equipped slots cleared; other bonuses and earned progression are preserved. The updated catalogue contains 92 recipes (55 staves and 37 rings).
+
 ## Controls
 
 | Action | Keyboard / mouse | Controller |

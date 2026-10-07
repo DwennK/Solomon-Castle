@@ -28,20 +28,22 @@ func _ready() -> void:
 
 func run_tests() -> void:
 	State.save_path="user://qa_equipment.json"
+	retired_xp_checks()
 	State.fresh(903)
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed=913
 	var templates: Array[Dictionary] = Equipment.templates()
-	check(templates.size()==95,"All 95 wiki equipment recipes")
+	check(templates.size()==92,"92 equipment recipes after removing XP rings")
 	var counts: Dictionary = {}
 	for template: Dictionary in templates:
+		check(not template.bonuses.has("xp_bonus"),"No XP recipe: "+template.id)
 		var generated: Dictionary = State.make_equipment(template,rng,5)
 		counts[template.slot+str(template.rarity)] = int(counts.get(template.slot+str(template.rarity),0))+1
 		for key: String in generated.bonuses:
 			var bounds: Variant = template.bonuses[key]
 			check((generated.bonuses[key]>=bounds[0] and generated.bonuses[key]<=bounds[1]) if bounds is Array else generated.bonuses[key]==bounds,"Roll within recipe: "+template.id+" "+key)
 		check(not generated.name.contains("skill:") and not generated.name.contains("grant:"),"French equipment name")
-	check(counts=={"staff0":4,"staff1":21,"staff2":30,"ring0":8,"ring1":20,"ring2":12},"Slot and rarity catalogue counts")
+	check(counts=={"staff0":4,"staff1":21,"staff2":30,"ring0":5,"ring1":20,"ring2":12},"Slot and rarity catalogue counts")
 	var seeded_a: Dictionary = State.make_item(450,5)
 	var seeded_b: Dictionary = State.make_item(450,5)
 	check(seeded_a.bonuses==seeded_b.bonuses and seeded_a.template==seeded_b.template and seeded_a.uid!=seeded_b.uid,"Seeded loot is deterministic with unique ownership")
@@ -51,7 +53,7 @@ func run_tests() -> void:
 	var b: Dictionary = wear({"xp_bonus":0.5,"mana_recovery":0.75},"ring2")
 	check(is_equal_approx(State.stats().mana_regen,18.75),"Two rings stack recovery additively")
 	State.add_xp(10)
-	check(State.run.xp==20,"XP reward uses both rings")
+	check(State.run.xp==10,"Legacy XP bonuses cannot multiply rewards")
 	State.unequip("ring1");State.unequip("ring2")
 	check(State.stats()==baseline,"Unequip restores exact baseline")
 	wear({"gold_bonus":5.0},"staff")
@@ -153,3 +155,41 @@ func run_tests() -> void:
 	file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("EQUIPMENT_TEST ",JSON.stringify(report))
 	get_tree().quit(0 if errors.is_empty() else 1)
+
+func retired_xp_checks() -> void:
+	State.fresh(902)
+	var mixed: Dictionary = wear({"xp_bonus":1.0,"mana_recovery":0.75})
+	var plain: Dictionary = wear({"xp_bonus":0.5},"ring2")
+	mixed.name="Anneau · +100 % expérience / +75 % régénération de mana"
+	plain.name="Anneau · +50 % expérience"
+	State.run.shop=[plain.duplicate(true)]
+	State.run.floors["1"]=Dungeon.generate(902,1)
+	State.run.floors["1"].loot=[{"kind":"item","item":mixed.duplicate(true),"pos":[500,500]}, {"kind":"item","item":plain.duplicate(true),"pos":[550,500]}, {"kind":"gold","amount":10,"pos":[600,500]}]
+	check(not State.stats().has("xp_bonus") and not State.equipment_bonuses().has("xp_bonus"),"Retired XP effect absent from effective stats even before migration")
+	var preview: Dictionary = EquipmentPreview.compare(plain.uid,"ring2",true)
+	check(preview.rows.is_empty(),"Removing an old XP-only ring has no fake comparison bonus")
+	State.add_xp(53)
+	check(State.run.level==2 and State.run.xp==0 and State.run.pending==[2],"Normal XP threshold and level offer are unchanged with legacy rings")
+	State.run.xp=12
+	State.mark_checkpoint()
+	var mixed_uid: String = mixed.uid
+	check(State.save_game(),"Write legacy XP inventory, shop, floor loot and checkpoint")
+	State.fresh(1)
+	check(State.load_game(),"Load legacy XP save")
+	check(State.run.level==2 and State.run.xp==12 and State.run.pending.size()==1 and int(State.run.pending[0])==2,"Migration preserves earned XP, levels and pending choices")
+	check(State.run.equipped.ring1==mixed_uid and State.run.equipped.ring2.is_empty() and State.run.inventory.size()==1,"Migration deletes XP-only ring and frees its slot while preserving mixed ring")
+	for saved: Dictionary in [State.run,State.checkpoint]:
+		var items: Array = saved.inventory+saved.shop+[saved.floors["1"].loot[0].item]
+		for gear: Dictionary in items:
+			check(not gear.bonuses.has("xp_bonus") and not gear.name.contains("expérience"),"XP effect and label removed from every saved item location")
+		check(saved.inventory[0].bonuses=={"mana_recovery":0.75},"Migration keeps other item effects")
+		check(saved.inventory.size()==1 and saved.shop.is_empty() and saved.equipped.ring2.is_empty(),"XP-only inventory and shop items deleted, including checkpoint slots")
+		check(saved.floors["1"].loot.size()==2 and saved.floors["1"].loot[1].kind=="gold","XP-only ground loot deleted without touching gold or mixed items")
+		check(saved.inventory[0].price==300,"Remaining item value is preserved")
+	var migrated: Dictionary = State.run.duplicate(true)
+	check(State.save_game() and State.load_game() and State.run==migrated,"Migration survives a second save/load unchanged")
+	State.die()
+	check(State.find_item(plain.uid).is_empty() and State.run.equipped.ring2.is_empty(),"Checkpoint restore cannot resurrect deleted XP items")
+	State.add_xp(10)
+	check(State.run.xp==22,"Restored checkpoint keeps normal XP awards")
+	check(not State.equip(plain.uid,"ring2") and not State.sell(plain.uid),"Deleted XP ring cannot be equipped or sold")

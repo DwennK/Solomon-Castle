@@ -1,7 +1,7 @@
 class_name Equipment
 extends RefCounted
 
-# Effect recipes transcribed from the Equipment wiki; names and prices are local.
+# Effect recipes adapted from the Equipment wiki; XP bonuses are excluded.
 # Arrays denote inclusive integer rolls. Percentages are additive fractions.
 const RECIPES: Dictionary = {
 	"staff": [
@@ -42,8 +42,7 @@ const RECIPES: Dictionary = {
 	"ring": [
 		[
 			{"flat_damage":2}, {"skill:lightning":1}, {"skill:potent":3},
-			{"mana_recovery":0.2}, {"mana_recovery":0.75},
-			{"xp_bonus":0.25}, {"xp_bonus":0.5}, {"xp_bonus":1.0}
+			{"mana_recovery":0.2}, {"mana_recovery":0.75}
 		],
 		[
 			{"skill:lightning":2}, {"skill:missile":2}, {"skill:fire":2}, {"skill:ice":2},
@@ -71,9 +70,9 @@ const LABELS: Dictionary = {
 	"mana_regen":"mana/s", "hp_regen":"health/s", "cast_speed":"cast speed", "cost_reduction":"mana efficiency",
 	"speed":"speed", "resistance":"damage resistance", "mana_recovery":"mana regeneration",
 	"hp_recovery":"health regeneration", "poison_resistance":"poison resistance",
-	"gold_bonus":"gold found", "xp_bonus":"experience", "all_skills":"all learned skills"
+	"gold_bonus":"gold found", "all_skills":"all learned skills"
 }
-const PERCENT: Array[String] = ["damage","cast_speed","cost_reduction","speed","resistance","mana_recovery","hp_recovery","poison_resistance","gold_bonus","xp_bonus"]
+const PERCENT: Array[String] = ["damage","cast_speed","cost_reduction","speed","resistance","mana_recovery","hp_recovery","poison_resistance","gold_bonus"]
 const POWERS: Dictionary = {"reach":"Telekinesis", "meditation":"Meditation", "mental_focus":"Mental Focus"}
 
 static func templates() -> Array[Dictionary]:

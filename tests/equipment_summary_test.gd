@@ -73,9 +73,9 @@ func _ready() -> void:
 	State.fresh(784)
 	for id: String in ["fire","lightning","missile","ice","life","mana","regen","power","rush"]: State.learn(id)
 	State.run.active="missile"
-	State.equip(gear({"hp_recovery":3.0,"resistance":0.45,"poison_resistance":0.8,"xp_bonus":0.5}).uid,"staff")
+	State.equip(gear({"hp_recovery":3.0,"resistance":0.45,"poison_resistance":0.8,"gold_bonus":0.5}).uid,"staff")
 	s=summary(gear({"all_skills":2}))
-	check(has(s.metrics,"Protection","−") and has(s.metrics,"Poison protection","−") and has(s.metrics,"Experience","−") and has(s.metrics,"Health regeneration","−"),"Important losses survive the four-metric gain budget")
+	check(has(s.metrics,"Protection","−") and has(s.metrics,"Poison protection","−") and has(s.metrics,"Gold found","−") and has(s.metrics,"Health regeneration","−"),"Important losses survive the four-metric gain budget")
 	check(s.extra_metrics>0,"Less important positive metrics remain in full details")
 	var report: Dictionary={"checks":checks,"errors":errors}
 	DirAccess.make_dir_recursive_absolute("res://outputs")

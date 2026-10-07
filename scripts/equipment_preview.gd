@@ -57,7 +57,7 @@ static func rows(before: Dictionary, after: Dictionary) -> Array:
 		["flat_damage","Flat damage",""], ["damage","Damage multiplier","x"],
 		["cast_speed","Projectile cast speed","x"], ["cost_reduction","Offensive mana cost reduction (max. 80 %)","%"],
 		["resistance","Damage resistance (max. 75 %)","%"], ["poison_resistance","Poison resistance (max. 100 %)","%"],
-		["speed","Movement speed",""], ["gold_bonus","Gold found bonus","%"], ["xp_bonus","Experience bonus","%"],
+		["speed","Movement speed",""], ["gold_bonus","Gold found bonus","%"],
 		["pickup_radius","Pickup radius",""],
 	]: add_numeric(result,field[1],before.stats[field[0]],after.stats[field[0]],field[2])
 	for field: Array in [["cost_reduction","economy",0.8,"Offensive mana cost reduction"],["resistance","resist",0.75,"Damage resistance"],["poison_resistance","poison_resist",1.0,"Poison resistance"]]:
@@ -167,7 +167,7 @@ static func compact(comparison: Dictionary) -> Dictionary:
 		["mana_regen","Mana regeneration","mana/s"], ["max_hp","Maximum health",""],
 		["resistance","Protection","%"], ["max_mana","Mana pool",""],
 		["hp_regen","Health regeneration","health/s"], ["poison_resistance","Poison protection","%"],
-		["speed","Movement","u/s"], ["gold_bonus","Gold found","%"], ["xp_bonus","Experience","%"],
+		["speed","Movement","u/s"], ["gold_bonus","Gold found","%"],
 	]: compact_metric(metrics,field[1],before.stats[field[0]],after.stats[field[0]],field[2])
 	# Four priority gains at most; negative changes are never silently omitted.
 	var visible: Array = []

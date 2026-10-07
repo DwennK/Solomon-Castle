@@ -81,10 +81,10 @@ func _ready() -> void:
 	p=parity(granted.uid,"ring2")
 	check(p.after.attacks.has("shield"),"Third ritual slot grants real shield availability")
 	State.equip(granted.uid,"ring1")
-	var other: Dictionary=item({"xp_bonus":1.0})
+	var other: Dictionary=item({"gold_bonus":1.0})
 	State.equip(other.uid,"ring2")
 	p=parity(granted.uid,"ring2")
-	check(p.after.stats.xp_bonus==0 and p.after.ranks.lightning==1,"Moving a worn ring removes destination without double-counting")
+	check(p.after.stats.gold_bonus==0 and p.after.ranks.lightning==1,"Moving a worn ring removes destination without double-counting")
 	State.fresh(775);State.run.skills.poison_resist=4
 	var poison: Dictionary=item({"poison_resistance":0.8})
 	p=parity(poison.uid,"ring1")

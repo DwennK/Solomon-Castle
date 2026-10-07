@@ -47,6 +47,7 @@ func equipment_bonuses() -> Dictionary:
 	for uid: String in run.get("equipped", {}).values():
 		var item: Dictionary = find_item(uid)
 		for key: String in item.get("bonuses", {}):
+			if key=="xp_bonus": continue # Retired effect, including legacy items.
 			result[key] = float(result.get(key,0.0))+float(item.bonuses[key])
 	return result
 
@@ -91,7 +92,7 @@ func stats() -> Dictionary:
 	var ranks: Dictionary = {}
 	for id: String in ["life","mana","regen","power","haste","economy","rush","resist"]:
 		ranks[id] = effective_rank(id,learned_rank(id),bonuses)
-	var s: Dictionary = {"max_hp":110.0+ranks.life*24, "max_mana":100.0+ranks.mana*28, "mana_regen":7.5+ranks.regen*2.5, "hp_regen":0.12, "damage":1.0+ranks.power*0.14, "cast_speed":1.0+ranks.haste*0.10, "cost_reduction":ranks.economy*0.09, "speed":220.0*(1.0+ranks.rush*0.07), "resistance":ranks.resist*0.07,"flat_damage":0.0,"poison_resistance":0.0,"gold_bonus":0.0,"xp_bonus":0.0,"mana_recovery":0.0,"hp_recovery":0.0}
+	var s: Dictionary = {"max_hp":110.0+ranks.life*24, "max_mana":100.0+ranks.mana*28, "mana_regen":7.5+ranks.regen*2.5, "hp_regen":0.12, "damage":1.0+ranks.power*0.14, "cast_speed":1.0+ranks.haste*0.10, "cost_reduction":ranks.economy*0.09, "speed":220.0*(1.0+ranks.rush*0.07), "resistance":ranks.resist*0.07,"flat_damage":0.0,"poison_resistance":0.0,"gold_bonus":0.0,"mana_recovery":0.0,"hp_recovery":0.0}
 	for key: String in bonuses:
 		if key in s: s[key] += float(bonuses[key])*(220.0 if key=="speed" else 1.0)
 	s.mana_regen *= 1.0+s.mana_recovery
@@ -124,7 +125,7 @@ func xp_threshold(level: int) -> float:
 	return 32.0 + level * 19.0 + pow(level, 1.5) * 2.0
 
 func add_xp(amount: float) -> void:
-	run.xp += amount*(1.0+stats().xp_bonus)
+	run.xp += amount
 	while run.xp >= xp_threshold(run.level):
 		run.xp -= xp_threshold(run.level)
 		run.level += 1
@@ -387,8 +388,33 @@ func load_game() -> bool:
 		if saved.is_empty(): continue
 		if not saved.has("insight"): saved.insight = 1
 		if not saved.has("reroll_serial"): saved.reroll_serial = 0
+		remove_saved_xp_bonuses(saved)
 	if not SaveStore.last_error.is_empty(): message.emit(SaveStore.last_error)
 	return true
+
+func remove_saved_xp_bonuses(saved: Dictionary) -> void:
+	for key: String in ["inventory", "shop"]:
+		var items: Array = saved.get(key, [])
+		for i: int in range(items.size()-1,-1,-1):
+			var item: Dictionary = items[i]
+			if remove_item_xp_bonus(item):
+				for slot: String in saved.get("equipped", {}):
+					if saved.equipped[slot]==item.uid: saved.equipped[slot]=""
+				items.remove_at(i)
+	for floor_data: Dictionary in saved.get("floors", {}).values():
+		var loot: Array = floor_data.get("loot", [])
+		for i: int in range(loot.size()-1,-1,-1):
+			var drop: Dictionary = loot[i]
+			if drop.get("kind", "")=="item" and drop.get("item") is Dictionary:
+				if remove_item_xp_bonus(drop.item): loot.remove_at(i)
+
+func remove_item_xp_bonus(item: Dictionary) -> bool:
+	# Remove retired XP-only items; preserve unrelated effects and ownership.
+	var bonuses: Dictionary = item.get("bonuses", {})
+	if not bonuses.erase("xp_bonus"): return false
+	if bonuses.is_empty(): return true
+	item.name = Equipment.item_name(item.slot, bonuses)
+	return false
 
 func valid_payload(payload: Dictionary) -> bool:
 	if not payload.get("run") is Dictionary: return false

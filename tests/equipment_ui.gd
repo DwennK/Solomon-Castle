@@ -27,7 +27,7 @@ func _ready() -> void:
 	main.world.player.qa_controlled=true
 	main.world.player.set_physics_process(false)
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new();rng.seed=1
-	for id: String in ["ring_0_07","staff_2_27","ring_1_14","staff_2_25"]:
+	for id: String in ["ring_0_04","staff_2_27","ring_1_14","staff_2_25"]:
 		for template: Dictionary in Equipment.templates():
 			if template.id==id: State.run.inventory.append(State.make_equipment(template,rng))
 	main.show_inventory()
@@ -36,10 +36,11 @@ func _ready() -> void:
 	await click_text("Ring 2")
 	await click_text("Equip — ring 2")
 	check(State.run.equipped.ring2==ring.uid and State.run.equipped.ring1.is_empty(),"Click equips the selected ring slot")
-	check(State.stats().xp_bonus==1,"Equipped ring changes real XP multiplier")
+	check(State.stats().mana_recovery==0.75,"Equipped ring changes real mana recovery")
+	check(not all_text(main.modal).to_lower().contains("expérience") and not all_text(main.modal).to_lower().contains("experience"),"Inventory contains no retired XP bonus")
 	await capture("inventory-1440x900")
 	await click_text("Remove · Ring 2")
-	check(State.run.equipped.ring2.is_empty() and State.stats().xp_bonus==0,"Click removes ring and its bonus")
+	check(State.run.equipped.ring2.is_empty() and State.stats().mana_recovery==0,"Click removes ring and its bonus")
 	await click_text("Ring 1")
 	await click_text("Equip — ring 1")
 	check(State.run.equipped.ring1==ring.uid,"Same ring can be placed in the first slot")
@@ -149,7 +150,7 @@ func full_inventory_checks() -> void:
 	var rng: RandomNumberGenerator=RandomNumberGenerator.new();rng.seed=81
 	var staff: Dictionary=fixture("staff_2_27",rng)
 	var ring_a: Dictionary=fixture("ring_1_19",rng)
-	var ring_b: Dictionary=fixture("ring_0_07",rng)
+	var ring_b: Dictionary=fixture("ring_0_04",rng)
 	var candidate: Dictionary=fixture("ring_1_17",rng)
 	State.equip(staff.uid,"staff");State.equip(ring_a.uid,"ring1");State.equip(ring_b.uid,"ring2")
 	for i: int in range(44): State.run.inventory.append(State.make_item(1100+i,8))
