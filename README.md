@@ -14,6 +14,8 @@ Les nouvelles versions jouables sont dans `outputs/v2/`. Personnages, objets et 
 
 Le moteur utilisé est `4.7.2.stable.official.ed1daf0bf`, en rendu Compatibility. Les illustrations sont réellement générées avec ImageGen et intégrées. L’audio est une synthèse originale déjà rendue en WAV et Ogg Vorbis ; il n’est pas nécessaire de lancer les outils pour jouer.
 
+Le jeu démarre en fenêtre agrandie à la taille du bureau. L’option plein écran reste mémorisée ; modifier le son ou la luminosité conserve la taille de la fenêtre.
+
 ## Parcours
 
 Nouvelle partie → village → apprentissage d’un élément auprès d’Orme ou à l’entrée de la tour → treize étages avec salles et couloirs → gardiens → sommet → victoire → difficulté suivante.
@@ -75,6 +77,7 @@ Depuis la racine du projet, sur macOS/Linux :
 ./tools/godot.sh --path . --resolution 1440x900 -- --qa --qa-visual
 ./tools/godot.sh --path . tests/ui_redesign.tscn -- --qa
 ./tools/godot.sh --path . tests/resolution_qa.tscn -- --qa
+./tools/godot.sh --path . tests/window_qa.tscn -- --qa
 ```
 
 `GODOT_BIN` peut pointer vers un autre emplacement du binaire 4.7.2. Sur Windows, remplacer `./tools/godot.sh` par le chemin de `Godot_v4.7.2-stable_win64.exe` (ou sa variante console). Un test réussi sort avec code 0 et produit un rapport JSON dans `outputs/`.

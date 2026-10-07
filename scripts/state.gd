@@ -11,6 +11,7 @@ var qa: bool = false
 var save_path: String = "user://campaign.json"
 var unlocked: int = 0
 var notice_times: Dictionary = {}
+var _windowed_mode: int = DisplayServer.WINDOW_MODE_MAXIMIZED
 
 func notify_limited(key: String, text: String, interval_ms: int = 4000) -> void:
 	var now: int = Time.get_ticks_msec()
@@ -425,4 +426,11 @@ func apply_options() -> void:
 	AudioServer.set_bus_mute(0,float(options.volume)<=0.0)
 	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(0.0001, options.volume)))
 	if DisplayServer.get_name() != "headless":
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if options.fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
+		var mode: int = DisplayServer.window_get_mode()
+		var is_fullscreen: bool = mode in [DisplayServer.WINDOW_MODE_FULLSCREEN, DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN]
+		if options.fullscreen and not is_fullscreen:
+			# Preserve manual resizing/maximizing when returning from fullscreen.
+			_windowed_mode = mode if mode in [DisplayServer.WINDOW_MODE_WINDOWED, DisplayServer.WINDOW_MODE_MAXIMIZED] else DisplayServer.WINDOW_MODE_MAXIMIZED
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		elif not options.fullscreen and is_fullscreen:
+			DisplayServer.window_set_mode(_windowed_mode)
