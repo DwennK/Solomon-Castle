@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "imp"
-title = "Diablotin"
+title = "Imp"
 description = ""
 kind = "enemy"
 icon = ""

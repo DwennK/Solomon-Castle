@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "silver_ring"
-title = "Anneau d’argent"
+title = "Silver Ring"
 description = ""
 kind = "item"
 icon = "ring"

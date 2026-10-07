@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "archer"
-title = "Archer des cryptes"
+title = "Crypt Archer"
 description = ""
 kind = "enemy"
 icon = ""

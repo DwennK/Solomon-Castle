@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "mana"
-title = "Réserve de mana"
-description = "+28 points de mana maximum."
+title = "Mana pool"
+description = "+28 maximum mana."
 kind = "passive"
 icon = "book"
 max_rank = 4

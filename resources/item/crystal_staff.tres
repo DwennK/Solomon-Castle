@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "crystal_staff"
-title = "Bâton de cristal"
+title = "Crystal Staff"
 description = ""
 kind = "item"
 icon = "staff"

@@ -50,7 +50,7 @@ func _ready() -> void:
 	check(p.before.stats.cost_reduction==0.8 and p.after.stats.cost_reduction==0.8,"Mana reduction stays capped at 80 percent")
 	check(p.before.stats.resistance==0.75 and p.after.stats.resistance==0.75,"Damage reduction stays capped at 75 percent")
 	check(p.after.ranks.shield==11,"Equipment skill rank cap is respected")
-	check(not p.rows.any(func(row: Dictionary)->bool:return row.title.begins_with("Réduction du coût") and not row.get("neutral",false)),"No false gain for an already capped stat")
+	check(not p.rows.any(func(row: Dictionary)->bool:return row.title.begins_with("Offensive mana cost reduction") and not row.get("neutral",false)),"No false gain for an already capped stat")
 	State.fresh(772);State.learn("fire");State.learn("missile");State.learn("fire_missile")
 	var frozen: Dictionary=State.run.fusion.duplicate(true)
 	var spell: Dictionary=item({"skill:fire":2,"skill:explode":2})
@@ -76,7 +76,7 @@ func _ready() -> void:
 	p=parity(granted.uid,"ring1")
 	check(p.after.active=="lightning","New temporary primary becomes active")
 	check(not p.after.attacks.has("shield") and p.after.secondary.size()==2,"Granted ritual cannot bypass full ritual slots")
-	check(p.rows.any(func(row: Dictionary)->bool:return row.text.contains("emplacements sont occupés")),"Full ritual slots explained")
+	check(p.rows.any(func(row: Dictionary)->bool:return row.text.contains("slots are occupied")),"Full ritual slots explained")
 	State.run.level=20
 	p=parity(granted.uid,"ring2")
 	check(p.after.attacks.has("shield"),"Third ritual slot grants real shield availability")

@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "reach"
-title = "Télékinésie"
-description = "Ramasse le butin à quatre fois la distance normale."
+title = "Telekinesis"
+description = "Picks up loot at four times the normal distance."
 kind = "passive"
 icon = "book"
 max_rank = 1

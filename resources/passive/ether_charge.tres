@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "ether_charge"
-title = "Charge d’éther"
-description = "Accumule des charges au repos ; le tir astral libère une onde qui réduit la vie maximale des ennemis."
+title = "Ether Charge"
+description = "Builds charges while idle; firing an astral missile releases a wave that reduces enemy maximum health."
 kind = "passive"
 icon = "missile"
 prerequisite = "missile"

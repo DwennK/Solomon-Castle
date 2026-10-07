@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "freeze"
-title = "Gel soudain"
-description = "Gèle les ennemis proches pendant 2 + rang secondes."
+title = "Flash Freeze"
+description = "Freezes nearby enemies for 2 + rank seconds."
 kind = "secondary"
 icon = "ice"
 max_rank = 5

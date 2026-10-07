@@ -7,6 +7,6 @@ elif command -v godot >/dev/null 2>&1; then
 elif [ -x "$HOME/.local/share/solomon-castle-tools/Godot.app/Contents/MacOS/Godot" ]; then
   exec "$HOME/.local/share/solomon-castle-tools/Godot.app/Contents/MacOS/Godot" "$@"
 else
-  echo 'Définissez GODOT_BIN vers Godot 4.7.2.' >&2
+  echo 'Set GODOT_BIN to the Godot 4.7.2 executable.' >&2
   exit 1
 fi

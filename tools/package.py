@@ -4,18 +4,18 @@ import zipfile, hashlib
 root=Path(__file__).resolve().parents[1]
 out=root/'outputs';out.mkdir(exist_ok=True)
 licenses=list((root/'docs/licenses').glob('*.txt'))+list((root/'assets/fonts').glob('*OFL.txt'))
-notice='La Tour des Cendres 0.1.0\n\nmacOS : ouvrir La Tour des Cendres.app. Signature ad hoc, non notarisee.\nWindows : lancer La-Tour-des-Cendres.exe. Binaire x86-64 non signe, non teste sur Windows.\n\nCommandes : WASD/ZQSD, souris + clic gauche, E interaction, T village, I inventaire, K grimoire, R/F potions, 1/2/3 rituels, Echap pause.\nDocumentation complete dans l archive source.\n'
+notice='The Tower of Ash 0.2.0\n\nmacOS: open The Tower of Ash.app. Ad-hoc signed, not notarized.\nWindows: run La-Tour-des-Cendres.exe. Unsigned x86-64 build; Windows testing required.\n\nControls: WASD/ZQSD, mouse + left click, E interact, T village, I inventory, K grimoire, R/F potions, 1/2/3 rituals, Esc pause.\nFull documentation is included in the source archive.\n'
 mac=out/'La-Tour-des-Cendres-macOS.zip'
 if mac.exists():
  with zipfile.ZipFile(mac,'a',zipfile.ZIP_DEFLATED) as z:
-  if 'LIRE-MOI.txt' not in z.namelist():
-   z.writestr('LIRE-MOI.txt',notice)
-   for p in licenses:z.write(p,'Licences/'+p.name)
+  if 'README.txt' not in z.namelist():
+   z.writestr('README.txt',notice)
+   for p in licenses:z.write(p,'Licenses/'+p.name)
 win=out/'La-Tour-des-Cendres-Windows.zip'
 with zipfile.ZipFile(win,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  z.write(out/'windows/La-Tour-des-Cendres.exe','La-Tour-des-Cendres.exe')
- z.writestr('LIRE-MOI.txt',notice)
- for p in licenses:z.write(p,'Licences/'+p.name)
+ z.writestr('README.txt',notice)
+ for p in licenses:z.write(p,'Licenses/'+p.name)
 source=out/'La-Tour-des-Cendres-Sources.zip'
 with zipfile.ZipFile(source,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  for p in root.rglob('*'):

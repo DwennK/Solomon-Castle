@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "multishot"
-title = "Projectiles multiples"
-description = "Un projectile supplémentaire ; coût +2 mana."
+title = "Multishot"
+description = "One additional projectile; costs +2 mana."
 kind = "passive"
 icon = "missile"
 max_rank = 7

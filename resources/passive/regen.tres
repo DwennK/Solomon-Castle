@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "regen"
-title = "Canalisation du mana"
-description = "+2,5 mana régénéré par seconde."
+title = "Mana Channeling"
+description = "+2.5 mana regenerated per second."
 kind = "passive"
 icon = "book"
 max_rank = 4

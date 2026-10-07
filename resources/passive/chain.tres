@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "chain"
-title = "Chaîne électrique"
-description = "Un ennemi supplémentaire touché par rang."
+title = "Chain Lightning"
+description = "Hits one additional enemy per rank."
 kind = "passive"
 icon = "lightning"
 max_rank = 5

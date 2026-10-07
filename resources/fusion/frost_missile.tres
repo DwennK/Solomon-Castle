@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "frost_missile"
-title = "Missile de givre"
-description = "Salve guidée qui éclate et gèle."
+title = "Frost Missile"
+description = "A homing volley that bursts and freezes."
 kind = "fusion"
 icon = "missile"
 max_rank = 1

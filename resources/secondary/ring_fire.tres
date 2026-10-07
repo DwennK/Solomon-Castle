@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "ring_fire"
-title = "Anneau de feu"
-description = "Onde de feu : 45 dégâts par rang et recul."
+title = "Ring of Fire"
+description = "Fire wave: 45 damage per rank and knockback."
 kind = "secondary"
 icon = "fire"
 max_rank = 10

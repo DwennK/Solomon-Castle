@@ -5,11 +5,11 @@
 [resource]
 script = ExtResource("1")
 id = "campaign"
-title = "La Tour des Cendres"
-description = "Treize étages. Deux rituels secondaires, puis trois au niveau 20."
+title = "The Tower of Ash"
+description = "Thirteen floors. Two secondary rituals, then three at level 20."
 kind = "progression"
 icon = ""
 max_rank = 5
 min_level = 1
 prerequisite = ""
-values = {"floors": 13, "boss_floors": [4, 8, 11, 13], "difficulties": ["Apprenti", "Sorcier", "Archimage", "Demi-dieu", "Épreuve éternelle"]}
+values = {"floors": 13, "boss_floors": [4, 8, 11, 13], "difficulties": ["Apprentice", "Sorcerer", "Archmage", "Demigod", "Eternal Trial"]}

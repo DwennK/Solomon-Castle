@@ -59,9 +59,9 @@ func update_value(value: float, maximum: float) -> void:
 	critical = resource_kind == "hp" and target <= 0.25
 	value_label.text = "%d / %d" % [ceili(value),ceili(maximum)]
 	value_label.add_theme_color_override("font_color",Color("ffb0a6") if critical else GameTheme.IVORY)
-	title_label.text = "VIE FAIBLE" if critical else ("VIE" if resource_kind == "hp" else "MANA")
+	title_label.text = "LOW HEALTH" if critical else ("HEALTH" if resource_kind == "hp" else "MANA")
 	title_label.add_theme_color_override("font_color",Color("ffb0a6") if critical else GameTheme.MUTED)
-	tooltip_text = ("Vie" if resource_kind == "hp" else "Mana") + " : " + value_label.text
+	tooltip_text = ("Health" if resource_kind == "hp" else "Mana") + " : " + value_label.text
 
 func _process(delta: float) -> void:
 	displayed = move_toward(displayed,target,delta*1.5)

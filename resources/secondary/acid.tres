@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "acid"
-title = "Pluie acide"
-description = "Zone de 7 s infligeant 14 dégâts/s par rang."
+title = "Acid Rain"
+description = "7 s zone dealing 14 damage/s per rank."
 kind = "secondary"
 icon = "mana"
 max_rank = 10

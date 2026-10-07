@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "cone"
-title = "Cône de glace"
-description = "Élargit le jet de 0,12 rad et sa portée de 18 par rang."
+title = "Ice Cone"
+description = "Widens the stream by 0.12 rad and extends its range by 18 per rank."
 kind = "passive"
 icon = "ice"
 max_rank = 6

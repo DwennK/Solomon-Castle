@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "demon"
-title = "Le Gardien du brasier"
+title = "The Ember Guardian"
 description = ""
 kind = "enemy"
 icon = ""

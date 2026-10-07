@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "flame_lash"
-title = "Fouet de flammes"
-description = "Arc continu brûlant qui se propage."
+title = "Flame Lash"
+description = "A continuous burning arc that chains between targets."
 kind = "fusion"
 icon = "fire"
 max_rank = 1

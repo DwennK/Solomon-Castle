@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "meditation"
-title = "Méditation"
-description = "Après une seconde sans agir : régénération du mana multipliée par quatre."
+title = "Meditation"
+description = "After one second idle: mana regeneration multiplied by four."
 kind = "passive"
 icon = "book"
 max_rank = 1

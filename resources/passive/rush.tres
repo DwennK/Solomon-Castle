@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "rush"
-title = "Célérité"
-description = "+7 % vitesse de déplacement par rang."
+title = "Haste"
+description = "+7 % movement speed per rank."
 kind = "passive"
 icon = "book"
 max_rank = 3

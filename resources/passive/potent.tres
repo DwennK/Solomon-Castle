@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "potent"
-title = "Projectiles véloces"
-description = "Accélère les missiles et leur permet de changer de cible. Coût +1 mana par rang."
+title = "Swift Missiles"
+description = "Speeds up missiles and allows them to retarget. Costs +1 mana per rank."
 kind = "passive"
 icon = "missile"
 max_rank = 5

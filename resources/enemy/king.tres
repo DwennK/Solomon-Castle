@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "king"
-title = "Le Roi sans tombe"
+title = "The Unburied King"
 description = ""
 kind = "enemy"
 icon = ""

@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "teleport"
-title = "Téléportation"
-description = "Vers la dernière salle sûre. Coût 10 mana."
+title = "Teleport"
+description = "Returns to the last safe room. Costs 10 mana."
 kind = "secondary"
 icon = "portal"
 max_rank = 1

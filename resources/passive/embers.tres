@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "embers"
-title = "Braises"
-description = "Trois braises par rang à l’impact ; nécessite Explosion."
+title = "Embers"
+description = "Three embers per rank on impact; requires Explosion."
 kind = "passive"
 icon = "fire"
 max_rank = 5

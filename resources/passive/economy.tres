@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "economy"
-title = "Mage de bataille"
-description = "−9 % coût de mana par rang (minimum 20 %)."
+title = "Battle Mage"
+description = "−9 % mana cost per rank (minimum 20 %)."
 kind = "passive"
 icon = "book"
 max_rank = 6

@@ -6,7 +6,7 @@
 script = ExtResource("1")
 id = "explode"
 title = "Explosion"
-description = "Ajoute une explosion ; puissance et rayon augmentent avec le rang."
+description = "Adds an explosion; power and radius increase with rank."
 kind = "passive"
 icon = "fire"
 max_rank = 6

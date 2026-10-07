@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "fire"
-title = "Boule de feu"
-description = "Projectile puissant. +11 dégâts par rang."
+title = "Fireball"
+description = "A powerful projectile. +11 damage per rank."
 kind = "primary"
 icon = "fire"
 max_rank = 20

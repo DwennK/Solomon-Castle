@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "creativity"
-title = "Créativité"
-description = "Propose quatre compétences au lieu de trois aux prochains niveaux."
+title = "Creativity"
+description = "Offers four skills instead of three on future level-ups."
 kind = "passive"
 icon = "book"
 prerequisite = ""

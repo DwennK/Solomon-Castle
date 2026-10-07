@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "missile"
-title = "Projectile astral"
-description = "Projectile guidé vers une cible. +7 dégâts par rang."
+title = "Astral Missile"
+description = "A homing projectile. +7 damage per rank."
 kind = "primary"
 icon = "missile"
 max_rank = 20

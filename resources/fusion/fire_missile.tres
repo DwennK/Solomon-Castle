@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "fire_missile"
-title = "Missile ardent"
-description = "Projectiles guidés explosifs."
+title = "Burning Missile"
+description = "Explosive homing projectiles."
 kind = "fusion"
 icon = "fire"
 max_rank = 1

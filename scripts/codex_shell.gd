@@ -27,20 +27,20 @@ func _ready() -> void:
 	root.add_theme_constant_override("separation",8)
 	navigation = HBoxContainer.new();root.add_child(navigation)
 	var name_label: Label = Label.new()
-	name_label.text = "CODEX DU MAGE"
+	name_label.text = "THE MAGE’S CODEX"
 	name_label.add_theme_font_override("font",GameTheme.TITLE)
 	name_label.add_theme_font_size_override("font_size",18)
 	name_label.add_theme_color_override("font_color",GameTheme.GOLD)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	navigation.add_child(name_label)
-	for entry: Array in [["inventory","Inventaire"],["skills","Grimoire"],["map","Carte"],["pause","Pause"]]:
+	for entry: Array in [["inventory","Inventory"],["skills","Grimoire"],["map","Map"],["pause","Pause"]]:
 		var tab: Button = button(navigation,entry[1],func()->void:
 			if section!=entry[0]: section_requested.emit(entry[0]))
 		tab.custom_minimum_size.x = 120
 		if section==entry[0]: tab.add_theme_stylebox_override("normal",selected_style())
-	var close: Button = button(navigation,"Fermer",func()->void:close_requested.emit())
+	var close: Button = button(navigation,"Close",func()->void:close_requested.emit())
 	close.custom_minimum_size.x=100
-	close.tooltip_text = "Fermer le codex · Échap / B"
+	close.tooltip_text = "Close codex · Esc / B"
 	var book: Control = Control.new();root.add_child(book)
 	book.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var texture: TextureRect = TextureRect.new()

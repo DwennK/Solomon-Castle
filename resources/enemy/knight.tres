@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "knight"
-title = "Garde noir"
+title = "Blackguard"
 description = ""
 kind = "enemy"
 icon = ""

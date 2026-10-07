@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "haste"
-title = "Incantation rapide"
-description = "+10 % cadence des projectiles par rang. Sans effet sur les jets continus."
+title = "Rapid Casting"
+description = "+10 % projectile cast speed per rank. Does not affect continuous streams."
 kind = "passive"
 icon = "book"
 max_rank = 4

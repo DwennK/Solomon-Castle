@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "stun"
-title = "Étourdissement"
-description = "Les éclairs interrompent les attaques ; durée +0,08 s/rang."
+title = "Stun"
+description = "Lightning interrupts attacks; duration +0.08 s/rank."
 kind = "passive"
 icon = "lightning"
 max_rank = 4

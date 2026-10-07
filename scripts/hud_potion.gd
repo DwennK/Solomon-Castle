@@ -49,4 +49,4 @@ func update_potion(key: String, count: int) -> void:
 	disabled = count<=0
 	icon_view.modulate = Color("565963") if disabled else Color.WHITE
 	count_label.add_theme_color_override("font_color",GameTheme.MUTED if disabled else GameTheme.IVORY)
-	tooltip_text = "Potion de %s · %s\n%s" % ["vie" if resource_kind=="hp" else "mana",key,"Aucune potion" if disabled else "%d en réserve" % count]
+	tooltip_text = "%s potion · %s\n%s" % ["Health" if resource_kind=="hp" else "Mana",key,"No potions" if disabled else "%d remaining" % count]

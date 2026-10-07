@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "circle"
-title = "Cercle magique"
-description = "Zone de 18 s : régénération et ralentissement. Rayon +25/rang."
+title = "Magic Circle"
+description = "18 s zone: regeneration and slowing. Radius +25/rank."
 kind = "secondary"
 icon = "missile"
 max_rank = 5

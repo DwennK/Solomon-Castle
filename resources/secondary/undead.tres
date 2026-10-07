@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "undead"
-title = "Renvoi des morts"
-description = "Affaiblit les morts-vivants et les fait fuir 4 + rang secondes."
+title = "Turn Undead"
+description = "Weakens undead and makes them flee for 4 + rank seconds."
 kind = "secondary"
 icon = "lightning"
 max_rank = 5

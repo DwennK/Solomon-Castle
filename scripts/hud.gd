@@ -37,7 +37,7 @@ func _ready() -> void:
 	var identity: VBoxContainer = VBoxContainer.new()
 	identity.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(identity)
-	var chapter: Label = text_label("L A  T O U R  D E S  C E N D R E S",12,GameTheme.GOLD)
+	var chapter: Label = text_label("T H E  T O W E R  O F  A S H",12,GameTheme.GOLD)
 	identity.add_child(chapter)
 	values = text_label("",20); GameTheme.heading(values); identity.add_child(values)
 	var right: VBoxContainer = VBoxContainer.new(); top.add_child(right)
@@ -60,7 +60,7 @@ func _ready() -> void:
 	primary.position = Vector2(298,112); primary.size = Vector2(100,100)
 	dock.add_child(primary)
 	primary.pressed.connect(func()->void: world.cycle_spell())
-	var active_title: Label = text_label("PRINCIPAL",11,GameTheme.GOLD)
+	var active_title: Label = text_label("PRIMARY",11,GameTheme.GOLD)
 	place(active_title,Vector2(298,44),Vector2(150,18))
 	spell_label = text_label("",18,GameTheme.IVORY)
 	GameTheme.heading(spell_label)
@@ -68,9 +68,9 @@ func _ready() -> void:
 	spell_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	spell_label.max_lines_visible = 1
 	place(spell_label,Vector2(298,62),Vector2(170,25))
-	spell_hint = text_label("Changer de magie",12,GameTheme.MUTED)
+	spell_hint = text_label("Switch magic",12,GameTheme.MUTED)
 	place(spell_hint,Vector2(298,85),Vector2(110,18))
-	var ritual_title: Label = text_label("RITUELS",11,GameTheme.GOLD)
+	var ritual_title: Label = text_label("RITUALS",11,GameTheme.GOLD)
 	place(ritual_title,Vector2(422,105),Vector2(100,18))
 	ritual_status = text_label("",11,GameTheme.MUTED)
 	ritual_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -94,7 +94,7 @@ func _ready() -> void:
 	navigation_panel.add_theme_constant_override("h_separation",4)
 	navigation_panel.add_theme_constant_override("v_separation",4)
 	right.add_child(navigation_panel)
-	for entry: Array in [["inventory","Inventaire"],["skills","Grimoire"],["portal","Village"],["map","Carte"],["pause","Pause"]]:
+	for entry: Array in [["inventory","Inventory"],["skills","Grimoire"],["portal","Village"],["map","Map"],["pause","Pause"]]:
 		var b: Button = Button.new(); b.focus_mode = Control.FOCUS_NONE
 		b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		b.add_theme_font_size_override("font_size",13)
@@ -184,44 +184,44 @@ func _process(delta: float) -> void:
 	var s: Dictionary = world.player.cached_stats
 	hp.update_value(State.run.hp,s.max_hp); mp.update_value(State.run.mp,s.max_mana)
 	xp.max_value = State.xp_threshold(State.run.level); xp.value = State.run.xp
-	xp.tooltip_text = "Expérience : %d / %d" % [xp.value,xp.max_value]
-	xp_label.text = "NIV. %02d   ·   %d / %d XP" % [State.run.level,xp.value,xp.max_value]
-	values.text = "Mage • Niveau %02d" % State.run.level
-	location_label.text = ("LE HAMEAU DES BRAISES" if world.village else "LA TOUR  ·  ÉTAGE %02d / 13" % State.run.floor)+"\n%d or  ·  %s" % [State.run.gold,Catalog.definition("campaign").values.difficulties[int(State.run.difficulty)]]
-	if State.qa: location_label.text += "\nQA · sauvegarde de test"
+	xp.tooltip_text = "Experience: %d / %d" % [xp.value,xp.max_value]
+	xp_label.text = "LV. %02d   ·   %d / %d XP" % [State.run.level,xp.value,xp.max_value]
+	values.text = "Mage • Level %02d" % State.run.level
+	location_label.text = ("EMBER HAMLET" if world.village else "THE TOWER  ·  FLOOR %02d / 13" % State.run.floor)+"\n%d gold  ·  %s" % [State.run.gold,Catalog.definition("campaign").values.difficulties[int(State.run.difficulty)]]
+	if State.qa: location_label.text += "\nQA · test save"
 	map.visible = not world.village
 	if hint_label.text != world.hint:
 		hint_label.text = world.hint
 		layout_dock()
 	hint_panel.visible = not world.hint.is_empty()
-	spell_label.text = Catalog.title(State.run.active) if not State.run.active.is_empty() else "Aucune magie"
-	primary.update_slot(State.run.active,Controls.caption("cycle_spell"),0,1,"MAGIE")
+	spell_label.text = Catalog.title(State.run.active) if not State.run.active.is_empty() else "No magic"
+	primary.update_slot(State.run.active,Controls.caption("cycle_spell"),0,1,"MAGIC")
 	primary.disabled = State.run.active.is_empty()
 	hp_potion.update_potion(Controls.caption("hp_potion"),State.run.hp_potions)
 	mp_potion.update_potion(Controls.caption("mp_potion"),State.run.mp_potions)
-	ritual_status.text = "Au village" if world.village else ""
+	ritual_status.text = "In the village" if world.village else ""
 	var available: Array = State.secondary_skills()
 	for i: int in range(3):
 		var id: String = available[i] if i < available.size() else ""
 		var cd: float = world.player.cooldowns.get(id,0)
 		var profile: Dictionary = world.combat.secondary_profile(id) if not id.is_empty() else {"cooldown":1.0,"mana":0.0}
-		var empty: String = "NIV. 20" if i==2 and State.run.level<20 else "VIDE"
+		var empty: String = "LV. 20" if i==2 and State.run.level<20 else "EMPTY"
 		var low_mana: bool = not id.is_empty() and State.run.mp + 0.00001 < State.mana_cost(profile.mana,profile.offensive)
 		rituals[i].disabled = id.is_empty() or cd>0 or world.village or low_mana
 		rituals[i].update_slot(id,Controls.caption("secondary_%d"%i),cd,profile.cooldown,empty,low_mana)
 		if id.is_empty():
-			rituals[i].tooltip_text = "Troisième rituel · se débloque au niveau 20" if empty=="NIV. 20" else "Emplacement libre · apprenez un rituel en montant de niveau"
+			rituals[i].tooltip_text = "Third ritual · unlocks at level 20" if empty=="LV. 20" else "Empty slot · learn a ritual when you level up"
 	for action: String in navigation:
 		navigation[action][0].text = "%s  %s" % [Controls.caption(action),navigation[action][1]]
 	var new_key: String = str([State.run.skills,State.run.fusion,State.run.active,available,State.run.equipped,s,Controls.caption("cycle_spell")])
 	if details_key!=new_key:
 		details_key=new_key
-		spell_hint.text = "Parlez à Orme"
+		spell_hint.text = "Talk to Orme"
 		if not State.run.active.is_empty():
 			var attack: Dictionary = world.combat.profile(State.run.active)
-			spell_hint.text = "%s mana %s" % [String.num(State.mana_cost(attack.mana),1).trim_suffix(".0").replace(".",","),"/ s" if attack.channel else "/ sort"]
-		if not State.run.active.is_empty(): primary.tooltip_text=Catalog.title(State.run.active)+"\n"+SkillDetails.text(State.run.active,false)+"\nDPS théorique avant résistance, à mana disponible. Portées en unités (u).\n"+Controls.caption("cycle_spell")+" · Changer de magie (ou cliquer)."
+			spell_hint.text = "%s mana %s" % [String.num(State.mana_cost(attack.mana),1).trim_suffix(".0").replace(".",","),"/ s" if attack.channel else "/ cast"]
+		if not State.run.active.is_empty(): primary.tooltip_text=Catalog.title(State.run.active)+"\n"+SkillDetails.text(State.run.active,false)+"\nTheoretical DPS before resistance, with mana available. Range in units (u).\n"+Controls.caption("cycle_spell")+" · Switch magic (or click)."
 		for i: int in range(available.size()):
 			var id: String = available[i]
-			rituals[i].tooltip_text=Catalog.title(id)+"\n"+SkillDetails.text(id,false)+"\nDPS moyen : dégâts ÷ recharge. Avant résistance."
+			rituals[i].tooltip_text=Catalog.title(id)+"\n"+SkillDetails.text(id,false)+"\nAverage DPS: damage ÷ cooldown. Before resistance."
 	toast_timer -= delta; toast_label.visible = toast_timer>0

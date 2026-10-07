@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "hurricane"
-title = "Ouragan"
-description = "Une tempête blesse et dévie les ennemis et leurs tirs pendant Éclair. Sans effet sur les fusions."
+title = "Hurricane"
+description = "A storm damages and deflects enemies and their shots while casting Lightning. Does not affect fusions."
 kind = "passive"
 icon = "lightning"
 prerequisite = "lightning"

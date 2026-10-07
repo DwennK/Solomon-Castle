@@ -1,494 +1,509 @@
-key,fr
+"key","en"
 "
-%d or  ·  %s","
-%d or  ·  %s"
+%d gold  ·  %s","
+%d gold  ·  %s"
 "
-QA · sauvegarde de test","
-QA · sauvegarde de test"
-  [actif],  [actif]
-  [équipé],  [équipé]
-  ·  ,  ·  
-  · activer,  · activer
-  · vendre %d or,  · vendre %d or
-  · équiper,  · équiper
- %+.0f %%, %+.0f %%
- %+.1f, %+.1f
- / , / 
- : , : 
- : bouton %d, : bouton %d
- Figée au niveau %d., Figée au niveau %d.
- · , · 
- · activer la fusion, · activer la fusion
- · potion de mana et équipement, · potion de mana et équipement
- · rang %d, · rang %d
- — , — 
- — retirer, — retirer
-%d / %d,%d / %d
-%d / 48 objets · %d or · Un bâton et deux anneaux.,%d / 48 objets · %d or · Un bâton et deux anneaux.
-"%d or · Bâtons, anneaux et provisions. Le stock appartient à cette ascension.","%d or · Bâtons, anneaux et provisions. Le stock appartient à cette ascension."
-%d → %d,%d → %d
-%s  %s,%s  %s
-%s vaincu.,%s vaincu.
-%s · %d or,%s · %d or
-+%.0f %%,+%.0f %%
-+%d or%s,+%d or%s
-+12 % cadence des projectiles par rang.,+12 % cadence des projectiles par rang.
-+14 % dégâts par rang.,+14 % dégâts par rang.
-"+2,5 mana régénéré par seconde.","+2,5 mana régénéré par seconde."
-"+20 % vitesse, poursuite plus vive.","+20 % vitesse, poursuite plus vive."
-+24 points de vie maximum.,+24 points de vie maximum.
-+28 points de mana maximum.,+28 points de mana maximum.
-+45 portée de ramassage par rang.,+45 portée de ramassage par rang.
-+7 % vitesse de déplacement par rang.,+7 % vitesse de déplacement par rang.
-Absorbe 45 dégâts par rang. Coût 30 mana.,Absorbe 45 dégâts par rang. Coût 30 mana.
-Acheter de la sagesse propose trois améliorations éligibles à votre niveau. Coût : %d or.,Acheter de la sagesse propose trois améliorations éligibles à votre niveau. Coût : %d or.
-Acheter une leçon · %d or,Acheter une leçon · %d or
-Affaiblit les morts-vivants et les fait fuir 4 + rang secondes.,Affaiblit les morts-vivants et les fait fuir 4 + rang secondes.
-Ambiance musicale,Ambiance musicale
-Anneau ,Anneau 
-Anneau de cuivre,Anneau de cuivre
-Anneau de feu,Anneau de feu
-Anneau d’argent,Anneau d’argent
-Anneau d’onyx,Anneau d’onyx
-Appuyez sur la nouvelle touche…,Appuyez sur la nouvelle touche…
-Appuyez sur le nouveau bouton…,Appuyez sur le nouveau bouton…
-Arc continu brûlant qui se propage.,Arc continu brûlant qui se propage.
-"Arc continu, précis et instantané. +15 dégâts/s par rang.","Arc continu, précis et instantané. +15 dégâts/s par rang."
-Archer des cryptes,Archer des cryptes
-"Au repos : +3 mana/s et +0,8 vie/s par rang.","Au repos : +3 mana/s et +0,8 vie/s par rang."
-Aucune sauvegarde valide. Vous pouvez commencer une nouvelle partie.,Aucune sauvegarde valide. Vous pouvez commencer une nouvelle partie.
-Basile · marchand,Basile · marchand
-Bouclier magique,Bouclier magique
-Boule de feu,Boule de feu
-Briser l’urne,Briser l’urne
-Bâton,Bâton
-Bâton de cristal,Bâton de cristal
-Bâton de frêne,Bâton de frêne
-Bâton d’os,Bâton d’os
-Canalisation du mana,Canalisation du mana
-Cercle magique,Cercle magique
-Changer de magie,Changer de magie
-Chaîne électrique,Chaîne électrique
-Clavier WASD / ZQSD ou flèches. Souris : viser et maintenir le clic. Manette : les deux sticks.,Clavier WASD / ZQSD ou flèches. Souris : viser et maintenir le clic. Manette : les deux sticks.
-Clé trouvée : ouvrez le sceau du gardien.,Clé trouvée : ouvrez le sceau du gardien.
-Commencer la difficulté suivante,Commencer la difficulté suivante
-Comparaison ,Comparaison 
-Consulter le grimoire,Consulter le grimoire
-Continuer l’ascension,Continuer l’ascension
-Crédits,Crédits
-Célérité,Célérité
-Cône continu qui ralentit les ennemis. +11 dégâts/s par rang.,Cône continu qui ralentit les ennemis. +11 dégâts/s par rang.
-Cône de glace,Cône de glace
-Difficulté,Difficulté
-Dégâts : %.1f → %.1f%s · Mana : %.1f → %.1f%s,Dégâts : %.1f → %.1f%s · Mana : %.1f → %.1f%s
-Enchanté,Enchanté
-Entrer dans la tour,Entrer dans la tour
-Explorez les salles et trouvez l’escalier.,Explorez les salles et trouvez l’escalier.
-Expérience : %d / %d,Expérience : %d / %d
-Fouet de flammes,Fouet de flammes
-Fusion : capture des rangs actuels,Fusion : capture des rangs actuels
-"Fusions : apprenez deux éléments. Aux niveaux multiples de cinq, un assemblage peut être proposé. Il conserve les rangs et sous-compétences du moment ; une nouvelle fusion actualise ce savoir.","Fusions : apprenez deux éléments. Aux niveaux multiples de cinq, un assemblage peut être proposé. Il conserve les rangs et sous-compétences du moment ; une nouvelle fusion actualise ce savoir."
-Garde noir,Garde noir
-Gel soudain,Gel soudain
-Gèle les ennemis proches pendant 2 + rang secondes.,Gèle les ennemis proches pendant 2 + rang secondes.
-"Hardcore — une seule vie, mort définitive","Hardcore — une seule vie, mort définitive"
-Il vous faut la clé cachée dans un coffre de cet étage.,Il vous faut la clé cachée dans un coffre de cet étage.
-Impact explosif : rayon 60 + 18 par rang.,Impact explosif : rayon 60 + 18 par rang.
-Impossible de créer la sauvegarde de secours.,Impossible de créer la sauvegarde de secours.
-Impossible de finaliser la sauvegarde.,Impossible de finaliser la sauvegarde.
-Impossible d’écrire la sauvegarde.,Impossible d’écrire la sauvegarde.
-Incantation rapide,Incantation rapide
-Ivoire : vous · or : escalier · turquoise : coffre non ouvert.,Ivoire : vous · or : escalier · turquoise : coffre non ouvert.
-Jet de glace,Jet de glace
-Jet de vapeur,Jet de vapeur
-L A  T O U R  D E S  C E N D R E S,L A  T O U R  D E S  C E N D R E S
-"LA TOUR
-DES CENDRES","LA TOUR
-DES CENDRES"
-LA TOUR  ·  ÉTAGE %02d / 13,LA TOUR  ·  ÉTAGE %02d / 13
-LE HAMEAU DES BRAISES,LE HAMEAU DES BRAISES
-LES QUATRE ÉLÉMENTS,LES QUATRE ÉLÉMENTS
-La Tour des Cendres,La Tour des Cendres
-La Tour des Cendres · version 0.1,La Tour des Cendres · version 0.1
-La clé du gardien a été trouvée. Le sceau peut être ouvert.,La clé du gardien a été trouvée. Le sceau peut être ouvert.
-La mort est définitive.,La mort est définitive.
-La partie est en pause.,La partie est en pause.
-La prochaine ascension conserve vos compétences et votre équipement. La tour et ses récompenses sont renouvelées. L’Épreuve éternelle impose la mort définitive.,La prochaine ascension conserve vos compétences et votre équipement. La tour et ses récompenses sont renouvelées. L’Épreuve éternelle impose la mort définitive.
-Large cône traversant les groupes.,Large cône traversant les groupes.
-Le Gardien du brasier,Le Gardien du brasier
-Le Gardien du brasier protège encore le sceau.,Le Gardien du brasier protège encore le sceau.
-Le Mange-cloches,Le Mange-cloches
-Le Roi sans tombe,Le Roi sans tombe
-Le dernier cours de magie commence ici.,Le dernier cours de magie commence ici.
-Le gardien de cet étage scelle l’escalier.,Le gardien de cet étage scelle l’escalier.
-Le grimoire,Le grimoire
-Le portail garde votre position et l’état de l’étage.,Le portail garde votre position et l’état de l’étage.
-Le savoir d’Orme,Le savoir d’Orme
-Le sceau se dissipe. Le gardien vous attend.,Le sceau se dissipe. Le gardien vous attend.
-Le temps est suspendu. Une amélioration par niveau. %d choix en attente.,Le temps est suspendu. Une amélioration par niveau. %d choix en attente.
-Les salles explorées,Les salles explorées
-"Les éclairs interrompent les attaques ; durée +0,08 s/rang.","Les éclairs interrompent les attaques ; durée +0,08 s/rang."
-Luminosité,Luminosité
-L’Archiviste des cendres,L’Archiviste des cendres
-L’Archiviste est tombé. Rejoignez le sceau du sommet pour achever l’ascension.,L’Archiviste est tombé. Rejoignez le sceau du sommet pour achever l’ascension.
-L’aube sur les cendres,L’aube sur les cendres
-L’échoppe de Basile,L’échoppe de Basile
-Mage de bataille,Mage de bataille
-Mage de siège,Mage de siège
-Mage • Niveau %02d,Mage • Niveau %02d
-"Magies actives, rituels et savoirs acquis. Les fusions se choisissent lors des niveaux multiples de cinq.","Magies actives, rituels et savoirs acquis. Les fusions se choisissent lors des niveaux multiples de cinq."
-Mana insuffisant pour ce rituel.,Mana insuffisant pour ce rituel.
-Manette : A interaction · Y inventaire · Retour grimoire · B changer de sort · LB/RB/X rituels · croix gauche/droite potions · bas portail · haut carte · Start pause. Menus : croix/stick et A/B.,Manette : A interaction · Y inventaire · Retour grimoire · B changer de sort · LB/RB/X rituels · croix gauche/droite potions · bas portail · haut carte · Start pause. Menus : croix/stick et A/B.
-Maître Orme · savoir,Maître Orme · savoir
-Missile ardent,Missile ardent
-Missile de givre,Missile de givre
-Mode normal : reprise au dernier point de sauvegarde d’étage ou de portail. Les actions depuis ce point sont annulées. Le mode hardcore interdit toute reprise après la mort.,Mode normal : reprise au dernier point de sauvegarde d’étage ou de portail. Les actions depuis ce point sont annulées. Le mode hardcore interdit toute reprise après la mort.
-Monter à l’étage suivant,Monter à l’étage suivant
-Méditation,Méditation
-NIV. 20,NIV. 20
-"Niveau %d · %d morts · %d or
-Difficulté achevée : %s","Niveau %d · %d morts · %d or
-Difficulté achevée : %s"
-Niveau %d — choisissez votre savoir,Niveau %d — choisissez votre savoir
-Nouvelle partie,Nouvelle partie
-Nécromant,Nécromant
-Objet trouvé : ,Objet trouvé : 
-Onde de feu : 45 dégâts par rang et recul.,Onde de feu : 45 dégâts par rang et recul.
-Options et commandes,Options et commandes
-"Orbe lente guidée, pulsations électriques et chaînes.","Orbe lente guidée, pulsations électriques et chaînes."
-Orbe électrique,Orbe électrique
-Orme : Choisissez bien. Vous pourrez apprendre d’autres éléments pendant l’ascension.,Orme : Choisissez bien. Vous pourrez apprendre d’autres éléments pendant l’ascension.
-Ouvrir le coffre,Ouvrir le coffre
-Ouvrir le sceau du gardien,Ouvrir le sceau du gardien
-Parler à Basile,Parler à Basile
-"Parlez aux habitants, puis entrez dans la tour.","Parlez aux habitants, puis entrez dans la tour."
-Partie sauvegardée.,Partie sauvegardée.
-Plein écran,Plein écran
-Pluie acide,Pluie acide
-Portail du village,Portail du village
-Potion de mana,Potion de mana
-Potion de mana · ,Potion de mana · 
-Potion de mana · 18 or,Potion de mana · 18 or
-Potion de vie,Potion de vie
-Potion de vie · ,Potion de vie · 
-Potion de vie · 18 or,Potion de vie · 18 or
-Projectile astral,Projectile astral
-Projectile guidé vers une cible. +7 dégâts par rang.,Projectile guidé vers une cible. +7 dégâts par rang.
-Projectile puissant. +11 dégâts par rang.,Projectile puissant. +11 dégâts par rang.
-Projectiles guidés explosifs.,Projectiles guidés explosifs.
-Projectiles multiples,Projectiles multiples
-Projectiles véloces,Projectiles véloces
-RECONFIGURER LE CLAVIER,RECONFIGURER LE CLAVIER
-RECONFIGURER LES BOUTONS DE MANETTE,RECONFIGURER LES BOUTONS DE MANETTE
-RITUELS  ·  %d / %d emplacements,RITUELS  ·  %d / %d emplacements
-Rayon de blizzard,Rayon de blizzard
-Rayon traversant qui fige et frappe en chaîne.,Rayon traversant qui fige et frappe en chaîne.
-Recul et ralentissement renforcés.,Recul et ralentissement renforcés.
-Renvoi des morts,Renvoi des morts
-Reprendre au point de sauvegarde,Reprendre au point de sauvegarde
-Retour au menu,Retour au menu
-Retour au village,Retour au village
-Retour à l’échoppe,Retour à l’échoppe
-Rituel 1,Rituel 1
-Rituel 2,Rituel 2
-Rituel 3,Rituel 3
-Réduire les flashs et les effets brusques,Réduire les flashs et les effets brusques
-Réserve de mana,Réserve de mana
-Résistance,Résistance
-Rétablir les commandes,Rétablir les commandes
-SAVOIRS ET SPÉCIALISATIONS,SAVOIRS ET SPÉCIALISATIONS
-Salve guidée qui éclate et gèle.,Salve guidée qui éclate et gèle.
-Sauvegarde indisponible,Sauvegarde indisponible
-Sauvegarde indisponible ou partie hardcore terminée. Une nouvelle partie reste possible.,Sauvegarde indisponible ou partie hardcore terminée. Une nouvelle partie reste possible.
-Sauvegarde invalide ou incompatible. Nouvelle partie disponible.,Sauvegarde invalide ou incompatible. Nouvelle partie disponible.
-Sauvegarde principale endommagée : copie de secours restaurée.,Sauvegarde principale endommagée : copie de secours restaurée.
-Sauvegarder et quitter au menu,Sauvegarder et quitter au menu
-Savoirs maîtrisés — poursuivre,Savoirs maîtrisés — poursuivre
-Sceau du gardien,Sceau du gardien
-Se reposer gratuitement,Se reposer gratuitement
-Tirer (souris ou clavier),Tirer (souris ou clavier)
-"Treize étages. Deux rituels secondaires, puis trois au niveau 20.","Treize étages. Deux rituels secondaires, puis trois au niveau 20."
-Treize étages. Un examen réussi. Orme prétendra qu’il n’en a jamais douté.,Treize étages. Un examen réussi. Orme prétendra qu’il n’en a jamais douté.
-Trois éclats de feu par rang à l’impact.,Trois éclats de feu par rang à l’impact.
-Trouvez la clé du gardien dans un coffre de cet étage.,Trouvez la clé du gardien dans un coffre de cet étage.
-Télékinésie,Télékinésie
-Téléportation,Téléportation
-UN EXAMEN. TREIZE ÉTAGES. AUCUNE EXCUSE.,UN EXAMEN. TREIZE ÉTAGES. AUCUNE EXCUSE.
-Un ennemi supplémentaire touché par rang.,Un ennemi supplémentaire touché par rang.
-Un instant de répit,Un instant de répit
-"Un jeu indépendant réalisé dans Godot 4.7.2.
-
-Code original en GDScript. Illustrations originales générées avec ImageGen, puis découpées et intégrées. Ambiance musicale et effets de synthèse originaux.
-
-Inspiré des mécaniques de Solomon’s Keep, créé par Raptisoft. Aucun code, personnage, son ou graphisme de ce jeu n’est réutilisé. Ce projet n’est pas affilié à Raptisoft.
-
-Godot Engine : licence MIT. La notice complète et la provenance des ressources figurent dans docs/asset_manifest.md.","Un jeu indépendant réalisé dans Godot 4.7.2.
-
-Code original en GDScript. Illustrations originales générées avec ImageGen, puis découpées et intégrées. Ambiance musicale et effets de synthèse originaux.
-
-Inspiré des mécaniques de Solomon’s Keep, créé par Raptisoft. Aucun code, personnage, son ou graphisme de ce jeu n’est réutilisé. Ce projet n’est pas affilié à Raptisoft.
-
-Godot Engine : licence MIT. La notice complète et la provenance des ressources figurent dans docs/asset_manifest.md."
-"Un mage, quatre éléments et une tour qui ne vous attendait pas.","Un mage, quatre éléments et une tour qui ne vous attendait pas."
-Un projectile supplémentaire ; coût +2 mana.,Un projectile supplémentaire ; coût +2 mana.
-Une nouvelle ascension,Une nouvelle ascension
-Une nouvelle partie remplace l’ascension actuelle. Les difficultés débloquées et les options sont conservées.,Une nouvelle partie remplace l’ascension actuelle. Les difficultés débloquées et les options sont conservées.
-VERSION 0.1  ·  GODOT 4.7.2  ·  JEU LOCAL,VERSION 0.1  ·  GODOT 4.7.2  ·  JEU LOCAL
-Vendre vos objets,Vendre vos objets
-Vendre à Basile,Vendre à Basile
-Vent glacial,Vent glacial
-Vers la dernière salle sûre. Coût 10 mana.,Vers la dernière salle sûre. Coût 10 mana.
-Vie %.0f · Mana %.0f · Régén. %.1f/s · Dégâts ×%.2f · Coût ×%.2f,Vie %.0f · Mana %.0f · Régén. %.1f/s · Dégâts ×%.2f · Coût ×%.2f
-Vitalité,Vitalité
-Volume général,Volume général
-Votre chapeau retombe…,Votre chapeau retombe…
-Votre dernier point de reprise a été restauré. Les actions plus récentes ont été annulées.,Votre dernier point de reprise a été restauré. Les actions plus récentes ont été annulées.
-Votre première magie vous attend auprès d’Orme,Votre première magie vous attend auprès d’Orme
-Votre première étincelle,Votre première étincelle
-Votre sac,Votre sac
-Votre sac est vide. Les coffres et les gardiens renferment des objets.,Votre sac est vide. Les coffres et les gardiens renferment des objets.
-Ysée : Revenez avec votre chapeau. Et ce qu’il y a dessous.,Ysée : Revenez avec votre chapeau. Et ce qu’il y a dessous.
-Ysée · soins,Ysée · soins
-Zone de 18 s : régénération et ralentissement. Rayon +25/rang.,Zone de 18 s : régénération et ralentissement. Rayon +25/rang.
-Zone de 7 s infligeant 14 dégâts/s par rang.,Zone de 7 s infligeant 14 dégâts/s par rang.
-[%s]  %s,[%s]  %s
-anneau ,anneau 
-bâton,bâton
-de braise,de braise
-de la source,de la source
-de lucidité,de lucidité
-de l’aube,de l’aube
-de sobriété,de sobriété
-des os,des os
-des étoiles,des étoiles
-du pèlerin,du pèlerin
-du rempart,du rempart
-du vif-éclair,du vif-éclair
-dégâts,dégâts
-mana max.,mana max.
-résistance,résistance
-vie max.,vie max.
-"« Les livres coûtent cher. L’ignorance, davantage. »","« Les livres coûtent cher. L’ignorance, davantage. »"
-Échap,Échap
-Éclair,Éclair
-"Élargit le jet de 0,12 rad et sa portée de 18 par rang.","Élargit le jet de 0,12 rad et sa portée de 18 par rang."
-Épique,Épique
-Épreuve éternelle,Épreuve éternelle
-Étage %d · Un nouveau point de reprise a été créé.,Étage %d · Un nouveau point de reprise a été créé.
-Étage suivant,Étage suivant
-Étourdissement,Étourdissement
-Étudier avec Orme,Étudier avec Orme
-économie de mana,économie de mana
-−10 % temps de recharge secondaire par rang.,−10 % temps de recharge secondaire par rang.
-−7 % dégâts subis par rang.,−7 % dégâts subis par rang.
-−9 % coût de mana par rang (minimum 20 %).,−9 % coût de mana par rang (minimum 20 %).
-Effets sonores,Effets sonores
+After: ","
+After: "
 "
-DPS moyen : dégâts ÷ recharge. Avant résistance.","
-DPS moyen : dégâts ÷ recharge. Avant résistance."
+Average DPS: damage ÷ cooldown. Before resistance.","
+Average DPS: damage ÷ cooldown. Before resistance."
 "
-DPS théorique avant résistance, à mana disponible. Portées en unités (u).","
-DPS théorique avant résistance, à mana disponible. Portées en unités (u)."
+QA · test save","
+QA · test save"
 "
-Figée au niveau %d.","
-Figée au niveau %d."
-  ·  %d %%,  ·  %d %%
- +1 Éclat de savoir., +1 Éclat de savoir.
- et fige, et fige
-" · couloir (%d, %d)"," · couloir (%d, %d)"
-" · gel 0,8 s direct / 0,5 s zone (boss : 0,35 s max.)"," · gel 0,8 s direct / 0,5 s zone (boss : 0,35 s max.)"
- · ralentit, · ralentit
- · salle %d, · salle %d
- → , → 
-%+.0f %% ,%+.0f %% 
-%+.1f ,%+.1f 
-%+d ,%+d 
-%+d %s,%+d %s
-%.0f u,%.0f u
-%.1f %s,%.1f %s
-%.2f s,%.2f s
-%d projectiles / salve ; +%d mana avant réduction,%d projectiles / salve ; +%d mana avant réduction
-%d projectiles : jusqu’à %.1f DPS sur une cible si toute la salve la touche,%d projectiles : jusqu’à %.1f DPS sur une cible si toute la salve la touche
-%d u de ramassage,%d u de ramassage
-%d éclats / impact : %.1f dégâts chacun · +%.1f DPS si un éclat touche à chaque salve,%d éclats / impact : %.1f dégâts chacun · +%.1f DPS si un éclat touche à chaque salve
-"%d éclats / impact, chacun à 25 %% des dégâts du projectile","%d éclats / impact, chacun à 25 %% des dégâts du projectile"
-%s vaincu.%s,%s vaincu.%s
-"%s · niveau %d · %d or
-%s%s","%s · niveau %d · %d or
-%s%s"
-+%.1f mana/s,+%.1f mana/s
-+%d %% cadence des projectiles,+%d %% cadence des projectiles
-+%d %% dégâts,+%d %% dégâts
-+%d %% vitesse,+%d %% vitesse
-+%d %% vitesse des projectiles (hors Orbe électrique),+%d %% vitesse des projectiles (hors Orbe électrique)
-+%d cibles pour Éclair et Fouet de flammes,+%d cibles pour Éclair et Fouet de flammes
-+%d mana max.,+%d mana max.
-+%d u de portée ; +%.2f rad de demi-angle pour Glace et Vapeur,+%d u de portée ; +%.2f rad de demi-angle pour Glace et Vapeur
-+%d vie max.,+%d vie max.
-"+20 % vitesse des projectiles par rang, hors Orbe électrique.","+20 % vitesse des projectiles par rang, hors Orbe électrique."
-/zone complète,/zone complète
-18 s · +6 vie/s et +18 mana/s · ralentit ennemis et tirs,18 s · +6 vie/s et +18 mana/s · ralentit ennemis et tirs
-ARTS ARCANES,ARTS ARCANES
-Absorbe %.0f dégâts,Absorbe %.0f dégâts
-Accorde ,Accorde 
-Actuel → Nouvelle fusion,Actuel → Nouvelle fusion
-Ancien point de reprise,Ancien point de reprise
-Appris : %d · Équipement : +%d,Appris : %d · Équipement : +%d
-"Après 1 s immobile sans tirer : +%.1f mana/s, +%.1f vie/s","Après 1 s immobile sans tirer : +%.1f mana/s, +%.1f vie/s"
-Arrivée dans l’étage,Arrivée dans l’étage
-Aucun (utilitaire),Aucun (utilitaire)
-Aucun savoir acquis dans cette discipline.,Aucun savoir acquis dans cette discipline.
-Aucune (continu),Aucune (continu)
-Aucune autre amélioration éligible.,Aucune autre amélioration éligible.
-Bouton %d,Bouton %d
-"Brûlure : +%.1f DPS / ennemi, puis 1 s après contact (non cumulable)","Brûlure : +%.1f DPS / ennemi, puis 1 s après contact (non cumulable)"
-Centre à 100 u devant vous · dégâts tant que la cible reste dans la zone,Centre à 100 u devant vous · dégâts tant que la cible reste dans la zone
-Cette ascension est terminée ou sa sauvegarde indisponible.,Cette ascension est terminée ou sa sauvegarde indisponible.
-"Cible directe : impact + explosion, un impact par salve","Cible directe : impact + explosion, un impact par salve"
-Commandes clavier,Commandes clavier
-Commandes manette,Commandes manette
-Concentration mentale,Concentration mentale
-Concentration mentale : recharge des rituels ÷2,Concentration mentale : recharge des rituels ÷2
-DPS / ennemi,DPS / ennemi
-DPS actif / ennemi : %.1f pendant %.0f s,DPS actif / ennemi : %.1f pendant %.0f s
-DPS moyen / ennemi,DPS moyen / ennemi
-"DPS théorique par ennemi, avant résistance, à mana disponible. Moyenne des rituels : dégâts ÷ recharge. Portées en unités du monde (u), limitées par les murs.","DPS théorique par ennemi, avant résistance, à mana disponible. Moyenne des rituels : dégâts ÷ recharge. Portées en unités du monde (u), limitées par les murs."
-Dans votre sac,Dans votre sac
-Dernière position sûre,Dernière position sûre
-Dernière position sûre · invulnérabilité 1 s,Dernière position sûre · invulnérabilité 1 s
-Dégâts / ennemi,Dégâts / ennemi
-"Explosion : rayon %d u, 55 %% des dégâts directs","Explosion : rayon %d u, 55 %% des dégâts directs"
-FIN DE L’ASCENSION,FIN DE L’ASCENSION
-"Gel %.1f s (boss : 0,35 s max.)","Gel %.1f s (boss : 0,35 s max.)"
-Glace : vitesse ennemie ×%.3f ; recul renforcé,Glace : vitesse ennemie ×%.3f ; recul renforcé
-"Interruption %.2f s (boss : 0,35 s max.)","Interruption %.2f s (boss : 0,35 s max.)"
-"Interruption : %.2f s (boss : 0,35 s max.)","Interruption : %.2f s (boss : 0,35 s max.)"
-Jusqu’à %d cibles · rebonds de 180 u · DPS identique par cible,Jusqu’à %d cibles · rebonds de 180 u · DPS identique par cible
-LA TOUR DES CENDRES,LA TOUR DES CENDRES
-LA TOUR DES CENDRES    /    CHAPITRE I,LA TOUR DES CENDRES    /    CHAPITRE I
-LE COMPTOIR,LE COMPTOIR
-LE MAÎTRE,LE MAÎTRE
-LES ARTISANS,LES ARTISANS
-L’EXAMEN EST ACHEVÉ,L’EXAMEN EST ACHEVÉ
-Mana insuffisant : attendez la régénération ou utilisez une potion (%s).,Mana insuffisant : attendez la régénération ou utilisez une potion (%s).
-Morts-vivants : fuite %.1f s et +35 %% dégâts reçus,Morts-vivants : fuite %.1f s et +35 %% dégâts reçus
-Méditation : mana ×4 au repos,Méditation : mana ×4 au repos
-Objets enchantés,Objets enchantés
-Onde instantanée avec recul,Onde instantanée avec recul
-Or +%.0f %% · XP +%.0f %% · Poison −%.0f %% · Cadence ×%.2f,Or +%.0f %% · XP +%.0f %% · Poison −%.0f %% · Cadence ×%.2f
-"Orbe guidée · pulsations toutes les 0,25 s, jusqu’à l’impact (3 s max.)","Orbe guidée · pulsations toutes les 0,25 s, jusqu’à l’impact (3 s max.)"
-Orbe lente guidée : impact et pulsations sur l’ennemi le plus proche.,Orbe lente guidée : impact et pulsations sur l’ennemi le plus proche.
-PRÉFÉRENCES,PRÉFÉRENCES
-Pas d’explosion de Boule de feu,Pas d’explosion de Boule de feu
-Pas d’interruption électrique,Pas d’interruption électrique
-Plus d’éclats disponibles.,Plus d’éclats disponibles.
-Point de reprise,Point de reprise
-Portée,Portée
-Première magie apprise,Première magie apprise
-Pulsations : +%.1f DPS par orbe sur l’ennemi le plus proche à %.0f u,Pulsations : +%.1f DPS par orbe sur l’ennemi le plus proche à %.0f u
-Rang %d → %d,Rang %d → %d
-Rang maximal,Rang maximal
-Rangs figés ; réapprendre actualise la fusion.,Rangs figés ; réapprendre actualise la fusion.
-Rayon traversant qui fige les ennemis.,Rayon traversant qui fige les ennemis.
-Relancer les choix · 1 éclat (%d disponibles),Relancer les choix · 1 éclat (%d disponibles)
-Remplace ,Remplace 
-Retire ,Retire 
-Retour par le portail,Retour par le portail
-Rituel fourni par l’équipement : emplacements occupés.,Rituel fourni par l’équipement : emplacements occupés.
-Sac plein (48/48) : l’objet reste au sol. Vendez un objet au village.,Sac plein (48/48) : l’objet reste au sol. Vendez un objet au village.
-Son & image,Son & image
-Stick D,Stick D
-Stick G,Stick G
-"Temps suspendu · %d choix en attente. DPS théorique par ennemi, avant résistance, à mana disponible. Portée en unités (u).","Temps suspendu · %d choix en attente. DPS théorique par ennemi, avant résistance, à mana disponible. Portée en unités (u)."
-Traverse les ennemis du jet · DPS identique par cible,Traverse les ennemis du jet · DPS identique par cible
-Télékinésie : ramassage étendu,Télékinésie : ramassage étendu
-U N  E X A M E N .   T R E I Z E  É T A G E S .,U N  E X A M E N .   T R E I Z E  É T A G E S .
-UN NOUVEAU DESTIN,UN NOUVEAU DESTIN
-Un projectile touche une cible par salve,Un projectile touche une cible par salve
-"Un éclat offert au départ, puis un par gardien principal. Les choix précédents sont évités ; une fusion unique ou un choix sans alternative peut revenir.","Un éclat offert au départ, puis un par gardien principal. Les choix précédents sont évités ; une fusion unique ou un choix sans alternative peut revenir."
-VERSION 0.1  ·  UNE ASCENSION EN SOLITAIRE,VERSION 0.1  ·  UNE ASCENSION EN SOLITAIRE
-Vendre · %d or,Vendre · %d or
-Vie %.0f · Mana %.0f · Régén. %.1f/s · Dégâts +%.0f puis ×%.2f · Coût ×%.2f,Vie %.0f · Mana %.0f · Régén. %.1f/s · Dégâts +%.0f puis ×%.2f · Coût ×%.2f
-Vous-même,Vous-même
-Zone : %.1f DPS / autre ennemi (1 explosion / salve) · rayon %.0f u,Zone : %.1f DPS / autre ennemi (1 explosion / salve) · rayon %.0f u
-bonus identiques,bonus identiques
-dégâts fixes,dégâts fixes
-expérience,expérience
-le bâton,le bâton
-l’anneau ,l’anneau 
-or trouvé,or trouvé
-régénération de mana,régénération de mana
-régénération de vie,régénération de vie
-résistance au poison,résistance au poison
-résistance aux dégâts,résistance aux dégâts
-tous les savoirs acquis,tous les savoirs acquis
-À l’apprentissage,À l’apprentissage
-ÉQUIPEMENT,ÉQUIPEMENT
-Éclats de savoir : %d,Éclats de savoir : %d
-"Éclats de savoir : 1 au départ, puis 1 par gardien principal. Une relance coûte 1 éclat.","Éclats de savoir : 1 au départ, puis 1 par gardien principal. Une relance coûte 1 éclat."
-Équipement porté,Équipement porté
-Équiper le bâton,Équiper le bâton
-Équiper — anneau ,Équiper — anneau 
-Étage %d,Étage %d
-— (aucun dégât),— (aucun dégât)
-−%d %% coût (réduction totale plafonnée à 80 %%),−%d %% coût (réduction totale plafonnée à 80 %%)
-−%d %% dégâts subis (total plafonné à 75 %%),−%d %% dégâts subis (total plafonné à 75 %%)
-−%d %% recharge des rituels,−%d %% recharge des rituels
-"
-DPS théorique avant résistance, à mana disponible. Portées en unités (u).
+Theoretical DPS before resistance, with mana available. Range in units (u).
 ","
-DPS théorique avant résistance, à mana disponible. Portées en unités (u).
+Theoretical DPS before resistance, with mana available. Range in units (u).
 "
- · Changer de magie (ou cliquer)., · Changer de magie (ou cliquer).
-%d en réserve,%d en réserve
-%s mana %s,%s mana %s
-+%.0f %% vitesse des missiles (hors Orbe) ; nouvelle cible possible ; +%d mana,+%.0f %% vitesse des missiles (hors Orbe) ; nouvelle cible possible ; +%d mana
-+%d cibles pour Éclair et ses fusions ; +%d mana,+%d cibles pour Éclair et ses fusions ; +%d mana
-+10 % cadence des projectiles par rang. Sans effet sur les jets continus.,+10 % cadence des projectiles par rang. Sans effet sur les jets continus.
-/ s,/ s
-/ sort,/ sort
-260 u de ramassage (distance ×4 ; non cumulable),260 u de ramassage (distance ×4 ; non cumulable)
-Accumule des charges au repos ; le tir astral libère une onde qui réduit la vie maximale des ennemis.,Accumule des charges au repos ; le tir astral libère une onde qui réduit la vie maximale des ennemis.
-Accélère les missiles et leur permet de changer de cible. Coût +1 mana par rang.,Accélère les missiles et leur permet de changer de cible. Coût +1 mana par rang.
-Ajoute une explosion ; puissance et rayon augmentent avec le rang.,Ajoute une explosion ; puissance et rayon augmentent avec le rang.
-Après 1 s immobile sans agir : mana régénéré ×4 (non cumulable),Après 1 s immobile sans agir : mana régénéré ×4 (non cumulable)
-Après une seconde sans agir : régénération du mana multipliée par quatre.,Après une seconde sans agir : régénération du mana multipliée par quatre.
-Armure de glace,Armure de glace
-"Au repos du tir : 1 charge/s, maximum %d ; prochain tir : onde de 320 u, −10 %% vie max./charge (non cumulable)","Au repos du tir : 1 charge/s, maximum %d ; prochain tir : onde de 320 u, −10 %% vie max./charge (non cumulable)"
-Au village,Au village
-Aucune magie,Aucune magie
-Aucune potion,Aucune potion
-"Braises : explosion après 0,6 s, rayon 65 u, dégâts de braise ×%.1f ; +%d mana/tir. Aucune explosion si interceptée.","Braises : explosion après 0,6 s, rayon 65 u, dégâts de braise ×%.1f ; +%d mana/tir. Aucune explosion si interceptée."
-Charge d’éther,Charge d’éther
-"Chaînes : jusqu’à %d cibles supplémentaires, sans double impact","Chaînes : jusqu’à %d cibles supplémentaires, sans double impact"
-Créativité,Créativité
-Divise par deux la recharge des rituels. Effet non cumulable.,Divise par deux la recharge des rituels. Effet non cumulable.
-Emplacement libre · apprenez un rituel en montant de niveau,Emplacement libre · apprenez un rituel en montant de niveau
-"Explosion : rayon %d u, %.0f %% des dégâts directs ; +%d mana","Explosion : rayon %d u, %.0f %% des dégâts directs ; +%d mana"
-"Jet de glace construit une armure qui absorbe les dégâts, poison inclus. Elle disparaît à l’arrêt du jet.","Jet de glace construit une armure qui absorbe les dégâts, poison inclus. Elle disparaît à l’arrêt du jet."
-Les braises de Boule de feu explosent en fin de course. Sans effet sur les fusions.,Les braises de Boule de feu explosent en fin de course. Sans effet sur les fusions.
-MAGIE ACTIVE,MAGIE ACTIVE
-NIV. %02d   ·   %d / %d XP,NIV. %02d   ·   %d / %d XP
-Parlez à Orme,Parlez à Orme
-"Pendant Jet de glace : +%d armure/s, maximum %d ; poison inclus ; +%d mana/s. Disparaît à l’arrêt.","Pendant Jet de glace : +%d armure/s, maximum %d ; poison inclus ; +%d mana/s. Disparaît à l’arrêt."
-"Pendant Éclair : %.1f DPS de tempête, rayon 520 u, dévie ennemis et tirs ; +%d mana/s","Pendant Éclair : %.1f DPS de tempête, rayon 520 u, dévie ennemis et tirs ; +%d mana/s"
-"Potion de %s · %s
-%s","Potion de %s · %s
+"  ·  %d %%","  ·  %d %%"
+" +1 Knowledge Shard."," +1 Knowledge Shard."
+" / "," / "
+" /cast"," /cast"
+" /s"," /s"
+" : "," : "
+" ; "," ; "
+" All changes"," All changes"
+" and freezes"," and freezes"
+" pts"," pts"
+" · "," · "
+" · Equipment: +%d"," · Equipment: +%d"
+" · Switch magic (or click)."," · Switch magic (or click)."
+" · additional effects"," · additional effects"
+" · cooldown"," · cooldown"
+" · corridor (%d, %d)"," · corridor (%d, %d)"
+" · cost"," · cost"
+" · damage"," · damage"
+" · effect"," · effect"
+" · effective rank"," · effective rank"
+" · freeze 0.8 s direct / 0.5 s area (bosses: max. 0.35 s)"," · freeze 0.8 s direct / 0.5 s area (bosses: max. 0.35 s)"
+" · mana potion and equipment"," · mana potion and equipment"
+" · room %d"," · room %d"
+" · slows"," · slows"
+" → "," → "
+" → Inactive"," → Inactive"
+"%+.0f %% ","%+.0f %% "
+"%+.1f ","%+.1f "
+"%+d ","%+d "
+"%+d %s","%+d %s"
+"%.0f %%","%.0f %%"
+"%.0f pts","%.0f pts"
+"%.0f u","%.0f u"
+"%.1f %s","%.1f %s"
+"%.2f s","%.2f s"
+"%d / %d","%d / %d"
+"%d / %d skills","%d / %d skills"
+"%d / 48 items   ·   %d gold","%d / 48 items   ·   %d gold"
+"%d embers / impact, each dealing 25 %% of projectile damage","%d embers / impact, each dealing 25 %% of projectile damage"
+"%d embers / impact: %.1f damage each · +%.1f DPS if one ember hits per volley","%d embers / impact: %.1f damage each · +%.1f DPS if one ember hits per volley"
+"%d gold · Staves, rings, and supplies. Stock is tied to this ascent.","%d gold · Staves, rings, and supplies. Stock is tied to this ascent."
+"%d item%s","%d item%s"
+"%d projectiles / volley; +%d mana before reduction","%d projectiles / volley; +%d mana before reduction"
+"%d projectiles: up to %.1f DPS on one target if the entire volley hits","%d projectiles: up to %.1f DPS on one target if the entire volley hits"
+"%d remaining","%d remaining"
+"%d with no additional benefit","%d with no additional benefit"
+"%d → %d · cap reached","%d → %d · cap reached"
+"%s  %s","%s  %s"
+"%s %%","%s %%"
+"%s : %s → %s","%s : %s → %s"
+"%s defeated.%s","%s defeated.%s"
+"%s mana %s","%s mana %s"
+"%s potion · %s
+%s","%s potion · %s
 %s"
-Propose quatre compétences au lieu de trois aux prochains niveaux.,Propose quatre compétences au lieu de trois aux prochains niveaux.
-Quatre choix distincts aux prochains niveaux,Quatre choix distincts aux prochains niveaux
-Ramasse le butin à quatre fois la distance normale.,Ramasse le butin à quatre fois la distance normale.
-Rang historique conservé : %d · effet à rang unique,Rang historique conservé : %d · effet à rang unique
-Recharge des rituels ÷2 (non cumulable avec l’équipement),Recharge des rituels ÷2 (non cumulable avec l’équipement)
-"Réduit uniquement les dégâts de poison : 10 %, 20 %, puis 30 %.","Réduit uniquement les dégâts de poison : 10 %, 20 %, puis 30 %."
-Résistance au poison,Résistance au poison
-Trois braises par rang à l’impact ; nécessite Explosion.,Trois braises par rang à l’impact ; nécessite Explosion.
-Troisième rituel · se débloque au niveau 20,Troisième rituel · se débloque au niveau 20
-Une tempête blesse et dévie les ennemis et leurs tirs pendant Éclair. Sans effet sur les fusions.,Une tempête blesse et dévie les ennemis et leurs tirs pendant Éclair. Sans effet sur les fusions.
-VERSION 0.2  ·  UNE ASCENSION EN SOLITAIRE,VERSION 0.2  ·  UNE ASCENSION EN SOLITAIRE
-VIE FAIBLE,VIE FAIBLE
-Zone : %.1f DPS / autre ennemi (1 explosion / projectile) · rayon %.0f u,Zone : %.1f DPS / autre ennemi (1 explosion / projectile) · rayon %.0f u
-À la mort d’une cible : %d braises de %.1f dégâts,À la mort d’une cible : %d braises de %.1f dégâts
-"À la mort d’une cible : explosion de %.1f dégâts, rayon %.0f u","À la mort d’une cible : explosion de %.1f dégâts, rayon %.0f u"
-−%d %% coût des sorts offensifs (total plafonné à 80 %%),−%d %% coût des sorts offensifs (total plafonné à 80 %%)
-−%d %% dégâts de poison ; se combine multiplicativement avec les objets,−%d %% dégâts de poison ; se combine multiplicativement avec les objets
+"%s · %d gold","%s · %d gold"
+"%s · level %d · %d gold
+%s%s","%s · level %d · %d gold
+%s%s"
+"%s → %s  (%s%s)","%s → %s  (%s%s)"
+"%s → %s · cap reached, no additional benefit","%s → %s · cap reached, no additional benefit"
+"+%.0f %% missile speed (except Orb); may retarget; +%d mana","+%.0f %% missile speed (except Orb); may retarget; +%d mana"
+"+%.1f mana/s","+%.1f mana/s"
+"+%d %% damage","+%d %% damage"
+"+%d %% projectile cast speed","+%d %% projectile cast speed"
+"+%d %% speed","+%d %% speed"
+"+%d gold%s","+%d gold%s"
+"+%d max. health","+%d max. health"
+"+%d max. mana","+%d max. mana"
+"+%d targets for Lightning and its fusions; +%d mana","+%d targets for Lightning and its fusions; +%d mana"
+"+%d u range; +%.2f rad half-angle for Ice and Steam","+%d u range; +%.2f rad half-angle for Ice and Steam"
+"+10 % projectile cast speed per rank. Does not affect continuous streams.","+10 % projectile cast speed per rank. Does not affect continuous streams."
+"+14 % damage per rank.","+14 % damage per rank."
+"+2.5 mana regenerated per second.","+2.5 mana regenerated per second."
+"+24 maximum health.","+24 maximum health."
+"+28 maximum mana.","+28 maximum mana."
+"+7 % movement speed per rank.","+7 % movement speed per rank."
+"/ cast","/ cast"
+"/ s","/ s"
+"/full zone duration","/full zone duration"
+"18 s zone: regeneration and slowing. Radius +25/rank.","18 s zone: regeneration and slowing. Radius +25/rank."
+"18 s · +6 health/s and +18 mana/s · slows enemies and shots","18 s · +6 health/s and +18 mana/s · slows enemies and shots"
+"260 u pickup radius (distance ×4; does not stack)","260 u pickup radius (distance ×4; does not stack)"
+"4 choices on future level-ups","4 choices on future level-ups"
+"7 s zone dealing 14 damage/s per rank.","7 s zone dealing 14 damage/s per rank."
+"< 0,01","< 0,01"
+"A NEW DESTINY","A NEW DESTINY"
+"A continuous burning arc that chains between targets.","A continuous burning arc that chains between targets."
+"A continuous cone that slows enemies. +11 damage/s per rank.","A continuous cone that slows enemies. +11 damage/s per rank."
+"A homing projectile. +7 damage per rank.","A homing projectile. +7 damage per rank."
+"A homing volley that bursts and freezes.","A homing volley that bursts and freezes."
+"A moment of respite","A moment of respite"
+"A new ascent","A new ascent"
+"A new game replaces the current ascent. Unlocked difficulties and settings are kept.","A new game replaces the current ascent. Unlocked difficulties and settings are kept."
+"A page yet to be written","A page yet to be written"
+"A piercing beam that freezes enemies.","A piercing beam that freezes enemies."
+"A powerful projectile. +11 damage per rank.","A powerful projectile. +11 damage per rank."
+"A precise, instant, continuous arc. +15 damage/s per rank.","A precise, instant, continuous arc. +15 damage/s per rank."
+"A slow homing orb: impact and pulses on the nearest enemy.","A slow homing orb: impact and pulses on the nearest enemy."
+"A storm damages and deflects enemies and their shots while casting Lightning. Does not affect fusions.","A storm damages and deflects enemies and their shots while casting Lightning. Does not affect fusions."
+"A wide cone that pierces groups.","A wide cone that pierces groups."
+"ARCANE ARTS","ARCANE ARTS"
+"Absorbs %.0f damage","Absorbs %.0f damage"
+"Absorbs 45 damage per rank. Costs 30 mana.","Absorbs 45 damage per rank. Costs 30 mana."
+"Acid Rain","Acid Rain"
+"Active DPS / enemy: %.1f for %.0f s","Active DPS / enemy: %.1f for %.0f s"
+"Active magic","Active magic"
+"Active magic · ","Active magic · "
+"Active spell","Active spell"
+"Adds an explosion; power and radius increase with rank.","Adds an explosion; power and radius increase with rank."
+"After 1 s idle: mana regeneration ×4 (does not stack)","After 1 s idle: mana regeneration ×4 (does not stack)"
+"After one second idle: mana regeneration multiplied by four.","After one second idle: mana regeneration multiplied by four."
+"All knowledge mastered — continue","All knowledge mastered — continue"
+"Already active · does not stack","Already active · does not stack"
+"An independent game made with Godot 4.7.2.
+
+Original GDScript code. Original illustrations generated with ImageGen, then cut out and integrated. Original synthesized music and sound effects.
+
+Inspired by the mechanics of Solomon’s Keep, created by Raptisoft. No code, characters, sounds, or artwork from that game are reused. This project is not affiliated with Raptisoft.
+
+Godot Engine: MIT license. Full notices and asset provenance are in docs/asset_manifest.md.","An independent game made with Godot 4.7.2.
+
+Original GDScript code. Original illustrations generated with ImageGen, then cut out and integrated. Original synthesized music and sound effects.
+
+Inspired by the mechanics of Solomon’s Keep, created by Raptisoft. No code, characters, sounds, or artwork from that game are reused. This project is not affiliated with Raptisoft.
+
+Godot Engine: MIT license. Full notices and asset provenance are in docs/asset_manifest.md."
+"Area: %.1f DPS / other enemy (1 explosion / projectile) · radius %.0f u","Area: %.1f DPS / other enemy (1 explosion / projectile) · radius %.0f u"
+"Ascend to the next floor","Ascend to the next floor"
+"Ash Staff","Ash Staff"
+"Astral Missile","Astral Missile"
+"Available → Unavailable","Available → Unavailable"
+"Average DPS / enemy","Average DPS / enemy"
+"Back to menu","Back to menu"
+"Back to the shop","Back to the shop"
+"Back to the village","Back to the village"
+"Bag full (48/48): the item stays on the ground. Sell an item in the village.","Bag full (48/48): the item stays on the ground. Sell an item in the village."
+"Bag order","Bag order"
+"Ball Lightning","Ball Lightning"
+"Basile · merchant","Basile · merchant"
+"Basile’s shop","Basile’s shop"
+"Battle Mage","Battle Mage"
+"Before: ","Before: "
+"Blizzard Beam","Blizzard Beam"
+"Bone Staff","Bone Staff"
+"Break urn","Break urn"
+"Builds charges while idle; firing an astral missile releases a wave that reduces enemy maximum health.","Builds charges while idle; firing an astral missile releases a wave that reduces enemy maximum health."
+"Burn: +%.1f DPS / enemy, lasting 1 s after contact (does not stack)","Burn: +%.1f DPS / enemy, lasting 1 s after contact (does not stack)"
+"Burning Missile","Burning Missile"
+"Button %d","Button %d"
+"Buy a lesson · %d gold","Buy a lesson · %d gold"
+"Buying wisdom offers three upgrades eligible at your level. Cost: %d gold.","Buying wisdom offers three upgrades eligible at your level. Cost: %d gold."
+"Capped bonuses","Capped bonuses"
+"Centered 100 u ahead · deals damage while the target stays in the zone","Centered 100 u ahead · deals damage while the target stays in the zone"
+"Chain Lightning","Chain Lightning"
+"Chain targets","Chain targets"
+"Chains: up to %d additional targets, without repeated hits","Chains: up to %d additional targets, without repeated hits"
+"Chilling Wind","Chilling Wind"
+"Close codex · Esc / B","Close codex · Esc / B"
+"Continue the ascent","Continue the ascent"
+"Controller controls","Controller controls"
+"Controller: A interact · Y inventory · Back grimoire · B switch spell · LB/RB/X rituals · D-pad left/right potions · down portal · up map · Start pause. Menus: D-pad/stick and A/B.","Controller: A interact · Y inventory · Back grimoire · B switch spell · LB/RB/X rituals · D-pad left/right potions · down portal · up map · Start pause. Menus: D-pad/stick and A/B."
+"Copper Ring","Copper Ring"
+"Could not create the backup save.","Could not create the backup save."
+"Could not finalize the save.","Could not finalize the save."
+"Could not write the save file.","Could not write the save file."
+"Crypt Archer","Crypt Archer"
+"Crystal Staff","Crystal Staff"
+"Current fusion","Current fusion"
+"Current → New fusion","Current → New fusion"
+"DPS / enemy","DPS / enemy"
+"Damage ","Damage "
+"Damage / enemy","Damage / enemy"
+"Damage / second","Damage / second"
+"Damage multiplier","Damage multiplier"
+"Damage resistance","Damage resistance"
+"Damage resistance (max. 75 %)","Damage resistance (max. 75 %)"
+"Dawn over the ashes","Dawn over the ashes"
+"Death is permanent.","Death is permanent."
+"Direct target: impact + explosion, one impact per volley","Direct target: impact + explosion, one impact per volley"
+"EFFECTS & SYNERGIES","EFFECTS & SYNERGIES"
+"EMBER HAMLET","EMBER HAMLET"
+"Embers on kill","Embers on kill"
+"Embers per impact","Embers per impact"
+"Embers: explode after 0.6 s, radius 65 u, ember damage ×%.1f; +%d mana/shot. No explosion if intercepted.","Embers: explode after 0.6 s, radius 65 u, ember damage ×%.1f; +%d mana/shot. No explosion if intercepted."
+"Empty slot","Empty slot"
+"Empty slot · learn a ritual when you level up","Empty slot · learn a ritual when you level up"
+"Enchanted items","Enchanted items"
+"Enter the tower","Enter the tower"
+"Equip staff","Equip staff"
+"Equip — ring ","Equip — ring "
+"Equipment grants this ritual, but all slots are occupied. Learned rituals take priority.","Equipment grants this ritual, but all slots are occupied. Learned rituals take priority."
+"Eternal Trial","Eternal Trial"
+"Ether Charge","Ether Charge"
+"Experience bonus","Experience bonus"
+"Experience: %d / %d","Experience: %d / %d"
+"Explore the rooms and find the stairs.","Explore the rooms and find the stairs."
+"Explored rooms","Explored rooms"
+"Explosion radius","Explosion radius"
+"Explosion: radius %d u, %.0f %% of direct damage; +%d mana","Explosion: radius %d u, %.0f %% of direct damage; +%d mana"
+"Explosive homing projectiles.","Explosive homing projectiles."
+"Find the guardian’s key in a chest on this floor.","Find the guardian’s key in a chest on this floor."
+"Fire (mouse or keyboard)","Fire (mouse or keyboard)"
+"Fire wave: 45 damage per rank and knockback.","Fire wave: 45 damage per rank and knockback."
+"Fireball embers explode at the end of their flight. Does not affect fusions.","Fireball embers explode at the end of their flight. Does not affect fusions."
+"First spell learned","First spell learned"
+"Flame Lash","Flame Lash"
+"Flash Freeze","Flash Freeze"
+"Flat damage","Flat damage"
+"Floor %d","Floor %d"
+"Floor %d · A new checkpoint has been created.","Floor %d · A new checkpoint has been created."
+"Floor entry","Floor entry"
+"Four distinct choices on future level-ups","Four distinct choices on future level-ups"
+"Freeze %.1f s (bosses: max. 0.35 s)","Freeze %.1f s (bosses: max. 0.35 s)"
+"Freezes nearby enemies for 2 + rank seconds.","Freezes nearby enemies for 2 + rank seconds."
+"Frost Missile","Frost Missile"
+"Fusions become available every five levels once you know two elements.","Fusions become available every five levels once you know two elements."
+"Fusions: learn two elements. Every five levels, a fusion may be offered. It captures your current ranks and subskills; learning it again updates that snapshot.","Fusions: learn two elements. Every five levels, a fusion may be offered. It captures your current ranks and subskills; learning it again updates that snapshot."
+"Gain · ","Gain · "
+"Game saved.","Game saved."
+"Gold found","Gold found"
+"Gold found bonus","Gold found bonus"
+"Grants ","Grants "
+"Guardian’s seal","Guardian’s seal"
+"Halves ritual cooldowns. Does not stack.","Halves ritual cooldowns. Does not stack."
+"Hardcore — one life, permanent death","Hardcore — one life, permanent death"
+"Health potion","Health potion"
+"Health potion · 18 gold","Health potion · 18 gold"
+"Health regeneration","Health regeneration"
+"Hits one additional enemy per rank.","Hits one additional enemy per rank."
+"Homing orb · pulses every 0.25 s until impact (max. 3 s)","Homing orb · pulses every 0.25 s until impact (max. 3 s)"
+"IF YOU EQUIP IT","IF YOU EQUIP IT"
+"IF YOU REMOVE IT","IF YOU REMOVE IT"
+"IN RESERVE","IN RESERVE"
+"Ice Armor","Ice Armor"
+"Ice Cone","Ice Cone"
+"Ice Stream","Ice Stream"
+"Ice Stream builds armor that absorbs damage, including poison. Lost when the stream stops.","Ice Stream builds armor that absorbs damage, including poison. Lost when the stream stops."
+"Ice: enemy speed ×%.3f; stronger knockback","Ice: enemy speed ×%.3f; stronger knockback"
+"Idle mana (Meditation)","Idle mana (Meditation)"
+"Idle mana ×4","Idle mana ×4"
+"In the village","In the village"
+"Instant wave with knockback","Instant wave with knockback"
+"Interrupt %.2f s (bosses: max. 0.35 s)","Interrupt %.2f s (bosses: max. 0.35 s)"
+"Interrupt (except bosses)","Interrupt (except bosses)"
+"Interrupt: %.2f s (bosses: max. 0.35 s)","Interrupt: %.2f s (bosses: max. 0.35 s)"
+"Invalid or incompatible save. You can start a new game.","Invalid or incompatible save. You can start a new game."
+"Item found: ","Item found: "
+"Ivory: you · gold: stairs · turquoise: unopened chest.","Ivory: you · gold: stairs · turquoise: unopened chest."
+"KNOWLEDGE IN DETAIL","KNOWLEDGE IN DETAIL"
+"Key found: open the guardian’s seal.","Key found: open the guardian’s seal."
+"Keyboard controls","Keyboard controls"
+"Keyboard: WASD / ZQSD or arrows. Mouse: aim and hold fire. Controller: twin sticks.","Keyboard: WASD / ZQSD or arrows. Mouse: aim and hold fire. Controller: twin sticks."
+"Knowledge shards: 1 at the start, then 1 per main guardian. Each reroll costs 1 shard.","Knowledge shards: 1 at the start, then 1 per main guardian. Each reroll costs 1 shard."
+"L Stick","L Stick"
+"LOW HEALTH","LOW HEALTH"
+"LV. %02d   ·   %d / %d XP","LV. %02d   ·   %d / %d XP"
+"LV. 20","LV. 20"
+"Last safe position","Last safe position"
+"Last safe position · 1 s invulnerability","Last safe position · 1 s invulnerability"
+"Legacy rank preserved: %d · single-rank effect","Legacy rank preserved: %d · single-rank effect"
+"Level %d · %d deaths · %d gold
+Difficulty completed: %s","Level %d · %d deaths · %d gold
+Difficulty completed: %s"
+"Level %d · %s","Level %d · %s"
+"Level %d — choose your knowledge","Level %d — choose your knowledge"
+"Lightning interrupts attacks; duration +0.08 s/rank.","Lightning interrupts attacks; duration +0.08 s/rank."
+"Loss · ","Loss · "
+"Lv. 20","Lv. 20"
+"Mage • Level %02d","Mage • Level %02d"
+"Magic Circle","Magic Circle"
+"Magic Shield","Magic Shield"
+"Main save damaged: backup restored.","Main save damaged: backup restored."
+"Mana Channeling","Mana Channeling"
+"Mana pool","Mana pool"
+"Mana potion","Mana potion"
+"Mana potion · 18 gold","Mana potion · 18 gold"
+"Mana regeneration","Mana regeneration"
+"Master Orme · knowledge","Master Orme · knowledge"
+"Master volume","Master volume"
+"Max. health %.0f · Max. mana %.0f
+Regeneration %.2f mana/s · Resistance %.0f %%","Max. health %.0f · Max. mana %.0f
+Regeneration %.2f mana/s · Resistance %.0f %%"
+"Maximum health","Maximum health"
+"Maximum mana","Maximum mana"
+"Maximum rank","Maximum rank"
+"Mental Focus","Mental Focus"
+"More effects in the details.","More effects in the details."
+"Movement speed","Movement speed"
+"Music volume","Music volume"
+"New game","New game"
+"Next floor","Next floor"
+"No Fireball explosion","No Fireball explosion"
+"No active magic","No active magic"
+"No effective change.","No effective change."
+"No items match your search.","No items match your search."
+"No lightning interrupt","No lightning interrupt"
+"No magic","No magic"
+"No magic available","No magic available"
+"No other eligible upgrades.","No other eligible upgrades."
+"No potions","No potions"
+"No results.","No results."
+"No shards remaining.","No shards remaining."
+"No skills learned in this discipline.","No skills learned in this discipline."
+"No valid save found. You can start a new game.","No valid save found. You can start a new game."
+"None (continuous)","None (continuous)"
+"None (utility)","None (utility)"
+"Normal mode: resume from the last floor or portal checkpoint. Later actions are undone. Hardcore mode prevents continuing after death.","Normal mode: resume from the last floor or portal checkpoint. Later actions are undone. Hardcore mode prevents continuing after death."
+"Not enough mana for this ritual.","Not enough mana for this ritual."
+"Not enough mana: wait for regeneration or use a potion (%s).","Not enough mana: wait for regeneration or use a potion (%s)."
+"O N E  E X A M .   T H I R T E E N  F L O O R S .","O N E  E X A M .   T H I R T E E N  F L O O R S ."
+"Offensive mana cost reduction","Offensive mana cost reduction"
+"Offensive mana cost reduction (max. 80 %)","Offensive mana cost reduction (max. 80 %)"
+"Offers four skills instead of three on future level-ups.","Offers four skills instead of three on future level-ups."
+"On kill: %.1f damage explosion, radius %.0f u","On kill: %.1f damage explosion, radius %.0f u"
+"On kill: %d embers dealing %.1f damage","On kill: %d embers dealing %.1f damage"
+"One additional projectile; costs +2 mana.","One additional projectile; costs +2 mana."
+"One mage, four elements, and a tower that never saw you coming.","One mage, four elements, and a tower that never saw you coming."
+"One projectile hits one target per volley","One projectile hits one target per volley"
+"Onyx Ring","Onyx Ring"
+"Open chest","Open chest"
+"Open the grimoire","Open the grimoire"
+"Open the guardian’s seal","Open the guardian’s seal"
+"Options & controls","Options & controls"
+"Orme: Choose wisely. You can learn other elements during the ascent.","Orme: Choose wisely. You can learn other elements during the ascent."
+"Orme’s wisdom","Orme’s wisdom"
+"Passive knowledge · effect applied automatically.","Passive knowledge · effect applied automatically."
+"Picks up loot at four times the normal distance.","Picks up loot at four times the normal distance."
+"Pickup radius","Pickup radius"
+"Pierces enemies in the stream · same DPS per target","Pierces enemies in the stream · same DPS per target"
+"Poison protection","Poison protection"
+"Poison resistance","Poison resistance"
+"Poison resistance (max. 100 %)","Poison resistance (max. 100 %)"
+"Power lost","Power lost"
+"Press the new button…","Press the new button…"
+"Press the new key…","Press the new key…"
+"Previous checkpoint","Previous checkpoint"
+"Projectile cast speed","Projectile cast speed"
+"Projectiles / volley","Projectiles / volley"
+"Pulses: +%.1f DPS per orb on the nearest enemy within %.0f u","Pulses: +%.1f DPS per orb on the nearest enemy within %.0f u"
+"R Stick","R Stick"
+"READY RITUALS · %d / %d","READY RITUALS · %d / %d"
+"Rank %d","Rank %d"
+"Rank %d · Learned: %d · Equipment: +%d","Rank %d · Learned: %d · Equipment: +%d"
+"Rank %d → %d","Rank %d → %d"
+"Rapid Casting","Rapid Casting"
+"Reduce flashes and sudden effects","Reduce flashes and sudden effects"
+"Reduces poison damage only: 10 %, 20 %, then 30 %.","Reduces poison damage only: 10 %, 20 %, then 30 %."
+"Remote pickup","Remote pickup"
+"Remove · ","Remove · "
+"Removes ","Removes "
+"Reroll choices · 1 shard (%d available)","Reroll choices · 1 shard (%d available)"
+"Reset controls","Reset controls"
+"Rest for free","Rest for free"
+"Resume from checkpoint","Resume from checkpoint"
+"Return through portal","Return through portal"
+"Returns to the last safe room. Costs 10 mana.","Returns to the last safe room. Costs 10 mana."
+"Ring ","Ring "
+"Ring of Fire","Ring of Fire"
+"Ritual 1","Ritual 1"
+"Ritual 2","Ritual 2"
+"Ritual 3","Ritual 3"
+"Ritual cooldown ÷2","Ritual cooldown ÷2"
+"Ritual cooldown ÷2 (does not stack with equipment)","Ritual cooldown ÷2 (does not stack with equipment)"
+"Ritual ready: use the shortcut below.","Ritual ready: use the shortcut below."
+"Ritual slots occupied","Ritual slots occupied"
+"Ritual unavailable","Ritual unavailable"
+"Ritual unavailable: all slots are occupied.","Ritual unavailable: all slots are occupied."
+"SELECTED ITEM","SELECTED ITEM"
+"Save and return to menu","Save and return to menu"
+"Save unavailable","Save unavailable"
+"Search items…","Search items…"
+"Search knowledge…","Search knowledge…"
+"Select a skill or explore another discipline.","Select a skill or explore another discipline."
+"Select an item from your bag.","Select an item from your bag."
+"Select to inspect · Esc to resume","Select to inspect · Esc to resume"
+"Select to read · Esc to resume","Select to read · Esc to resume"
+"Sell to Basile","Sell to Basile"
+"Sell your items","Sell your items"
+"Sell · %d gold","Sell · %d gold"
+"Siege Mage","Siege Mage"
+"Silver Ring","Silver Ring"
+"Snapshot ranks · these rank bonuses do not affect it","Snapshot ranks · these rank bonuses do not affect it"
+"Snapshot ranks; learning again updates the fusion.","Snapshot ranks; learning again updates the fusion."
+"Snapshot taken at level %d. Equipment changes do not alter its ranks.","Snapshot taken at level %d. Equipment changes do not alter its ranks."
+"Sort bag items","Sort bag items"
+"Sound & display","Sound & display"
+"Sound effects","Sound effects"
+"Speeds up missiles and allows them to retarget. Costs +1 mana per rank.","Speeds up missiles and allows them to retarget. Costs +1 mana per rank."
+"Spell available","Spell available"
+"Spell cost","Spell cost"
+"Spell lost","Spell lost"
+"Start the next difficulty","Start the next difficulty"
+"Start with one shard and earn one per main guardian. Previous choices are avoided; a unique fusion or a choice with no alternative may return.","Start with one shard and earn one per main guardian. Previous choices are avoided; a unique fusion or a choice with no alternative may return."
+"Steam Jet","Steam Jet"
+"Stronger knockback and slowing.","Stronger knockback and slowing."
+"Study with Orme","Study with Orme"
+"Swift Missiles","Swift Missiles"
+"Switch magic","Switch magic"
+"T H E  T O W E R  O F  A S H","T H E  T O W E R  O F  A S H"
+"THE ASCENT ENDS","THE ASCENT ENDS"
+"THE CREATORS","THE CREATORS"
+"THE EXAM IS COMPLETE","THE EXAM IS COMPLETE"
+"THE MAGE’S CODEX","THE MAGE’S CODEX"
+"THE MASTER","THE MASTER"
+"THE SHOP","THE SHOP"
+"THE TOWER
+OF ASH","THE TOWER
+OF ASH"
+"THE TOWER  ·  FLOOR %02d / 13","THE TOWER  ·  FLOOR %02d / 13"
+"THE TOWER OF ASH","THE TOWER OF ASH"
+"THE TOWER OF ASH    /    CHAPTER I","THE TOWER OF ASH    /    CHAPTER I"
+"Talk to Basile","Talk to Basile"
+"Talk to Orme","Talk to Orme"
+"Talk to the villagers, then enter the tower.","Talk to the villagers, then enter the tower."
+"The Archivist has fallen. Reach the summit seal to complete the ascent.","The Archivist has fallen. Reach the summit seal to complete the ascent."
+"The Ash Archivist","The Ash Archivist"
+"The Bell Eater","The Bell Eater"
+"The Ember Guardian","The Ember Guardian"
+"The Ember Guardian still protects the seal.","The Ember Guardian still protects the seal."
+"The Tower of Ash","The Tower of Ash"
+"The Tower of Ash · version 0.2","The Tower of Ash · version 0.2"
+"The Unburied King","The Unburied King"
+"The game is paused.","The game is paused."
+"The guardian’s key has been found. The seal can be opened.","The guardian’s key has been found. The seal can be opened."
+"The next ascent keeps your skills and equipment. The tower and its rewards are renewed. The Eternal Trial enforces permanent death.","The next ascent keeps your skills and equipment. The tower and its rewards are renewed. The Eternal Trial enforces permanent death."
+"The portal preserves your position and the floor’s state.","The portal preserves your position and the floor’s state."
+"The seal fades. The guardian awaits.","The seal fades. The guardian awaits."
+"Theoretical DPS per enemy, before resistance and with mana available. Range in world units, blocked by walls.","Theoretical DPS per enemy, before resistance and with mana available. Range in world units, blocked by walls."
+"Third ritual · unlocks at level 20","Third ritual · unlocks at level 20"
+"Thirteen floors. One exam passed. Orme will claim he never doubted you.","Thirteen floors. One exam passed. Orme will claim he never doubted you."
+"Thirteen floors. Two secondary rituals, then three at level 20.","Thirteen floors. Two secondary rituals, then three at level 20."
+"This ascent has ended or its save is unavailable.","This ascent has ended or its save is unavailable."
+"This floor’s guardian seals the stairs.","This floor’s guardian seals the stairs."
+"Three embers per rank on impact; requires Explosion.","Three embers per rank on impact; requires Explosion."
+"Time is paused · %d choices pending. Theoretical DPS per enemy, before resistance, with mana available. Range in units (u).","Time is paused · %d choices pending. Theoretical DPS per enemy, before resistance, with mana available. Range in units (u)."
+"Turn Undead","Turn Undead"
+"Unavailable → Available","Unavailable → Available"
+"Undead: flee for %.1f s and take +35 %% damage","Undead: flee for %.1f s and take +35 %% damage"
+"Up to %d targets · 180 u bounces · same DPS per target","Up to %d targets · 180 u bounces · same DPS per target"
+"Use this magic","Use this magic"
+"VERSION 0.2  ·  A SOLO ASCENT","VERSION 0.2  ·  A SOLO ASCENT"
+"Values after caps. Theoretical DPS per enemy, before resistance and with mana available. Volleys and conditional effects are detailed separately.","Values after caps. Theoretical DPS per enemy, before resistance and with mana available. Volleys and conditional effects are detailed separately."
+"View ritual · ","View ritual · "
+"Village portal","Village portal"
+"WORN EQUIPMENT","WORN EQUIPMENT"
+"Weakens undead and makes them flee for 4 + rank seconds.","Weakens undead and makes them flee for 4 + rank seconds."
+"When learned","When learned"
+"While casting Ice Stream: +%d armor/s, up to %d; includes poison; +%d mana/s. Lost when casting stops.","While casting Ice Stream: +%d armor/s, up to %d; includes poison; +%d mana/s. Lost when casting stops."
+"While casting Lightning: %.1f storm DPS, radius 520 u, deflects enemies and shots; +%d mana/s","While casting Lightning: %.1f storm DPS, radius 520 u, deflects enemies and shots; +%d mana/s"
+"While not firing: 1 charge/s, up to %d; next shot: 320 u wave, −10 %% max. health/charge (does not stack)","While not firing: 1 charge/s, up to %d; next shot: 320 u wave, −10 %% max. health/charge (does not stack)"
+"Widens the stream by 0.12 rad and extends its range by 18 per rank.","Widens the stream by 0.12 rad and extends its range by 18 per rank."
+"You need the key hidden in a chest on this floor.","You need the key hidden in a chest on this floor."
+"Your arts, organized by discipline.","Your arts, organized by discipline."
+"Your bag is empty.","Your bag is empty."
+"Your final lesson in magic begins here.","Your final lesson in magic begins here."
+"Your first spark","Your first spark"
+"Your hat falls to the floor…","Your hat falls to the floor…"
+"Your last checkpoint has been restored. Later actions were undone.","Your last checkpoint has been restored. Later actions were undone."
+"Ysee · healing","Ysee · healing"
+"Ysee: Come back with your hat. And what’s underneath it.","Ysee: Come back with your hat. And what’s underneath it."
+"[%s]  %s","[%s]  %s"
+"all learned skills","all learned skills"
+"cap reached","cap reached"
+"cast speed","cast speed"
+"damage resistance","damage resistance"
+"flat damage","flat damage"
+"gold found","gold found"
+"health regeneration","health regeneration"
+"mana efficiency","mana efficiency"
+"mana regeneration","mana regeneration"
+"max. health","max. health"
+"max. mana","max. mana"
+"of Bones","of Bones"
+"of Clarity","of Clarity"
+"of Dawn","of Dawn"
+"of Embers","of Embers"
+"of Restraint","of Restraint"
+"of Stars","of Stars"
+"of Swift Lightning","of Swift Lightning"
+"of the Pilgrim","of the Pilgrim"
+"of the Rampart","of the Rampart"
+"of the Spring","of the Spring"
+"poison resistance","poison resistance"
+"— (no damage)","— (no damage)"
+"“Books are expensive. Ignorance costs more.”","“Books are expensive. Ignorance costs more.”"
+"−%d %% damage taken (total capped at 75 %%)","−%d %% damage taken (total capped at 75 %%)"
+"−%d %% offensive spell cost (total capped at 80 %%)","−%d %% offensive spell cost (total capped at 80 %%)"
+"−%d %% poison damage; combines multiplicatively with items","−%d %% poison damage; combines multiplicatively with items"
+"−7 % damage taken per rank.","−7 % damage taken per rank."
+"−9 % mana cost per rank (minimum 20 %).","−9 % mana cost per rank (minimum 20 %)."

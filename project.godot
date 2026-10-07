@@ -10,7 +10,9 @@ config_version=5
 
 [application]
 
-config/name="La Tour des Cendres"
+config/name="The Tower of Ash"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Godot/app_userdata/La Tour des Cendres"
 config/version="0.2.0"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
@@ -38,8 +40,9 @@ window/size/min_height=600
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://resources/localization/messages.fr.translation")
-locale/fallback="fr"
+locale/translations=PackedStringArray("res://resources/localization/messages.en.translation")
+locale/fallback="en"
+locale/test="en"
 
 [rendering]
 

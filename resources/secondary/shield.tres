@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "shield"
-title = "Bouclier magique"
-description = "Absorbe 45 dégâts par rang. Coût 30 mana."
+title = "Magic Shield"
+description = "Absorbs 45 damage per rank. Costs 30 mana."
 kind = "secondary"
 icon = "missile"
 max_rank = 6

@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "power"
-title = "Mage de siège"
-description = "+14 % dégâts par rang."
+title = "Siege Mage"
+description = "+14 % damage per rank."
 kind = "passive"
 icon = "book"
 max_rank = 6

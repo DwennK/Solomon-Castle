@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "harden"
-title = "Armure de glace"
-description = "Jet de glace construit une armure qui absorbe les dégâts, poison inclus. Elle disparaît à l’arrêt du jet."
+title = "Ice Armor"
+description = "Ice Stream builds armor that absorbs damage, including poison. Lost when the stream stops."
 kind = "passive"
 icon = "ice"
 prerequisite = "ice"

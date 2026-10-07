@@ -10,7 +10,7 @@ static func write_save(path: String, payload: Dictionary) -> bool:
 	var envelope: String = JSON.stringify({"version": VERSION, "sha256": body.sha256_text(), "body": body})
 	var file: FileAccess = FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null:
-		last_error = "Impossible d’écrire la sauvegarde."
+		last_error = "Could not write the save file."
 		return false
 	file.store_string(envelope)
 	file.flush()
@@ -20,11 +20,11 @@ static func write_save(path: String, payload: Dictionary) -> bool:
 		if not _read_one(path).is_empty():
 			var copy_error: Error = DirAccess.copy_absolute(path, path + ".bak")
 			if copy_error != OK:
-				last_error = "Impossible de créer la sauvegarde de secours."
+				last_error = "Could not create the backup save."
 				return false
 	var error: Error = DirAccess.rename_absolute(path + ".tmp", path)
 	if error != OK:
-		last_error = "Impossible de finaliser la sauvegarde."
+		last_error = "Could not finalize the save."
 	return error == OK
 
 static func _read_one(path: String) -> Dictionary:
@@ -50,5 +50,5 @@ static func read_save(path: String) -> Dictionary:
 	var result: Dictionary = _read_one(path)
 	if result.is_empty():
 		result = _read_one(path + ".bak")
-		last_error = "Sauvegarde principale endommagée : copie de secours restaurée." if not result.is_empty() else "Aucune sauvegarde valide. Vous pouvez commencer une nouvelle partie."
+		last_error = "Main save damaged: backup restored." if not result.is_empty() else "No valid save found. You can start a new game."
 	return result

@@ -67,14 +67,14 @@ const RECIPES: Dictionary = {
 }
 
 const LABELS: Dictionary = {
-	"flat_damage":"dégâts fixes", "damage":"dégâts", "max_mana":"mana max.", "max_hp":"vie max.",
-	"mana_regen":"mana/s", "hp_regen":"vie/s", "cast_speed":"cadence", "cost_reduction":"économie de mana",
-	"speed":"vitesse", "resistance":"résistance aux dégâts", "mana_recovery":"régénération de mana",
-	"hp_recovery":"régénération de vie", "poison_resistance":"résistance au poison",
-	"gold_bonus":"or trouvé", "xp_bonus":"expérience", "all_skills":"tous les savoirs acquis"
+	"flat_damage":"flat damage", "damage":"damage", "max_mana":"max. mana", "max_hp":"max. health",
+	"mana_regen":"mana/s", "hp_regen":"health/s", "cast_speed":"cast speed", "cost_reduction":"mana efficiency",
+	"speed":"speed", "resistance":"damage resistance", "mana_recovery":"mana regeneration",
+	"hp_recovery":"health regeneration", "poison_resistance":"poison resistance",
+	"gold_bonus":"gold found", "xp_bonus":"experience", "all_skills":"all learned skills"
 }
 const PERCENT: Array[String] = ["damage","cast_speed","cost_reduction","speed","resistance","mana_recovery","hp_recovery","poison_resistance","gold_bonus","xp_bonus"]
-const POWERS: Dictionary = {"reach":"Télékinésie", "meditation":"Méditation", "mental_focus":"Concentration mentale"}
+const POWERS: Dictionary = {"reach":"Telekinesis", "meditation":"Meditation", "mental_focus":"Mental Focus"}
 
 static func templates() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
@@ -94,10 +94,10 @@ static func roll(template: Dictionary, rng: RandomNumberGenerator) -> Dictionary
 static func bonus_text(key: String, value: float) -> String:
 	if key.begins_with("skill:"): return "%+d %s"%[int(value),Catalog.title(key.trim_prefix("skill:"))]
 	if key.begins_with("grant:"):
-		return ("Accorde " if value>0 else "Retire ")+POWERS.get(key.trim_prefix("grant:"),key)
+		return ("Grants " if value>0 else "Removes ")+POWERS.get(key.trim_prefix("grant:"),key)
 	return ("%+.0f %% "%(value*100) if key in PERCENT else ("%+d "%int(value) if value==floorf(value) else "%+.1f "%value))+LABELS.get(key,key)
 
 static func item_name(slot: String, bonuses: Dictionary) -> String:
 	var parts: Array[String] = []
 	for key: String in bonuses: parts.append(bonus_text(key,float(bonuses[key])))
-	return ("Bâton" if slot=="staff" else "Anneau")+" · "+" / ".join(parts)
+	return ("Staff" if slot=="staff" else "Ring")+" · "+" / ".join(parts)

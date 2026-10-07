@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "affix_3"
-title = "de la source"
+title = "of the Spring"
 description = ""
 kind = "affix"
 icon = ""

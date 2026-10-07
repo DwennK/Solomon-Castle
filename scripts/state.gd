@@ -310,14 +310,14 @@ func potion(kind: String) -> bool:
 	changed.emit()
 	return true
 
-func mark_checkpoint(reason: String = "Point de reprise") -> void:
+func mark_checkpoint(reason: String = "Checkpoint") -> void:
 	run.checkpoint_info = {"reason":reason,"time":Time.get_datetime_string_from_system(false,true)}
 	checkpoint = run.duplicate(true)
 
 func checkpoint_description() -> String:
 	var saved: Dictionary = checkpoint if not checkpoint.is_empty() else run
 	var floor_number: int = int(saved.get("floor",0))
-	var location: String = "Village" if floor_number==0 else "Étage %d" % floor_number
+	var location: String = "Village" if floor_number==0 else "Floor %d" % floor_number
 	if floor_number>0 and saved.get("floors",{}).has(str(floor_number)):
 		var point: Vector2 = Dungeon.vec(saved.get("position",[0,0]))
 		var rooms: Array = saved.floors[str(floor_number)].get("rooms",[])
@@ -325,13 +325,13 @@ func checkpoint_description() -> String:
 		for i: int in range(rooms.size()):
 			var r: Array = rooms[i]
 			if Rect2(r[0]*Dungeon.CELL,r[1]*Dungeon.CELL,r[2]*Dungeon.CELL,r[3]*Dungeon.CELL).has_point(point):
-				location += " · salle %d" % (i+1)
+				location += " · room %d" % (i+1)
 				found_room = true
 				break
-		if not found_room: location += " · couloir (%d, %d)" % [point.x/Dungeon.CELL,point.y/Dungeon.CELL]
+		if not found_room: location += " · corridor (%d, %d)" % [point.x/Dungeon.CELL,point.y/Dungeon.CELL]
 	var info: Dictionary = saved.get("checkpoint_info",{})
 	var stamp: String = info.get("time","")
-	return "%s · niveau %d · %d or\n%s%s" % [location,saved.get("level",1),saved.get("gold",0),info.get("reason","Ancien point de reprise"),(" · "+stamp) if not stamp.is_empty() else ""]
+	return "%s · level %d · %d gold\n%s%s" % [location,saved.get("level",1),saved.get("gold",0),info.get("reason","Previous checkpoint"),(" · "+stamp) if not stamp.is_empty() else ""]
 
 func die() -> void:
 	var deaths: int = int(run.deaths)+1
@@ -377,10 +377,12 @@ func load_game() -> bool:
 	if not valid_payload(payload):
 		payload = SaveStore.read_save(save_path+".bak")
 	if not valid_payload(payload):
-		message.emit("Sauvegarde invalide ou incompatible. Nouvelle partie disponible.")
+		message.emit("Invalid or incompatible save. You can start a new game.")
 		return false
 	run = payload.run
 	checkpoint = payload.get("checkpoint",{} )
+	LegacyEnglish.normalize(run)
+	LegacyEnglish.normalize(checkpoint)
 	for saved: Dictionary in [run,checkpoint]:
 		if saved.is_empty(): continue
 		if not saved.has("insight"): saved.insight = 1

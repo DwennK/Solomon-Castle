@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "resist"
-title = "Résistance"
-description = "−7 % dégâts subis par rang."
+title = "Resistance"
+description = "−7 % damage taken per rank."
 kind = "passive"
 icon = "book"
 max_rank = 5

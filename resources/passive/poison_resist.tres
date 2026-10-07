@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "poison_resist"
-title = "Résistance au poison"
-description = "Réduit uniquement les dégâts de poison : 10 %, 20 %, puis 30 %."
+title = "Poison resistance"
+description = "Reduces poison damage only: 10 %, 20 %, then 30 %."
 kind = "passive"
 icon = "mana"
 prerequisite = ""

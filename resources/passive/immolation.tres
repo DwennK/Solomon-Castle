@@ -6,7 +6,7 @@
 script = ExtResource("1")
 id = "immolation"
 title = "Immolation"
-description = "Les braises de Boule de feu explosent en fin de course. Sans effet sur les fusions."
+description = "Fireball embers explode at the end of their flight. Does not affect fusions."
 kind = "passive"
 icon = "fire"
 prerequisite = "fire"

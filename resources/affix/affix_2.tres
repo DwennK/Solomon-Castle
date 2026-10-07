@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "affix_2"
-title = "du rempart"
+title = "of the Rampart"
 description = ""
 kind = "affix"
 icon = ""

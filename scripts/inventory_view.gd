@@ -6,7 +6,7 @@ signal section_requested(section: String)
 
 const GAIN: Color = Color("234e2b")
 const LOSS: Color = Color("7c2822")
-const RARITIES: Array[String] = ["Enchanté", "Rare", "Épique"]
+const RARITIES: Array[String] = ["Enchanted", "Rare", "Epic"]
 var selling: bool = false
 var selected_uid: String = ""
 var filter: String = "all"
@@ -37,14 +37,14 @@ func _ready() -> void:
 	add_child(shell)
 	var left: VBoxContainer = shell.left
 	left.name = "BagColumn"
-	CodexShell.heading(left,"Inventaire" if not selling else "Vendre à Basile")
-	text(left,"ÉQUIPEMENT PORTÉ",12,CodexShell.MUTED)
+	CodexShell.heading(left,"Inventory" if not selling else "Sell to Basile")
+	text(left,"WORN EQUIPMENT",12,CodexShell.MUTED)
 	equipment_body = VBoxContainer.new()
 	equipment_body.name = "EquipmentColumn"
 	left.add_child(equipment_body)
 	left.add_child(HSeparator.new())
 	var tools: HBoxContainer = HBoxContainer.new();left.add_child(tools)
-	search_field = CodexShell.search(tools,"Rechercher un objet…")
+	search_field = CodexShell.search(tools,"Search items…")
 	search_field.text_changed.connect(func(value: String)->void:
 		query=value
 		bag_scroll.scroll_vertical=0
@@ -52,8 +52,8 @@ func _ready() -> void:
 	var sorting: OptionButton = OptionButton.new()
 	sorting.name="InventorySort"
 	sorting.add_theme_font_size_override("font_size",14)
-	for title: String in ["Ordre du sac", "Nom", "Rareté"]: sorting.add_item(title)
-	sorting.tooltip_text="Trier les objets du sac"
+	for title: String in ["Bag order", "Name", "Rarity"]: sorting.add_item(title)
+	sorting.tooltip_text="Sort bag items"
 	sorting.item_selected.connect(func(index: int)->void:
 		sort_mode=index
 		bag_scroll.scroll_vertical=0
@@ -61,7 +61,7 @@ func _ready() -> void:
 	tools.add_child(sorting)
 	var filters: HBoxContainer = HBoxContainer.new();left.add_child(filters)
 	filters.add_theme_constant_override("separation",6)
-	for entry: Array in [["all","Tous"],["staff","Bâtons"],["ring","Anneaux"]]:
+	for entry: Array in [["all","All"],["staff","Staves"],["ring","Rings"]]:
 		filter_buttons[entry[0]] = action(filters,entry[1],func()->void:set_filter(entry[0]))
 	result_count=text(left,"",13,CodexShell.MUTED)
 	bag_scroll = ScrollContainer.new()
@@ -79,15 +79,15 @@ func _ready() -> void:
 	bag_scroll.resized.connect(fit_grid)
 	var right: VBoxContainer = shell.right
 	right.name = "DetailsColumn"
-	text(right,"OBJET SÉLECTIONNÉ",12,CodexShell.MUTED)
+	text(right,"SELECTED ITEM",12,CodexShell.MUTED)
 	detail_header = VBoxContainer.new();right.add_child(detail_header)
 	detail_body = scroll_body(right)
 	detail_scroll = detail_body.get_parent()
 	action_body = VBoxContainer.new();right.add_child(action_body)
 	wallet = text(shell.footer,"",15,GameTheme.GOLD)
-	var hint: Label=text(shell.footer,"Sélectionner pour examiner · Échap pour reprendre",14,GameTheme.MUTED)
+	var hint: Label=text(shell.footer,"Select to inspect · Esc to resume",14,GameTheme.MUTED)
 	hint.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
-	if selling: action(shell.footer,"Retour à l’échoppe",func()->void:section_requested.emit("merchant"))
+	if selling: action(shell.footer,"Back to the shop",func()->void:section_requested.emit("merchant"))
 	refresh()
 	if cells.has(selected_uid): cells[selected_uid].grab_focus()
 
@@ -150,7 +150,7 @@ func rarity(item: Dictionary) -> Color:
 	return [Color("bdc9c9"),Color("78bcd8"),Color("c7a1e5")][clampi(int(item.get("rarity",0)),0,2)]
 
 func slot_name(slot: String) -> String:
-	return "Bâton" if slot == "staff" else "Anneau "+slot[-1]
+	return "Staff" if slot == "staff" else "Ring "+slot[-1]
 
 func visible_items() -> Array:
 	var result: Array = State.run.inventory.filter(func(item: Dictionary)->bool:
@@ -168,9 +168,9 @@ func set_filter(value: String) -> void:
 	refresh()
 
 func refresh() -> void:
-	wallet.text = "%d / 48 objets   ·   %d or" % [State.run.inventory.size(),State.run.gold]
+	wallet.text = "%d / 48 items   ·   %d gold" % [State.run.inventory.size(),State.run.gold]
 	var visible: Array = visible_items()
-	result_count.text = "%d objet%s" % [visible.size(),"s" if visible.size()!=1 else ""]
+	result_count.text = "%d item%s" % [visible.size(),"s" if visible.size()!=1 else ""]
 	if not visible.any(func(item: Dictionary)->bool:return item.uid==selected_uid):
 		selected_uid = "" if visible.is_empty() else visible[0].uid
 		choose_target()
@@ -201,8 +201,8 @@ func select_item(uid: String) -> void:
 	refresh_details()
 
 func badge_text(item: Dictionary) -> String:
-	if item.uid in State.run.equipped.values(): return "ÉQUIPÉ"
-	return "NOUVEAU" if not item.get("inspected",false) else RARITIES[clampi(int(item.rarity),0,2)]
+	if item.uid in State.run.equipped.values(): return "EQUIPPED"
+	return "NEW" if not item.get("inspected",false) else RARITIES[clampi(int(item.rarity),0,2)]
 
 func refresh_grid() -> void:
 	clear(bag_grid);cells.clear()
@@ -211,7 +211,7 @@ func refresh_grid() -> void:
 	var visible: Array = visible_items()
 	if visible.is_empty():
 		bag_grid.columns=1
-		text(bag_grid,"Aucun objet ne correspond à votre recherche." if not State.run.inventory.is_empty() else "Votre sac est vide.",15,CodexShell.MUTED)
+		text(bag_grid,"No items match your search." if not State.run.inventory.is_empty() else "Your bag is empty.",15,CodexShell.MUTED)
 		return
 	for item: Dictionary in visible:
 		var cell: Button = action(bag_grid,"",func()->void:select_item(item.uid))
@@ -242,7 +242,7 @@ func refresh_equipment() -> void:
 	var row: HBoxContainer=HBoxContainer.new();equipment_body.add_child(row)
 	for slot: String in ["staff","ring1","ring2"]:
 		var item: Dictionary = State.find_item(State.run.equipped[slot])
-		var b: Button = action(row,slot_name(slot)+("\nVide" if item.is_empty() else "\n"+RARITIES[clampi(int(item.rarity),0,2)]),func()->void:
+		var b: Button = action(row,slot_name(slot)+("\nEmpty" if item.is_empty() else "\n"+RARITIES[clampi(int(item.rarity),0,2)]),func()->void:
 			query="";search_field.text=""
 			if filter!="all" and filter!=item.slot: filter=item.slot
 			selected_uid=item.uid
@@ -252,15 +252,15 @@ func refresh_equipment() -> void:
 		b.expand_icon=true;b.add_theme_constant_override("icon_max_width",30)
 		b.custom_minimum_size.y=64
 		b.disabled = item.is_empty()
-		b.tooltip_text = item.get("name","Emplacement vide")
+		b.tooltip_text = item.get("name","Empty slot")
 	var stats: Dictionary=State.stats()
-	text(equipment_body,"Vie max. %.0f · Mana max. %.0f\nRégénération %.2f mana/s · Résistance %.0f %%" % [stats.max_hp,stats.max_mana,stats.mana_regen,stats.resistance*100],14,CodexShell.MUTED)
+	text(equipment_body,"Max. health %.0f · Max. mana %.0f\nRegeneration %.2f mana/s · Resistance %.0f %%" % [stats.max_hp,stats.max_mana,stats.mana_regen,stats.resistance*100],14,CodexShell.MUTED)
 
 func refresh_details() -> void:
 	clear(detail_header);clear(detail_body);clear(action_body)
 	var item: Dictionary = State.find_item(selected_uid)
 	if item.is_empty():
-		text(detail_body,"Sélectionnez un objet dans le sac.",17,CodexShell.MUTED)
+		text(detail_body,"Select an item from your bag.",17,CodexShell.MUTED)
 		return
 	var intro: HBoxContainer = HBoxContainer.new();detail_header.add_child(intro)
 	art(intro,item.slot,72)
@@ -268,7 +268,7 @@ func refresh_details() -> void:
 	text(names,RARITIES[clampi(int(item.rarity),0,2)],14,rarity(item).darkened(0.58))
 	# Generated catalogue names already contain every bonus; print those once below.
 	var display_name: String = item.name
-	if display_name==Equipment.item_name(item.slot,item.bonuses): display_name="Bâton" if item.slot=="staff" else "Anneau"
+	if display_name==Equipment.item_name(item.slot,item.bonuses): display_name="Staff" if item.slot=="staff" else "Ring"
 	var title: Label = text(names,display_name,22)
 	title.tooltip_text=item.name
 	title.mouse_filter=Control.MOUSE_FILTER_PASS
@@ -280,7 +280,7 @@ func refresh_details() -> void:
 	if item.slot=="ring":
 		var targets: HBoxContainer = HBoxContainer.new();detail_header.add_child(targets)
 		for slot: String in ["ring1","ring2"]:
-			var b: Button = action(targets,"Anneau "+slot[-1],func()->void:
+			var b: Button = action(targets,"Ring "+slot[-1],func()->void:
 				target_slot=slot
 				refresh_details()
 				focus_target.call_deferred())
@@ -291,28 +291,28 @@ func refresh_details() -> void:
 	var removing: bool = current.get("uid","")==item.uid
 	var comparison: Dictionary = EquipmentPreview.compare(item.uid,target_slot,removing)
 	var summary: Dictionary = EquipmentPreview.compact(comparison)
-	text(detail_body,"SI TU LE RETIRES" if removing else "SI TU L’ÉQUIPES",13,CodexShell.MUTED)
-	if not summary.active.is_empty(): text(detail_body,"Magie active · "+Catalog.title(summary.active),15,CodexShell.INK)
+	text(detail_body,"IF YOU REMOVE IT" if removing else "IF YOU EQUIP IT",13,CodexShell.MUTED)
+	if not summary.active.is_empty(): text(detail_body,"Active magic · "+Catalog.title(summary.active),15,CodexShell.INK)
 	var metrics: VBoxContainer = VBoxContainer.new();detail_body.add_child(metrics)
 	metrics.name="CompactMetrics"
 	metrics.add_theme_constant_override("separation",7)
 	for row: Dictionary in summary.metrics: compact_row(metrics,row)
 	if not summary.effects.is_empty():
 		detail_body.add_child(HSeparator.new())
-		text(detail_body,"EFFETS & SYNERGIES",12,CodexShell.MUTED)
+		text(detail_body,"EFFECTS & SYNERGIES",12,CodexShell.MUTED)
 		var effects: VBoxContainer = VBoxContainer.new();detail_body.add_child(effects)
 		effects.name="CompactEffects"
 		effects.add_theme_constant_override("separation",7)
 		for row: Dictionary in summary.effects: compact_row(effects,row)
 	if summary.metrics.is_empty() and summary.effects.is_empty():
-		text(detail_body,"Autres effets dans les détails." if not comparison.rows.is_empty() else "Aucun changement effectif.",15,CodexShell.MUTED)
+		text(detail_body,"More effects in the details." if not comparison.rows.is_empty() else "No effective change.",15,CodexShell.MUTED)
 	if not comparison.rows.is_empty():
 		var toggle: Button = action(detail_body,"",func()->void:pass)
 		toggle.name="ToggleChanges"
 		toggle.toggle_mode=true
 		toggle.button_pressed=details_expanded
 		toggle.custom_minimum_size.y=34
-		toggle.text=("▾" if details_expanded else "▸")+" Tous les changements"
+		toggle.text=("▾" if details_expanded else "▸")+" All changes"
 		toggle.add_theme_stylebox_override("normal",GameTheme.panel(Color(0,0,0,0),Color("84694c"),6))
 		toggle.add_theme_stylebox_override("pressed",GameTheme.panel(Color(0,0,0,0),Color("84694c"),6))
 		for state: String in ["font_color","font_pressed_color"]: toggle.add_theme_color_override(state,CodexShell.INK)
@@ -322,19 +322,19 @@ func refresh_details() -> void:
 		toggle.toggled.connect(func(expanded: bool)->void:
 			details_expanded=expanded
 			all_changes.visible=expanded
-			toggle.text=("▾" if expanded else "▸")+" Tous les changements")
+			toggle.text=("▾" if expanded else "▸")+" All changes")
 		for row: Dictionary in comparison.rows:
 			var neutral: bool = row.get("neutral",false)
 			var color: Color = CodexShell.INK if neutral else (GAIN if row.gain else LOSS)
 			text(all_changes,row.title,13,CodexShell.MUTED)
-			text(all_changes,("" if neutral else ("Gain · " if row.gain else "Perte · "))+row.text,14,color)
-		text(all_changes,"Valeurs après plafonds. DPS théoriques par ennemi, avant résistance et à mana disponible. Les salves et effets conditionnels sont détaillés séparément.",13,CodexShell.MUTED)
+			text(all_changes,("" if neutral else ("Gain · " if row.gain else "Loss · "))+row.text,14,color)
+		text(all_changes,"Values after caps. Theoretical DPS per enemy, before resistance and with mana available. Volleys and conditional effects are detailed separately.",13,CodexShell.MUTED)
 
 	var button: Button
 	var action_uid: String = item.uid
 	var action_slot: String = target_slot
 	if selling:
-		button = action(action_body,"Vendre · %d or" % maxi(1,int(item.price/3)),func()->void:
+		button = action(action_body,"Sell · %d gold" % maxi(1,int(item.price/3)),func()->void:
 			State.sell(action_uid)
 			refresh()
 			focus_selection.call_deferred())
@@ -342,17 +342,17 @@ func refresh_details() -> void:
 		if button.disabled:
 			for slot: String in State.run.equipped:
 				if State.run.equipped[slot]!=item.uid: continue
-				action(action_body,"Retirer · "+slot_name(slot),func()->void:
+				action(action_body,"Remove · "+slot_name(slot),func()->void:
 					State.unequip(slot)
 					refresh()
 					focus_selection.call_deferred())
 	elif removing:
-		button = action(action_body,"Retirer · "+slot_name(target_slot),func()->void:
+		button = action(action_body,"Remove · "+slot_name(target_slot),func()->void:
 			State.unequip(action_slot)
 			refresh()
 			focus_selection.call_deferred())
 	else:
-		button = action(action_body,"Équiper le bâton" if target_slot=="staff" else "Équiper — anneau "+target_slot[-1],func()->void:
+		button = action(action_body,"Equip staff" if target_slot=="staff" else "Equip — ring "+target_slot[-1],func()->void:
 			State.equip(action_uid,action_slot)
 			refresh()
 			focus_selection.call_deferred())

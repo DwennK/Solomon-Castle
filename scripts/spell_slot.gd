@@ -61,7 +61,7 @@ func overlay_label(font_size: int) -> Label:
 	add_child(l)
 	return l
 
-func update_slot(id: String, key: String, cooldown: float = 0, duration: float = 1, empty: String = "VIDE", blocked: bool = false) -> void:
+func update_slot(id: String, key: String, cooldown: float = 0, duration: float = 1, empty: String = "EMPTY", blocked: bool = false) -> void:
 	if spell_id != id:
 		spell_id = id
 		var definition: ContentDefinition = Catalog.definition(id)
@@ -105,7 +105,7 @@ func _draw() -> void:
 		ArcaneArt.glow(self,size*Vector2(0.5,0.4),size.x*0.55,Color("b4925e"),0.1+hover_amount*0.12)
 	else:
 		var c: Vector2 = Vector2(size.x/2,23)
-		if caption_label and caption_label.text == "NIV. 20":
+		if caption_label and caption_label.text == "LV. 20":
 			draw_arc(c+Vector2(0,-3),5,PI,TAU,12,Color("6b6a68"),1.5,true)
 			draw_rect(Rect2(c+Vector2(-7,-3),Vector2(14,11)),Color("6b6a68"),false,1.0)
 		else:

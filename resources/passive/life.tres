@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "life"
-title = "Vitalité"
-description = "+24 points de vie maximum."
+title = "Vitality"
+description = "+24 maximum health."
 kind = "passive"
 icon = "book"
 max_rank = 4

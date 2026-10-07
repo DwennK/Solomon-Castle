@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "focus"
-title = "Concentration mentale"
-description = "Divise par deux la recharge des rituels. Effet non cumulable."
+title = "Mental Focus"
+description = "Halves ritual cooldowns. Does not stack."
 kind = "passive"
 icon = "book"
 max_rank = 1

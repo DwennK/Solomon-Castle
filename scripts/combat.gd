@@ -72,7 +72,7 @@ func secondary_profile(id: String, preview_rank: int = -1) -> Dictionary:
 
 func spend_primary_mana(amount: float) -> bool:
 	if State.pay_mana(amount): return true
-	State.notify_limited("primary_mana","Mana insuffisant : attendez la régénération ou utilisez une potion (%s)." % Controls.caption("mp_potion"),3000)
+	State.notify_limited("primary_mana","Not enough mana: wait for regeneration or use a potion (%s)." % Controls.caption("mp_potion"),3000)
 	return false
 
 func fire(player: MagePlayer, delta: float) -> void:
@@ -186,7 +186,7 @@ func secondary(player: MagePlayer, index: int) -> bool:
 	var p: Dictionary = secondary_profile(id)
 	if float(player.cooldowns.get(id,0.0))>0.0: return false
 	if not State.pay_mana(p.mana,p.offensive):
-		State.message.emit("Mana insuffisant pour ce rituel.")
+		State.message.emit("Not enough mana for this ritual.")
 		return false
 	player.cooldowns[id] = p.cooldown
 	player.resting = 0.0

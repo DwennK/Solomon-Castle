@@ -26,7 +26,7 @@ func run_all() -> void:
 	near(SkillDetails.attack("fire").dps,30.0/0.55,"Fire DPS per projectile / enemy")
 	State.learn("explode")
 	near(SkillDetails.attack("fire").dps,46.5/0.55,"Direct target includes explosion")
-	check("30.0 DPS / autre ennemi" in SkillDetails.text("fire",false),"Splash DPS independent of enemy count")
+	check("30.0 DPS / other enemy" in SkillDetails.text("fire",false),"Splash DPS independent of enemy count")
 	State.run.skills.multishot=3
 	near(SkillDetails.attack("missile").dps,18.0/0.38,"Multishot baseline never assumes all projectiles connect")
 	check("189.5 DPS" in SkillDetails.text("missile",false),"Conditional full salvo stated separately")
@@ -45,9 +45,9 @@ func run_all() -> void:
 	near(SkillDetails.attack("acid").dps,196.0/12.5,"Acid average includes duration and cooldown")
 	near(SkillDetails.attack("acid").cost,40*0.82,"Actual reduced mana cost shown")
 	near(SkillDetails.attack("shield").dps,0,"Utility spell never invents damage")
-	check("DPS actif / ennemi : 28.0" in SkillDetails.text("acid"),"Active zone DPS shown")
+	check("Active DPS / enemy: 28.0" in SkillDetails.text("acid"),"Active zone DPS shown")
 	State.run.skills.shield=1
-	check("Absorbe 45 → 90" in SkillDetails.text("shield"),"Next ritual effect shown")
+	check("Absorbs 45 → 90" in SkillDetails.text("shield"),"Next ritual effect shown")
 	State.fresh(221);State.learn("fire");State.learn("shield")
 	var equipment: Dictionary=test_item(1234)
 	equipment.bonuses={"skill:fire":3,"flat_damage":5.0,"cost_reduction":0.1,"grant:mental_focus":1}
@@ -81,9 +81,9 @@ func run_all() -> void:
 	check(State.save_game() and State.load_game(),"Legacy campaign loads")
 	check(State.run.insight==1 and State.checkpoint.insight==1,"Legacy run and checkpoint migrate")
 	State.run.floor=4;State.run.floors["4"]=Dungeon.generate(713,4);State.run.position=State.run.floors["4"].entry
-	State.mark_checkpoint("Arrivée dans l’étage")
+	State.mark_checkpoint("Floor entry")
 	State.run.gold=999;State.die()
-	check("Étage 4 · salle 1" in State.checkpoint_description() and "140 or" in State.checkpoint_description(),"Death reports restored state, room and reason")
+	check("Floor 4 · room 1" in State.checkpoint_description() and "140 gold" in State.checkpoint_description(),"Death reports restored state, room and reason")
 	# Real input events and rendered UI.
 	State.fresh(197903);State.run.shop=[test_item(0)];State.learn("fire");State.learn("missile");State.learn("shield");State.learn("acid")
 	main=load("res://scenes/main.tscn").instantiate();add_child(main)
@@ -111,13 +111,13 @@ func run_all() -> void:
 	notices.clear();State.notice_times.clear();State.run.mp=0;State.run.active="fire"
 	main.world.combat.fire(main.world.player,1.0/60)
 	main.world.combat.fire(main.world.player,1.0/60)
-	check(notices.size()==1 and "Mana insuffisant" in notices[0],"Primary mana warning throttled")
+	check(notices.size()==1 and "Not enough mana" in notices[0],"Primary mana warning throttled")
 	State.run.inventory=[]
 	for i: int in range(48): State.run.inventory.append(test_item(i))
 	var drop: Dictionary={"kind":"item","item":test_item(999),"pos":Dungeon.pair(main.world.player.position)}
 	main.world.loot=[drop];notices.clear()
 	main.world.collect_loot();main.world.collect_loot()
-	check(main.world.loot.size()==1 and notices.size()==1 and "Sac plein" in notices[0],"Full bag leaves item and throttles notice")
+	check(main.world.loot.size()==1 and notices.size()==1 and "Bag full" in notices[0],"Full bag leaves item and throttles notice")
 	State.run.inventory.pop_back();main.world.collect_loot()
 	check(main.world.loot.is_empty() and State.run.inventory.size()==48,"Item collected when space becomes available")
 	await verify_damage()
@@ -129,16 +129,16 @@ func run_all() -> void:
 	check(State.run.insight==shards_before+1,"Main guardian grants exactly one shard")
 	State.run.level=5;State.run.pending=[5];State.run.offers=["fire_missile","acid","shield"];State.run.insight=2
 	main.show_level();await settle();await capture("02-level-details")
-	var reroll_button: Button=find_button(main.modal,"Relancer les choix")
+	var reroll_button: Button=find_button(main.modal,"Reroll choices")
 	check(reroll_button!=null and not reroll_button.disabled,"Reroll is actionable in level modal")
 	await click(reroll_button)
 	check(State.run.insight==1 and main.modal_kind=="level","Real reroll click stays in pending level")
 	await capture("03-rerolled")
-	var choose: Button=find_button(main.modal,"Choisir")
+	var choose: Button=find_button(main.modal,"Choose")
 	await click(choose)
 	check(State.run.pending.is_empty() and main.modal_kind.is_empty(),"Choice after reroll consumes level and resumes")
 	main.show_skills();await capture("04-grimoire")
-	main.close_modal();State.mark_checkpoint("Retour par le portail");State.die();main.show_death();await capture("05-checkpoint")
+	main.close_modal();State.mark_checkpoint("Return through portal");State.die();main.show_death();await capture("05-checkpoint")
 	main.close_modal();main.show_initial();await capture("06-initial")
 	main.close_modal()
 	if DisplayServer.get_name()!="headless":
@@ -214,4 +214,4 @@ func capture(name: String) -> void:
 	get_viewport().get_texture().get_image().save_png("res://outputs/ux-features/"+name+".png")
 
 func test_item(index: int) -> Dictionary:
-	return {"uid":"ux_item_%d"%index,"name":"Bâton de test","slot":"staff","rarity":0,"bonuses":{"damage":0.1},"price":30,"base":"bone_staff"}
+	return {"uid":"ux_item_%d"%index,"name":"Test Staff","slot":"staff","rarity":0,"bonuses":{"damage":0.1},"price":30,"base":"bone_staff"}

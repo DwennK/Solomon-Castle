@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "affix_4"
-title = "du vif-éclair"
+title = "of Swift Lightning"
 description = ""
 kind = "affix"
 icon = ""

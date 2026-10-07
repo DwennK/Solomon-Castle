@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "skeleton"
-title = "Squelette"
+title = "Skeleton"
 description = ""
 kind = "enemy"
 icon = ""

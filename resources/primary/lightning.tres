@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "lightning"
-title = "Éclair"
-description = "Arc continu, précis et instantané. +15 dégâts/s par rang."
+title = "Lightning"
+description = "A precise, instant, continuous arc. +15 damage/s per rank."
 kind = "primary"
 icon = "lightning"
 max_rank = 20

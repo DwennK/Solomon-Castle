@@ -1,6 +1,6 @@
 extends Node
 
-const STAT_LABELS: Dictionary = {"damage":"dégâts","max_mana":"mana max.","max_hp":"vie max.","mana_regen":"mana/s","cast_speed":"cadence","cost_reduction":"économie de mana","hp_regen":"vie/s","speed":"vitesse","resistance":"résistance"}
+const STAT_LABELS: Dictionary = {"damage":"damage","max_mana":"max. mana","max_hp":"max. health","mana_regen":"mana/s","cast_speed":"cast speed","cost_reduction":"mana efficiency","hp_regen":"health/s","speed":"speed","resistance":"resistance"}
 const WORLD_SCENE: PackedScene = preload("res://scenes/world.tscn")
 var world: GameWorld
 var hud: GameHUD
@@ -134,8 +134,8 @@ func panel(title: String, subtitle: String = "", kind: String = "general", width
 	var header: HBoxContainer = HBoxContainer.new(); outer.add_child(header)
 	var titles: VBoxContainer = VBoxContainer.new()
 	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL; header.add_child(titles)
-	var sections: Dictionary = {"inventory":"ÉQUIPEMENT", "skills":"ARTS ARCANES", "merchant":"LE COMPTOIR", "teacher":"LE MAÎTRE", "level":"ASCENSION", "pause":"SANCTUAIRE", "options":"PRÉFÉRENCES", "new":"UN NOUVEAU DESTIN", "initial":"L’INITIATION", "map":"CARTOGRAPHIE", "death":"FIN DE L’ASCENSION", "victory":"L’EXAMEN EST ACHEVÉ", "credits":"LES ARTISANS"}
-	label(titles,sections.get(kind,"LA TOUR DES CENDRES"),12,GameTheme.GOLD)
+	var sections: Dictionary = {"inventory":"EQUIPMENT", "skills":"ARCANE ARTS", "merchant":"THE SHOP", "teacher":"THE MASTER", "level":"ASCENT", "pause":"SANCTUARY", "options":"PREFERENCES", "new":"A NEW DESTINY", "initial":"INITIATION", "map":"CARTOGRAPHY", "death":"THE ASCENT ENDS", "victory":"THE EXAM IS COMPLETE", "credits":"THE CREATORS"}
+	label(titles,sections.get(kind,"THE TOWER OF ASH"),12,GameTheme.GOLD)
 	var heading: Label = label(titles,title,30,GameTheme.IVORY)
 	GameTheme.heading(heading)
 	if not kind in ["level","death","victory","initial"]:
@@ -147,12 +147,12 @@ func panel(title: String, subtitle: String = "", kind: String = "general", width
 		close.size_flags_horizontal = Control.SIZE_SHRINK_END
 		close.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 		close.alignment = HORIZONTAL_ALIGNMENT_CENTER
-		close.tooltip_text = "Fermer"
+		close.tooltip_text = "Close"
 	if not subtitle.is_empty(): label(outer,subtitle,16,GameTheme.MUTED)
 	outer.add_child(UIOrnament.new())
 	if kind in ["inventory","skills","map"]:
 		var nav: HBoxContainer = HBoxContainer.new(); outer.add_child(nav)
-		for tab: Array in [["inventory","Inventaire",show_inventory],["skills","Grimoire",show_skills],["map","Carte",show_map]]:
+		for tab: Array in [["inventory","Inventory",show_inventory],["skills","Grimoire",show_skills],["map","Map",show_map]]:
 			var item: Button = button(nav,tab[1],tab[2])
 			item.alignment = HORIZONTAL_ALIGNMENT_CENTER
 			if kind==tab[0]: item.add_theme_stylebox_override("normal",GameTheme.panel(Color("34291a"),GameTheme.GOLD,14))
@@ -242,18 +242,18 @@ func show_menu() -> void:
 	menu_page.add_theme_stylebox_override("panel",GameTheme.parchment())
 	margin.add_child(menu_page)
 	menu_page.add_child(column)
-	label(column,"U N  E X A M E N .   T R E I Z E  É T A G E S .",12,GameTheme.GOLD)
-	var title: Label = label(column,"LA TOUR\nDES CENDRES",44)
+	label(column,"O N E  E X A M .   T H I R T E E N  F L O O R S .",12,GameTheme.GOLD)
+	var title: Label = label(column,"THE TOWER\nOF ASH",44)
 	GameTheme.heading(title)
 	title.add_theme_constant_override("outline_size",0)
 	title.add_theme_color_override("font_outline_color",Color("0a0c0f"))
 	column.add_child(UIOrnament.new())
-	label(column,"Le dernier cours de magie commence ici.",18,Color("bab1a2"))
+	label(column,"Your final lesson in magic begins here.",18,Color("bab1a2"))
 	var space: Control = Control.new();space.custom_minimum_size.y = 12;column.add_child(space)
 	var saved: Dictionary = SaveStore.read_save(State.save_path)
 	var valid: bool = State.valid_payload(saved) and not saved.run.dead
-	var resume: Button = button(column,"Continuer l’ascension",continue_game,not valid)
-	var fresh: Button = button(column,"Nouvelle partie",show_new)
+	var resume: Button = button(column,"Continue the ascent",continue_game,not valid)
+	var fresh: Button = button(column,"New game",show_new)
 	for b: Button in [resume,fresh]:
 		b.custom_minimum_size.y = 58
 		b.add_theme_font_override("font",GameTheme.TITLE)
@@ -261,22 +261,22 @@ func show_menu() -> void:
 	var primary: Button = resume if valid else fresh
 	primary.add_theme_stylebox_override("normal",GameTheme.panel(Color("372a1b"),GameTheme.GOLD,16))
 	if FileAccess.file_exists(State.save_path) and not valid:
-		label(column,"Cette ascension est terminée ou sa sauvegarde indisponible.",14,GameTheme.MUTED)
+		label(column,"This ascent has ended or its save is unavailable.",14,GameTheme.MUTED)
 	var ornament: UIOrnament = UIOrnament.new();column.add_child(ornament)
-	for entry: Array in [["Options et commandes",func()->void:options_return="menu";show_options()],["Crédits",show_credits],["Quitter",quit_game]]:
+	for entry: Array in [["Options & controls",func()->void:options_return="menu";show_options()],["Credits",show_credits],["Quit",quit_game]]:
 		var b: Button = button(column,entry[0],entry[1])
 		b.custom_minimum_size.y = 42
 		b.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		b.add_theme_stylebox_override("normal",GameTheme.panel(Color("29231f"),Color("68523d"),9))
 	var stretch: Control = Control.new();stretch.size_flags_vertical=Control.SIZE_EXPAND_FILL;column.add_child(stretch)
-	label(column,"LA TOUR DES CENDRES    /    CHAPITRE I",12,GameTheme.GOLD)
-	label(column,"VERSION 0.2  ·  UNE ASCENSION EN SOLITAIRE",11,Color("8e887d"))
+	label(column,"THE TOWER OF ASH    /    CHAPTER I",12,GameTheme.GOLD)
+	label(column,"VERSION 0.2  ·  A SOLO ASCENT",11,Color("8e887d"))
 	focus_first(column)
 	GameTheme.enter(column)
 
 func show_new() -> void:
-	var v: VBoxContainer = panel("Une nouvelle ascension","Un mage, quatre éléments et une tour qui ne vous attendait pas.","new",770)
-	label(v,"Difficulté")
+	var v: VBoxContainer = panel("A new ascent","One mage, four elements, and a tower that never saw you coming.","new",770)
+	label(v,"Difficulty")
 	var choice: OptionButton = OptionButton.new()
 	for i: int in range(5):
 		choice.add_item(Catalog.definition("campaign").values.difficulties[i])
@@ -284,12 +284,12 @@ func show_new() -> void:
 	v.add_child(choice)
 	var hardcore: CheckBox = CheckBox.new()
 	GameTheme.paper_checkbox(hardcore)
-	hardcore.text = "Hardcore — une seule vie, mort définitive"
+	hardcore.text = "Hardcore — one life, permanent death"
 	v.add_child(hardcore)
-	label(v,"Mode normal : reprise au dernier point de sauvegarde d’étage ou de portail. Les actions depuis ce point sont annulées. Le mode hardcore interdit toute reprise après la mort.",17)
-	label(v,"Une nouvelle partie remplace l’ascension actuelle. Les difficultés débloquées et les options sont conservées.",16,Color("bda98a"))
-	button(v,"Commencer",func()->void:State.fresh(0,choice.selected,hardcore.button_pressed or choice.selected==4);State.mark_checkpoint();State.save_game();start_game())
-	button(v,"Retour",show_menu)
+	label(v,"Normal mode: resume from the last floor or portal checkpoint. Later actions are undone. Hardcore mode prevents continuing after death.",17)
+	label(v,"A new game replaces the current ascent. Unlocked difficulties and settings are kept.",16,Color("bda98a"))
+	button(v,"Begin",func()->void:State.fresh(0,choice.selected,hardcore.button_pressed or choice.selected==4);State.mark_checkpoint();State.save_game();start_game())
+	button(v,"Back",show_menu)
 	focus_first(v)
 
 func continue_game() -> void:
@@ -297,8 +297,8 @@ func continue_game() -> void:
 		start_game()
 		if State.run.victory: show_victory()
 	else:
-		var v: VBoxContainer = panel("Sauvegarde indisponible",SaveStore.last_error)
-		button(v,"Retour",show_menu)
+		var v: VBoxContainer = panel("Save unavailable",SaveStore.last_error)
+		button(v,"Back",show_menu)
 
 func start_game() -> void:
 	close_modal()
@@ -364,7 +364,7 @@ func choice_card(parent: Node, title: String, description: String, icon_id: Stri
 	text.custom_minimum_size.y = 40
 	text.size_flags_vertical = Control.SIZE_FILL
 	if not note.is_empty(): label(body,note,14,GameTheme.GOLD)
-	var select: Button = button(body,"Choisir",action,disabled)
+	var select: Button = button(body,"Choose",action,disabled)
 	select.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	return body
 
@@ -373,7 +373,7 @@ func add_skill_details(body: VBoxContainer, id: String, compare: bool = true, ac
 	details.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	# Keep the action after its consequences, inside the scrollable card.
 	for child: Node in body.get_children():
-		if child is Button and child.text=="Choisir":
+		if child is Button and child.text=="Choose":
 			body.move_child(details,child.get_index())
 			break
 
@@ -382,11 +382,11 @@ func section(parent: Node, title: String) -> void:
 	GameTheme.heading(heading)
 
 func show_initial() -> void:
-	var v: VBoxContainer = panel("Votre première étincelle","Orme : Choisissez bien. Vous pourrez apprendre d’autres éléments pendant l’ascension.","initial",1180)
+	var v: VBoxContainer = panel("Your first spark","Orme: Choose wisely. You can learn other elements during the ascent.","initial",1180)
 	var grid: GridContainer = GridContainer.new();grid.columns = 4;v.add_child(grid)
 	for id: String in Catalog.ids("primary"):
 		var d: ContentDefinition = Catalog.definition(id)
-		var body: VBoxContainer = choice_card(grid,d.title,d.description,id,func()->void:State.learn(id);world.snapshot();State.mark_checkpoint("Première magie apprise");State.save_game();close_modal())
+		var body: VBoxContainer = choice_card(grid,d.title,d.description,id,func()->void:State.learn(id);world.snapshot();State.mark_checkpoint("First spell learned");State.save_game();close_modal())
 		add_skill_details(body,id,false,true)
 	focus_first(v)
 
@@ -397,13 +397,13 @@ func show_level() -> void:
 	if State.run.pending.is_empty(): return
 	Sound.play("level_up")
 	var offered: Array = State.offers()
-	var v: VBoxContainer = panel("Niveau %d — choisissez votre savoir"%int(State.run.pending[0]),"Temps suspendu · %d choix en attente. DPS théorique par ennemi, avant résistance, à mana disponible. Portée en unités (u)."%State.run.pending.size(),"level",1140)
-	var reroll_button: Button = button(v,"Relancer les choix · 1 éclat (%d disponibles)" % State.run.get("insight",1),func()->void:
+	var v: VBoxContainer = panel("Level %d — choose your knowledge"%int(State.run.pending[0]),"Time is paused · %d choices pending. Theoretical DPS per enemy, before resistance, with mana available. Range in units (u)."%State.run.pending.size(),"level",1140)
+	var reroll_button: Button = button(v,"Reroll choices · 1 shard (%d available)" % State.run.get("insight",1),func()->void:
 		world.snapshot()
 		if State.reroll(): show_level(),not State.can_reroll())
-	reroll_button.tooltip_text = "Un éclat offert au départ, puis un par gardien principal. Les choix précédents sont évités ; une fusion unique ou un choix sans alternative peut revenir."
-	label(v,"Éclats de savoir : 1 au départ, puis 1 par gardien principal. Une relance coûte 1 éclat.",14,GameTheme.MUTED)
-	if not State.can_reroll(): label(v,"Plus d’éclats disponibles." if State.run.get("insight",1)<=0 else "Aucune autre amélioration éligible.",14,GameTheme.MUTED)
+	reroll_button.tooltip_text = "Start with one shard and earn one per main guardian. Previous choices are avoided; a unique fusion or a choice with no alternative may return."
+	label(v,"Knowledge shards: 1 at the start, then 1 per main guardian. Each reroll costs 1 shard.",14,GameTheme.MUTED)
+	if not State.can_reroll(): label(v,"No shards remaining." if State.run.get("insight",1)<=0 else "No other eligible upgrades.",14,GameTheme.MUTED)
 	var grid: GridContainer = GridContainer.new();grid.columns = 2 if offered.size()==4 else 3;v.add_child(grid)
 	for id: String in offered:
 		var d: ContentDefinition = Catalog.definition(id)
@@ -416,45 +416,45 @@ func show_level() -> void:
 				close_modal(),note)
 		add_skill_details(body,id,true)
 	if offered.is_empty():
-		button(v,"Savoirs maîtrisés — poursuivre",func()->void:State.run.pending.pop_front();State.run.offers=[];close_modal())
+		button(v,"All knowledge mastered — continue",func()->void:State.run.pending.pop_front();State.run.offers=[];close_modal())
 		focus_first(v)
 	else: focus_first(grid)
 
 func show_pause() -> void:
-	var v: VBoxContainer = panel("Un instant de répit","La partie est en pause.","pause",620)
-	button(v,"Reprendre",close_modal)
-	button(v,"Sauvegarder",func()->void:world.snapshot();var ok:bool=State.save_game();label(v,"Partie sauvegardée." if ok else SaveStore.last_error))
-	button(v,"Options et commandes",func()->void:options_return="pause";show_options())
-	button(v,"Sauvegarder et quitter au menu",func()->void:world.snapshot();State.save_game();close_modal();show_menu())
+	var v: VBoxContainer = panel("A moment of respite","The game is paused.","pause",620)
+	button(v,"Resume",close_modal)
+	button(v,"Save",func()->void:world.snapshot();var ok:bool=State.save_game();label(v,"Game saved." if ok else SaveStore.last_error))
+	button(v,"Options & controls",func()->void:options_return="pause";show_options())
+	button(v,"Save and return to menu",func()->void:world.snapshot();State.save_game();close_modal();show_menu())
 	focus_first(v)
 
 func show_teacher() -> void:
 	if State.run.active.is_empty(): show_initial();return
-	var v: VBoxContainer = panel("Le savoir d’Orme","« Les livres coûtent cher. L’ignorance, davantage. »","teacher")
+	var v: VBoxContainer = panel("Orme’s wisdom","“Books are expensive. Ignorance costs more.”","teacher")
 	var price: int = 80+int(State.run.wisdom)*65
-	label(v,"Acheter de la sagesse propose trois améliorations éligibles à votre niveau. Coût : %d or."%price)
-	button(v,"Acheter une leçon · %d or"%price,func()->void:
+	label(v,"Buying wisdom offers three upgrades eligible at your level. Cost: %d gold."%price)
+	button(v,"Buy a lesson · %d gold"%price,func()->void:
 		if State.run.gold>=price:
 			State.run.gold-=price;State.run.wisdom+=1;State.run.pending.append(State.run.level);close_modal(),State.run.gold<price)
-	button(v,"Consulter le grimoire",show_skills)
-	label(v,"Fusions : apprenez deux éléments. Aux niveaux multiples de cinq, un assemblage peut être proposé. Il conserve les rangs et sous-compétences du moment ; une nouvelle fusion actualise ce savoir.",18)
-	button(v,"Retour au village",close_modal)
+	button(v,"Open the grimoire",show_skills)
+	label(v,"Fusions: learn two elements. Every five levels, a fusion may be offered. It captures your current ranks and subskills; learning it again updates that snapshot.",18)
+	button(v,"Back to the village",close_modal)
 	focus_first(v)
 
 func show_merchant() -> void:
-	var v: VBoxContainer = panel("L’échoppe de Basile","%d or · Bâtons, anneaux et provisions. Le stock appartient à cette ascension."%State.run.gold,"merchant",1080)
+	var v: VBoxContainer = panel("Basile’s shop","%d gold · Staves, rings, and supplies. Stock is tied to this ascent."%State.run.gold,"merchant",1080)
 	var row: HBoxContainer = HBoxContainer.new();v.add_child(row)
-	button(row,"Potion de vie · 18 or",func()->void:buy_potion("hp"),State.run.gold<18,"health")
-	button(row,"Potion de mana · 18 or",func()->void:buy_potion("mp"),State.run.gold<18,"mana")
-	button(v,"Vendre vos objets",func()->void:show_inventory(true))
-	section(v,"Objets enchantés")
+	button(row,"Health potion · 18 gold",func()->void:buy_potion("hp"),State.run.gold<18,"health")
+	button(row,"Mana potion · 18 gold",func()->void:buy_potion("mp"),State.run.gold<18,"mana")
+	button(v,"Sell your items",func()->void:show_inventory(true))
+	section(v,"Enchanted items")
 	for item: Dictionary in State.run.shop:
 		var item_box: PanelContainer = PanelContainer.new();v.add_child(item_box)
 		item_box.add_theme_stylebox_override("panel",GameTheme.panel(Color("18181a"),rarity_color(item.rarity).darkened(0.6),12))
 		var item_body: VBoxContainer = VBoxContainer.new();item_box.add_child(item_body)
-		button(item_body,"%s · %d or"%[item.name,item.price],func()->void:State.buy(item.uid);Sound.play("loot");show_merchant(),State.run.gold<item.price or State.run.inventory.size()>=48,"staff" if item.slot=="staff" else "ring")
+		button(item_body,"%s · %d gold"%[item.name,item.price],func()->void:State.buy(item.uid);Sound.play("loot");show_merchant(),State.run.gold<item.price or State.run.inventory.size()>=48,"staff" if item.slot=="staff" else "ring")
 		label(item_body,item_description(item),16,rarity_color(item.rarity))
-	button(v,"Retour au village",close_modal)
+	button(v,"Back to the village",close_modal)
 	focus_first(v)
 
 func buy_potion(kind: String) -> void:
@@ -471,7 +471,7 @@ func item_description(item: Dictionary) -> String:
 	var bits: Array[String] = []
 	for key: String in item.get("bonuses",{}):
 		bits.append(Equipment.bonus_text(key,float(item.bonuses[key])))
-	return ["Enchanté","Rare","Épique"][int(item.rarity)]+" · "+" / ".join(bits)
+	return ["Enchanted","Rare","Epic"][int(item.rarity)]+" · "+" / ".join(bits)
 
 func show_inventory(selling: bool = false) -> void:
 	destroy_modal()
@@ -505,30 +505,30 @@ func show_skills() -> void:
 	ui.add_child(grimoire)
 
 func show_map() -> void:
-	var v: VBoxContainer = panel("Les salles explorées","Ivoire : vous · or : escalier · turquoise : coffre non ouvert.","map",870)
+	var v: VBoxContainer = panel("Explored rooms","Ivory: you · gold: stairs · turquoise: unopened chest.","map",870)
 	var map: TowerMap = TowerMap.new()
 	map.world = world
 	map.custom_minimum_size = Vector2(650,400)
 	v.add_child(map)
-	button(v,"Fermer",close_modal)
+	button(v,"Close",close_modal)
 
 func show_death() -> void:
-	var v: VBoxContainer = panel("Votre chapeau retombe…","La mort est définitive." if State.run.hardcore else "Votre dernier point de reprise a été restauré. Les actions plus récentes ont été annulées.","death",800)
+	var v: VBoxContainer = panel("Your hat falls to the floor…","Death is permanent." if State.run.hardcore else "Your last checkpoint has been restored. Later actions were undone.","death",800)
 	if not State.run.hardcore:
 		label(v,State.checkpoint_description(),18,GameTheme.GOLD)
-		button(v,"Reprendre au point de sauvegarde",func()->void:close_modal();world.load_floor(int(State.run.floor),true))
-	button(v,"Retour au menu",func()->void:close_modal();show_menu())
+		button(v,"Resume from checkpoint",func()->void:close_modal();world.load_floor(int(State.run.floor),true))
+	button(v,"Back to menu",func()->void:close_modal();show_menu())
 	focus_first(v)
 
 func show_victory() -> void:
 	Sound.stop_world()
 	Sound.set_music("")
 	Sound.play("victory")
-	var v: VBoxContainer = panel("L’aube sur les cendres","Treize étages. Un examen réussi. Orme prétendra qu’il n’en a jamais douté.","victory",900)
-	label(v,"Niveau %d · %d morts · %d or\nDifficulté achevée : %s"%[State.run.level,State.run.deaths,State.run.gold,Catalog.definition("campaign").values.difficulties[int(State.run.difficulty)]],23)
-	label(v,"La prochaine ascension conserve vos compétences et votre équipement. La tour et ses récompenses sont renouvelées. L’Épreuve éternelle impose la mort définitive.",18)
-	button(v,"Commencer la difficulté suivante",func()->void:State.next_difficulty();close_modal();world.load_floor(0))
-	button(v,"Retour au menu",func()->void:close_modal();show_menu())
+	var v: VBoxContainer = panel("Dawn over the ashes","Thirteen floors. One exam passed. Orme will claim he never doubted you.","victory",900)
+	label(v,"Level %d · %d deaths · %d gold\nDifficulty completed: %s"%[State.run.level,State.run.deaths,State.run.gold,Catalog.definition("campaign").values.difficulties[int(State.run.difficulty)]],23)
+	label(v,"The next ascent keeps your skills and equipment. The tower and its rewards are renewed. The Eternal Trial enforces permanent death.",18)
+	button(v,"Start the next difficulty",func()->void:State.next_difficulty();close_modal();world.load_floor(0))
+	button(v,"Back to menu",func()->void:close_modal();show_menu())
 	focus_first(v)
 
 func slider(parent: Node,title: String,key: String,min_value: float,max_value: float) -> void:
@@ -542,34 +542,34 @@ func slider(parent: Node,title: String,key: String,min_value: float,max_value: f
 	parent.add_child(control)
 
 func show_options() -> void:
-	var v: VBoxContainer = panel("Options et commandes","Clavier WASD / ZQSD ou flèches. Souris : viser et maintenir le clic. Manette : les deux sticks.","options",1050)
-	section(v,"Son & image")
-	slider(v,"Volume général","volume",0,1)
-	slider(v,"Ambiance musicale","music",0,1)
-	slider(v,"Effets sonores","effects",0,1)
-	slider(v,"Luminosité","brightness",0.7,1.5)
+	var v: VBoxContainer = panel("Options & controls","Keyboard: WASD / ZQSD or arrows. Mouse: aim and hold fire. Controller: twin sticks.","options",1050)
+	section(v,"Sound & display")
+	slider(v,"Master volume","volume",0,1)
+	slider(v,"Music volume","music",0,1)
+	slider(v,"Sound effects","effects",0,1)
+	slider(v,"Brightness","brightness",0.7,1.5)
 	for option: String in ["fullscreen","reduced_effects"]:
 		var check: CheckBox = CheckBox.new()
 		GameTheme.paper_checkbox(check)
-		check.text = "Plein écran" if option=="fullscreen" else "Réduire les flashs et les effets brusques"
+		check.text = "Fullscreen" if option=="fullscreen" else "Reduce flashes and sudden effects"
 		check.button_pressed = State.options[option]
 		check.toggled.connect(func(value:bool)->void:State.options[option]=value;State.save_options())
 		v.add_child(check)
-	label(v,"Manette : A interaction · Y inventaire · Retour grimoire · B changer de sort · LB/RB/X rituels · croix gauche/droite potions · bas portail · haut carte · Start pause. Menus : croix/stick et A/B.",16)
-	section(v,"Commandes clavier")
+	label(v,"Controller: A interact · Y inventory · Back grimoire · B switch spell · LB/RB/X rituals · D-pad left/right potions · down portal · up map · Start pause. Menus: D-pad/stick and A/B.",16)
+	section(v,"Keyboard controls")
 	for action: String in Controls.KEYS:
 		button(v,Controls.LABELS[action]+" : "+Controls.caption(action,true),begin_rebind.bind(action))
-	section(v,"Commandes manette")
+	section(v,"Controller controls")
 	for action: String in Controls.PADS:
 		button(v,Controls.LABELS[action]+" : "+Controls.pad_caption(int(State.options.pad_bindings.get(action,Controls.PADS[action]))),begin_rebind.bind("pad:"+action))
-	button(v,"Rétablir les commandes",func()->void:State.options.bindings={};State.options.pad_bindings={};Controls.setup();State.save_options();show_options())
-	button(v,"Retour",show_pause if options_return=="pause" and is_instance_valid(world) else show_menu)
+	button(v,"Reset controls",func()->void:State.options.bindings={};State.options.pad_bindings={};Controls.setup();State.save_options();show_options())
+	button(v,"Back",show_pause if options_return=="pause" and is_instance_valid(world) else show_menu)
 	focus_first(v)
 
 func show_credits() -> void:
-	var v: VBoxContainer = panel("Crédits","La Tour des Cendres · version 0.1","credits",880)
-	label(v,"Un jeu indépendant réalisé dans Godot 4.7.2.\n\nCode original en GDScript. Illustrations originales générées avec ImageGen, puis découpées et intégrées. Ambiance musicale et effets de synthèse originaux.\n\nInspiré des mécaniques de Solomon’s Keep, créé par Raptisoft. Aucun code, personnage, son ou graphisme de ce jeu n’est réutilisé. Ce projet n’est pas affilié à Raptisoft.\n\nGodot Engine : licence MIT. La notice complète et la provenance des ressources figurent dans docs/asset_manifest.md.",19)
-	button(v,"Retour",show_menu)
+	var v: VBoxContainer = panel("Credits","The Tower of Ash · version 0.2","credits",880)
+	label(v,"An independent game made with Godot 4.7.2.\n\nOriginal GDScript code. Original illustrations generated with ImageGen, then cut out and integrated. Original synthesized music and sound effects.\n\nInspired by the mechanics of Solomon’s Keep, created by Raptisoft. No code, characters, sounds, or artwork from that game are reused. This project is not affiliated with Raptisoft.\n\nGodot Engine: MIT license. Full notices and asset provenance are in docs/asset_manifest.md.",19)
+	button(v,"Back",show_menu)
 	focus_first(v)
 
 func safe_focus(reference: WeakRef) -> void:
@@ -594,4 +594,4 @@ func quit_game() -> void:
 func begin_rebind(action: String) -> void:
 	pending_binding = action
 	var focused: Control = get_viewport().gui_get_focus_owner()
-	if focused is Button: focused.text = "Appuyez sur le nouveau bouton…" if action.begins_with("pad:") else "Appuyez sur la nouvelle touche…"
+	if focused is Button: focused.text = "Press the new button…" if action.begins_with("pad:") else "Press the new key…"

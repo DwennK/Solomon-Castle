@@ -6,10 +6,10 @@ uid="uid://jbp5tbosl06k"
 
 [deps]
 
-files=["res://resources/localization/messages.fr.translation"]
+files=["res://resources/localization/messages.en.translation"]
 
 source_file="res://resources/localization/messages.csv"
-dest_files=["res://resources/localization/messages.fr.translation"]
+dest_files=["res://resources/localization/messages.en.translation"]
 
 [params]
 

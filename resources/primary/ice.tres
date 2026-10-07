@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "ice"
-title = "Jet de glace"
-description = "Cône continu qui ralentit les ennemis. +11 dégâts/s par rang."
+title = "Ice Stream"
+description = "A continuous cone that slows enemies. +11 damage/s per rank."
 kind = "primary"
 icon = "ice"
 max_rank = 20

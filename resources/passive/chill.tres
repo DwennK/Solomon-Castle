@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "chill"
-title = "Vent glacial"
-description = "Recul et ralentissement renforcés."
+title = "Chilling Wind"
+description = "Stronger knockback and slowing."
 kind = "passive"
 icon = "ice"
 max_rank = 5

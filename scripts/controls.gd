@@ -3,7 +3,7 @@ extends RefCounted
 
 const PADS: Dictionary = {"interact":JOY_BUTTON_A, "inventory":JOY_BUTTON_Y, "skills":JOY_BUTTON_BACK, "pause":JOY_BUTTON_START, "hp_potion":JOY_BUTTON_DPAD_LEFT, "mp_potion":JOY_BUTTON_DPAD_RIGHT, "portal":JOY_BUTTON_DPAD_DOWN, "secondary_0":JOY_BUTTON_LEFT_SHOULDER, "secondary_1":JOY_BUTTON_RIGHT_SHOULDER, "secondary_2":JOY_BUTTON_X, "cycle_spell":JOY_BUTTON_B, "map":JOY_BUTTON_DPAD_UP}
 const KEYS: Dictionary = {"fire":[KEY_SPACE],"move_left":[KEY_A,KEY_Q,KEY_LEFT], "move_right":[KEY_D,KEY_RIGHT], "move_up":[KEY_W,KEY_Z,KEY_UP], "move_down":[KEY_S,KEY_DOWN], "interact":[KEY_E], "inventory":[KEY_I], "skills":[KEY_K], "portal":[KEY_T], "hp_potion":[KEY_R], "mp_potion":[KEY_F], "secondary_0":[KEY_1], "secondary_1":[KEY_2], "secondary_2":[KEY_3], "cycle_spell":[KEY_TAB], "pause":[KEY_ESCAPE], "map":[KEY_M]}
-const LABELS: Dictionary = {"fire":"Tirer (souris ou clavier)","move_left":"Gauche", "move_right":"Droite", "move_up":"Haut", "move_down":"Bas", "interact":"Interagir", "inventory":"Inventaire", "skills":"Grimoire", "portal":"Portail du village", "hp_potion":"Potion de vie", "mp_potion":"Potion de mana", "secondary_0":"Rituel 1", "secondary_1":"Rituel 2", "secondary_2":"Rituel 3", "cycle_spell":"Changer de magie", "pause":"Pause", "map":"Carte"}
+const LABELS: Dictionary = {"fire":"Fire (mouse or keyboard)","move_left":"Left", "move_right":"Right", "move_up":"Up", "move_down":"Down", "interact":"Interact", "inventory":"Inventory", "skills":"Grimoire", "portal":"Village portal", "hp_potion":"Health potion", "mp_potion":"Mana potion", "secondary_0":"Ritual 1", "secondary_1":"Ritual 2", "secondary_2":"Ritual 3", "cycle_spell":"Switch magic", "pause":"Pause", "map":"Map"}
 
 static func setup(bindings: Dictionary = {}, pad_bindings: Dictionary = {}) -> void:
 	for action: String in KEYS:
@@ -44,15 +44,15 @@ static func pad_caption(code: int) -> String:
 	var names: Dictionary = {JOY_BUTTON_A:"A",JOY_BUTTON_B:"B",JOY_BUTTON_X:"X",JOY_BUTTON_Y:"Y",JOY_BUTTON_BACK:"Select",JOY_BUTTON_START:"Start",JOY_BUTTON_LEFT_SHOULDER:"LB",JOY_BUTTON_RIGHT_SHOULDER:"RB",JOY_BUTTON_DPAD_UP:"↑",JOY_BUTTON_DPAD_DOWN:"↓",JOY_BUTTON_DPAD_LEFT:"←",JOY_BUTTON_DPAD_RIGHT:"→",JOY_BUTTON_LEFT_STICK:"L3",JOY_BUTTON_RIGHT_STICK:"R3",JOY_BUTTON_GUIDE:"Guide"}
 	if "playstation" in pad_name.to_lower() or "dualshock" in pad_name.to_lower() or "dualsense" in pad_name.to_lower() or "ps4" in pad_name.to_lower() or "ps5" in pad_name.to_lower():
 		names.merge({JOY_BUTTON_A:"×",JOY_BUTTON_B:"○",JOY_BUTTON_X:"□",JOY_BUTTON_Y:"△",JOY_BUTTON_LEFT_SHOULDER:"L1",JOY_BUTTON_RIGHT_SHOULDER:"R1",JOY_BUTTON_BACK:"Share",JOY_BUTTON_START:"Options"},true)
-	return names.get(code,"Bouton %d" % code)
+	return names.get(code,"Button %d" % code)
 
 static func caption(action: String, keyboard_only: bool = false) -> String:
 	if using_pad and not keyboard_only:
 		for event: InputEvent in InputMap.action_get_events(action):
 			if event is InputEventJoypadButton: return pad_caption(event.button_index)
-		if action == "fire": return "Stick D"
-		if action.begins_with("move_"): return "Stick G"
+		if action == "fire": return "R Stick"
+		if action.begins_with("move_"): return "L Stick"
 	for event: InputEvent in InputMap.action_get_events(action):
 		if event is InputEventKey:
-			return OS.get_keycode_string(event.physical_keycode).replace("Escape","Échap").replace("Space","Espace")
+			return OS.get_keycode_string(event.physical_keycode).replace("Escape","Esc")
 	return action

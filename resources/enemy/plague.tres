@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 id = "plague"
-title = "Le Mange-cloches"
+title = "The Bell Eater"
 description = ""
 kind = "enemy"
 icon = ""

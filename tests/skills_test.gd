@@ -244,7 +244,7 @@ func visual_checks() -> void:
 	main=load("res://scenes/main.tscn").instantiate();add_child(main)
 	main.start_game();main.world.player.qa_controlled=true
 	main.show_level();await capture("four-choices-1440x900")
-	var button: Button=find_choice(main.modal,"Armure de glace")
+	var button: Button=find_choice(main.modal,"Ice Armor")
 	check(button!=null,"Fourth choice has an actual input button")
 	if button:
 		var parent: Node=button.get_parent()
@@ -283,7 +283,7 @@ func visual_checks() -> void:
 	main.queue_free();await get_tree().create_timer(0.3,true).timeout
 
 func find_choice(node: Node, title: String) -> Button:
-	if node is Label and node.text==title: return find_button(node.get_parent(),"Choisir")
+	if node is Label and node.text==title: return find_button(node.get_parent(),"Choose")
 	for child: Node in node.get_children():
 		var found: Button=find_choice(child,title)
 		if found: return found

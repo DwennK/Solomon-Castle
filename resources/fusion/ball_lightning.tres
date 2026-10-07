@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1")
 id = "ball_lightning"
-title = "Orbe électrique"
-description = "Orbe lente guidée : impact et pulsations sur l’ennemi le plus proche."
+title = "Ball Lightning"
+description = "A slow homing orb: impact and pulses on the nearest enemy."
 kind = "fusion"
 icon = "missile"
 max_rank = 1

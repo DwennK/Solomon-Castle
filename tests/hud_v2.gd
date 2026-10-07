@@ -28,7 +28,7 @@ func run_all() -> void:
 	freeze_world()
 	await settle()
 	check(main.hud.primary.disabled,"Unlearned primary is explicit and disabled")
-	check(main.hud.spell_hint.text=="Parlez à Orme","First-magic guidance is preserved")
+	check(main.hud.spell_hint.text=="Talk to Orme","First-magic guidance is preserved")
 	await capture("01-village")
 	State.learn("fire"); State.learn("missile"); State.learn("shield"); State.learn("teleport")
 	main.world.enter_tower()
@@ -43,7 +43,7 @@ func run_all() -> void:
 	viewport.size = Vector2i(1440,900)
 	await settle()
 	check(main.hud.rituals[0].cooldown_label.text=="12s","Cooldown uses explicit seconds")
-	check(main.hud.rituals[2].disabled and main.hud.rituals[2].caption_label.text=="NIV. 20","Third ritual is locked before level 20")
+	check(main.hud.rituals[2].disabled and main.hud.rituals[2].caption_label.text=="LV. 20","Third ritual is locked before level 20")
 	check("28 / 53 XP" in main.hud.xp_label.text,"XP has readable current and target values")
 	var previous_hp: float = State.run.hp
 	var potions: int = State.run.hp_potions
@@ -59,7 +59,7 @@ func run_all() -> void:
 	main.world.player.cooldowns.clear()
 	State.run.hp = 18; State.run.mp = 0; State.run.hp_potions = 0; State.run.mp_potions = 0
 	await settle()
-	check(main.hud.hp.critical and main.hud.hp.title_label.text=="VIE FAIBLE","Low health has a persistent textual warning")
+	check(main.hud.hp.critical and main.hud.hp.title_label.text=="LOW HEALTH","Low health has a persistent textual warning")
 	check(main.hud.hp_potion.disabled and main.hud.mp_potion.disabled,"Empty potion reserves are disabled")
 	check(main.hud.rituals[0].disabled and main.hud.rituals[0].caption_label.text=="MANA","Mana shortage is visible without relying on color")
 	await capture("02-low-resources")
@@ -101,7 +101,7 @@ func run_all() -> void:
 	check(main.world.village,"Portal button returns to village")
 	freeze_world()
 	await settle()
-	check(main.hud.ritual_status.text=="Au village" and main.hud.rituals[0].disabled,"Village explains unavailable rituals")
+	check(main.hud.ritual_status.text=="In the village" and main.hud.rituals[0].disabled,"Village explains unavailable rituals")
 	State.options.reduced_effects = true
 	main.hud.rituals[0].ready_flash = 1
 	await settle()

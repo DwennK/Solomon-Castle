@@ -24,7 +24,7 @@ func _ready() -> void:
 	main.world.player.qa_controlled = true
 	main.show_initial(); await capture("03-first-magic")
 	var focused: Control = get_viewport().gui_get_focus_owner()
-	check(focused is Button and focused.text=="Choisir", "Initial magic has keyboard focus on a choice")
+	check(focused is Button and focused.text=="Choose", "Initial magic has keyboard focus on a choice")
 	var accept: InputEventKey = InputEventKey.new()
 	accept.keycode=KEY_ENTER;accept.physical_keycode=KEY_ENTER;accept.pressed=true
 	Input.parse_input_event(accept)
@@ -45,7 +45,7 @@ func _ready() -> void:
 	check(absf(main.hud.hp.target-0.6)<0.01,"Health orb follows real health")
 	check(absf(main.hud.mp.target-0.42)<0.01,"Mana orb follows real mana")
 	check(main.hud.rituals[0].cooldown_label.text=="12s","Cooldown displayed")
-	check(main.hud.rituals[2].caption_label.text=="NIV. 20","Third ritual unlock shown")
+	check(main.hud.rituals[2].caption_label.text=="LV. 20","Third ritual unlock shown")
 	var before: float = State.run.hp
 	await click(main.hud.hp_potion)
 	check(State.run.hp>before and State.run.hp_potions==2,"HUD potion consumes a potion and heals")
