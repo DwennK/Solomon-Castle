@@ -1,0 +1,32 @@
+# Intérieurs du donjon — passe graphique du 7 octobre 2026
+
+Deux planches originales générées avec l’outil intégré ImageGen sont consommées directement par Godot : `assets/art/dungeon_v3/materials.png` (1254 × 1254) et `assets/art/dungeon_v3/architecture.png` (1536 × 1024, alpha). Les originaux restent intacts ; les régions d’atlas sont découpées à l’exécution. Le médaillon est projeté sur un polygone circulaire pour éviter une plaque carrée visible sur les sols sombres.
+
+Les étages 1–6 utilisent une pierre chaude, les étages 7–10 une ardoise bleutée et les étages 11–13 une ardoise violacée. Façades de pierre sculptée, piliers, niches, fenêtres, bougies et fragments enrichissent les salles. Les fenêtres projettent des faisceaux froids ; les flammes éclairent la pierre en ambre. Les lumières additives sont dessinées sous les personnages et les avertissements de combat, et limitées à la zone visible. La réduction des effets supprime leur scintillement.
+
+`DungeonInterior` prépare les décors statiques et dessine les surfaces. `DungeonLighting` anime les lumières. `Dungeon` les instancie seulement dans la tour. La génération, les données sauvegardées, la navigation, les collisions et les objets interactifs existants sont conservés. Les changements locaux déjà présents dans le dépôt ne sont pas commités avec cette passe.
+
+## Reproduire
+
+```sh
+./tools/godot.sh --headless --path . --editor --import --quit
+./tools/godot.sh --headless --path . tests/tests.tscn -- --test
+./tools/godot.sh --path . --resolution 1440x900 tests/dungeon_interior_qa.tscn -- --qa
+./tools/godot.sh --headless --path . -- --qa --qa-playthrough
+```
+
+La scène dédiée utilise `qa_dungeon_interior.json`, photographie les étages 1, 8 et 13, l’entrée, un couloir, le combat, un coffre ouvert, les effets réduits et le viewport compact 960 × 600. Le jeu cible le desktop natif ; ces contrôles ne constituent pas une validation mobile. Captures, journaux et rapport JSON : `outputs/dungeon-v3/`.
+
+Résultats : 94 791 contrôles réussis, 1 300 étages générés ; neuf captures natives et vérifications dédiées sans erreur ; parcours automatisé des 13 étages en 68,5 secondes, avec assistance QA (invulnérabilité, rangs, mana et simulation accélérée). Les journaux finaux d’import, de rendu, de parcours et d’export ne contiennent aucune erreur ou alerte. Le premier import a temporairement signalé les nouvelles textures non encore importées ; le second import est propre.
+
+Archive macOS locale : `outputs/dungeon-v3/La-Tour-des-Cendres-Interieurs-macOS.zip`. Signature ad hoc contrôlée par `codesign --verify --deep --strict` ; démarrage du binaire exporté contrôlé en mode headless QA. Les captures de gameplay proviennent du moteur natif sur les sources, pas de l’archive exportée. Pas de nouvel export Windows, de notarisation ou de publication du binaire pour cette passe.
+
+## Prompts exacts — outil intégré ImageGen
+
+### Matériaux
+
+Use case: stylized-concept. Asset type: production environment MATERIAL ATLAS for an original high-end dark fantasy overhead action RPG, La Tour des Cendres. Create one square 2048x2048 atlas divided into EXACT 2 columns and 2 rows of equal size, each quadrant filled edge to edge, no gutters, no borders, no labels, no text. All surfaces orthographic and flat, no perspective convergence. Luxurious hand-painted realistic stone, subtle details readable in a game, controlled medium-low contrast, finely crafted, not photographic noise. Upper LEFT: seamless tileable floor material, large irregular worn limestone flagstones in desaturated warm grey, small joints, subtle dust, occasional fine cracks, no grass, no objects, no motifs. Upper RIGHT: seamless tileable crypt floor, dark blue grey slate rectangular slabs, very restrained aged bronze diamond insets at sparse slab intersections, patina, no glowing lines. Lower LEFT: front-facing seamless horizontally tileable gothic dungeon masonry wall, five courses of massive ash grey dressed stone, bevels catching soft warm light from upper left, deep mortar, subtle carved horizontal moulding at top and bottom, no doors or windows. Lower RIGHT: elaborate circular ancient bronze and ivory compass mosaic INLAID in a square of the same warm grey limestone as top left, circular design fully visible and centered with broad plain stone margin, concentric geometric bands, eight-point star, elegant aged bronze filigree and subtle teal oxidation. All quadrants have even diffuse ambient lighting, no baked cast shadows, no vignettes, no UI, no letters, no characters. Designed to be cut into four equal texture assets and mapped onto real playable floors and walls.
+
+### Architecture transparente
+
+Use case: stylized-concept. Asset type: production architecture sprite atlas for original dark fantasy overhead action RPG La Tour des Cendres. EXACT 3 columns by 2 rows, SIX EQUAL SQUARE CELLS in landscape canvas. GENUINELY TRANSPARENT BACKGROUND. No grid lines, no labels, no text, no ground plane, no checkerboard. Each object isolated entirely inside central 76% of its own cell with broad transparent margins. Exquisite hand painted pre-rendered game environment assets, aged ash limestone with antique bronze details, cool teal shadows and warm ivory upper-left light, coherent elevated three-quarter OVERHEAD camera looking down 40 degrees. Volumetric architecture with bevels, carvings, detailed sculpted relief, readable at 150 pixels. TOP ROW left to right: (1) tall gothic stone buttress pillar, broad octagonal base and carved capital, entire pillar visible; (2) tall recessed gothic pointed arch wall niche containing a weathered hooded stone saint holding a bronze bowl, dark recess with subtle teal inner light, complete sculpted frame; (3) pointed-arch iron-barred narrow window set within ornate stone frame, cyan turquoise light visible behind bars, fully isolated architectural window unit. BOTTOM ROW left to right: (4) small cluster of five half-melted ivory votive candles with warm flames on a low aged bronze tray, drips and little brass vessel; (5) low ruined pile of three broken carved stone blocks and tiny fragments, flat horizontal silhouette; (6) squat ceremonial stone altar chest with bronze trim and a CLOSED ancient book upon it and two short unlit candles, full silhouette. No characters, no large halos, no shadows outside cell, no scenery, no connected walls. Objects clearly separated and occupy their own cells only. Professional crisp sculpted game art.
