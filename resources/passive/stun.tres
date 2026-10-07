@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "stun"
+title = "Étourdissement"
+description = "Les éclairs interrompent les attaques ; durée +0,08 s/rang."
+kind = "passive"
+icon = "lightning"
+max_rank = 4
+min_level = 3
+prerequisite = "lightning"
+values = {}

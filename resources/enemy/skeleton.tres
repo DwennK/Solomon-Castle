@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "skeleton"
+title = "Squelette"
+description = ""
+kind = "enemy"
+icon = ""
+max_rank = 5
+min_level = 1
+prerequisite = ""
+values = {"hp": 35, "speed": 105, "damage": 9, "behavior": "melee", "sprite": 1, "undead": true, "resistance": 0}

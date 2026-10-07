@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "ring_fire"
+title = "Anneau de feu"
+description = "Onde de feu : 45 dégâts par rang et recul."
+kind = "secondary"
+icon = "fire"
+max_rank = 5
+min_level = 3
+prerequisite = ""
+values = {"mana": 32, "cooldown": 20}

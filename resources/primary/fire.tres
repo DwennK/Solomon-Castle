@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "fire"
+title = "Boule de feu"
+description = "Projectile puissant. +11 dégâts par rang."
+kind = "primary"
+icon = "fire"
+max_rank = 20
+min_level = 1
+prerequisite = ""
+values = {"damage": 30, "mana": 10, "cooldown": 0.55, "channel": false}

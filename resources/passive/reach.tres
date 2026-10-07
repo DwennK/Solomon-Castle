@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "reach"
+title = "Télékinésie"
+description = "+45 portée de ramassage par rang."
+kind = "passive"
+icon = "book"
+max_rank = 4
+min_level = 3
+prerequisite = ""
+values = {}

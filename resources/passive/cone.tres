@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "cone"
+title = "Cône de glace"
+description = "Élargit le jet de 0,12 rad et sa portée de 18 par rang."
+kind = "passive"
+icon = "ice"
+max_rank = 5
+min_level = 2
+prerequisite = "ice"
+values = {}

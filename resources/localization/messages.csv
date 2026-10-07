@@ -1,0 +1,281 @@
+key,fr
+"
+%d or  ·  %s","
+%d or  ·  %s"
+   [%s]      Vie ×%d   Mana ×%d,   [%s]      Vie ×%d   Mana ×%d
+   ·   ,   ·   
+  [actif],  [actif]
+  [équipé],  [équipé]
+  ·  ,  ·  
+  · activer,  · activer
+  · vendre %d or,  · vendre %d or
+  · équiper,  · équiper
+ / , / 
+ : , : 
+ : bouton %d, : bouton %d
+ Figée au niveau %d., Figée au niveau %d.
+ · , · 
+ · activer la fusion, · activer la fusion
+ · potion de mana et équipement, · potion de mana et équipement
+ · rang %d, · rang %d
+ »., ».
+ — , — 
+ — retirer, — retirer
+%d / 48 objets · %d or · Un bâton et deux anneaux.,%d / 48 objets · %d or · Un bâton et deux anneaux.
+"%d or · Bâtons, anneaux et provisions. Le stock appartient à cette ascension.","%d or · Bâtons, anneaux et provisions. Le stock appartient à cette ascension."
+%d → %d,%d → %d
+%s %+.2f,%s %+.2f
+"%s Inventaire   %s Grimoire   %s Village
+%s Vie   %s Mana   %s Pause","%s Inventaire   %s Grimoire   %s Village
+%s Vie   %s Mana   %s Pause"
+%s vaincu.,%s vaincu.
+%s · %d or,%s · %d or
++%.0f %%,+%.0f %%
++%d or%s,+%d or%s
++12 % cadence des projectiles par rang.,+12 % cadence des projectiles par rang.
++14 % dégâts par rang.,+14 % dégâts par rang.
+"+2,5 mana régénéré par seconde.","+2,5 mana régénéré par seconde."
+"+20 % vitesse, poursuite plus vive.","+20 % vitesse, poursuite plus vive."
++24 points de vie maximum.,+24 points de vie maximum.
++28 points de mana maximum.,+28 points de mana maximum.
++45 portée de ramassage par rang.,+45 portée de ramassage par rang.
++7 % vitesse de déplacement par rang.,+7 % vitesse de déplacement par rang.
+Absorbe 45 dégâts par rang. Coût 30 mana.,Absorbe 45 dégâts par rang. Coût 30 mana.
+Acheter de la sagesse propose trois améliorations éligibles à votre niveau. Coût : %d or.,Acheter de la sagesse propose trois améliorations éligibles à votre niveau. Coût : %d or.
+Acheter une leçon · %d or,Acheter une leçon · %d or
+Affaiblit les morts-vivants et les fait fuir 4 + rang secondes.,Affaiblit les morts-vivants et les fait fuir 4 + rang secondes.
+Ambiance musicale,Ambiance musicale
+Anneau ,Anneau 
+Anneau de cuivre,Anneau de cuivre
+Anneau de feu,Anneau de feu
+Anneau d’argent,Anneau d’argent
+Anneau d’onyx,Anneau d’onyx
+Appuyez sur la nouvelle touche pour « ,Appuyez sur la nouvelle touche pour « 
+Appuyez sur un bouton de manette pour « ,Appuyez sur un bouton de manette pour « 
+Arc continu brûlant qui se propage.,Arc continu brûlant qui se propage.
+"Arc continu, précis et instantané. +15 dégâts/s par rang.","Arc continu, précis et instantané. +15 dégâts/s par rang."
+Archer des cryptes,Archer des cryptes
+"Au repos : +3 mana/s et +0,8 vie/s par rang.","Au repos : +3 mana/s et +0,8 vie/s par rang."
+Aucune sauvegarde valide. Vous pouvez commencer une nouvelle partie.,Aucune sauvegarde valide. Vous pouvez commencer une nouvelle partie.
+Basile · marchand,Basile · marchand
+Bouclier magique,Bouclier magique
+Boule de feu,Boule de feu
+Briser l’urne,Briser l’urne
+Bâton,Bâton
+Bâton de cristal,Bâton de cristal
+Bâton de frêne,Bâton de frêne
+Bâton d’os,Bâton d’os
+Canalisation du mana,Canalisation du mana
+Cercle magique,Cercle magique
+Changer de magie,Changer de magie
+Chaîne électrique,Chaîne électrique
+Choisissez votre première magie auprès d’Orme,Choisissez votre première magie auprès d’Orme
+Clavier WASD / ZQSD ou flèches. Souris : viser et maintenir le clic. Manette : les deux sticks.,Clavier WASD / ZQSD ou flèches. Souris : viser et maintenir le clic. Manette : les deux sticks.
+Clé trouvée : ouvrez le sceau du gardien.,Clé trouvée : ouvrez le sceau du gardien.
+Commencer la difficulté suivante,Commencer la difficulté suivante
+Comparaison ,Comparaison 
+Consulter le grimoire,Consulter le grimoire
+Continuer l’ascension,Continuer l’ascension
+Crédits,Crédits
+Célérité,Célérité
+Cône continu qui ralentit les ennemis. +11 dégâts/s par rang.,Cône continu qui ralentit les ennemis. +11 dégâts/s par rang.
+Cône de glace,Cône de glace
+Difficulté,Difficulté
+Dégâts : %.1f → %.1f%s · Mana : %.1f → %.1f%s,Dégâts : %.1f → %.1f%s · Mana : %.1f → %.1f%s
+Enchanté,Enchanté
+Entrer dans la tour,Entrer dans la tour
+Explorez les salles et trouvez l’escalier.,Explorez les salles et trouvez l’escalier.
+Fouet de flammes,Fouet de flammes
+Fusion : capture des rangs actuels,Fusion : capture des rangs actuels
+"Fusions : apprenez deux éléments. Aux niveaux multiples de cinq, un assemblage peut être proposé. Il conserve les rangs et sous-compétences du moment ; une nouvelle fusion actualise ce savoir.","Fusions : apprenez deux éléments. Aux niveaux multiples de cinq, un assemblage peut être proposé. Il conserve les rangs et sous-compétences du moment ; une nouvelle fusion actualise ce savoir."
+Garde noir,Garde noir
+Gel soudain,Gel soudain
+Gèle les ennemis proches pendant 2 + rang secondes.,Gèle les ennemis proches pendant 2 + rang secondes.
+"Hardcore — une seule vie, mort définitive","Hardcore — une seule vie, mort définitive"
+"I  Inventaire     K  Grimoire     T  Village
+R  Vie     F  Mana     Échap  Pause","I  Inventaire     K  Grimoire     T  Village
+R  Vie     F  Mana     Échap  Pause"
+Il vous faut la clé cachée dans un coffre de cet étage.,Il vous faut la clé cachée dans un coffre de cet étage.
+Impact explosif : rayon 60 + 18 par rang.,Impact explosif : rayon 60 + 18 par rang.
+Impossible de créer la sauvegarde de secours.,Impossible de créer la sauvegarde de secours.
+Impossible de finaliser la sauvegarde.,Impossible de finaliser la sauvegarde.
+Impossible d’écrire la sauvegarde.,Impossible d’écrire la sauvegarde.
+Incantation rapide,Incantation rapide
+Ivoire : vous · or : escalier · turquoise : coffre non ouvert.,Ivoire : vous · or : escalier · turquoise : coffre non ouvert.
+Jet de glace,Jet de glace
+Jet de vapeur,Jet de vapeur
+"LA TOUR
+DES CENDRES","LA TOUR
+DES CENDRES"
+LA TOUR  ·  ÉTAGE %02d / 13,LA TOUR  ·  ÉTAGE %02d / 13
+LE HAMEAU DES BRAISES,LE HAMEAU DES BRAISES
+LES QUATRE ÉLÉMENTS,LES QUATRE ÉLÉMENTS
+La Tour des Cendres,La Tour des Cendres
+La Tour des Cendres · version 0.1,La Tour des Cendres · version 0.1
+La clé du gardien a été trouvée. Le sceau peut être ouvert.,La clé du gardien a été trouvée. Le sceau peut être ouvert.
+La mort est définitive.,La mort est définitive.
+La partie est en pause.,La partie est en pause.
+La prochaine ascension conserve vos compétences et votre équipement. La tour et ses récompenses sont renouvelées. L’Épreuve éternelle impose la mort définitive.,La prochaine ascension conserve vos compétences et votre équipement. La tour et ses récompenses sont renouvelées. L’Épreuve éternelle impose la mort définitive.
+Large cône traversant les groupes.,Large cône traversant les groupes.
+Le Gardien du brasier,Le Gardien du brasier
+Le Gardien du brasier protège encore le sceau.,Le Gardien du brasier protège encore le sceau.
+Le Mange-cloches,Le Mange-cloches
+Le Roi sans tombe,Le Roi sans tombe
+Le dernier cours de magie commence ici.,Le dernier cours de magie commence ici.
+Le gardien de cet étage scelle l’escalier.,Le gardien de cet étage scelle l’escalier.
+Le grimoire,Le grimoire
+Le portail garde votre position et l’état de l’étage.,Le portail garde votre position et l’état de l’étage.
+Le savoir d’Orme,Le savoir d’Orme
+Le sceau se dissipe. Le gardien vous attend.,Le sceau se dissipe. Le gardien vous attend.
+Le temps est suspendu. Une amélioration par niveau. %d choix en attente.,Le temps est suspendu. Une amélioration par niveau. %d choix en attente.
+Les rituels secondaires se débloquent à partir du niveau 3.,Les rituels secondaires se débloquent à partir du niveau 3.
+Les salles explorées,Les salles explorées
+"Les éclairs interrompent les attaques ; durée +0,08 s/rang.","Les éclairs interrompent les attaques ; durée +0,08 s/rang."
+Luminosité,Luminosité
+L’Archiviste des cendres,L’Archiviste des cendres
+L’Archiviste est tombé. Rejoignez le sceau du sommet pour achever l’ascension.,L’Archiviste est tombé. Rejoignez le sceau du sommet pour achever l’ascension.
+L’aube sur les cendres,L’aube sur les cendres
+L’échoppe de Basile,L’échoppe de Basile
+Mage de bataille,Mage de bataille
+Mage de siège,Mage de siège
+"Magies actives, rituels et savoirs acquis. Les fusions se choisissent lors des niveaux multiples de cinq.","Magies actives, rituels et savoirs acquis. Les fusions se choisissent lors des niveaux multiples de cinq."
+Mana insuffisant pour ce rituel.,Mana insuffisant pour ce rituel.
+Manette : A interaction · Y inventaire · Retour grimoire · B changer de sort · LB/RB/X rituels · croix gauche/droite potions · bas portail · haut carte · Start pause. Menus : croix/stick et A/B.,Manette : A interaction · Y inventaire · Retour grimoire · B changer de sort · LB/RB/X rituels · croix gauche/droite potions · bas portail · haut carte · Start pause. Menus : croix/stick et A/B.
+Maître Orme · savoir,Maître Orme · savoir
+Missile ardent,Missile ardent
+Missile de givre,Missile de givre
+Mode normal : reprise au dernier point de sauvegarde d’étage ou de portail. Les actions depuis ce point sont annulées. Le mode hardcore interdit toute reprise après la mort.,Mode normal : reprise au dernier point de sauvegarde d’étage ou de portail. Les actions depuis ce point sont annulées. Le mode hardcore interdit toute reprise après la mort.
+Monter à l’étage suivant,Monter à l’étage suivant
+Méditation,Méditation
+NIV. %02d    %d / %d ♥    %d / %d ◇,NIV. %02d    %d / %d ♥    %d / %d ◇
+"Niveau %d · %d morts · %d or
+Difficulté achevée : %s","Niveau %d · %d morts · %d or
+Difficulté achevée : %s"
+Niveau %d — choisissez votre savoir,Niveau %d — choisissez votre savoir
+Nouvelle partie,Nouvelle partie
+Nécromant,Nécromant
+Objet trouvé : ,Objet trouvé : 
+Onde de feu : 45 dégâts par rang et recul.,Onde de feu : 45 dégâts par rang et recul.
+Options et commandes,Options et commandes
+"Orbe lente guidée, pulsations électriques et chaînes.","Orbe lente guidée, pulsations électriques et chaînes."
+Orbe électrique,Orbe électrique
+Orme : Choisissez bien. Vous pourrez apprendre d’autres éléments pendant l’ascension.,Orme : Choisissez bien. Vous pourrez apprendre d’autres éléments pendant l’ascension.
+Ouvrir le coffre,Ouvrir le coffre
+Ouvrir le sceau du gardien,Ouvrir le sceau du gardien
+Parler à Basile,Parler à Basile
+"Parlez aux habitants, puis entrez dans la tour.","Parlez aux habitants, puis entrez dans la tour."
+Partie sauvegardée.,Partie sauvegardée.
+Plein écran,Plein écran
+Pluie acide,Pluie acide
+Portail du village,Portail du village
+Potion de mana,Potion de mana
+Potion de mana · 18 or,Potion de mana · 18 or
+Potion de vie,Potion de vie
+Potion de vie · 18 or,Potion de vie · 18 or
+Projectile astral,Projectile astral
+Projectile guidé vers une cible. +7 dégâts par rang.,Projectile guidé vers une cible. +7 dégâts par rang.
+Projectile puissant. +11 dégâts par rang.,Projectile puissant. +11 dégâts par rang.
+Projectiles guidés explosifs.,Projectiles guidés explosifs.
+Projectiles multiples,Projectiles multiples
+Projectiles véloces,Projectiles véloces
+RECONFIGURER LE CLAVIER,RECONFIGURER LE CLAVIER
+RECONFIGURER LES BOUTONS DE MANETTE,RECONFIGURER LES BOUTONS DE MANETTE
+RITUELS  ·  %d / %d emplacements,RITUELS  ·  %d / %d emplacements
+Rayon de blizzard,Rayon de blizzard
+Rayon traversant qui fige et frappe en chaîne.,Rayon traversant qui fige et frappe en chaîne.
+Recul et ralentissement renforcés.,Recul et ralentissement renforcés.
+Renvoi des morts,Renvoi des morts
+Reprendre au point de sauvegarde,Reprendre au point de sauvegarde
+Retour au menu,Retour au menu
+Retour au village,Retour au village
+Retour à l’échoppe,Retour à l’échoppe
+Rituel 1,Rituel 1
+Rituel 2,Rituel 2
+Rituel 3,Rituel 3
+Réduire les flashs et les effets brusques,Réduire les flashs et les effets brusques
+Réserve de mana,Réserve de mana
+Résistance,Résistance
+Rétablir les commandes,Rétablir les commandes
+SAVOIRS ET SPÉCIALISATIONS,SAVOIRS ET SPÉCIALISATIONS
+Salve guidée qui éclate et gèle.,Salve guidée qui éclate et gèle.
+Sauvegarde indisponible,Sauvegarde indisponible
+Sauvegarde invalide ou incompatible. Nouvelle partie disponible.,Sauvegarde invalide ou incompatible. Nouvelle partie disponible.
+Sauvegarde principale endommagée : copie de secours restaurée.,Sauvegarde principale endommagée : copie de secours restaurée.
+Sauvegarder et quitter au menu,Sauvegarder et quitter au menu
+Savoirs maîtrisés — poursuivre,Savoirs maîtrisés — poursuivre
+Sceau du gardien,Sceau du gardien
+Se reposer gratuitement,Se reposer gratuitement
+Tirer (souris ou clavier),Tirer (souris ou clavier)
+"Treize étages. Deux rituels secondaires, puis trois au niveau 20.","Treize étages. Deux rituels secondaires, puis trois au niveau 20."
+Treize étages. Un examen réussi. Orme prétendra qu’il n’en a jamais douté.,Treize étages. Un examen réussi. Orme prétendra qu’il n’en a jamais douté.
+Trois éclats de feu par rang à l’impact.,Trois éclats de feu par rang à l’impact.
+Trouvez la clé du gardien dans un coffre de cet étage.,Trouvez la clé du gardien dans un coffre de cet étage.
+Télékinésie,Télékinésie
+Téléportation,Téléportation
+UN EXAMEN. TREIZE ÉTAGES. AUCUNE EXCUSE.,UN EXAMEN. TREIZE ÉTAGES. AUCUNE EXCUSE.
+Un ennemi supplémentaire touché par rang.,Un ennemi supplémentaire touché par rang.
+Un instant de répit,Un instant de répit
+"Un jeu indépendant réalisé dans Godot 4.7.2.
+
+Code original en GDScript. Illustrations originales générées avec ImageGen, puis découpées et intégrées. Ambiance musicale et effets de synthèse originaux.
+
+Inspiré des mécaniques de Solomon’s Keep, créé par Raptisoft. Aucun code, personnage, son ou graphisme de ce jeu n’est réutilisé. Ce projet n’est pas affilié à Raptisoft.
+
+Godot Engine : licence MIT. La notice complète et la provenance des ressources figurent dans docs/asset_manifest.md.","Un jeu indépendant réalisé dans Godot 4.7.2.
+
+Code original en GDScript. Illustrations originales générées avec ImageGen, puis découpées et intégrées. Ambiance musicale et effets de synthèse originaux.
+
+Inspiré des mécaniques de Solomon’s Keep, créé par Raptisoft. Aucun code, personnage, son ou graphisme de ce jeu n’est réutilisé. Ce projet n’est pas affilié à Raptisoft.
+
+Godot Engine : licence MIT. La notice complète et la provenance des ressources figurent dans docs/asset_manifest.md."
+"Un mage, quatre éléments et une tour qui ne vous attendait pas.","Un mage, quatre éléments et une tour qui ne vous attendait pas."
+Un projectile supplémentaire ; coût +2 mana.,Un projectile supplémentaire ; coût +2 mana.
+Une nouvelle ascension,Une nouvelle ascension
+Une nouvelle partie remplace l’ascension actuelle. Les difficultés débloquées et les options sont conservées.,Une nouvelle partie remplace l’ascension actuelle. Les difficultés débloquées et les options sont conservées.
+VERSION 0.1  ·  GODOT 4.7.2  ·  JEU LOCAL,VERSION 0.1  ·  GODOT 4.7.2  ·  JEU LOCAL
+Vendre vos objets,Vendre vos objets
+Vendre à Basile,Vendre à Basile
+Vent glacial,Vent glacial
+Vers la dernière salle sûre. Coût 10 mana.,Vers la dernière salle sûre. Coût 10 mana.
+Vie %.0f · Mana %.0f · Régén. %.1f/s · Dégâts ×%.2f · Coût ×%.2f,Vie %.0f · Mana %.0f · Régén. %.1f/s · Dégâts ×%.2f · Coût ×%.2f
+Vitalité,Vitalité
+Volume général,Volume général
+Votre chapeau retombe…,Votre chapeau retombe…
+Votre dernier point de reprise a été restauré. Les actions plus récentes ont été annulées.,Votre dernier point de reprise a été restauré. Les actions plus récentes ont été annulées.
+Votre première étincelle,Votre première étincelle
+Votre sac,Votre sac
+Votre sac est vide. Les coffres et les gardiens renferment des objets.,Votre sac est vide. Les coffres et les gardiens renferment des objets.
+Ysée : Revenez avec votre chapeau. Et ce qu’il y a dessous.,Ysée : Revenez avec votre chapeau. Et ce qu’il y a dessous.
+Ysée · soins,Ysée · soins
+Zone de 18 s : régénération et ralentissement. Rayon +25/rang.,Zone de 18 s : régénération et ralentissement. Rayon +25/rang.
+Zone de 7 s infligeant 14 dégâts/s par rang.,Zone de 7 s infligeant 14 dégâts/s par rang.
+[%s]  %s,[%s]  %s
+[%s] %s  %s,[%s] %s  %s
+de braise,de braise
+de la source,de la source
+de lucidité,de lucidité
+de l’aube,de l’aube
+de sobriété,de sobriété
+des os,des os
+des étoiles,des étoiles
+du pèlerin,du pèlerin
+du rempart,du rempart
+du vif-éclair,du vif-éclair
+dégâts,dégâts
+mana max.,mana max.
+prêt,prêt
+résistance,résistance
+vie max.,vie max.
+"« Les livres coûtent cher. L’ignorance, davantage. »","« Les livres coûtent cher. L’ignorance, davantage. »"
+Éclair,Éclair
+"Élargit le jet de 0,12 rad et sa portée de 18 par rang.","Élargit le jet de 0,12 rad et sa portée de 18 par rang."
+Épique,Épique
+Épreuve éternelle,Épreuve éternelle
+Étage %d · Un nouveau point de reprise a été créé.,Étage %d · Un nouveau point de reprise a été créé.
+Étage suivant,Étage suivant
+Étourdissement,Étourdissement
+Étudier avec Orme,Étudier avec Orme
+économie de mana,économie de mana
+−10 % temps de recharge secondaire par rang.,−10 % temps de recharge secondaire par rang.
+−7 % dégâts subis par rang.,−7 % dégâts subis par rang.
+−9 % coût de mana par rang (minimum 20 %).,−9 % coût de mana par rang (minimum 20 %).

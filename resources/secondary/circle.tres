@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "circle"
+title = "Cercle magique"
+description = "Zone de 18 s : régénération et ralentissement. Rayon +25/rang."
+kind = "secondary"
+icon = "missile"
+max_rank = 5
+min_level = 3
+prerequisite = ""
+values = {"mana": 35, "cooldown": 38}

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "missile"
+title = "Projectile astral"
+description = "Projectile guidé vers une cible. +7 dégâts par rang."
+kind = "primary"
+icon = "missile"
+max_rank = 20
+min_level = 1
+prerequisite = ""
+values = {"damage": 18, "mana": 6, "cooldown": 0.38, "channel": false}

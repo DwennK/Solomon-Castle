@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "teleport"
+title = "Téléportation"
+description = "Vers la dernière salle sûre. Coût 10 mana."
+kind = "secondary"
+icon = "portal"
+max_rank = 1
+min_level = 3
+prerequisite = ""
+values = {"mana": 10, "cooldown": 14}

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "campaign"
+title = "La Tour des Cendres"
+description = "Treize étages. Deux rituels secondaires, puis trois au niveau 20."
+kind = "progression"
+icon = ""
+max_rank = 5
+min_level = 1
+prerequisite = ""
+values = {"floors": 13, "boss_floors": [4, 8, 11, 13], "difficulties": ["Apprenti", "Sorcier", "Archimage", "Demi-dieu", "Épreuve éternelle"]}

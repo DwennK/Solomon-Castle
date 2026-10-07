@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "potent"
+title = "Projectiles véloces"
+description = "+20 % vitesse, poursuite plus vive."
+kind = "passive"
+icon = "missile"
+max_rank = 5
+min_level = 2
+prerequisite = "missile"
+values = {}

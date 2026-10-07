@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "embers"
+title = "Braises"
+description = "Trois éclats de feu par rang à l’impact."
+kind = "passive"
+icon = "fire"
+max_rank = 3
+min_level = 3
+prerequisite = "fire"
+values = {}

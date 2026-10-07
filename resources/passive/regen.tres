@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "regen"
+title = "Canalisation du mana"
+description = "+2,5 mana régénéré par seconde."
+kind = "passive"
+icon = "book"
+max_rank = 6
+min_level = 1
+prerequisite = ""
+values = {}

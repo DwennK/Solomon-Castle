@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "ice"
+title = "Jet de glace"
+description = "Cône continu qui ralentit les ennemis. +11 dégâts/s par rang."
+kind = "primary"
+icon = "ice"
+max_rank = 20
+min_level = 1
+prerequisite = ""
+values = {"damage": 32, "mana": 14, "cooldown": 0, "channel": true}

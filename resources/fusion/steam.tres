@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ContentDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "steam"
+title = "Jet de vapeur"
+description = "Large cône traversant les groupes."
+kind = "fusion"
+icon = "fire"
+max_rank = 1
+min_level = 5
+prerequisite = ""
+values = {"elements": ["fire", "ice"]}
