@@ -1,0 +1,548 @@
+{
+  "missile": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -21.19,
+    "channels": 1
+  },
+  "missile_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -21.75,
+    "channels": 1
+  },
+  "missile_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.2,
+    "channels": 1
+  },
+  "fire": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.84,
+    "channels": 1
+  },
+  "fire_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.46,
+    "channels": 1
+  },
+  "fire_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.27,
+    "channels": 1
+  },
+  "impact_arcane": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -24.09,
+    "channels": 1
+  },
+  "impact_arcane_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.38,
+    "channels": 1
+  },
+  "impact_arcane_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -23.5,
+    "channels": 1
+  },
+  "impact_fire": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.36,
+    "channels": 1
+  },
+  "impact_fire_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -23.09,
+    "channels": 1
+  },
+  "impact_fire_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.6,
+    "channels": 1
+  },
+  "impact_ice": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.68,
+    "channels": 1
+  },
+  "impact_ice_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -24.93,
+    "channels": 1
+  },
+  "impact_ice_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.77,
+    "channels": 1
+  },
+  "impact_lightning": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -23.86,
+    "channels": 1
+  },
+  "impact_lightning_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -23.03,
+    "channels": 1
+  },
+  "impact_lightning_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -23.45,
+    "channels": 1
+  },
+  "enemy_melee": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -25.35,
+    "channels": 1
+  },
+  "enemy_melee_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -25.8,
+    "channels": 1
+  },
+  "enemy_melee_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -24.99,
+    "channels": 1
+  },
+  "enemy_bow": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -27.0,
+    "channels": 1
+  },
+  "enemy_bow_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -24.29,
+    "channels": 1
+  },
+  "enemy_bow_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -26.6,
+    "channels": 1
+  },
+  "enemy_magic": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -21.09,
+    "channels": 1
+  },
+  "enemy_magic_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.83,
+    "channels": 1
+  },
+  "enemy_magic_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.95,
+    "channels": 1
+  },
+  "enemy_death": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.82,
+    "channels": 1
+  },
+  "enemy_death_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.87,
+    "channels": 1
+  },
+  "enemy_death_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.88,
+    "channels": 1
+  },
+  "step_stone": {
+    "seconds": 0.18,
+    "loop": false,
+    "peak_db": -5.68,
+    "rms_db": -24.44,
+    "channels": 1
+  },
+  "step_stone_2": {
+    "seconds": 0.18,
+    "loop": false,
+    "peak_db": -5.68,
+    "rms_db": -24.11,
+    "channels": 1
+  },
+  "step_stone_3": {
+    "seconds": 0.18,
+    "loop": false,
+    "peak_db": -5.68,
+    "rms_db": -23.64,
+    "channels": 1
+  },
+  "step_gravel": {
+    "seconds": 0.22,
+    "loop": false,
+    "peak_db": -5.68,
+    "rms_db": -25.61,
+    "channels": 1
+  },
+  "step_gravel_2": {
+    "seconds": 0.22,
+    "loop": false,
+    "peak_db": -5.68,
+    "rms_db": -25.44,
+    "channels": 1
+  },
+  "step_gravel_3": {
+    "seconds": 0.22,
+    "loop": false,
+    "peak_db": -5.68,
+    "rms_db": -26.22,
+    "channels": 1
+  },
+  "loot": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -19.87,
+    "channels": 1
+  },
+  "loot_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -18.49,
+    "channels": 1
+  },
+  "loot_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -19.03,
+    "channels": 1
+  },
+  "hurt": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -23.26,
+    "channels": 1
+  },
+  "hurt_2": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -24.87,
+    "channels": 1
+  },
+  "hurt_3": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.09,
+    "channels": 1
+  },
+  "fire_missile": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.58,
+    "channels": 1
+  },
+  "frost_missile": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.94,
+    "channels": 1
+  },
+  "ball_lightning": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.56,
+    "channels": 1
+  },
+  "impact": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.17,
+    "channels": 1
+  },
+  "enemy": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -24.29,
+    "channels": 1
+  },
+  "potion": {
+    "seconds": 1.15,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -16.84,
+    "channels": 1
+  },
+  "mana": {
+    "seconds": 1.25,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -17.61,
+    "channels": 1
+  },
+  "item": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -16.64,
+    "channels": 1
+  },
+  "ui": {
+    "seconds": 0.12,
+    "loop": false,
+    "peak_db": -5.68,
+    "rms_db": -17.19,
+    "channels": 1
+  },
+  "spell_switch": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -18.76,
+    "channels": 1
+  },
+  "chest": {
+    "seconds": 1.1,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -19.79,
+    "channels": 1
+  },
+  "urn": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.82,
+    "channels": 1
+  },
+  "teleport": {
+    "seconds": 1.3,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -18.84,
+    "channels": 1
+  },
+  "portal": {
+    "seconds": 1.8,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.37,
+    "channels": 1
+  },
+  "ritual": {
+    "seconds": 1.8,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -21.28,
+    "channels": 1
+  },
+  "shield": {
+    "seconds": 1.4,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.11,
+    "channels": 1
+  },
+  "shield_hit": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -21.85,
+    "channels": 1
+  },
+  "circle": {
+    "seconds": 2.0,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -21.41,
+    "channels": 1
+  },
+  "freeze": {
+    "seconds": 1.5,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -24.35,
+    "channels": 1
+  },
+  "ring_fire": {
+    "seconds": 1.5,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -23.83,
+    "channels": 1
+  },
+  "acid": {
+    "seconds": 1.4,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -21.53,
+    "channels": 1
+  },
+  "undead": {
+    "seconds": 2.0,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -19.68,
+    "channels": 1
+  },
+  "death": {
+    "seconds": 3.5,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -16.44,
+    "channels": 1
+  },
+  "victory": {
+    "seconds": 5.5,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -19.61,
+    "channels": 1
+  },
+  "level_up": {
+    "seconds": 2.5,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -16.22,
+    "channels": 1
+  },
+  "boss_death": {
+    "seconds": 2.8,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -22.94,
+    "channels": 1
+  },
+  "boss_attack": {
+    "seconds": 0.75,
+    "loop": false,
+    "peak_db": -3.1,
+    "rms_db": -20.27,
+    "channels": 1
+  },
+  "channel_lightning": {
+    "seconds": 3.05,
+    "loop": true,
+    "peak_db": -6.38,
+    "rms_db": -20.96,
+    "channels": 1
+  },
+  "channel_ice": {
+    "seconds": 3.05,
+    "loop": true,
+    "peak_db": -6.38,
+    "rms_db": -19.07,
+    "channels": 1
+  },
+  "channel_flame_lash": {
+    "seconds": 3.05,
+    "loop": true,
+    "peak_db": -6.38,
+    "rms_db": -19.19,
+    "channels": 1
+  },
+  "channel_steam": {
+    "seconds": 3.05,
+    "loop": true,
+    "peak_db": -6.38,
+    "rms_db": -20.17,
+    "channels": 1
+  },
+  "channel_blizzard": {
+    "seconds": 3.05,
+    "loop": true,
+    "peak_db": -6.38,
+    "rms_db": -19.46,
+    "channels": 1
+  },
+  "music_menu": {
+    "seconds": 50.526,
+    "loop": true,
+    "peak_db": -5.04,
+    "rms_db": -18.94,
+    "channels": 2
+  },
+  "music_village": {
+    "seconds": 43.636,
+    "loop": true,
+    "peak_db": -5.04,
+    "rms_db": -16.66,
+    "channels": 2
+  },
+  "music_exploration": {
+    "seconds": 60.0,
+    "loop": true,
+    "peak_db": -5.04,
+    "rms_db": -18.11,
+    "channels": 2
+  },
+  "music_boss": {
+    "seconds": 34.286,
+    "loop": true,
+    "peak_db": -5.04,
+    "rms_db": -18.0,
+    "channels": 2
+  }
+}

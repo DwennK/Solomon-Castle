@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://bs0xpvo02r7lr"
-path="res://.godot/imported/ambience.wav-c4e6e35e7a9e0e868516f43e62765e9c.sample"
+uid="uid://kr28isdnp4br"
+path="res://.godot/imported/enemy_bow.wav-8ea8de7dd6d15d08e1c9a0bf1129a072.sample"
 
 [deps]
 
-source_file="res://assets/audio/ambience.wav"
-dest_files=["res://.godot/imported/ambience.wav-c4e6e35e7a9e0e868516f43e62765e9c.sample"]
+source_file="res://assets/audio/enemy_bow.wav"
+dest_files=["res://.godot/imported/enemy_bow.wav-8ea8de7dd6d15d08e1c9a0bf1129a072.sample"]
 
 [params]
 
