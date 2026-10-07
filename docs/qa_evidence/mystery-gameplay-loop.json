@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-07",
+  "engine": "Godot 4.7.2 stable",
+  "platform": "macOS Apple M4 Compatibility renderer",
+  "assertions": {
+    "core": 62854,
+    "skills": 101,
+    "encounters": 845,
+    "combat_feedback": 24,
+    "portal": 6,
+    "gameplay_loop_native": 8671,
+    "visibility_native": 31,
+    "loot": 48087,
+    "balance": 4521
+  },
+  "assertions_total": 125140,
+  "failures": [],
+  "native_viewports": [
+    "1440x900",
+    "960x600"
+  ],
+  "generation": {
+    "core_floors": 1300,
+    "gameplay_variant_floors": 325,
+    "balance_campaigns": 20,
+    "full_clear_final_levels": [
+      36,
+      38
+    ]
+  },
+  "campaign": {
+    "assistance": "QA ranks, invulnerability, mana recovery, 5x simulation, navigation via actual AStar and CharacterBody2D; actual spell hits and boss deaths",
+    "duration_seconds": 90.55,
+    "errors": [],
+    "level_choices": 35,
+    "milestones": [
+      "floor_1_complete",
+      "floor_2_complete",
+      "floor_3_complete",
+      "floor_4_complete",
+      "floor_5_complete",
+      "floor_6_complete",
+      "floor_7_complete",
+      "floor_8_complete",
+      "floor_9_complete",
+      "floor_10_complete",
+      "floor_11_complete",
+      "floor_12_complete",
+      "floor_13_complete"
+    ],
+    "native_rendering": false
+  },
+  "coverage": [
+    "Room silhouettes hide all occupants and map markers until entry",
+    "Portal interrupted by movement, spellcasting, and hits; exact return position",
+    "Seven combat types, quiet rooms, deterministic placement and distinct spawn tiles",
+    "Five discovery types, one-time choices and rewards, cursed-trial save/reload",
+    "Early specialization offers for all four primary elements",
+    "Four boss health phases, finite summons, recovery damage, higher-difficulty attacks",
+    "Actual world reconstruction preserves phase and does not duplicate six final-boss summons",
+    "Native archive choice button consumes discovery and grants the chosen reward"
+  ],
+  "limits": [
+    "Campaign uses strong QA skills, invulnerability, mana recovery and 5x simulation; not an unaided playthrough",
+    "Windows runtime and physical controllers not tested",
+    "No new executable export in this change",
+    "Existing generated floors retain encounters and discoveries"
+  ]
+}

@@ -34,7 +34,7 @@ No account, server, plugin, or asset-generation step is needed. All runtime art 
 - **Thirteen procedural floors:** explore rooms and corridors, find guardian keys, defeat bosses on floors 4, 8, 11, and 13, then finish the summit encounter.
 - **Five difficulties:** Apprentice, Sorcerer, Archmage, Demigod, and the Eternal Trial. A completed ascent unlocks the next difficulty while retaining your skills and gear.
 
-In the village, **Basile** buys and sells equipment and potions, **Orme** teaches magic and sells lessons, and **Ysee** restores health and mana for free. Your portal lets you return to the village and resume exploring the same floor.
+In the village, **Basile** buys and sells equipment and potions, **Orme** teaches magic and sells lessons, and **Ysee** restores health and mana for free. Your portal lets you return to the village and resume exploring the same floor. Leaving the tower requires a **2.4-second channel**: movement, casting, or taking a hit interrupts it. Press the portal action again to cancel.
 
 **Normal death** restores the last floor-entry or portal checkpoint and undoes later actions. **Hardcore death** permanently ends that campaign. The Eternal Trial always uses hardcore rules.
 
@@ -79,9 +79,22 @@ Close the game before copying or moving saves. Files named `qa_*.json` belong to
 
 New floors use irregular room partitions with randomized proportions, shapes and orientation. Several loops and branching routes replace the former single winding route. Pillars and cut corners change cover and sight lines; the final chamber still has a single sealable entrance. Saved floors keep their existing geometry. Start a new campaign to see the new generation throughout, or explore an unvisited floor in an existing campaign.
 
-Encounter groups now include crossfire, flanking hunters, waking ambushes and green-aura wardens. The hunter's gold lane warns of a committed charge: dodge sideways, then use its recovery window. Wardens reduce nearby allies' damage taken by 45%; they cannot protect themselves or allies behind walls.
+Unentered rooms show only dim architecture; their occupants, treasure, lights, and minimap contents stay concealed until you enter. Explored rooms retain their discovery state. A soft radial shade darkens the distant dungeon while keeping nearby combat and the HUD readable.
 
-Violet reliquaries are optional detours: interact to awaken three sentries, defeat them, then return to claim one rare-or-better item. Sleeping sentries do not block movement or attract spells. Red blood fonts exchange 20% of maximum health for a full mana refill once, refusing the trade when it would kill you or mana is already full. Both discoveries persist through saves and portal travel; their icons appear only after exploration.
+Seeded encounters mix crossfire, hunters, waking ambushes, wardens, fragile swarms, tougher duels, and artillery. Quiet rooms break up the generated combat sequence, although your chosen route can change their order. The hunter's gold lane warns of a committed charge: dodge sideways, then use its recovery window. Wardens reduce nearby allies' damage taken by 45%; they cannot protect themselves or allies behind walls.
+
+Each newly generated floor has one optional discovery drawn from five possibilities:
+
+- **Reliquary / cursed cache:** awaken three / four sentries, defeat them, then claim one rare-or-better item. Sleeping sentries do not block movement or attract spells.
+- **Forgotten archive:** choose an eligible specialization for your active magic or two Knowledge Shards for future rerolls.
+- **Altar of embers:** offer 25% of maximum health for 20% more damage on that floor. The bonus survives a village visit and expires on other floors.
+- **Cracked masonry:** break it with a spell to uncover one equipment drop.
+
+A blood font sometimes offers a separate one-time trade: 20% of maximum health for a full mana refill. Health trades refuse lethal payments. Discovery choices, opened caches, and trial progress persist through saves and portal travel; unvisited rooms never advertise them on the minimap. Existing saved floors keep their original encounters and discoveries.
+
+Early level-up choices favor a first visible specialization for your active element, such as more missiles, wider ice, larger explosions, or chain lightning. These remain choices, not automatic upgrades. Fusion opportunities retain their five-level cadence.
+
+All four guardians change patterns at half health, and the final guardian changes again at 22%. The king and final guardian summon finite guards whose waves cannot be farmed for XP or duplicated by reloading. Cyan **EXPOSED** windows after every third attack allow 30% bonus damage. Higher difficulties add aimed volleys to alternate attacks; health phases and attack counters persist through portal travel and saves.
 
 ## Develop and test
 
@@ -108,10 +121,15 @@ mkdir -p outputs/skills-audit
 ./tools/godot.sh --headless --path . tests/skills_test.tscn -- --test
 ./tools/godot.sh --headless --path . tests/english_test.tscn -- --test
 ./tools/godot.sh --headless --path . tests/encounter_test.tscn -- --test
+./tools/godot.sh --headless --path . tests/balance_test.tscn -- --qa
+./tools/godot.sh --headless --path . tests/portal_test.tscn -- --qa
+./tools/godot.sh --headless --path . tests/gameplay_loop_test.tscn -- --qa
 
 # Native renderer, real UI input, and multiple desktop resolutions.
 ./tools/godot.sh --path . tests/codex_ui.tscn -- --qa
 ./tools/godot.sh --path . tests/encounter_test.tscn -- --test --visual
+./tools/godot.sh --path . tests/gameplay_loop_test.tscn -- --qa --visual
+./tools/godot.sh --path . tests/visibility_test.tscn -- --qa
 
 # Assisted full-campaign regression.
 ./tools/godot.sh --headless --path . -- --qa --qa-playthrough

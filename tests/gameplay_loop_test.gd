@@ -125,12 +125,54 @@ func run_all() -> void:
 		world.enemies.erase(boss);boss.queue_free()
 		for shot: Node in world.shots.get_children(): shot.free()
 		world.zones.clear()
+	persistence_checks()
 	if "--visual" in OS.get_cmdline_user_args(): await visual_checks()
 	var report: Dictionary={"checks":checks,"failures":failures,"discovery_kinds":kinds.keys(),"encounter_types":encounters.keys(),"engine":Engine.get_version_info().string}
 	DirAccess.make_dir_recursive_absolute("res://outputs/gameplay-loop")
 	var file: FileAccess=FileAccess.open("res://outputs/gameplay-loop/report.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("GAMEPLAY_LOOP_QA ",JSON.stringify(report))
 	world.queue_free();Sound.stop_all();get_tree().quit(0 if failures.is_empty() else 1)
+
+func persistence_checks() -> void:
+	State.fresh(872);State.learn("missile");State.run.floor=4;load_empty(4)
+	position_in_boss_room()
+	var record: Dictionary={"id":"boss","kind":"lich","pos":Dungeon.pair(world.player.position+Vector2(0,-128)),"hp":-1.0,"dead":false}
+	world.floor_data.enemies.append(record)
+	var boss: TowerEnemy=load("res://scenes/enemy.tscn").instantiate()
+	boss.setup(world,record);world.actors.add_child(boss);world.enemies.append(boss)
+	boss.active=true;boss.hp=boss.max_hp*0.21;BossPatterns.update(boss)
+	world.snapshot();check(State.save_game() and State.load_game(),"Final phase saves before recreating the world")
+	world.load_floor(4,true);freeze()
+	boss=world.enemies.filter(func(e:TowerEnemy)->bool:return e.boss)[0]
+	boss.active=true;BossPatterns.update(boss)
+	check(BossPatterns.stage(boss)==2 and world.enemies.size()==7,"Reload reconstructs final phase and exactly six finite guards")
+	for guard: TowerEnemy in world.enemies:
+		if not guard.boss: check(guard.record.get("xp_scale",1.0)==0 and guard.record.get("reward",{}).is_empty(),"Reloaded summons cannot farm XP or loot")
+	var data: Dictionary
+	for seed_value: int in range(100):
+		data=Dungeon.generate(seed_value,1)
+		if data.props.any(func(p:Dictionary)->bool:return p.kind=="cursed_cache"): break
+	State.fresh(872);State.learn("missile");State.run.floor=1;State.run.floors["1"]=data
+	world.load_floor(1);freeze()
+	var cache: WorldProp=world.props.filter(func(p:WorldProp)->bool:return p.record.kind=="cursed_cache")[0]
+	world.player.position=cache.position;world.dungeon.reveal(cache.position)
+	world.use_discovery(cache)
+	check(world.enemies.filter(func(e:TowerEnemy)->bool:return e.record.get("trial",false) and e.record.get("awakened",false)).size()==4,"Cursed cache awakens all four sentries")
+	world.snapshot();check(State.save_game() and State.load_game(),"Active trial saves successfully")
+	world.load_floor(1,true);freeze()
+	cache=world.props.filter(func(p:WorldProp)->bool:return p.record.kind=="cursed_cache")[0]
+	check(cache.record.phase=="active","Cursed trial remains active after reload")
+	for guard: TowerEnemy in world.enemies.duplicate():
+		if guard.record.get("trial",false): guard.take_damage(guard.hp+1,Vector2.ZERO,true)
+	check(cache.record.phase=="ready","Defeating reloaded sentries releases the cursed cache")
+	var drops: int=world.loot.size()
+	world.use_discovery(cache);world.use_discovery(cache)
+	check(cache.record.opened and world.loot.size()==drops+1,"Cursed cache releases one reward only")
+	world.snapshot();check(State.save_game() and State.load_game(),"Claimed trial saves successfully")
+	world.load_floor(1,true);freeze()
+	cache=world.props.filter(func(p:WorldProp)->bool:return p.record.kind=="cursed_cache")[0]
+	drops=world.loot.size();world.use_discovery(cache)
+	check(cache.record.opened and world.loot.size()==drops,"Reload cannot reclaim a cursed cache")
 
 func visual_checks() -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
