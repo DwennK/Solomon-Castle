@@ -71,6 +71,7 @@ func run_all() -> void:
 		check(enemy.hp==hp and not enemy.is_targetable() and enemy.collision_layer==0,"Sleeping trial statues neither fight nor block projectiles or movement")
 	var count: int = world.loot.size()
 	world.player.position=trial.position+Vector2(0,50)
+	world._physics_process(0) # Reveal the room after the simulated player movement.
 	check(world.closest_prop()==trial,"Optional trial is reachable by normal interaction")
 	world.interact()
 	check(trial.record.phase=="active" and world.loot.size()==count,"Accepting trial gives no immediate reward")

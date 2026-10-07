@@ -6,11 +6,14 @@ static func generate(rng: RandomNumberGenerator, number: int) -> Dictionary:
 	var transpose: bool = rng.randf()<0.5
 	var plan_width: int = Dungeon.HEIGHT if transpose else Dungeon.WIDTH
 	var plan_height: int = Dungeon.WIDTH if transpose else Dungeon.HEIGHT
-	var regions: Array[Rect2i] = [Rect2i(3,3,plan_width-19,plan_height-6)]
+	# Reserve two generous combat rooms before subdividing the remaining space.
+	var span: int = plan_width-19
+	var half: int = span/2
+	var regions: Array[Rect2i] = [Rect2i(3,3,half,15),Rect2i(3+half,3,span-half,15),Rect2i(3,18,span,plan_height-21)]
 	var target: int = rng.randi_range(7,9) if number<4 else rng.randi_range(8,11)
 	while regions.size()<target:
 		var candidates: Array[int] = []
-		for i: int in range(regions.size()):
+		for i: int in range(2,regions.size()):
 			if regions[i].size.x>=22 or regions[i].size.y>=22: candidates.append(i)
 		if candidates.is_empty(): break
 		candidates.sort_custom(func(a: int,b: int)->bool:return regions[a].get_area()>regions[b].get_area())
@@ -23,12 +26,13 @@ static func generate(rng: RandomNumberGenerator, number: int) -> Dictionary:
 		regions.append(Rect2i(r.position+(Vector2i(cut,0) if vertical else Vector2i(0,cut)),Vector2i(r.size.x-cut,r.size.y) if vertical else Vector2i(r.size.x,r.size.y-cut)))
 	var rooms: Array = []
 	for r: Rect2i in regions:
-		var w: int = rng.randi_range(7,mini(15,r.size.x-3))
-		var h: int = rng.randi_range(7,mini(14,r.size.y-3))
+		var spacious: bool = rooms.size()<2
+		var w: int = rng.randi_range(12 if spacious else 8,mini(18 if spacious else 15,r.size.x-3))
+		var h: int = rng.randi_range(12 if spacious else 8,mini(16 if spacious else 14,r.size.y-3))
 		rooms.append([rng.randi_range(r.position.x+1,r.end.x-w-2),rng.randi_range(r.position.y+1,r.end.y-h-2),w,h])
 	# Pick an entry on the opposite side to the terminal chamber, then mirror the whole plan.
-	var first: int = 0
-	for i: int in range(rooms.size()):
+	var first: int = 2
+	for i: int in range(2,rooms.size()):
 		if rooms[i][0]<rooms[first][0]: first=i
 	var entry_room: Array = rooms.pop_at(first)
 	rooms.push_front(entry_room)
@@ -64,13 +68,14 @@ static func generate(rng: RandomNumberGenerator, number: int) -> Dictionary:
 	var shapes: Array[String] = []
 	for i: int in range(rooms.size()):
 		var shape: String = ["hall","octagon","cross","pillars"][rng.randi_range(0,3)] if i>0 else "hall"
+		if rooms[i][2]>=12 and rooms[i][3]>=12: shape="octagon"
 		shapes.append(shape)
 		carve_room(tiles,rooms[i],shape)
 	var leaf: Array = rooms[optional]
-	var protected_leaf: Rect2i = Rect2i(leaf[0],leaf[1],leaf[2],leaf[3]).grow(2)
+	var protected_leaf: Rect2i = Rect2i(leaf[0],leaf[1],leaf[2],leaf[3]).grow(3)
 	var bounds: Rect2i = Rect2i(2,2,plan_width-16,plan_height-4)
 	for edge: Array in links:
-		carve_corridor(tiles,Dungeon.room_center(rooms[edge[0]]),Dungeon.room_center(rooms[edge[1]]),rng.randf()<0.5,protected_leaf if optional not in edge else Rect2i(),bounds)
+		carve_corridor(tiles,Dungeon.room_center(rooms[edge[0]]),Dungeon.room_center(rooms[edge[1]]),rng.randf()<0.5,protected_leaf if optional not in edge else Rect2i(),bounds,2 if optional not in edge and links.find(edge)%3==0 else 1)
 	var terminal: Array = [plan_width-11,rng.randi_range(5,plan_height-17),8,rng.randi_range(10,13)]
 	var center: Vector2i = Dungeon.room_center(terminal)
 	var anchor: int = 0
@@ -104,7 +109,7 @@ static func generate(rng: RandomNumberGenerator, number: int) -> Dictionary:
 		var row: String = ""
 		for x: int in range(Dungeon.WIDTH): row += "." if final_tiles.has(Vector2i(x,y)) else "#"
 		grid.append(row)
-	return {"rooms":rooms,"grid":grid,"links":links,"shapes":shapes,"optional_room":optional,"gate_cells":gate,"gate_position":Dungeon.pair(Dungeon.to_world(gate_pos)),"layout_version":2}
+	return {"rooms":rooms,"grid":grid,"links":links,"shapes":shapes,"optional_room":optional,"gate_cells":gate,"gate_position":Dungeon.pair(Dungeon.to_world(gate_pos)),"layout_version":3}
 
 static func mirror(c: Vector2i,x: bool,y: bool) -> Vector2i:
 	return Vector2i(Dungeon.WIDTH-1-c.x if x else c.x,Dungeon.HEIGHT-1-c.y if y else c.y)
@@ -119,7 +124,7 @@ static func carve_room(tiles: Dictionary,r: Array,shape: String) -> void:
 			if shape=="pillars" and r[2]>=9 and r[3]>=9 and dx==2 and dy==2: continue
 			tiles[Vector2i(x,y)]=true
 
-static func carve_corridor(tiles: Dictionary,a: Vector2i,b: Vector2i,horizontal: bool,avoid: Rect2i = Rect2i(),bounds: Rect2i = Rect2i()) -> void:
+static func carve_corridor(tiles: Dictionary,a: Vector2i,b: Vector2i,horizontal: bool,avoid: Rect2i = Rect2i(),bounds: Rect2i = Rect2i(),radius: int = 1) -> void:
 	var cursor: Vector2i = a
 	var route: Array[Vector2i] = []
 	var blocked: bool = false
@@ -140,8 +145,8 @@ static func carve_corridor(tiles: Dictionary,a: Vector2i,b: Vector2i,horizontal:
 				if bounds.has_point(Vector2i(x,y)): navigation.set_point_solid(Vector2i(x,y))
 		route.assign(navigation.get_id_path(a,b))
 	for c: Vector2i in route:
-		for dx: int in range(-1,2):
-			for dy: int in range(-1,2): tiles[c+Vector2i(dx,dy)]=true
+		for dx: int in range(-radius,radius+1):
+			for dy: int in range(-radius,radius+1): tiles[c+Vector2i(dx,dy)]=true
 
 static func open_position(grid: Array,r: Array,desired: Vector2i) -> Vector2:
 	# Positions must fit the actual carved shape, not just its bounding rectangle.

@@ -183,7 +183,7 @@ func _physics_process(delta: float) -> void:
 			dungeon.reveal(player.position)
 			reveal_timer = 0.25
 		var room: int = dungeon.room_at(player.position)
-		wake_encounter(room)
+		if EncounterRules.inside_combat_area(floor_data,room,player.position): wake_encounter(room)
 		update_discoveries()
 		var safe: bool = true
 		for enemy: TowerEnemy in enemies:
@@ -534,7 +534,7 @@ func wake_encounter(room: int) -> void:
 			if int(enemy.record.get("encounter_room",-1))==room and not enemy.record.get("trial",false):
 				enemy.record.awakened=true
 				enemy.active=true
-				if enemy.record.get("dormant",false): enemy.wake_time=0.9
+				enemy.wake_time=0.9 if enemy.record.get("dormant",false) else 0.45
 
 func protection_for(target: TowerEnemy) -> float:
 	if target.boss or target.record.get("role","")=="warden": return 0.0

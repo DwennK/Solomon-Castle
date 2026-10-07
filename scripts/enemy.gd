@@ -54,6 +54,8 @@ func setup(owner_world: Node2D, value: Dictionary) -> void:
 	damage = float(definition.values.damage)*(1.0+float(floor_number-1)*0.07)*damage_scale
 	speed = float(definition.values.speed)
 	position = Dungeon.vec(record.pos)
+	# Restore activation from the saved encounter; do not require doorway sight again.
+	active = bool(record.get("awakened",false))
 	if record.get("trial",false) and not record.get("awakened",false): collision_layer=0;collision_mask=0
 	path_timer = float(get_instance_id()%100)/100.0
 
@@ -86,7 +88,7 @@ func _physics_process(delta: float) -> void:
 	if distance>1200:
 		visual.moving = false
 		return
-	if distance<670 and world.dungeon.visible_line(position,player.position): active = true
+	if not record.has("encounter_room") and distance<670 and world.dungeon.visible_line(position,player.position): active = true
 	if not active: return
 	slow_time = maxf(0,slow_time-delta)
 	frozen = maxf(0,frozen-delta)
@@ -131,11 +133,14 @@ func _physics_process(delta: float) -> void:
 		queue_redraw()
 		return
 	var behavior: String = definition.values.behavior
+	var home_room: int = int(record.get("encounter_room",-1))
+	var defend: bool = not boss and home_room>=0 and behavior in ["ranged","caster","imp"]
+	var returning: bool = not boss and home_room>=0 and not EncounterRules.may_pursue(world.floor_data,record,player.position)
 	var line: bool = world.dungeon.visible_line(position,player.position)
 	var preferred: float = 270 if behavior in ["ranged","caster","imp"] else (175 if behavior == "ghost" else 35)
 	if boss: preferred = 240
 	if record.get("role","")=="warden": preferred=330
-	if fear<=0 and cooldown<=0 and record.get("role","")=="charger" and distance>110 and distance<480 and line:
+	if not returning and fear<=0 and cooldown<=0 and record.get("role","")=="charger" and distance>110 and distance<480 and line:
 		attack_target=player.position+player.velocity*0.25
 		if not world.dungeon.visible_line(position,attack_target): attack_target=player.position
 		var aim: Vector2 = position.direction_to(attack_target)
@@ -149,7 +154,7 @@ func _physics_process(delta: float) -> void:
 		velocity=Vector2.ZERO
 		queue_redraw()
 		return
-	if fear<=0 and cooldown<=0 and distance<(600 if boss else (500 if preferred>100 else 62)) and line:
+	if (not returning or defend) and fear<=0 and cooldown<=0 and distance<(600 if boss else (500 if preferred>100 else 62)) and line:
 		attack_target = player.position
 		if behavior in ["ranged","caster"]:
 			var predicted: Vector2 = player.position+player.velocity*0.40
@@ -158,9 +163,9 @@ func _physics_process(delta: float) -> void:
 		visual.attack = 1.0
 		queue_redraw()
 		return
+	path_timer -= delta
 	var motion: Vector2 = Vector2.ZERO
-	if distance>preferred or not line:
-		path_timer -= delta
+	if not defend and not returning and (distance>preferred or not line):
 		if line:
 			motion = dir
 			if record.get("role","")=="flanker" and distance>130 and distance<520:
@@ -174,17 +179,37 @@ func _physics_process(delta: float) -> void:
 		if not line and path_index<path_points.size():
 			if position.distance_to(path_points[path_index])<18: path_index += 1
 			if path_index<path_points.size(): motion = position.direction_to(path_points[path_index])
-	elif preferred>100 and distance<preferred-65:
+	elif not defend and not returning and preferred>100 and distance<preferred-65:
 		motion = -dir
 	if behavior == "dash" and record.get("role","")!="charger" and int(Time.get_ticks_msec()/1000.0)%3 == 0: motion *= 1.65
 	if behavior == "imp": motion = motion.rotated(sin(Time.get_ticks_msec()*0.003+get_instance_id())*0.6)
 	if behavior == "ghost": motion = motion.rotated(sin(Time.get_ticks_msec()*0.002)*0.3)
+	if defend and fear<=0:
+		# Find a firing position inside the room, including around pillars.
+		if path_timer<=0 or path_points.is_empty():
+			var goal: Vector2 = EncounterRules.defensive_position(world.dungeon,record,player.position,preferred)
+			path_points = world.dungeon.path(position,goal)
+			path_index = 1
+			path_timer = 0.7
+		motion = follow_home_path()
+	elif returning and fear<=0:
+		if path_timer<=0 or path_points.is_empty():
+			path_points = world.dungeon.path(position,EncounterRules.home_position(world.floor_data,record))
+			path_index = 1
+			path_timer = 0.7
+		motion = follow_home_path()
 	if fear>0: motion = -dir
+	if defend and world.dungeon.room_at(position)==home_room and world.dungeon.room_at(position+motion*48.0)!=home_room: motion=Vector2.ZERO
 	velocity = motion*speed*(slow_factor if slow_time>0 else 1.0)+knockback
 	knockback = knockback.move_toward(Vector2.ZERO,delta*600)
 	move_and_slide()
 	visual.moving = velocity.length()>4
 	queue_redraw()
+
+func follow_home_path() -> Vector2:
+	while path_index<path_points.size() and position.distance_to(path_points[path_index])<18: path_index+=1
+	if path_index<path_points.size(): return position.direction_to(path_points[path_index])
+	return Vector2.ZERO
 
 func release_attack() -> void:
 	if preparing_charge:
@@ -242,7 +267,7 @@ func release_attack() -> void:
 func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = false) -> void:
 	if dead: return
 	if record.get("trial",false) and not record.get("awakened",false): return
-	if record.get("dormant",false) and not record.get("awakened",false): world.wake_encounter(int(record.get("encounter_room",-1)))
+	if record.has("encounter_room") and not record.get("awakened",false): world.wake_encounter(int(record.get("encounter_room",-1)))
 	active = true
 	hp -= maxf(0.0,amount)*(1.0-world.protection_for(self))*(1.0-float(definition.values.resistance))*(1.35 if fear>0 else 1.0)
 	# Health feedback must update even while frozen, recovering or offscreen.

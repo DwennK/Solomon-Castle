@@ -41,3 +41,40 @@ static func populate(data: Dictionary,rng: RandomNumberGenerator, difficulty: in
 	var font_room: int = 1 if optional!=1 else 2
 	room=data.rooms[font_room]
 	data.props.append({"id":"blood_font","kind":"blood_font","pos":Dungeon.pair(TowerLayout.open_position(data.grid,room,Vector2i(room[0]+room[2]/2,room[1]+2))),"opened":false})
+
+# Geometry is read from the saved floor, so existing maps gain the behavior safely.
+static func room_bounds(data: Dictionary,room: int) -> Rect2:
+	if room<0 or room>=data.rooms.size(): return Rect2()
+	var r: Array = data.rooms[room]
+	return Rect2(r[0]*Dungeon.CELL,r[1]*Dungeon.CELL,r[2]*Dungeon.CELL,r[3]*Dungeon.CELL)
+
+static func inside_combat_area(data: Dictionary,room: int,point: Vector2) -> bool:
+	return room>=0 and room_bounds(data,room).grow(-Dungeon.CELL*1.5).has_point(point)
+
+static func home_position(data: Dictionary,enemy: Dictionary) -> Vector2:
+	var room: int = int(enemy.get("encounter_room",-1))
+	if room<0 or room>=data.rooms.size(): return Dungeon.vec(enemy.pos)
+	return TowerLayout.open_position(data.grid,data.rooms[room],Dungeon.room_center(data.rooms[room]))
+
+static func may_pursue(data: Dictionary,enemy: Dictionary,point: Vector2) -> bool:
+	var room: int = int(enemy.get("encounter_room",-1))
+	if room<0 or room>=data.rooms.size(): return true
+	var allowance: float = 448.0 if enemy.get("role","")=="charger" else 128.0
+	return room_bounds(data,room).grow(allowance).has_point(point)
+
+static func defensive_position(dungeon: Dungeon,enemy: Dictionary,target: Vector2,preferred: float) -> Vector2:
+	var room: int = int(enemy.get("encounter_room",-1))
+	var r: Array = dungeon.data.rooms[room]
+	var best: Vector2 = home_position(dungeon.data,enemy)
+	var score: float = INF
+	# Stay away from doorways and choose a reachable line of fire instead of
+	# streaming through the doorway when the player retreats around a corner.
+	for y: int in range(r[1]+2,r[1]+r[3]-2):
+		for x: int in range(r[0]+2,r[0]+r[2]-2):
+			var point: Vector2 = Dungeon.to_world(Vector2i(x,y))
+			if not dungeon.walkable(point,20): continue
+			var candidate: float = absf(point.distance_to(target)-preferred)
+			if not dungeon.visible_line(point,target): candidate+=600.0
+			candidate+=point.distance_to(Dungeon.vec(enemy.pos))*0.12
+			if candidate<score: score=candidate;best=point
+	return best
