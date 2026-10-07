@@ -21,3 +21,8 @@ func _draw() -> void:
 		if not world.dungeon.revealed.has("%d,%d"%[cell.x,cell.y]): continue
 		if prop.record.id=="exit": draw_rect(Rect2(Vector2(cell)*scale_value-Vector2.ONE*3,Vector2.ONE*6),Color("e4c78b"))
 		if prop.record.kind=="chest" and not prop.record.opened: draw_circle(Vector2(cell)*scale_value,2,Color("9ce1d3"))
+
+		if prop.record.kind=="reliquary" and not prop.record.get("opened",false):
+			var center: Vector2 = Vector2(cell)*scale_value
+			draw_colored_polygon(PackedVector2Array([center+Vector2(0,-4),center+Vector2(4,0),center+Vector2(0,4),center+Vector2(-4,0)]),Color("c6a4eb"))
+		if prop.record.kind=="blood_font" and not prop.record.get("opened",false): draw_circle(Vector2(cell)*scale_value,3,Color("c97879"))

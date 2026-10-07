@@ -69,7 +69,7 @@ static func prepare_floor(data: Dictionary, seed_value: int, difficulty: int) ->
 	data.props = kept
 	var regular: Array = []
 	for enemy: Dictionary in data.enemies:
-		if enemy.id not in ["boss","guardian"]: regular.append(enemy)
+		if enemy.id not in ["boss","guardian"] and not enemy.get("trial",false): regular.append(enemy)
 	regular = shuffled(regular,rng)
 	for i: int in range(regular.size()):
 		regular[i].reward = {"gold":8+number*2 if rng.randf()<0.35 else 0,"health":1 if i==0 else 0,"mana":1 if i==1 else 0}

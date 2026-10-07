@@ -1,0 +1,83 @@
+{
+  "core": {
+    "checks": 75082,
+    "engine": "4.7.2-stable (official)",
+    "failures": [],
+    "generated_floors": 1300,
+    "item_combinations_observed": 91
+  },
+  "encounters": {
+    "checks": 845,
+    "distinct_layouts": 90,
+    "engine": "4.7.2-stable (official)",
+    "failures": []
+  },
+  "campaign": {
+    "assistance": "QA ranks, invulnerability, mana recovery, 5x simulation, navigation via actual AStar and CharacterBody2D; actual spell hits and boss deaths",
+    "duration_seconds": 92.921,
+    "errors": [],
+    "level_choices": 40,
+    "milestones": [
+      "floor_1_complete",
+      "floor_2_complete",
+      "floor_3_complete",
+      "floor_4_complete",
+      "floor_5_complete",
+      "floor_6_complete",
+      "floor_7_complete",
+      "floor_8_complete",
+      "floor_9_complete",
+      "floor_10_complete",
+      "floor_11_complete",
+      "floor_12_complete",
+      "floor_13_complete"
+    ],
+    "native_rendering": false
+  },
+  "loot": {
+    "checks": 48846,
+    "engine": "4.7.2-stable (official)",
+    "failures": [],
+    "mean_equipment_per_campaign": 19.15,
+    "totals": {
+      "chests": 3283,
+      "equipment": 1915,
+      "floors": 1300,
+      "gold": 501151,
+      "health": 2742,
+      "mana": 2755,
+      "urns": 5918
+    },
+    "optional_trial_rewards_included": false
+  },
+  "skills": {
+    "captures": [],
+    "checks": 101,
+    "failures": []
+  },
+  "equipment": {
+    "checks": 410,
+    "errors": [],
+    "recipes": 92
+  },
+  "english": {
+    "checks": 20,
+    "failures": []
+  },
+  "native": {
+    "platform": "macOS Apple M4",
+    "resolutions": [
+      "1440x900",
+      "960x600"
+    ],
+    "captures": [
+      "reliquary",
+      "trial awakening",
+      "charge warning",
+      "warden aura",
+      "six layout atlas"
+    ],
+    "windows_runtime_tested": false,
+    "encounter_checks": 755
+  }
+}

@@ -177,9 +177,11 @@ func _physics_process(delta: float) -> void:
 			dungeon.reveal(player.position)
 			reveal_timer = 0.25
 		var room: int = dungeon.room_at(player.position)
+		wake_encounter(room)
+		update_discoveries()
 		var safe: bool = true
 		for enemy: TowerEnemy in enemies:
-			if room>=0 and dungeon.room_at(enemy.position)==room:
+			if enemy.is_targetable() and room>=0 and dungeon.room_at(enemy.position)==room:
 				safe = false
 				break
 		if safe and room>=0: safe_position = player.position
@@ -189,6 +191,7 @@ func _physics_process(delta: float) -> void:
 	var nearest_prop: WorldProp = closest_prop()
 	if nearest_prop:
 		var label: String = {"chest":"Open chest","merchant":"Talk to Basile","teacher":"Study with Orme","healer":"Rest for free","tower":"Enter the tower","entry":"Back to the village","exit":"Ascend to the next floor","gate":"Open the guardian’s seal"}.get(nearest_prop.record.id,{"chest":"Open chest"}.get(nearest_prop.record.kind,"Interact"))
+		if nearest_prop.record.kind in ["reliquary","blood_font"]: label=discovery_hint(nearest_prop)
 		hint = "[%s]  %s"%[Controls.caption("interact"),label]
 	if Input.is_action_just_pressed("interact"): interact()
 	if Input.is_action_just_pressed("portal"): use_portal()
@@ -230,6 +233,7 @@ func interact() -> void:
 	elif id=="exit": advance()
 	elif id=="gate": unlock_gate()
 	elif prop.record.kind=="chest": open_prop(prop)
+	elif prop.record.kind in ["reliquary","blood_font"]: use_discovery(prop)
 
 func enter_tower() -> void:
 	load_floor(int(State.run.return_floor))
@@ -364,6 +368,7 @@ func enemy_bolt(pos: Vector2,direction: Vector2,damage: float,speed: float,color
 func enemy_killed(enemy: TowerEnemy) -> void:
 	enemies.erase(enemy)
 	State.add_xp((19.0+int(State.run.floor)*4.5)*(9 if enemy.boss else 1))
+	update_discoveries()
 	add_supplies(enemy.record.get("reward",{}),enemy.position)
 	if enemy.boss:
 		if enemy.record.id == "boss":
@@ -420,7 +425,7 @@ func update_zones(delta: float) -> void:
 		else:
 			if z.kind=="acid": break_urns_in_radius(z.pos,z.radius)
 			for enemy: TowerEnemy in enemies.duplicate():
-				if enemy.position.distance_to(z.pos)<z.radius and dungeon.visible_line(z.pos,enemy.position):
+				if enemy.is_targetable() and enemy.position.distance_to(z.pos)<z.radius and dungeon.visible_line(z.pos,enemy.position):
 					if z.kind=="acid": enemy.take_damage(z.damage*delta,Vector2.ZERO,true)
 					else: enemy.chill(0.2,0.4)
 			if z.kind=="circle":
@@ -484,7 +489,7 @@ func setup_gate() -> void:
 		shape.position = Dungeon.to_world(c)
 		gate_body.add_child(shape)
 	var mid: Array = gate_cells[1]
-	add_prop({"kind":"portal","id":"gate","pos":Dungeon.pair(Dungeon.to_world(Vector2i(mid[0],mid[1]))-Vector2(45,0))},"Guardian’s seal")
+	add_prop({"kind":"portal","id":"gate","pos":floor_data.get("gate_position",Dungeon.pair(Dungeon.to_world(Vector2i(mid[0],mid[1]))-Vector2(45,0)))},"Guardian’s seal")
 	dungeon.queue_redraw()
 
 func unlock_gate() -> bool:
@@ -507,3 +512,70 @@ func unlock_gate() -> bool:
 	State.message.emit("The seal fades. The guardian awaits.")
 	Sound.play("ritual")
 	return true
+
+func wake_encounter(room: int) -> void:
+	if room<0: return
+	for encounter: Dictionary in floor_data.get("encounters",[]):
+		if int(encounter.room)!=room or encounter.triggered: continue
+		encounter.triggered=true
+		if encounter.type=="ambush": State.message.emit("Ambush! The sentries are awakening.")
+		elif encounter.type=="ward": State.message.emit("A warden protects nearby enemies. Break its green aura first.")
+		elif encounter.type=="pursuit": State.message.emit("Hunters ahead. Step aside when a charge is marked.")
+		for enemy: TowerEnemy in enemies:
+			if int(enemy.record.get("encounter_room",-1))==room and not enemy.record.get("trial",false):
+				enemy.record.awakened=true
+				enemy.active=true
+				if enemy.record.get("dormant",false): enemy.wake_time=0.9
+
+func protection_for(target: TowerEnemy) -> float:
+	if target.boss or target.record.get("role","")=="warden": return 0.0
+	for enemy: TowerEnemy in enemies:
+		if enemy==target or enemy.dead or enemy.record.get("role","")!="warden": continue
+		if enemy.position.distance_to(target.position)<260 and dungeon.visible_line(enemy.position,target.position): return 0.45
+	return 0.0
+
+func discovery_hint(prop: WorldProp) -> String:
+	if prop.record.kind=="blood_font": return "Blood font: spend 20% max health to refill mana (once)"
+	match prop.record.get("phase","idle"):
+		"active": return "Defeat the awakened sentries to unseal the rare item"
+		"ready": return "Claim the reliquary's rare equipment"
+	return "Optional trial: awaken three sentries for rare equipment"
+
+func use_discovery(prop: WorldProp) -> void:
+	if prop.record.get("opened",false): return
+	if prop.record.kind=="blood_font":
+		var cost: float = State.stats().max_hp*0.20
+		if State.run.hp<=cost or State.run.mp>=State.stats().max_mana:
+			State.message.emit("The font needs spare health and missing mana.")
+			return
+		State.run.hp-=cost
+		State.run.mp=State.stats().max_mana
+		prop.record.opened=true
+		State.message.emit("Blood offered. Mana restored.")
+	else:
+		var phase: String = prop.record.get("phase","idle")
+		if phase=="idle":
+			prop.record.phase="active"
+			for enemy: TowerEnemy in enemies:
+				if not enemy.record.get("trial",false): continue
+				enemy.awaken(1.1)
+			State.message.emit("Trial accepted. Defeat the three sentries; you may retreat.")
+		elif phase=="ready":
+			prop.record.opened=true
+			prop.record.phase="claimed"
+			var item: Dictionary = LootRules.make_item(int(State.run.seed)+int(State.run.floor)*6151,int(State.run.floor),true)
+			loot.append({"kind":"item","item":item,"pos":Dungeon.pair(prop.position+Vector2(0,40))})
+			State.message.emit("Trial complete. Rare equipment released.")
+		else: return
+	Sound.play("ritual",prop.global_position)
+	prop.queue_redraw()
+	snapshot()
+	State.save_game()
+
+func update_discoveries() -> void:
+	for prop: WorldProp in props:
+		if prop.record.kind!="reliquary" or prop.record.get("phase","idle")!="active": continue
+		var guards_left: bool = enemies.any(func(enemy: TowerEnemy)->bool:return not enemy.dead and enemy.record.get("trial",false))
+		if not guards_left:
+			prop.record.phase="ready"
+			State.message.emit("The reliquary is unsealed. Return to claim its reward.")

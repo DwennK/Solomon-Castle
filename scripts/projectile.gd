@@ -60,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		var hit_enemy: TowerEnemy
 		var hit_distance: float = INF
 		for enemy: TowerEnemy in world.enemies:
-			if enemy.dead: continue
+			if not enemy.is_targetable(): continue
 			var point: Vector2 = Geometry2D.get_closest_point_to_segment(enemy.position,previous,position)
 			if point.distance_to(enemy.position)<(36 if enemy.boss else 24) and previous.distance_squared_to(point)<hit_distance:
 				hit_enemy = enemy
@@ -89,7 +89,7 @@ func impact(enemy: TowerEnemy) -> void:
 	var id: String = profile.id
 	if enemy:
 		enemy.take_damage(damage,direction*60)
-		if id == "frost_missile" and not enemy.dead:
+		if id == "frost_missile" and enemy.is_targetable():
 			enemy.freeze(0.8)
 			enemy.chill(1.0,maxf(0.1,0.55-State.rank("chill",profile.snapshot)*0.045))
 			enemy.knockback+=direction*State.rank("chill",profile.snapshot)*20

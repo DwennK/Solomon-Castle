@@ -23,6 +23,9 @@ func _ready() -> void:
 		add_child(actor)
 
 func refresh_texture() -> void:
+	if record.kind in ["reliquary","blood_font"]:
+		texture=EnvironmentArt.prop("chest" if record.kind=="reliquary" else "urn",record.get("opened",false))
+		return
 	texture = EnvironmentArt.prop(record.kind,record.get("opened",false)) if environment else null
 	if not texture: texture = Catalog.texture("chest_open" if record.get("opened",false) and record.kind=="chest" else record.kind)
 
@@ -33,6 +36,9 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var kind: String = record.kind
+	if kind in ["reliquary","blood_font"]:
+		draw_discovery(kind)
+		return
 	if kind=="urn" and record.get("opened",false):
 		# Short ceramic fragments, then a quiet persistent shard pile.
 		var progress: float = minf(1.0,opened_time*3.0)
@@ -78,3 +84,22 @@ func _draw() -> void:
 		else: draw_texture_rect(texture,Rect2(Vector2(-size.x/2,-size.y+12),size),false)
 	if not label.is_empty():
 		draw_string(font,Vector2(-font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,18).x/2,36),label,HORIZONTAL_ALIGNMENT_LEFT,-1,18,Color("e4d3ac"))
+
+func draw_discovery(kind: String) -> void:
+	var used: bool = record.get("opened",false)
+	var color: Color = Color("c6a4eb") if kind=="reliquary" else Color("c97879")
+	if used: color=Color("716b70")
+	var phase: String = record.get("phase","idle")
+	var radius: float = 58.0 if kind=="reliquary" else 40.0
+	draw_set_transform(Vector2(0,8),0,Vector2(1,0.48))
+	ArcaneArt.rune(self,Vector2.ZERO,radius,Color(color,0.75),time*0.10 if not used else 0.0,6)
+	draw_set_transform(Vector2.ZERO)
+	ArcaneArt.glow(self,Vector2(0,-25),55,Color(color,0.2 if not used else 0.04))
+	if texture:
+		var size: Vector2 = texture.get_size()*(85.0 if kind=="reliquary" else 48.0)/texture.get_width()
+		draw_texture_rect(texture,Rect2(Vector2(-size.x/2,-size.y),size),false,color)
+	if not used:
+		var caption: String = "Blood font" if kind=="blood_font" else ("Claim reward" if phase=="ready" else ("Trial active" if phase=="active" else "Optional trial"))
+		var width: float = font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17).x
+		draw_string_outline(font,Vector2(-width/2,34),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17,3,Color("15121c"))
+		draw_string(font,Vector2(-width/2,34),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17,color)

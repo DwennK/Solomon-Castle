@@ -81,12 +81,13 @@ func start(owner_main: Node) -> void:
 		if floor_number==2:
 			var before: Dictionary = world.floor_data.duplicate(true)
 			var pos: Vector2 = world.player.position
+			var living_ids: Array = world.enemies.map(func(e: TowerEnemy)->String:return e.record.id)
 			world.use_portal()
 			check(world.village,"Portal reaches village")
 			world.enter_tower()
 			check(world.player.position.distance_to(pos)<2,"Portal restores exact position")
 			check(world.floor_data.props==before.props,"Portal does not regenerate chest state")
-			check(world.enemies.is_empty(),"Portal does not respawn killed enemies")
+			check(world.enemies.map(func(e: TowerEnemy)->String:return e.record.id)==living_ids,"Portal preserves surviving enemies and dormant sentries without respawning kills")
 		await navigate(Dungeon.vec(world.floor_data.exit))
 		world.player.qa_fire=false
 		world.player.qa_direction=Vector2.ZERO
@@ -158,7 +159,7 @@ func fight_room(room_index: int) -> void:
 	while limit>0:
 		var target: TowerEnemy
 		for enemy: TowerEnemy in world.enemies:
-			if world.dungeon.room_at(enemy.position)==room_index:
+			if enemy.is_targetable() and world.dungeon.room_at(enemy.position)==room_index:
 				target=enemy
 				break
 		if not target: break
@@ -171,7 +172,7 @@ func fight_room(room_index: int) -> void:
 		limit-=1
 	if limit == 0:
 		for enemy: TowerEnemy in world.enemies:
-			if world.dungeon.room_at(enemy.position)==room_index: print("STUCK_ENEMY ",enemy.record.kind," hp=",enemy.hp," enemy=",enemy.position," player=",player.position," spell=",State.run.active," line=",world.dungeon.visible_line(player.position,enemy.position))
+			if enemy.is_targetable() and world.dungeon.room_at(enemy.position)==room_index: print("STUCK_ENEMY ",enemy.record.kind," hp=",enemy.hp," enemy=",enemy.position," player=",player.position," spell=",State.run.active," line=",world.dungeon.visible_line(player.position,enemy.position))
 	check(limit>0,"Room %d floor %d cleared with spells"%[room_index,State.run.floor])
 	player.qa_fire=false
 	player.qa_direction=Vector2.ZERO

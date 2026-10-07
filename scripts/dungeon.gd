@@ -14,61 +14,32 @@ var interior: DungeonInterior
 static func generate(seed_value: int, floor_number: int, difficulty: int = 0) -> Dictionary:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = seed_value + floor_number * 7919 + difficulty * 982451653
-	var tiles: Dictionary = {}
-	var rooms: Array = []
-	var rows_count: int = 2 if floor_number < 4 else 3
-	for row: int in range(rows_count):
-		for column_index: int in range(3):
-			var col: int = column_index if row % 2 == 0 else 2-column_index
-			var x: int = 3+col*20+rng.randi_range(0,2)
-			var y: int = 3+row*16+rng.randi_range(0,2)
-			var w: int = rng.randi_range(10,14)
-			var h: int = rng.randi_range(8,11)
-			rooms.append([x,y,w,h])
-			for xx: int in range(x,x+w):
-				for yy: int in range(y,y+h): tiles[Vector2i(xx,yy)] = true
-	for i: int in range(1,rooms.size()):
-		var a: Vector2i = room_center(rooms[i-1])
-		var b: Vector2i = room_center(rooms[i])
-		var cursor: Vector2i = a
-		while cursor != b:
-			for dx: int in range(-1,2):
-				for dy: int in range(-1,2): tiles[cursor+Vector2i(dx,dy)] = true
-			if cursor.x != b.x: cursor.x += signi(b.x-cursor.x)
-			else: cursor.y += signi(b.y-cursor.y)
-	var grid: Array[String] = []
-	for y: int in range(HEIGHT):
-		var row: String = ""
-		for x: int in range(WIDTH): row += "." if tiles.has(Vector2i(x,y)) else "#"
-		grid.append(row)
+	var layout: Dictionary = TowerLayout.generate(rng,floor_number)
+	var rooms: Array = layout.rooms
+	var grid: Array = layout.grid
 	var enemies: Array = []
 	var props: Array = []
-	var kinds: Array[String] = ["skeleton","archer","zombie","ghoul","sorcerer","knight","imp","ghost"]
 	for i: int in range(rooms.size()):
 		var r: Array = rooms[i]
-		props.append({"id":"chest_%d"%i,"kind":"chest","pos":[(r[0]+2)*CELL+32,(r[1]+2)*CELL+32],"opened":false})
-		props.append({"id":"urn_%d"%i,"kind":"urn","pos":[(r[0]+r[2]-2)*CELL+32,(r[1]+2)*CELL+32],"opened":false})
-		props.append({"id":"torch_%d"%i,"kind":"torch","pos":[(r[0]+r[2]/2)*CELL,(r[1])*CELL],"opened":false})
-		if i == 0: continue
-		var count: int = 3 + mini(4,int(floor_number/3)) + rng.randi_range(0,2)
-		for j: int in range(count):
-			var kind: String = kinds[rng.randi_range(0,mini(7,1+int(floor_number*0.6)))]
-			var p: Vector2 = Vector2((r[0]+3+j%4*2)*CELL+32,(r[1]+3+int(j/4)*2)*CELL+32)
-			enemies.append({"id":"enemy_%d_%d"%[i,j],"kind":kind,"pos":[p.x,p.y],"hp":-1.0,"dead":false})
+		for kind: String in ["chest","urn","torch"]:
+			var desired: Vector2i = Vector2i(r[0]+2 if kind!="urn" else r[0]+r[2]-3,r[1]+2)
+			props.append({"id":"%s_%d"%[kind,i],"kind":kind,"pos":pair(TowerLayout.open_position(grid,r,desired)),"opened":false})
 	var boss: String = {4:"king",8:"plague",11:"demon",13:"lich"}.get(floor_number,"")
 	if floor_number == 13:
-		var guard_pos: Vector2 = to_world(room_center(rooms[-2]))
+		var guard_room: int = rooms.size()-2 if int(layout.optional_room)!=rooms.size()-2 else rooms.size()-3
+		var guard_pos: Vector2 = to_world(room_center(rooms[guard_room]))
 		enemies.append({"id":"guardian","kind":"demon","pos":pair(guard_pos),"hp":-1.0,"dead":false})
 	var gate_cells: Array = []
 	var key_chest: String = ""
 	if not boss.is_empty():
-		var last: Array = rooms[-1]
-		var prior: Vector2i = room_center(rooms[-2])
-		for offset: int in range(-1,2): gate_cells.append([int(last[0])-1,prior.y+offset])
-		key_chest = "chest_%d"%rng.randi_range(1,rooms.size()-2)
+		gate_cells = layout.gate_cells
+		var key_rooms: Array = range(1,rooms.size()-1).filter(func(i: int)->bool:return i!=int(layout.optional_room))
+		key_chest = "chest_%d"%key_rooms[rng.randi_range(0,key_rooms.size()-1)]
 		var p: Vector2 = to_world(room_center(rooms[-1]))
 		enemies.append({"id":"boss","kind":boss,"pos":[p.x,p.y],"hp":-1.0,"dead":false})
 	var result: Dictionary = {"grid":grid,"rooms":rooms,"enemies":enemies,"props":props,"loot":[],"revealed":[],"boss":boss,"boss_dead":false,"key_chest":key_chest,"has_key":false,"gate_open":boss.is_empty(),"gate_cells":gate_cells,"guardian_dead":floor_number!=13,"entry":pair(to_world(room_center(rooms[0]))),"exit":pair(to_world(room_center(rooms[-1]))+Vector2(0,-128)),"number":floor_number}
+	for key: String in ["links","shapes","optional_room","gate_position","layout_version"]: result[key]=layout[key]
+	EncounterRules.populate(result,rng)
 	LootRules.prepare_floor(result,seed_value,difficulty)
 	return result
 

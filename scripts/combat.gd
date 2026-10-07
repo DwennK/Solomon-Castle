@@ -112,7 +112,7 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 			break
 	var targets: Array[TowerEnemy] = []
 	for enemy: TowerEnemy in world.enemies:
-		if not is_instance_valid(enemy) or enemy.dead: continue
+		if not is_instance_valid(enemy) or not enemy.is_targetable(): continue
 		var offset: Vector2 = enemy.position-origin
 		if offset.length()>distance or not world.dungeon.visible_line(origin,enemy.position): continue
 		var dot: float = player.aim.dot(offset.normalized())
@@ -151,7 +151,7 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 				targets.append(candidate);previous=candidate
 			break
 	for enemy: TowerEnemy in targets:
-		if not is_instance_valid(enemy) or enemy.dead: continue
+		if not is_instance_valid(enemy) or not enemy.is_targetable(): continue
 		enemy.take_damage(p.damage*delta,player.aim*delta*(70+State.rank("chill",p.snapshot)*35) if "ice" in p.elements else Vector2.ZERO,true)
 		if "ice" in p.elements: enemy.chill(0.5,maxf(0.10,0.55-State.rank("chill",p.snapshot)*0.045))
 		if id == "blizzard": enemy.freeze(0.09)
@@ -171,7 +171,7 @@ func nearest(origin: Vector2, radius: float, excluded: Array = []) -> TowerEnemy
 	var found: TowerEnemy
 	var best: float = radius*radius
 	for enemy: TowerEnemy in world.enemies:
-		if not is_instance_valid(enemy) or enemy.dead or enemy in excluded: continue
+		if not is_instance_valid(enemy) or not enemy.is_targetable() or enemy in excluded: continue
 		var distance: float = origin.distance_squared_to(enemy.position)
 		if distance<best and world.dungeon.visible_line(origin,enemy.position):
 			best = distance
@@ -182,7 +182,7 @@ func explosion(position: Vector2, radius: float, damage: float, color: Color, fr
 	world.effect(position,color,radius)
 	if damage>0: world.break_urns_in_radius(position,radius)
 	for enemy: TowerEnemy in world.enemies.duplicate():
-		if not is_instance_valid(enemy) or enemy.dead: continue
+		if not is_instance_valid(enemy) or not enemy.is_targetable(): continue
 		if position.distance_to(enemy.position)<radius and world.dungeon.visible_line(position,enemy.position):
 			if freeze_time>0: enemy.freeze(freeze_time)
 			enemy.take_damage(damage,position.direction_to(enemy.position)*90)
@@ -212,7 +212,7 @@ func secondary(player: MagePlayer, index: int) -> bool:
 		"undead":
 			world.effect(player.position,Color("e8e0b2"),300)
 			for enemy: TowerEnemy in world.enemies:
-				if enemy.definition.values.undead and player.position.distance_to(enemy.position)<p.radius:
+				if enemy.is_targetable() and enemy.definition.values.undead and player.position.distance_to(enemy.position)<p.radius:
 					enemy.fear = p.duration
 	player.visual.attack = 1.0
 	world.effect(player.position,Color("9cdde5") if id in ["shield","freeze","circle"] else Color("d6a6f5"),60,id)
@@ -253,7 +253,7 @@ func hurricane(player: MagePlayer, delta: float) -> void:
 	world.break_urns_in_radius(player.position,520)
 	for enemy: TowerEnemy in world.enemies.duplicate():
 		var offset: Vector2 = enemy.position-player.position
-		if enemy.dead or offset.length()>520: continue
+		if not enemy.is_targetable() or offset.length()>520: continue
 		enemy.take_damage(dps*delta,offset.normalized().orthogonal()*150*delta,true)
 		enemy.chill(0.2,0.7)
 	for shot: MagicProjectile in world.shots.get_children():
@@ -268,5 +268,5 @@ func ether_pulse(player: MagePlayer) -> void:
 	world.effect(player.position,COLORS.missile,320)
 	world.break_urns_in_radius(player.position,320)
 	for enemy: TowerEnemy in world.enemies.duplicate():
-		if enemy.dead or enemy.position.distance_to(player.position)>320 or not world.dungeon.visible_line(player.position,enemy.position): continue
+		if not enemy.is_targetable() or enemy.position.distance_to(player.position)>320 or not world.dungeon.visible_line(player.position,enemy.position): continue
 		enemy.apply_ether(charges)

@@ -75,6 +75,14 @@ If the main save is damaged, the game attempts to restore its valid backup. Sett
 
 Close the game before copying or moving saves. Files named `qa_*.json` belong to developer tests and are never loaded as player campaigns.
 
+### Routes and encounters
+
+New floors use irregular room partitions with randomized proportions, shapes and orientation. Several loops and branching routes replace the former single winding route. Pillars and cut corners change cover and sight lines; the final chamber still has a single sealable entrance. Saved floors keep their existing geometry. Start a new campaign to see the new generation throughout, or explore an unvisited floor in an existing campaign.
+
+Encounter groups now include crossfire, flanking hunters, waking ambushes and green-aura wardens. The hunter's gold lane warns of a committed charge: dodge sideways, then use its recovery window. Wardens reduce nearby allies' damage taken by 45%; they cannot protect themselves or allies behind walls.
+
+Violet reliquaries are optional detours: interact to awaken three sentries, defeat them, then return to claim one rare-or-better item. Sleeping sentries do not block movement or attract spells. Red blood fonts exchange 20% of maximum health for a full mana refill once, refusing the trade when it would kill you or mana is already full. Both discoveries persist through saves and portal travel; their icons appear only after exploration.
+
 ## Develop and test
 
 ```text
@@ -99,15 +107,17 @@ mkdir -p outputs/skills-audit
 ./tools/godot.sh --headless --path . tests/equipment_test.tscn -- --test
 ./tools/godot.sh --headless --path . tests/skills_test.tscn -- --test
 ./tools/godot.sh --headless --path . tests/english_test.tscn -- --test
+./tools/godot.sh --headless --path . tests/encounter_test.tscn -- --test
 
 # Native renderer, real UI input, and multiple desktop resolutions.
 ./tools/godot.sh --path . tests/codex_ui.tscn -- --qa
+./tools/godot.sh --path . tests/encounter_test.tscn -- --test --visual
 
 # Assisted full-campaign regression.
 ./tools/godot.sh --headless --path . -- --qa --qa-playthrough
 ```
 
-The core suite covers 100 seeds × 13 floors, reachable exits, combat, purchases, equipment, save corruption, death, and progression. The accelerated campaign deliberately grants strong skills and invulnerability while using the real movement, combat, doors, and bosses; it is an assisted regression, not an unaided playthrough. QA saves are isolated from player saves. Do not run two tests that use the same QA save concurrently.
+The core suite covers 100 seeds × 13 floors, reachable exits, combat, purchases, equipment, save corruption, death, and progression. The accelerated campaign deliberately grants strong skills and invulnerability while using the real movement, combat, doors, and bosses; it is an assisted regression, not an unaided playthrough. The encounter suite additionally checks optional-route reachability, charge counterplay, aura removal, ambush persistence and one-time discovery rewards. See `docs/qa_evidence/encounters-and-layouts.json` for the validated results. Native encounter captures use macOS at 1440×900 and 960×600; this does not establish Windows runtime behavior or subjective fun. QA saves are isolated from player saves. Do not run two tests that use the same QA save concurrently.
 
 Definitions in `resources/**/*.tres` can be edited in Godot’s Inspector. `tools/create_content.py` regenerates them and **overwrites manual changes**; keep the generator and `tools/skill_catalog.py` aligned. English text is authored in scripts and resource definitions. Regenerate the source-language catalogue with `python3 tools/extract_translations.py` after editing text.
 

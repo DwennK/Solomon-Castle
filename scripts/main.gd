@@ -505,7 +505,7 @@ func show_skills() -> void:
 	ui.add_child(grimoire)
 
 func show_map() -> void:
-	var v: VBoxContainer = panel("Explored rooms","Ivory: you · gold: stairs · turquoise: unopened chest.","map",870)
+	var v: VBoxContainer = panel("Explored rooms","Ivory: you · gold: stairs · turquoise: chest · violet diamond: trial · red: blood font.","map",870)
 	var map: TowerMap = TowerMap.new()
 	map.world = world
 	map.custom_minimum_size = Vector2(650,400)
