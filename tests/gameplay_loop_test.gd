@@ -93,6 +93,38 @@ func run_all() -> void:
 		check(signature in State.offers(),"First level-up offers a visible transformation for "+element)
 		check(State.choose(signature) and State.learned_rank(signature)==1,"Signature choice actually changes the learned build")
 		check(not State.upgrade_message(signature).is_empty(),"Signature upgrade explains its tactical use")
+	State.fresh(872);State.learn("missile");State.run.floor=4;load_empty(4)
+	position_in_boss_room()
+	for kind: String in ["king","plague","demon","lich"]:
+		var record: Dictionary={"id":"qa_"+kind,"kind":kind,"pos":Dungeon.pair(world.player.position+Vector2(0,-128)),"hp":-1.0,"dead":false}
+		world.floor_data.enemies.append(record)
+		var boss: TowerEnemy=load("res://scenes/enemy.tscn").instantiate()
+		boss.setup(world,record);world.actors.add_child(boss);world.enemies.append(boss);boss.active=true;boss.set_physics_process(false)
+		boss.hp=boss.max_hp*0.49;BossPatterns.update(boss)
+		check(BossPatterns.stage(boss)==1 and boss.recovery_time>0,"Half-health transition has a readable recovery: "+kind)
+		if kind in ["king","lich"]: check(world.enemies.filter(func(e:TowerEnemy)->bool:return e.record.get("summoned_by","")==record.id).size()==(2 if kind=="king" else 3),"Phase creates the expected finite guards")
+		var count: int=world.floor_data.enemies.size();BossPatterns.update(boss)
+		check(count==world.floor_data.enemies.size(),"Phase guards cannot duplicate: "+kind)
+		boss.attack_target=world.player.position
+		boss.phase=1;State.run.difficulty=0
+		BossPatterns.release(boss)
+		var basic: int=world.shots.get_child_count()
+		boss.phase=1;State.run.difficulty=1;BossPatterns.release(boss)
+		check(world.shots.get_child_count()>basic*2,"Higher difficulty changes attack composition: "+kind)
+		State.run.difficulty=0
+		boss.phase=2;BossPatterns.release(boss)
+		check(boss.recovery_time>1,"Boss leaves a punish window after a strong attack: "+kind)
+		var hp: float=boss.hp;boss.take_damage(10,Vector2.ZERO,true)
+		check(is_equal_approx(hp-boss.hp,13),"Exposed boss takes bonus damage: "+kind)
+		if kind=="lich":
+			boss.hp=boss.max_hp*0.21;BossPatterns.update(boss)
+			check(BossPatterns.stage(boss)==2,"Final boss adds a third phase")
+		world.snapshot();check(State.save_game() and State.load_game(),"Boss test save is valid")
+		var saved: Array=State.run.floors["4"].enemies.filter(func(e:Dictionary)->bool:return e.id==record.id)
+		check(not saved.is_empty() and saved[0].boss_stage==BossPatterns.stage(boss),"Boss phase survives actual save reload: "+kind)
+		world.enemies.erase(boss);boss.queue_free()
+		for shot: Node in world.shots.get_children(): shot.free()
+		world.zones.clear()
 	if "--visual" in OS.get_cmdline_user_args(): await visual_checks()
 	var report: Dictionary={"checks":checks,"failures":failures,"discovery_kinds":kinds.keys(),"encounter_types":encounters.keys(),"engine":Engine.get_version_info().string}
 	DirAccess.make_dir_recursive_absolute("res://outputs/gameplay-loop")
@@ -125,6 +157,17 @@ func visual_checks() -> void:
 		load_empty();var prop: WorldProp=add_discovery(kind)
 		world.dungeon.reveal(world.player.position);world.camera.reset_smoothing()
 		await capture(kind+"-1440x900")
+
+	load_empty(4)
+	position_in_boss_room()
+	var record: Dictionary={"id":"boss","kind":"king","pos":Dungeon.pair(world.player.position+Vector2(0,-128)),"hp":-1.0,"dead":false}
+	world.floor_data.enemies.append(record)
+	var boss: TowerEnemy=load("res://scenes/enemy.tscn").instantiate()
+	boss.setup(world,record);world.actors.add_child(boss);world.enemies.append(boss)
+	boss.set_physics_process(false);boss.active=true;boss.hp=boss.max_hp*0.49;BossPatterns.update(boss)
+	freeze();world.dungeon.reveal(boss.position)
+	await capture("boss-second-phase-1440x900")
+	DisplayServer.window_set_size(Vector2i(960,600));await capture("boss-second-phase-960x600")
 
 func position_in_boss_room() -> void:
 	var room: Array=world.floor_data.rooms[-1]

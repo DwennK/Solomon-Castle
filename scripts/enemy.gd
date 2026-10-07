@@ -48,6 +48,7 @@ func setup(owner_world: Node2D, value: Dictionary) -> void:
 	speed = float(definition.values.speed)
 	position = Dungeon.vec(record.pos)
 	if record.get("trial",false) and not record.get("awakened",false): collision_layer=0;collision_mask=0
+	phase=int(record.get("boss_attack",0))
 	path_timer = float(get_instance_id()%100)/100.0
 
 func _ready() -> void:
@@ -81,6 +82,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if distance<670 and world.dungeon.visible_line(position,player.position): active = true
 	if not active: return
+	BossPatterns.update(self)
 	slow_time = maxf(0,slow_time-delta)
 	frozen = maxf(0,frozen-delta)
 	fear = maxf(0,fear-delta)
@@ -189,25 +191,7 @@ func release_attack() -> void:
 	var behavior: String = definition.values.behavior
 	cooldown = 2.8 if boss else (1.65 if behavior in ["ranged","caster","imp"] else 1.0)
 	if boss:
-		phase += 1
-		match behavior:
-			"boss_king":
-				if phase%2 == 0:
-					world.hazard(attack_target,110,damage,0.9,Color("eec98a"))
-				else:
-					for i: int in range(9): world.enemy_bolt(position,Vector2.RIGHT.rotated(i*TAU/9.0),damage,210,Color("d8b080"))
-			"boss_plague":
-				for i: int in range(3): world.hazard(attack_target+Vector2(i*90-90,0),85,damage,1.1,Color("9caf49"),5.0,"poison")
-			"boss_demon":
-				for i: int in range(5): world.enemy_bolt(position,direction.rotated((i-2)*0.22),damage,260,Color("ff9757"))
-				if phase%2 == 0: world.hazard(attack_target,150,damage,1.2,Color("ed8a48"))
-			"boss_lich":
-				if phase%3 == 0:
-					for i: int in range(14): world.enemy_bolt(position,Vector2.RIGHT.rotated(i*TAU/14.0+phase),damage,220,Color("b48fe8"))
-				elif phase%3 == 1:
-					world.hazard(attack_target,165,damage*1.3,1.1,Color("b8a0ff"))
-				else:
-					for i: int in range(3): world.enemy_bolt(position,direction.rotated((i-1)*0.25),damage,340,Color("8ad9ff"))
+		BossPatterns.release(self)
 	elif behavior == "ghost":
 		world.beam(position+Vector2(0,-30),world.player.position+Vector2(0,-25),Color("9bd3e3"),3,0.4)
 		if position.distance_to(world.player.position)<260 and world.dungeon.visible_line(position,world.player.position):
@@ -229,7 +213,7 @@ func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = fal
 	if record.get("trial",false) and not record.get("awakened",false): return
 	if record.get("dormant",false) and not record.get("awakened",false): world.wake_encounter(int(record.get("encounter_room",-1)))
 	active = true
-	hp -= maxf(0.0,amount)*(1.0-world.protection_for(self))*(1.0-float(definition.values.resistance))*(1.35 if fear>0 else 1.0)
+	hp -= maxf(0.0,amount)*(1.0-world.protection_for(self))*(1.0-float(definition.values.resistance))*(1.35 if fear>0 else 1.0)*(1.3 if boss and recovery_time>0 else 1.0)
 	# Health feedback must update even while frozen, recovering or offscreen.
 	queue_redraw()
 	knockback += force * (0.2 if boss else 1.0)
@@ -267,6 +251,9 @@ func _draw() -> void:
 		draw_line(Vector2.ZERO,target,Color("edb66e",0.6),30,true)
 		draw_line(Vector2.ZERO,target,Color("ffe0a6"),2,true)
 		draw_arc(target,24,0,TAU,24,Color("ffe0a6"),2,true)
+	if boss and recovery_time>0:
+		ArcaneArt.rune(self,Vector2.ZERO,52,Color("9fe0dd"),0,6)
+		draw_string(ThemeDB.fallback_font,Vector2(-48,-195),"EXPOSED",HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("9fe0dd"))
 	if wake_time>0:
 		draw_arc(Vector2.ZERO,30+(1.0-wake_time)*20,0,TAU,24,Color("edb66e"),2,true)
 	if hp<max_hp or boss:

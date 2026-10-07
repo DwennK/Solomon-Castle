@@ -661,3 +661,21 @@ func resolve_discovery(choice: String) -> bool:
 	snapshot();State.save_game()
 	pending_discovery=null
 	return true
+
+func summon_boss_guards(boss: TowerEnemy,wave: int,count: int) -> void:
+	var room_index: int = dungeon.room_at(boss.position)
+	if room_index<0: return
+	var room: Array = floor_data.rooms[room_index]
+	var occupied: Array[Vector2] = [boss.position,player.position]
+	for i: int in range(count):
+		var id: String = "%s_wave_%d_%d"%[boss.record.id,wave,i]
+		if floor_data.enemies.any(func(e: Dictionary)->bool:return e.id==id): continue
+		var desired: Vector2i = Dungeon.room_center(room)+Vector2i(-2 if i%2==0 else 2,2+i)
+		var point: Vector2 = EncounterRules.free_position(floor_data,room,desired,occupied)
+		occupied.append(point)
+		var record: Dictionary = {"id":id,"kind":"skeleton" if boss.record.kind=="king" else "ghost","pos":Dungeon.pair(point),"hp":-1.0,"dead":false,"summoned_by":boss.record.id,"xp_scale":0.0,"vital_scale":0.65,"reward":{},"awakened":true}
+		floor_data.enemies.append(record)
+		var enemy: TowerEnemy = ENEMY_SCENE.instantiate()
+		enemy.setup(self,record);actors.add_child(enemy);enemies.append(enemy)
+		enemy.visual.environment=dungeon.interior
+		enemy.active=true;enemy.wake_time=1.2
