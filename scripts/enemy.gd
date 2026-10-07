@@ -228,6 +228,8 @@ func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = fal
 	if record.get("dormant",false) and not record.get("awakened",false): world.wake_encounter(int(record.get("encounter_room",-1)))
 	active = true
 	hp -= maxf(0.0,amount)*(1.0-world.protection_for(self))*(1.0-float(definition.values.resistance))*(1.35 if fear>0 else 1.0)
+	# Health feedback must update even while frozen, recovering or offscreen.
+	queue_redraw()
 	knockback += force * (0.2 if boss else 1.0)
 	if not quiet: visual.hit_flash = 0.6
 	if hp<=0:
@@ -287,6 +289,7 @@ func apply_ether(charges: int) -> void:
 	hp = minf(hp,max_hp)
 	record.ether_reduction=after
 	record.hp=hp
+	queue_redraw()
 	active=true
 
 func is_targetable() -> bool:

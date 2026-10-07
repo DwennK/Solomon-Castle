@@ -1,0 +1,26 @@
+{
+  "checks": 27,
+  "engine": "4.7.2-stable (official)",
+  "failures": [],
+  "renderer": "macOS",
+  "before_fix": {
+    "native_failures": 14,
+    "headless_failures": 11
+  },
+  "regressions": {
+    "skills_checks": 101,
+    "english_checks": 20,
+    "failures": []
+  },
+  "native_viewports": [
+    "1440x900",
+    "960x600"
+  ],
+  "rendered_health_bar_pixels": {
+    "at_75_percent": 36,
+    "at_25_percent": 12
+  },
+  "native_platform": "macOS Apple M4, Godot OpenGL Compatibility",
+  "scope": "Remove hostile projectile redirection from ice channels/fusions and Hurricane. Keep enemy knockback and the separate Circle of Protection slowdown. Refresh health drawings on damage and Ether health changes.",
+  "limitations": "No executable export or Windows execution."
+}
