@@ -18,6 +18,9 @@ var path_index: int = 1
 var slow_time: float = 0.0
 var slow_factor: float = 1.0
 var frozen: float = 0.0
+var freeze_guard: float = 0.0
+const FREEZE_RECOVERY: float = 0.75
+const BOSS_FREEZE_RECOVERY: float = 1.8
 var fear: float = 0.0
 var burn: float = 0.0
 var knockback: Vector2 = Vector2.ZERO
@@ -85,6 +88,7 @@ func _physics_process(delta: float) -> void:
 	BossPatterns.update(self)
 	slow_time = maxf(0,slow_time-delta)
 	frozen = maxf(0,frozen-delta)
+	freeze_guard = maxf(0,freeze_guard-delta)
 	fear = maxf(0,fear-delta)
 	if burn>0:
 		burn -= delta
@@ -97,7 +101,8 @@ func _physics_process(delta: float) -> void:
 		visual.moving = false
 		return
 	warded = world.protection_for(self)>0
-	var local_delta: float = delta * (slow_factor if slow_time>0 else 1.0)
+	# Chilling affects movement, not the cadence of attacks or their warnings.
+	var local_delta: float = delta
 	if fear>0: preparing_charge=false;charge_time=0.0;telegraph=0.0
 	if charge_time>0:
 		charge_time=maxf(0,charge_time-local_delta)
@@ -198,10 +203,10 @@ func release_attack() -> void:
 			State.run.mp = maxf(0,float(State.run.mp)-12)
 			world.player.take_damage(damage*0.5)
 	elif behavior in ["ranged","caster","imp"]:
-		world.enemy_bolt(position,direction,damage,310 if behavior == "ranged" else 220,Color("d6b690") if behavior == "ranged" else Color("b384e5"))
+		world.enemy_bolt(position,direction,damage,430 if behavior == "ranged" else 330,Color("d6b690") if behavior == "ranged" else Color("b384e5"))
 		if behavior == "caster":
-			world.enemy_bolt(position,direction.rotated(0.22),damage,220,Color("b384e5"))
-			world.enemy_bolt(position,direction.rotated(-0.22),damage,220,Color("b384e5"))
+			world.enemy_bolt(position,direction.rotated(0.22),damage,330,Color("b384e5"))
+			world.enemy_bolt(position,direction.rotated(-0.22),damage,330,Color("b384e5"))
 	else:
 		if position.distance_to(world.player.position)<78: world.player.take_damage(damage)
 		if behavior == "poison": world.hazard(position,60,damage*0.4,0.3,Color("8aab61"),3.0,"poison")
@@ -233,10 +238,15 @@ func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = fal
 
 func chill(duration: float, factor: float = 0.5) -> void:
 	slow_time = maxf(slow_time,duration)
-	slow_factor = maxf(0.3,factor) if boss else factor
+	slow_factor = maxf(0.65,factor) if boss else factor
 
 func freeze(duration: float) -> void:
-	frozen = maxf(frozen,minf(duration,0.35) if boss else duration)
+	# Shared by all freeze/stun sources: repeated hits cannot extend a lock or
+	# chain different spells to skip the guaranteed period in which enemies act.
+	if dead or duration<=0 or freeze_guard>0: return
+	frozen = minf(duration,0.35) if boss else duration
+	freeze_guard = frozen+(BOSS_FREEZE_RECOVERY if boss else FREEZE_RECOVERY)
+	active = true
 
 func _draw() -> void:
 	if dead: return

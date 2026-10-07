@@ -52,3 +52,8 @@ static func free_position(data: Dictionary,room: Array,desired: Vector2i,occupie
 			var score: float = Vector2(cell-desired).length_squared()
 			if score<distance: distance=score;best=point
 	return best
+
+static func kill_xp(floor_number: int,boss: bool = false) -> float:
+	# Fewer early upgrades; later floors keep enough XP to reach major skills.
+	var ramp: float = minf(1.0,0.45+maxi(0,floor_number-1)*0.055)
+	return (19.0+floor_number*4.5)*ramp*(9 if boss else 1)

@@ -408,7 +408,7 @@ func enemy_bolt(pos: Vector2,direction: Vector2,damage: float,speed: float,color
 
 func enemy_killed(enemy: TowerEnemy) -> void:
 	enemies.erase(enemy)
-	State.add_xp((19.0+int(State.run.floor)*4.5)*(9 if enemy.boss else 1)*float(enemy.record.get("xp_scale",1.0)))
+	State.add_xp(EncounterRules.kill_xp(int(State.run.floor),enemy.boss)*float(enemy.record.get("xp_scale",1.0)))
 	update_discoveries()
 	add_supplies(enemy.record.get("reward",{}),enemy.position)
 	if enemy.boss:

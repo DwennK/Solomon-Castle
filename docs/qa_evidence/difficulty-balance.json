@@ -1,0 +1,164 @@
+{
+  "baseline_commit": "74283bfcb7c4792da6cb200408486bed34df3137",
+  "engine": "Godot 4.7.2",
+  "changes": {
+    "freeze": "Cannot be refreshed while frozen. Shared immunity after thawing: 0.75 s regular enemies, 1.8 s bosses. Boss freeze still capped at 0.35 s.",
+    "slow": "Movement only; attack cooldowns and warnings retain their cadence. Boss movement slow capped at 35%.",
+    "packs": "4/5/6 complementary enemies on floors 1/5/9, clustered within the warden aura. New generated floors only.",
+    "enemies": "Ghoul HP 26->72, speed 170->190, damage 7->12. Sorcerer HP 43->90, speed 72->100, damage 12->14. Skeleton speed 105->140, damage 9->12. Archer speed 83->110, damage 8->11. Arrow speed 310->430, caster/imp projectiles 220->330.",
+    "xp": "Kill XP multiplier rises from 0.45 on floor 1 to 1.0 on floor 11. Existing XP and skills are preserved."
+  },
+  "before": {
+    "stand": {
+      "cases": 36,
+      "wins": 36,
+      "no_damage_wins": 20,
+      "mean_damage": 5.0
+    },
+    "kite": {
+      "cases": 36,
+      "wins": 36,
+      "no_damage_wins": 31,
+      "mean_damage": 1.56
+    },
+    "stationary_lightning_1_stun_1_bosses": [
+      {
+        "boss": "king",
+        "cleared": true,
+        "died": false,
+        "frozen_fraction": 0.999
+      },
+      {
+        "boss": "plague",
+        "cleared": true,
+        "died": false,
+        "frozen_fraction": 0.999
+      },
+      {
+        "boss": "demon",
+        "cleared": true,
+        "died": false,
+        "frozen_fraction": 0.999
+      },
+      {
+        "boss": "lich",
+        "cleared": true,
+        "died": false,
+        "frozen_fraction": 1.0
+      }
+    ],
+    "full_first_floor": {
+      "runs": 9,
+      "wins": 9,
+      "deaths": 0,
+      "winning_damage_range": [
+        7.0,
+        39.0
+      ],
+      "winning_end_hp_range": [
+        79.3,
+        110.0
+      ],
+      "winning_level_range": [
+        5,
+        6
+      ]
+    }
+  },
+  "after": {
+    "stand": {
+      "cases": 36,
+      "wins": 36,
+      "no_damage_wins": 0,
+      "mean_damage": 32.22
+    },
+    "kite": {
+      "cases": 36,
+      "wins": 36,
+      "no_damage_wins": 25,
+      "mean_damage": 4.17
+    },
+    "stationary_lightning_1_stun_1_bosses": [
+      {
+        "boss": "king",
+        "cleared": true,
+        "died": false,
+        "frozen_fraction": 0.072
+      },
+      {
+        "boss": "plague",
+        "cleared": false,
+        "died": true,
+        "frozen_fraction": 0.08
+      },
+      {
+        "boss": "demon",
+        "cleared": false,
+        "died": true,
+        "frozen_fraction": 0.081
+      },
+      {
+        "boss": "lich",
+        "cleared": false,
+        "died": true,
+        "frozen_fraction": 0.088
+      }
+    ],
+    "full_first_floor": {
+      "runs": 9,
+      "wins": 7,
+      "deaths": 2,
+      "winning_damage_range": [
+        47.0,
+        109.0
+      ],
+      "winning_end_hp_range": [
+        11.6,
+        72.1
+      ],
+      "winning_level_range": [
+        4,
+        4
+      ]
+    }
+  },
+  "validation": {
+    "core": 85630,
+    "generated_floors": 1300,
+    "encounters": 845,
+    "balance": 4852,
+    "skills": 101,
+    "combat_feedback": 24,
+    "loot": 48846,
+    "english": 20,
+    "failures": [],
+    "freeze_action_test_fps": [
+      30,
+      60,
+      144
+    ],
+    "native_macOS_viewports": [
+      "1440x900",
+      "960x600"
+    ],
+    "native_reviewed": [
+      "Stun recovery text",
+      "Charge warning",
+      "Warden and guards"
+    ]
+  },
+  "commands": [
+    "./tools/godot.sh --headless --path . tests/balance_test.tscn -- --test",
+    "./tools/godot.sh --headless --disable-render-loop --fixed-fps 60 --path . tests/difficulty_audit.tscn -- --test",
+    "./tools/godot.sh --headless --disable-render-loop --fixed-fps 60 --path . tests/difficulty_floor_audit.tscn -- --test"
+  ],
+  "limits": [
+    "89 automated scenarios, not a human playtest or a complete 13-floor campaign.",
+    "Automatic aiming; simple wall-aware kiting. No invulnerability, gear, potions or free mana. Boss duels use an open arena.",
+    "Enemy timing depends partly on runtime instance IDs; combat counts are observations, not deterministic pass thresholds.",
+    "Campaign XP reachability checked across 20 seeds without optional trials; this is not a full combat-clearance test.",
+    "Existing floor geometry, enemy counts and stored health are preserved. New formations apply on newly generated floors.",
+    "No executable export or Windows execution.",
+    "Unrelated fog/ambience work was present during native captures and remains outside this change."
+  ]
+}
