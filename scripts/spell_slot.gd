@@ -18,7 +18,7 @@ var frame_style: StyleBoxFlat
 func _init() -> void:
 	custom_minimum_size = Vector2(76,78)
 	frame_style = GameTheme.panel(Color("11151c"),Color("5d5140"),0)
-	frame_style.set_corner_radius_all(5)
+	frame_style.set_corner_radius_all(0)
 	focus_mode = Control.FOCUS_NONE
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	for state: String in ["normal","hover","pressed","disabled","focus"]:
@@ -37,7 +37,7 @@ func _ready() -> void:
 	shade.color = Color(0.025,0.03,0.04,0.78)
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(shade)
-	key_label = overlay_label(12)
+	key_label = overlay_label(14)
 	key_label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	key_label.offset_top = -21; key_label.offset_bottom = -2
 	key_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -89,12 +89,18 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var border: Color = Color("ab8955") if primary_slot else Color("5d5140")
+	var border: Color = Color("c6a56a") if primary_slot else Color("69706d")
 	if spell_id.is_empty(): border = Color("34383f")
 	border = border.lerp(GameTheme.IVORY,hover_amount*0.6+ready_flash*0.4)
-	frame_style.bg_color = Color("191d25") if primary_slot else Color("11151c")
+	frame_style.bg_color = Color("241e16") if primary_slot else Color("101719")
 	frame_style.border_color = border
 	draw_style_box(frame_style,Rect2(Vector2.ZERO,size))
+	draw_rect(Rect2(3,3,size.x-6,size.y-6),border.darkened(0.45),false,1.0)
+	draw_line(Vector2(2,2),Vector2(size.x-2,2),border.lightened(0.15),2.0)
+	for corner: Vector2 in [Vector2(3,3),Vector2(size.x-4,3),Vector2(3,size.y-4),size-Vector2(4,4)]:
+		draw_circle(corner,1.5,border,true,-1,true)
+	if primary_slot:
+		draw_rect(Rect2(-3,-3,size.x+6,size.y+6),Color("80643c"),false,2.0)
 	if not spell_id.is_empty():
 		ArcaneArt.glow(self,size*Vector2(0.5,0.4),size.x*0.55,Color("b4925e"),0.1+hover_amount*0.12)
 	else:

@@ -24,6 +24,8 @@ var xp_label: Label
 var spell_hint: Label
 var ritual_status: Label
 var hint_panel: PanelContainer
+var navigation_panel: GridContainer
+const DOCK_SIZE: Vector2 = Vector2(1040,216)
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -45,63 +47,67 @@ func _ready() -> void:
 	map = TowerMap.new(); map.world = world
 	map.custom_minimum_size = Vector2(230,175); right.add_child(map)
 
-	# Keep the combat console legible in physical pixels, including stretched windows.
+	# HUD dimensions are logical canvas units; let Godot scale them with the window.
 	dock = preload("res://scripts/hud_dock.gd").new()
 	dock.name = "CombatDock"
 	add_child(dock)
-	hp = VitalOrb.new(); hp.position = Vector2(10,10); dock.add_child(hp)
-	mp = VitalOrb.new(); mp.resource_kind = "mp"; mp.position = Vector2(934,10); dock.add_child(mp)
-	hp_potion = potion_button("hp",Vector2(154,43))
-	mp_potion = potion_button("mp",Vector2(862,43))
+	hp = VitalOrb.new(); hp.position = Vector2.ZERO; dock.add_child(hp)
+	mp = VitalOrb.new(); mp.resource_kind = "mp"; mp.position = Vector2(824,0); dock.add_child(mp)
+	hp_potion = potion_button("hp",Vector2(218,134))
+	mp_potion = potion_button("mp",Vector2(748,134))
 
 	primary = SpellSlot.new(); primary.primary_slot = true
-	primary.position = Vector2(250,28); primary.size = Vector2(88,88)
+	primary.position = Vector2(298,112); primary.size = Vector2(100,100)
 	dock.add_child(primary)
 	primary.pressed.connect(func()->void: world.cycle_spell())
-	var active_title: Label = text_label("MAGIE ACTIVE",11,GameTheme.GOLD)
-	place(active_title,Vector2(352,27),Vector2(174,18))
+	var active_title: Label = text_label("PRINCIPAL",11,GameTheme.GOLD)
+	place(active_title,Vector2(298,44),Vector2(150,18))
 	spell_label = text_label("",18,GameTheme.IVORY)
 	GameTheme.heading(spell_label)
 	spell_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	spell_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	spell_label.max_lines_visible = 2
-	place(spell_label,Vector2(352,47),Vector2(174,46))
+	spell_label.max_lines_visible = 1
+	place(spell_label,Vector2(298,62),Vector2(170,25))
 	spell_hint = text_label("Changer de magie",12,GameTheme.MUTED)
-	place(spell_hint,Vector2(352,97),Vector2(174,18))
+	place(spell_hint,Vector2(298,85),Vector2(110,18))
 	var ritual_title: Label = text_label("RITUELS",11,GameTheme.GOLD)
-	place(ritual_title,Vector2(552,19),Vector2(120,18))
+	place(ritual_title,Vector2(422,105),Vector2(100,18))
 	ritual_status = text_label("",11,GameTheme.MUTED)
 	ritual_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	place(ritual_status,Vector2(672,19),Vector2(158,18))
+	place(ritual_status,Vector2(538,105),Vector2(154,18))
 	for i: int in range(3):
 		var slot: SpellSlot = SpellSlot.new()
-		slot.position = Vector2(552+i*94,40); slot.size = Vector2(88,78)
+		slot.position = Vector2(422+i*94,128); slot.size = Vector2(84,84)
 		dock.add_child(slot); rituals.append(slot)
 		slot.pressed.connect(func()->void:
 			if not world.village: world.combat.secondary(world.player,i))
 	xp = ProgressBar.new(); xp.show_percentage = false
-	place(xp,Vector2(250,126),Vector2(578,18))
+	place(xp,Vector2(478,91),Vector2(268,7))
 	xp.add_theme_stylebox_override("background",GameTheme.panel(Color("080b0f"),Color("39352e"),0))
 	xp.add_theme_stylebox_override("fill",GameTheme.panel(Color("5c4b30"),Color("9a7e4f"),0))
 	xp_label = text_label("",12,GameTheme.IVORY)
 	xp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	place(xp_label,Vector2(250,126),Vector2(578,18))
-	var nav: HBoxContainer = HBoxContainer.new()
-	nav.alignment = BoxContainer.ALIGNMENT_CENTER
-	nav.add_theme_constant_override("separation",6)
-	place(nav,Vector2(240,150),Vector2(600,28))
+	place(xp_label,Vector2(478,70),Vector2(268,18))
+	# Exploration menus live beneath the minimap, outside the combat dock.
+	navigation_panel = GridContainer.new()
+	navigation_panel.columns = 2
+	navigation_panel.add_theme_constant_override("h_separation",4)
+	navigation_panel.add_theme_constant_override("v_separation",4)
+	right.add_child(navigation_panel)
 	for entry: Array in [["inventory","Inventaire"],["skills","Grimoire"],["portal","Village"],["map","Carte"],["pause","Pause"]]:
 		var b: Button = Button.new(); b.focus_mode = Control.FOCUS_NONE
 		b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		b.add_theme_font_size_override("font_size",13)
+		b.custom_minimum_size = Vector2(118,32)
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		for state: String in ["normal","hover","pressed","disabled"]:
-			var style: StyleBoxFlat = GameTheme.panel(Color("28251f") if state in ["hover","pressed"] else Color.TRANSPARENT,Color.TRANSPARENT,6)
+			var style: StyleBoxFlat = GameTheme.panel(Color("282b2d") if state in ["hover","pressed"] else Color(0.035,0.045,0.05,0.88),Color("3b4144"),6)
 			style.content_margin_top = 5; style.content_margin_bottom = 5
 			b.add_theme_stylebox_override(state,style)
 		b.pressed.connect(func()->void:
 			if entry[0]=="portal": world.use_portal()
 			else: menu_requested.emit(entry[0]))
-		nav.add_child(b); navigation[entry[0]] = [b,entry[1]]
+		navigation_panel.add_child(b); navigation[entry[0]] = [b,entry[1]]
 	# Context is visually separate from the controls, with a backdrop on bright floors.
 	hint_panel = PanelContainer.new()
 	hint_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
@@ -144,15 +150,14 @@ func place(control: Control, pos: Vector2, dimensions: Vector2) -> void:
 
 func layout_dock() -> void:
 	if not is_instance_valid(dock): return
-	var screen_scale: float = maxf(0.1,get_viewport().get_final_transform().get_scale().x)
-	var factor: float = minf(1.0/screen_scale,(size.x-32.0)/1080.0)
+	var factor: float = minf(maxf(minf(size.x/1440.0,size.y/900.0),0.85),(size.x-24.0)/DOCK_SIZE.x)
 	dock.scale = Vector2.ONE*factor
-	dock.size = Vector2(1080,184)
-	dock.position = Vector2((size.x-1080*factor)/2.0,size.y-184*factor-12)
+	dock.size = DOCK_SIZE
+	dock.position = Vector2((size.x-DOCK_SIZE.x*factor)/2.0,size.y-DOCK_SIZE.y*factor)
 	if is_instance_valid(hint_panel):
-		hint_panel.offset_top = -184*factor-72
-		hint_panel.offset_bottom = -184*factor-28
-		var hint_font_size: int = roundi(16/minf(screen_scale,1.0))
+		hint_panel.offset_top = -DOCK_SIZE.y*factor-60
+		hint_panel.offset_bottom = -DOCK_SIZE.y*factor-16
+		var hint_font_size: int = 16
 		hint_label.add_theme_font_size_override("font_size",hint_font_size)
 		var line_width: float = hint_label.get_theme_font("font").get_string_size(hint_label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,hint_font_size).x+44
 		var half_width: float = clampf(line_width*0.5,140,minf(380,size.x*0.44))
