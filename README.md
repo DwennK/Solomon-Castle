@@ -108,6 +108,7 @@ Les presets sont dans `export_presets.cfg`. Le projet utilise aussi l’option d
 - [Architecture](docs/architecture.md)
 - [Assets, provenance et licences](docs/asset_manifest.md)
 - [Prompts ImageGen](docs/art_prompts.md)
+- [Environnements V5 : sols, murs, mobilier et éclairage](docs/environment-v5.md)
 - [Rapport QA](docs/qa_report.md)
 
 Les définitions se modifient dans l’inspecteur (`resources/**/*.tres`). `tools/create_content.py` peut les régénérer mais écrase ces fichiers : reporter d’abord les changements manuels. Les libellés et descriptions sont regroupés dans les définitions et le catalogue source français `resources/localization/messages.csv`, régénérable avec `tools/extract_translations.py`. Le français est la seule langue fournie ; une traduction future doit également adapter les gabarits de phrases dynamiques.

@@ -149,6 +149,7 @@ func add_prop(record: Dictionary, label: String = "") -> void:
 	var prop: WorldProp = WorldProp.new()
 	prop.record = record
 	prop.label = label
+	if not village: prop.environment = dungeon.interior
 	actors.add_child(prop)
 	props.append(prop)
 
@@ -244,7 +245,7 @@ func open_prop(prop: WorldProp) -> void:
 		var item: Dictionary = State.make_item(int(State.run.seed)+int(State.run.floor)*163+int(prop.record.id.hash()),int(State.run.floor))
 		loot.append({"kind":"item","item":item,"pos":Dungeon.pair(prop.position+Vector2(35,25))})
 		State.run.mp_potions += 1
-		prop.texture = Catalog.texture("chest_open")
+		prop.refresh_texture()
 		Sound.play("chest",prop.global_position)
 	else:
 		if int(prop.record.id.hash())%2==0: State.run.hp_potions += 1

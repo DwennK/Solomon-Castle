@@ -16,6 +16,9 @@ func run_qa() -> void:
 	State.save_path = "user://qa_decor_integration.json"
 	State.fresh(197903)
 	State.learn("lightning")
+	State.options.fullscreen = false
+	State.apply_options()
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	DisplayServer.window_set_size(Vector2i(1440,900))
 	main = load("res://scenes/main.tscn").instantiate()
 	add_child(main)
