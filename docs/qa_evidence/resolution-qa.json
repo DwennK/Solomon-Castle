@@ -1,0 +1,6 @@
+{
+	"method": "Godot SubViewport, real native GPU rendering; OS window limit 1728 pixels bypassed only by offscreen render target, not by image resizing",
+	"renderer": "native Compatibility on Apple M4",
+	"viewport_height": 1080,
+	"viewport_width": 1920
+}

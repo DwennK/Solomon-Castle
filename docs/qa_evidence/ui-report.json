@@ -1,0 +1,93 @@
+{
+	"captures": [
+		"01-menu",
+		"02-new-game",
+		"03-first-magic",
+		"04-hud",
+		"05-inventory",
+		"06-grimoire",
+		"07-merchant",
+		"08-pause",
+		"09-options",
+		"10-level",
+		"11-death",
+		"12-victory",
+		"hud-1920x1080",
+		"inventory-1920x1080",
+		"hud-960x600",
+		"inventory-960x600",
+		"13-final-menu"
+	],
+	"checks": "Live native render, health/mana, cooldowns, locked slots, potion, spell cycling, bindings, modal pause, three window sizes",
+	"errors": [],
+	"rendered_sizes": {
+		"01-menu": [
+			1440,
+			900
+		],
+		"02-new-game": [
+			1440,
+			900
+		],
+		"03-first-magic": [
+			1440,
+			900
+		],
+		"04-hud": [
+			1440,
+			900
+		],
+		"05-inventory": [
+			1440,
+			900
+		],
+		"06-grimoire": [
+			1440,
+			900
+		],
+		"07-merchant": [
+			1440,
+			900
+		],
+		"08-pause": [
+			1440,
+			900
+		],
+		"09-options": [
+			1440,
+			900
+		],
+		"10-level": [
+			1440,
+			900
+		],
+		"11-death": [
+			1440,
+			900
+		],
+		"12-victory": [
+			1440,
+			900
+		],
+		"13-final-menu": [
+			1440,
+			900
+		],
+		"hud-1920x1080": [
+			1728,
+			1080
+		],
+		"hud-960x600": [
+			960,
+			600
+		],
+		"inventory-1920x1080": [
+			1728,
+			1080
+		],
+		"inventory-960x600": [
+			960,
+			600
+		]
+	}
+}

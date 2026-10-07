@@ -1,0 +1,22 @@
+{
+	"assistance": "QA ranks, invulnerability, mana recovery, 5x simulation, navigation via actual AStar and CharacterBody2D; actual spell hits and boss deaths",
+	"duration_seconds": 73.148,
+	"errors": [],
+	"level_choices": 47,
+	"milestones": [
+		"floor_1_complete",
+		"floor_2_complete",
+		"floor_3_complete",
+		"floor_4_complete",
+		"floor_5_complete",
+		"floor_6_complete",
+		"floor_7_complete",
+		"floor_8_complete",
+		"floor_9_complete",
+		"floor_10_complete",
+		"floor_11_complete",
+		"floor_12_complete",
+		"floor_13_complete"
+	],
+	"native_rendering": true
+}

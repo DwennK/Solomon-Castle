@@ -1,0 +1,28 @@
+{
+	"hardcore_death_modal": true,
+	"normal_death_modal": true,
+	"normal_session": {
+		"assistance": "Simulated navigation/aim only; normal stats and potion use; no invulnerability",
+		"deaths": 0,
+		"enemy_kills": 7,
+		"hp": 79.4959999999965,
+		"level": 3,
+		"mp": 100.0,
+		"seconds": 16.507
+	},
+	"performance": {
+		"conditions": "Invulnerable stationary QA mage, 80 high-HP enemies, real AI/collisions/projectiles/lightning, no time acceleration",
+		"enemies": 80,
+		"frames": 725,
+		"machine": "Apple M4",
+		"mean_frame_ms": 13.8284179310345,
+		"median_fps": 73.0,
+		"p95_frame_ms": 26.154,
+		"physics_fps": 60,
+		"renderer": "Compatibility / Apple M4 OpenGL 4.1 Metal",
+		"resolution": "1440x900",
+		"seconds": 10
+	},
+	"resume_item": "Bâton d’os de la source",
+	"resume_seed": 72931
+}
