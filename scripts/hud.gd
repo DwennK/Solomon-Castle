@@ -1,120 +1,222 @@
 class_name GameHUD
 extends Control
 
+signal menu_requested(kind: String)
 var world: GameWorld
-var hp: ProgressBar
-var mp: ProgressBar
+var hp: VitalOrb
+var mp: VitalOrb
 var xp: ProgressBar
 var values: Label
 var location_label: Label
 var hint_label: Label
 var spell_label: Label
-var ritual_label: Label
 var toast_label: Label
 var map: TowerMap
-var help: Label
+var primary: SpellSlot
+var rituals: Array[SpellSlot] = []
+var hp_potion: HUDPotion
+var mp_potion: HUDPotion
+var navigation: Dictionary = {}
 var toast_timer: float = 0
+var details_key: String = ""
+var dock: Control
+var xp_label: Label
+var spell_hint: Label
+var ritual_status: Label
+var hint_panel: PanelContainer
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var top: HBoxContainer = HBoxContainer.new()
 	top.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	top.offset_left = 26
-	top.offset_top = 22
-	top.offset_right = -26
+	top.offset_left = 28; top.offset_top = 24; top.offset_right = -28
 	add_child(top)
-	var panel: PanelContainer = PanelContainer.new()
-	panel.custom_minimum_size = Vector2(330,0)
-	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	top.add_child(panel)
-	var v: VBoxContainer = VBoxContainer.new()
-	panel.add_child(v)
-	values = Label.new()
-	v.add_child(values)
-	hp = make_bar(Color("b06c66"));v.add_child(hp)
-	mp = make_bar(Color("589cae"));v.add_child(mp)
-	xp = make_bar(Color("c2a56a"),6);v.add_child(xp)
-	var spacer: Control = Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(spacer)
-	var right: VBoxContainer = VBoxContainer.new()
-	top.add_child(right)
-	location_label = Label.new()
+	var identity: VBoxContainer = VBoxContainer.new()
+	identity.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(identity)
+	var chapter: Label = text_label("L A  T O U R  D E S  C E N D R E S",12,GameTheme.GOLD)
+	identity.add_child(chapter)
+	values = text_label("",20); GameTheme.heading(values); identity.add_child(values)
+	var right: VBoxContainer = VBoxContainer.new(); top.add_child(right)
+	location_label = text_label("",16)
 	location_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	right.add_child(location_label)
-	map = TowerMap.new()
-	map.world = world
-	map.custom_minimum_size = Vector2(250,194)
-	right.add_child(map)
-	var bottom: PanelContainer = PanelContainer.new()
-	bottom.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	bottom.offset_left = 26
-	bottom.offset_right = -26
-	bottom.offset_top = -135
-	bottom.offset_bottom = -20
-	add_child(bottom)
-	var row: HBoxContainer = HBoxContainer.new()
-	bottom.add_child(row)
-	var magic: VBoxContainer = VBoxContainer.new()
-	magic.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(magic)
-	spell_label = Label.new();magic.add_child(spell_label)
-	ritual_label = Label.new();ritual_label.add_theme_font_size_override("font_size",15);magic.add_child(ritual_label)
-	help = Label.new()
-	help.text = "I  Inventaire     K  Grimoire     T  Village\nR  Vie     F  Mana     Échap  Pause"
-	help.add_theme_font_size_override("font_size",16)
-	help.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	row.add_child(help)
-	hint_label = Label.new()
-	hint_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	hint_label.offset_left = -550
-	hint_label.offset_right = 550
-	hint_label.offset_top = -177
+	map = TowerMap.new(); map.world = world
+	map.custom_minimum_size = Vector2(230,175); right.add_child(map)
+
+	# Keep the combat console legible in physical pixels, including stretched windows.
+	dock = preload("res://scripts/hud_dock.gd").new()
+	dock.name = "CombatDock"
+	add_child(dock)
+	hp = VitalOrb.new(); hp.position = Vector2(10,10); dock.add_child(hp)
+	mp = VitalOrb.new(); mp.resource_kind = "mp"; mp.position = Vector2(934,10); dock.add_child(mp)
+	hp_potion = potion_button("hp",Vector2(154,43))
+	mp_potion = potion_button("mp",Vector2(862,43))
+
+	primary = SpellSlot.new(); primary.primary_slot = true
+	primary.position = Vector2(250,28); primary.size = Vector2(88,88)
+	dock.add_child(primary)
+	primary.pressed.connect(func()->void: world.cycle_spell())
+	var active_title: Label = text_label("MAGIE ACTIVE",11,GameTheme.GOLD)
+	place(active_title,Vector2(352,27),Vector2(174,18))
+	spell_label = text_label("",18,GameTheme.IVORY)
+	GameTheme.heading(spell_label)
+	spell_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	spell_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	spell_label.max_lines_visible = 2
+	place(spell_label,Vector2(352,47),Vector2(174,46))
+	spell_hint = text_label("Changer de magie",12,GameTheme.MUTED)
+	place(spell_hint,Vector2(352,97),Vector2(174,18))
+	var ritual_title: Label = text_label("RITUELS",11,GameTheme.GOLD)
+	place(ritual_title,Vector2(552,19),Vector2(120,18))
+	ritual_status = text_label("",11,GameTheme.MUTED)
+	ritual_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	place(ritual_status,Vector2(672,19),Vector2(158,18))
+	for i: int in range(3):
+		var slot: SpellSlot = SpellSlot.new()
+		slot.position = Vector2(552+i*94,40); slot.size = Vector2(88,78)
+		dock.add_child(slot); rituals.append(slot)
+		slot.pressed.connect(func()->void:
+			if not world.village: world.combat.secondary(world.player,i))
+	xp = ProgressBar.new(); xp.show_percentage = false
+	place(xp,Vector2(250,126),Vector2(578,18))
+	xp.add_theme_stylebox_override("background",GameTheme.panel(Color("080b0f"),Color("39352e"),0))
+	xp.add_theme_stylebox_override("fill",GameTheme.panel(Color("5c4b30"),Color("9a7e4f"),0))
+	xp_label = text_label("",12,GameTheme.IVORY)
+	xp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	place(xp_label,Vector2(250,126),Vector2(578,18))
+	var nav: HBoxContainer = HBoxContainer.new()
+	nav.alignment = BoxContainer.ALIGNMENT_CENTER
+	nav.add_theme_constant_override("separation",6)
+	place(nav,Vector2(240,150),Vector2(600,28))
+	for entry: Array in [["inventory","Inventaire"],["skills","Grimoire"],["portal","Village"],["map","Carte"],["pause","Pause"]]:
+		var b: Button = Button.new(); b.focus_mode = Control.FOCUS_NONE
+		b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		b.add_theme_font_size_override("font_size",13)
+		for state: String in ["normal","hover","pressed","disabled"]:
+			var style: StyleBoxFlat = GameTheme.panel(Color("28251f") if state in ["hover","pressed"] else Color.TRANSPARENT,Color.TRANSPARENT,6)
+			style.content_margin_top = 5; style.content_margin_bottom = 5
+			b.add_theme_stylebox_override(state,style)
+		b.pressed.connect(func()->void:
+			if entry[0]=="portal": world.use_portal()
+			else: menu_requested.emit(entry[0]))
+		nav.add_child(b); navigation[entry[0]] = [b,entry[1]]
+	# Context is visually separate from the controls, with a backdrop on bright floors.
+	hint_panel = PanelContainer.new()
+	hint_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	hint_panel.add_theme_stylebox_override("panel",GameTheme.panel(Color(0.035,0.045,0.06,0.94),Color("514632"),10))
+	add_child(hint_panel)
+	hint_label = text_label("",16)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint_label.add_theme_color_override("font_shadow_color",Color.BLACK)
-	hint_label.add_theme_constant_override("shadow_offset_x",2)
-	hint_label.add_theme_constant_override("shadow_offset_y",2)
-	add_child(hint_label)
-	toast_label = Label.new()
+	hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint_panel.add_child(hint_label)
+	resized.connect(layout_dock)
+	get_viewport().size_changed.connect(layout_dock)
+	layout_dock()
+	GameTheme.enter(dock)
+	toast_label = text_label("",20,GameTheme.IVORY)
 	toast_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
-	toast_label.offset_left = -420
-	toast_label.offset_right = 420
-	toast_label.offset_top = 170
+	toast_label.offset_left = -420; toast_label.offset_right = 420; toast_label.offset_top = 135
 	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	toast_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	add_child(toast_label)
+	ignore_decoration(self)
 	State.message.connect(toast)
 
-func make_bar(color: Color,height: int = 12) -> ProgressBar:
-	var b: ProgressBar = ProgressBar.new()
-	b.custom_minimum_size = Vector2(285,height)
-	b.show_percentage = false
-	b.add_theme_stylebox_override("background",GameTheme.panel(Color("080f15"),Color("26333a"),0))
-	b.add_theme_stylebox_override("fill",GameTheme.panel(color,color,0))
+func ignore_decoration(node: Node) -> void:
+	for child: Node in node.get_children():
+		if child is Control and not child is BaseButton: child.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ignore_decoration(child)
+
+func text_label(text: String, font_size: int, color: Color = GameTheme.IVORY) -> Label:
+	var l: Label = Label.new(); l.text = text
+	l.add_theme_font_size_override("font_size",font_size)
+	l.add_theme_color_override("font_color",color)
+	l.add_theme_color_override("font_shadow_color",Color.BLACK)
+	l.add_theme_constant_override("shadow_offset_x",1)
+	l.add_theme_constant_override("shadow_offset_y",2)
+	return l
+
+func place(control: Control, pos: Vector2, dimensions: Vector2) -> void:
+	control.position = pos; control.size = dimensions
+	dock.add_child(control)
+
+func layout_dock() -> void:
+	if not is_instance_valid(dock): return
+	var screen_scale: float = maxf(0.1,get_viewport().get_final_transform().get_scale().x)
+	var factor: float = minf(1.0/screen_scale,(size.x-32.0)/1080.0)
+	dock.scale = Vector2.ONE*factor
+	dock.size = Vector2(1080,184)
+	dock.position = Vector2((size.x-1080*factor)/2.0,size.y-184*factor-12)
+	if is_instance_valid(hint_panel):
+		hint_panel.offset_top = -184*factor-72
+		hint_panel.offset_bottom = -184*factor-28
+		var hint_font_size: int = roundi(16/minf(screen_scale,1.0))
+		hint_label.add_theme_font_size_override("font_size",hint_font_size)
+		var line_width: float = hint_label.get_theme_font("font").get_string_size(hint_label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,hint_font_size).x+44
+		var half_width: float = clampf(line_width*0.5,140,minf(380,size.x*0.44))
+		hint_panel.offset_left = -half_width
+		hint_panel.offset_right = half_width
+
+func potion_button(kind: String, pos: Vector2) -> HUDPotion:
+	var b: HUDPotion = HUDPotion.new()
+	b.resource_kind = kind
+	b.position = pos; b.size = Vector2(64,78)
+	dock.add_child(b)
+	b.pressed.connect(func()->void: use_potion(kind))
 	return b
 
+func use_potion(kind: String) -> void:
+	if State.potion(kind): Sound.play("mana" if kind=="mp" else "potion")
+
 func toast(text: String) -> void:
-	toast_label.text = text
-	toast_timer = 4
+	toast_label.text = text; toast_timer = 4
+	GameTheme.enter(toast_label)
 
 func _process(delta: float) -> void:
 	if State.run.is_empty() or not is_instance_valid(world.player): return
 	var s: Dictionary = world.player.cached_stats
-	hp.max_value = s.max_hp;hp.value = State.run.hp
-	mp.max_value = s.max_mana;mp.value = State.run.mp
-	xp.max_value = State.xp_threshold(State.run.level);xp.value = State.run.xp
-	values.text = "NIV. %02d    %d / %d ♥    %d / %d ◇"%[State.run.level,State.run.hp,s.max_hp,State.run.mp,s.max_mana]
-	location_label.text = ("LE HAMEAU DES BRAISES" if world.village else "LA TOUR  ·  ÉTAGE %02d / 13"%State.run.floor)+"\n%d or  ·  %s"%[State.run.gold,Catalog.definition("campaign").values.difficulties[int(State.run.difficulty)]]
+	hp.update_value(State.run.hp,s.max_hp); mp.update_value(State.run.mp,s.max_mana)
+	xp.max_value = State.xp_threshold(State.run.level); xp.value = State.run.xp
+	xp.tooltip_text = "Expérience : %d / %d" % [xp.value,xp.max_value]
+	xp_label.text = "NIV. %02d   ·   %d / %d XP" % [State.run.level,xp.value,xp.max_value]
+	values.text = "Mage • Niveau %02d" % State.run.level
+	location_label.text = ("LE HAMEAU DES BRAISES" if world.village else "LA TOUR  ·  ÉTAGE %02d / 13" % State.run.floor)+"\n%d or  ·  %s" % [State.run.gold,Catalog.definition("campaign").values.difficulties[int(State.run.difficulty)]]
+	if State.qa: location_label.text += "\nQA · sauvegarde de test"
 	map.visible = not world.village
-	hint_label.text = world.hint
-	help.text = "%s Inventaire   %s Grimoire   %s Village\n%s Vie   %s Mana   %s Pause"%[Controls.caption("inventory"),Controls.caption("skills"),Controls.caption("portal"),Controls.caption("hp_potion"),Controls.caption("mp_potion"),Controls.caption("pause")]
-	spell_label.text = (Catalog.title(State.run.active) if not State.run.active.is_empty() else "Choisissez votre première magie auprès d’Orme")+"   [%s]      Vie ×%d   Mana ×%d"%[Controls.caption("cycle_spell"),State.run.hp_potions,State.run.mp_potions]
-	var rituals: Array[String] = []
-	for i: int in range(State.run.secondary.size()):
-		var id: String = State.run.secondary[i]
+	if hint_label.text != world.hint:
+		hint_label.text = world.hint
+		layout_dock()
+	hint_panel.visible = not world.hint.is_empty()
+	spell_label.text = Catalog.title(State.run.active) if not State.run.active.is_empty() else "Aucune magie"
+	primary.update_slot(State.run.active,Controls.caption("cycle_spell"),0,1,"MAGIE")
+	primary.disabled = State.run.active.is_empty()
+	hp_potion.update_potion(Controls.caption("hp_potion"),State.run.hp_potions)
+	mp_potion.update_potion(Controls.caption("mp_potion"),State.run.mp_potions)
+	ritual_status.text = "Au village" if world.village else ""
+	var available: Array = State.secondary_skills()
+	for i: int in range(3):
+		var id: String = available[i] if i < available.size() else ""
 		var cd: float = world.player.cooldowns.get(id,0)
-		rituals.append("[%s] %s  %s"%[Controls.caption("secondary_%d"%i),Catalog.title(id),"%.0fs"%ceilf(cd) if cd>0 else "prêt"])
-	ritual_label.text = "   ·   ".join(rituals) if not rituals.is_empty() else "Les rituels secondaires se débloquent à partir du niveau 3."
-	toast_timer -= delta
-	toast_label.visible = toast_timer>0
+		var profile: Dictionary = world.combat.secondary_profile(id) if not id.is_empty() else {"cooldown":1.0,"mana":0.0}
+		var empty: String = "NIV. 20" if i==2 and State.run.level<20 else "VIDE"
+		var low_mana: bool = not id.is_empty() and State.run.mp + 0.00001 < State.mana_cost(profile.mana,profile.offensive)
+		rituals[i].disabled = id.is_empty() or cd>0 or world.village or low_mana
+		rituals[i].update_slot(id,Controls.caption("secondary_%d"%i),cd,profile.cooldown,empty,low_mana)
+		if id.is_empty():
+			rituals[i].tooltip_text = "Troisième rituel · se débloque au niveau 20" if empty=="NIV. 20" else "Emplacement libre · apprenez un rituel en montant de niveau"
+	for action: String in navigation:
+		navigation[action][0].text = "%s  %s" % [Controls.caption(action),navigation[action][1]]
+	var new_key: String = str([State.run.skills,State.run.fusion,State.run.active,available,State.run.equipped,s,Controls.caption("cycle_spell")])
+	if details_key!=new_key:
+		details_key=new_key
+		spell_hint.text = "Parlez à Orme"
+		if not State.run.active.is_empty():
+			var attack: Dictionary = world.combat.profile(State.run.active)
+			spell_hint.text = "%s mana %s" % [String.num(State.mana_cost(attack.mana),1).trim_suffix(".0").replace(".",","),"/ s" if attack.channel else "/ sort"]
+		if not State.run.active.is_empty(): primary.tooltip_text=Catalog.title(State.run.active)+"\n"+SkillDetails.text(State.run.active,false)+"\nDPS théorique avant résistance, à mana disponible. Portées en unités (u).\n"+Controls.caption("cycle_spell")+" · Changer de magie (ou cliquer)."
+		for i: int in range(available.size()):
+			var id: String = available[i]
+			rituals[i].tooltip_text=Catalog.title(id)+"\n"+SkillDetails.text(id,false)+"\nDPS moyen : dégâts ÷ recharge. Avant résistance."
+	toast_timer -= delta; toast_label.visible = toast_timer>0

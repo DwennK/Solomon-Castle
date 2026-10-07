@@ -6,10 +6,18 @@ signal message(text: String)
 
 var run: Dictionary = {}
 var checkpoint: Dictionary = {}
-var options: Dictionary = {"volume":0.7,"music":0.45,"brightness":1.0,"reduced_effects":false,"fullscreen":false,"bindings":{},"pad_bindings":{}}
+var options: Dictionary = {"volume":0.7,"music":0.45,"effects":0.8,"brightness":1.0,"reduced_effects":false,"fullscreen":false,"bindings":{},"pad_bindings":{}}
 var qa: bool = false
 var save_path: String = "user://campaign.json"
 var unlocked: int = 0
+var notice_times: Dictionary = {}
+
+func notify_limited(key: String, text: String, interval_ms: int = 4000) -> void:
+	var now: int = Time.get_ticks_msec()
+	if now-int(notice_times.get(key,-interval_ms)) < interval_ms: return
+	notice_times[key] = now
+	message.emit(text)
+
 
 func _ready() -> void:
 	qa = "--qa" in OS.get_cmdline_user_args() or "--test" in OS.get_cmdline_user_args()
@@ -25,12 +33,53 @@ func _ready() -> void:
 	apply_options()
 
 func fresh(seed_value: int = 0, difficulty: int = 0, hardcore: bool = false) -> void:
-	run = {"seed":seed_value if seed_value != 0 else int(Time.get_unix_time_from_system()),"difficulty":difficulty,"hardcore":hardcore,"level":1,"xp":0.0,"gold":140,"hp":110.0,"mp":100.0,"skills":{},"secondary":[],"active":"","fusion":{},"inventory":[],"equipped":{"staff":"","ring1":"","ring2":""},"hp_potions":3,"mp_potions":3,"floor":0,"deepest":1,"floors":{},"position":[720,580],"return_position":[],"return_floor":1,"dead":false,"victory":false,"deaths":0,"pending":[],"offers":[],"shop":[],"serial":0,"wisdom":0}
+	run = {"seed":seed_value if seed_value != 0 else int(Time.get_unix_time_from_system()),"difficulty":difficulty,"hardcore":hardcore,"level":1,"xp":0.0,"gold":140,"hp":110.0,"mp":100.0,"skills":{},"secondary":[],"active":"","fusion":{},"inventory":[],"equipped":{"staff":"","ring1":"","ring2":""},"hp_potions":3,"mp_potions":3,"floor":0,"deepest":1,"floors":{},"position":[720,580],"return_position":[],"return_floor":1,"dead":false,"victory":false,"deaths":0,"pending":[],"offers":[],"shop":[],"serial":0,"wisdom":0,"insight":1,"reroll_serial":0}
 	checkpoint = {}
+	notice_times.clear()
 	changed.emit()
+
+func learned_rank(id: String, snapshot: Dictionary = {}) -> int:
+	return int((snapshot if not snapshot.is_empty() else run.get("skills", {})).get(id, 0))
+
+func equipment_bonuses() -> Dictionary:
+	var result: Dictionary = {}
+	for uid: String in run.get("equipped", {}).values():
+		var item: Dictionary = find_item(uid)
+		for key: String in item.get("bonuses", {}):
+			result[key] = float(result.get(key,0.0))+float(item.bonuses[key])
+	return result
 
 func rank(id: String, snapshot: Dictionary = {}) -> int:
 	return effective_rank(id, learned_rank(id,snapshot), equipment_bonuses())
+
+func effective_rank(id: String, learned: int, bonuses: Dictionary) -> int:
+	var specific: int = int(bonuses.get("skill:"+id,0))
+	# All-skills improves acquired skills, without learning the entire grimoire.
+	var extra: int = specific+(int(bonuses.get("all_skills",0)) if learned+specific>0 else 0)
+	if extra<=0: return learned
+	var definition: ContentDefinition = Catalog.definition(id)
+	if not definition: return learned
+	var cap: int = 11 if id=="shield" else definition.max_rank+7
+	if id in ["meditation","reach"]: return learned
+	return maxi(learned,mini(cap,learned+extra))
+
+func secondary_skills() -> Array:
+	var result: Array = run.get("secondary",[]).duplicate()
+	for id: String in Catalog.ids("secondary"):
+		if result.size()>=(3 if run.get("level",1)>=20 else 2): break
+		if id not in result and rank(id)>0: result.append(id)
+	return result
+
+func refresh_equipment() -> void:
+	var active: String = run.get("active","")
+	if active.is_empty() or (active in Catalog.ids("primary") and rank(active)==0):
+		run.active = ""
+		for id: String in Catalog.ids("primary"):
+			if rank(id)>0:
+				run.active=id
+				break
+	clamp_vitals()
+	changed.emit()
 
 func stats() -> Dictionary:
 	var bonuses: Dictionary = equipment_bonuses()
@@ -71,6 +120,9 @@ func add_xp(amount: float) -> void:
 	if not run.pending.is_empty():
 		level_pending.emit()
 
+func add_gold(amount: int) -> void:
+	run.gold += int(round(amount*(1.0+stats().gold_bonus)))
+
 func eligible(level: int) -> Array[String]:
 	var result: Array[String] = []
 	for kind: String in ["primary","secondary","passive"]:
@@ -91,25 +143,55 @@ func eligible(level: int) -> Array[String]:
 				result.append(id)
 	return result
 
-func offers() -> Array:
+func offers(excluded: Array = []) -> Array:
 	if run.pending.is_empty():
 		return []
 	if not run.offers.is_empty():
 		return run.offers
 	var choices: Array[String] = eligible(int(run.pending[0]))
+	var alternatives: Array[String] = []
+	for id: String in choices:
+		if id not in excluded: alternatives.append(id)
+	# Prefer unseen choices; reuse only when the eligible pool is nearly exhausted.
+	var fallback: Array[String] = choices.duplicate()
+	if not alternatives.is_empty(): choices = alternatives
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.seed = int(run.seed) + int(run.pending[0])*92821 + int(run.wisdom)
+	rng.seed = int(run.seed) + int(run.pending[0])*92821 + int(run.wisdom) + int(run.get("reroll_serial",0))*15485863
 	# Fusion opportunities must remain discoverable at each fifth level.
 	var fusion_choices: Array = choices.filter(func(id: String) -> bool: return Catalog.definition(id).kind == "fusion")
+	if fusion_choices.is_empty(): fusion_choices = fallback.filter(func(id: String) -> bool: return Catalog.definition(id).kind == "fusion")
 	if not fusion_choices.is_empty():
 		var fusion: String = fusion_choices[rng.randi_range(0, fusion_choices.size()-1)]
 		run.offers.append(fusion)
 		choices.erase(fusion)
-	while run.offers.size() < 3 and not choices.is_empty():
+	while run.offers.size() < 3:
+		if choices.is_empty():
+			choices = fallback.filter(func(id: String) -> bool: return id not in run.offers)
+			if choices.is_empty(): break
 		var index: int = rng.randi_range(0, choices.size()-1)
 		run.offers.append(choices[index])
 		choices.remove_at(index)
 	return run.offers
+
+func can_reroll() -> bool:
+	if run.get("insight",1)<=0 or run.pending.is_empty() or run.offers.is_empty(): return false
+	for id: String in eligible(int(run.pending[0])):
+		if id not in run.offers: return true
+	return false
+
+func reroll() -> bool:
+	if not can_reroll(): return false
+	var previous: Dictionary = run.duplicate(true)
+	run.insight = int(run.get("insight",1))-1
+	run.reroll_serial = int(run.get("reroll_serial",0))+1
+	run.offers = []
+	offers(previous.offers)
+	if not save_game():
+		run = previous
+		message.emit(SaveStore.last_error)
+		return false
+	changed.emit()
+	return true
 
 func learn(id: String) -> bool:
 	if not Catalog.defs.has(id):
@@ -151,6 +233,11 @@ func make_item(seed_value: int, tier: int) -> Dictionary:
 	for template: Dictionary in Equipment.templates():
 		if template.rarity==rarity: candidates.append(template)
 	return make_equipment(candidates[rng.randi_range(0,candidates.size()-1)],rng,tier)
+
+func make_equipment(template: Dictionary, rng: RandomNumberGenerator, tier: int = 1) -> Dictionary:
+	var bonus: Dictionary = Equipment.roll(template,rng)
+	run.serial += 1
+	return {"uid":"item_%d_%d"%[run.seed,run.serial],"template":template.id,"name":Equipment.item_name(template.slot,bonus),"slot":template.slot,"rarity":template.rarity,"bonuses":bonus,"price":35+maxi(0,tier)*12+int(template.rarity)*42}
 
 func equip(uid: String, slot: String = "") -> bool:
 	var item: Dictionary = find_item(uid)
@@ -201,8 +288,28 @@ func potion(kind: String) -> bool:
 	changed.emit()
 	return true
 
-func mark_checkpoint() -> void:
+func mark_checkpoint(reason: String = "Point de reprise") -> void:
+	run.checkpoint_info = {"reason":reason,"time":Time.get_datetime_string_from_system(false,true)}
 	checkpoint = run.duplicate(true)
+
+func checkpoint_description() -> String:
+	var saved: Dictionary = checkpoint if not checkpoint.is_empty() else run
+	var floor_number: int = int(saved.get("floor",0))
+	var location: String = "Village" if floor_number==0 else "Étage %d" % floor_number
+	if floor_number>0 and saved.get("floors",{}).has(str(floor_number)):
+		var point: Vector2 = Dungeon.vec(saved.get("position",[0,0]))
+		var rooms: Array = saved.floors[str(floor_number)].get("rooms",[])
+		var found_room: bool = false
+		for i: int in range(rooms.size()):
+			var r: Array = rooms[i]
+			if Rect2(r[0]*Dungeon.CELL,r[1]*Dungeon.CELL,r[2]*Dungeon.CELL,r[3]*Dungeon.CELL).has_point(point):
+				location += " · salle %d" % (i+1)
+				found_room = true
+				break
+		if not found_room: location += " · couloir (%d, %d)" % [point.x/Dungeon.CELL,point.y/Dungeon.CELL]
+	var info: Dictionary = saved.get("checkpoint_info",{})
+	var stamp: String = info.get("time","")
+	return "%s · niveau %d · %d or\n%s%s" % [location,saved.get("level",1),saved.get("gold",0),info.get("reason","Ancien point de reprise"),(" · "+stamp) if not stamp.is_empty() else ""]
 
 func die() -> void:
 	var deaths: int = int(run.deaths)+1
@@ -252,6 +359,10 @@ func load_game() -> bool:
 		return false
 	run = payload.run
 	checkpoint = payload.get("checkpoint",{} )
+	for saved: Dictionary in [run,checkpoint]:
+		if saved.is_empty(): continue
+		if not saved.has("insight"): saved.insight = 1
+		if not saved.has("reroll_serial"): saved.reroll_serial = 0
 	if not SaveStore.last_error.is_empty(): message.emit(SaveStore.last_error)
 	return true
 
@@ -267,6 +378,8 @@ func valid_payload(payload: Dictionary) -> bool:
 	for key: String in ["seed","floor","hp","mp","difficulty","level","gold","serial"]:
 		if not (r[key] is float or r[key] is int) or not is_finite(float(r[key])): return false
 	if int(r.floor) not in range(14) or int(r.difficulty) not in range(5) or int(r.level)<1: return false
+	for key: String in ["insight","reroll_serial"]:
+		if r.has(key) and (not (r[key] is float or r[key] is int) or not is_finite(float(r[key])) or float(r[key])<0 or float(r[key])!=floorf(float(r[key]))): return false
 	for id: String in r.skills:
 		if not Catalog.defs.has(id) or not (r.skills[id] is float or r.skills[id] is int): return false
 	for item: Variant in r.inventory+r.shop:
@@ -288,54 +401,7 @@ func save_options() -> void:
 	apply_options()
 
 func apply_options() -> void:
+	AudioServer.set_bus_mute(0,float(options.volume)<=0.0)
 	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(0.0001, options.volume)))
 	if DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if options.fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
-
-func learned_rank(id: String, snapshot: Dictionary = {}) -> int:
-	return int((snapshot if not snapshot.is_empty() else run.get("skills", {})).get(id, 0))
-
-func equipment_bonuses() -> Dictionary:
-	var result: Dictionary = {}
-	for uid: String in run.get("equipped", {}).values():
-		var item: Dictionary = find_item(uid)
-		for key: String in item.get("bonuses", {}):
-			result[key] = float(result.get(key,0.0))+float(item.bonuses[key])
-	return result
-
-func effective_rank(id: String, learned: int, bonuses: Dictionary) -> int:
-	var specific: int = int(bonuses.get("skill:"+id,0))
-	# All-skills improves acquired skills, without learning the entire grimoire.
-	var extra: int = specific+(int(bonuses.get("all_skills",0)) if learned+specific>0 else 0)
-	if extra<=0: return learned
-	var definition: ContentDefinition = Catalog.definition(id)
-	if not definition: return learned
-	var cap: int = 11 if id=="shield" else definition.max_rank+7
-	if id in ["meditation","reach"]: return learned
-	return maxi(learned,mini(cap,learned+extra))
-
-func secondary_skills() -> Array:
-	var result: Array = run.get("secondary",[]).duplicate()
-	for id: String in Catalog.ids("secondary"):
-		if result.size()>=(3 if run.get("level",1)>=20 else 2): break
-		if id not in result and rank(id)>0: result.append(id)
-	return result
-
-func refresh_equipment() -> void:
-	var active: String = run.get("active","")
-	if active.is_empty() or (active in Catalog.ids("primary") and rank(active)==0):
-		run.active = ""
-		for id: String in Catalog.ids("primary"):
-			if rank(id)>0:
-				run.active=id
-				break
-	clamp_vitals()
-	changed.emit()
-
-func add_gold(amount: int) -> void:
-	run.gold += int(round(amount*(1.0+stats().gold_bonus)))
-
-func make_equipment(template: Dictionary, rng: RandomNumberGenerator, tier: int = 1) -> Dictionary:
-	var bonus: Dictionary = Equipment.roll(template,rng)
-	run.serial += 1
-	return {"uid":"item_%d_%d"%[run.seed,run.serial],"template":template.id,"name":Equipment.item_name(template.slot,bonus),"slot":template.slot,"rarity":template.rarity,"bonuses":bonus,"price":35+maxi(0,tier)*12+int(template.rarity)*42}

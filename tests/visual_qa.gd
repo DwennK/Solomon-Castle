@@ -8,6 +8,7 @@ var measuring: bool = false
 var report: Dictionary = {}
 
 func start(owner_main: Node) -> void:
+	DirAccess.make_dir_recursive_absolute("res://outputs/screenshots")
 	main=owner_main
 	State.fresh(197903)
 	State.learn("missile")

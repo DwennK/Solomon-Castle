@@ -6,7 +6,7 @@
 script = ExtResource("1")
 id = "potent"
 title = "Projectiles véloces"
-description = "+20 % vitesse, poursuite plus vive."
+description = "+20 % vitesse des projectiles par rang, hors Orbe électrique."
 kind = "passive"
 icon = "missile"
 max_rank = 5

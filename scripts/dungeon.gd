@@ -164,13 +164,42 @@ func _draw() -> void:
 			var c: Vector2i = Vector2i(x,y)
 			var rect: Rect2 = Rect2(Vector2(c*CELL),Vector2.ONE*CELL)
 			if cells.has(c):
-				if floor_texture: draw_texture_rect_region(floor_texture,rect,Rect2((x%4)*128,(y%4)*128,128,128),Color(0.68,0.74,0.79))
+				if floor_texture: draw_texture_rect_region(floor_texture,rect,Rect2((x%4)*128,(y%4)*128,128,128),Color(0.61+float((x*17+y*31)%7)*0.012,0.68+float((x*17+y*31)%7)*0.012,0.74+float((x*17+y*31)%7)*0.012))
 				else: draw_rect(rect,Color("343f46"))
-				if not cells.has(c+Vector2i.UP): draw_rect(Rect2(rect.position,Vector2(CELL,20)),Color(0,0,0,0.35))
+				if not cells.has(c+Vector2i.UP):
+					for band: int in range(6): draw_rect(Rect2(rect.position+Vector2(0,band*5),Vector2(CELL,5)),Color(0.005,0.01,0.02,0.34-band*0.05))
+				if not cells.has(c+Vector2i.LEFT): draw_rect(Rect2(rect.position,Vector2(10,CELL)),Color(0,0,0,0.18))
+				if (x*17+y*31)%19==0:
+					var crack: Vector2 = rect.position+Vector2(20,13)
+					draw_polyline(PackedVector2Array([crack,crack+Vector2(10,13),crack+Vector2(7,25),crack+Vector2(21,37)]),Color(0.04,0.055,0.065,0.55),1,true)
+				if (x*13+y*7)%23==0:
+					for chip: int in range(3):
+						var p: Vector2 = rect.position+Vector2(12+chip*13,18+(chip*17)%30)
+						draw_colored_polygon(PackedVector2Array([p,p+Vector2(5,2),p+Vector2(2,5),p+Vector2(-2,3)]),Color(0.37,0.4,0.39,0.45))
 			elif adjacent_open(c):
 				if wall_texture: draw_texture_rect_region(wall_texture,rect,Rect2((x%4)*128,(y%4)*128,128,128),Color("65737d"))
 				else: draw_rect(rect,Color("151c25"))
 				draw_rect(rect,Color(0.02,0.025,0.04,0.4),false,2)
 				if cells.has(c+Vector2i.DOWN):
-					draw_rect(Rect2(rect.position+Vector2(0,38),Vector2(CELL,26)),Color("121b23"))
+					draw_rect(Rect2(rect.position+Vector2(0,38),Vector2(CELL,26)),Color("17242c"))
+					draw_line(rect.position+Vector2(CELL/2,40),rect.position+Vector2(CELL/2,62),Color(0.015,0.02,0.03,0.7),2)
+					draw_line(rect.position+Vector2(0,62),rect.position+Vector2(CELL,62),Color(0.36,0.38,0.36,0.4),1)
 					draw_line(rect.position+Vector2(0,38),rect.position+Vector2(CELL,38),Color("6b6a58"),2)
+
+	# Room inlays are purely decorative and remain under actors and spell warnings.
+	for index: int in range(data.rooms.size()):
+		var room: Array = data.rooms[index]
+		var area: Rect2 = Rect2(room[0]*CELL+18,room[1]*CELL+18,room[2]*CELL-36,room[3]*CELL-36)
+		var bronze: Color = Color(0.59,0.48,0.31,0.23)
+		draw_rect(area,bronze,false,2)
+		draw_rect(area.grow(-7),Color(bronze,0.13),false,1)
+		for corner: Vector2 in [area.position,Vector2(area.end.x,area.position.y),area.end,Vector2(area.position.x,area.end.y)]:
+			draw_circle(corner,5,Color(0.64,0.54,0.36,0.35))
+		var center: Vector2 = to_world(room_center(room))
+		var radius: float = 105 if index%2==0 else 78
+		draw_set_transform(center,0,Vector2(1,0.78))
+		ArcaneArt.rune(self,Vector2.ZERO,radius,Color(0.59,0.60,0.52,0.18),index*0.4)
+		var diamond: PackedVector2Array = PackedVector2Array()
+		for i: int in range(5): diamond.append(Vector2.from_angle(i*TAU/4)*radius*0.62)
+		draw_polyline(diamond,Color(0.6,0.57,0.44,0.18),2,true)
+		draw_set_transform(Vector2.ZERO)

@@ -9,6 +9,7 @@ var captures: bool = false
 var started: int = 0
 
 func start(owner_main: Node) -> void:
+	DirAccess.make_dir_recursive_absolute("res://outputs/screenshots")
 	main = owner_main
 	captures = DisplayServer.get_name() != "headless"
 	started = Time.get_ticks_msec()

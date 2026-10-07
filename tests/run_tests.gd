@@ -16,10 +16,19 @@ func check(condition: bool, text: String) -> void:
 		push_error("FAIL: "+text)
 
 func run_all() -> void:
+	DirAccess.make_dir_recursive_absolute("res://outputs")
 	state = get_tree().root.get_node("State")
 	catalog = get_tree().root.get_node("Catalog")
 	state.fresh(91231)
 	check(state.qa,"Test save namespace isolated")
+	Controls.setup({"interact":KEY_G},{"interact":JOY_BUTTON_X})
+	var key_event: InputEventKey = InputEventKey.new()
+	key_event.physical_keycode=KEY_G
+	var pad_event: InputEventJoypadButton = InputEventJoypadButton.new()
+	pad_event.button_index=JOY_BUTTON_X
+	check(InputMap.event_is_action(key_event,"interact"),"Keyboard remapping")
+	check(InputMap.event_is_action(pad_event,"interact"),"Gamepad button remapping")
+	Controls.setup()
 	check(catalog.ids("primary").size()==4,"Four primary spells")
 	check(catalog.ids("fusion").size()==6,"Six fusion spells")
 	check(catalog.ids("passive").size()+catalog.ids("secondary").size()+4>=21,"At least 21 usable skills")
@@ -38,6 +47,13 @@ func run_all() -> void:
 			for record: Dictionary in data.enemies+data.props:
 				var target: Vector2i = Vector2i(Dungeon.vec(record.pos)/Dungeon.CELL)
 				check(not grid.get_id_path(entry,target).is_empty(),"Reachable entity %d/%d/%s"%[seed_value,floor_number,record.id])
+			if not data.boss.is_empty():
+				for cell: Array in data.gate_cells: grid.set_point_solid(Vector2i(cell[0],cell[1]),true)
+				var key_pos: Vector2i
+				for prop: Dictionary in data.props:
+					if prop.id == data.key_chest: key_pos=Vector2i(Dungeon.vec(prop.pos)/Dungeon.CELL)
+				check(not grid.get_id_path(entry,key_pos).is_empty(),"Key before closed gate")
+				check(grid.get_id_path(entry,exit_cell).is_empty(),"Boss gate seals final chamber")
 			check(data.rooms.size()>=6,"Multiple rooms")
 			generations += 1
 		if seed_value%20==0: print("Generation seeds checked: ",seed_value+1)
@@ -74,11 +90,13 @@ func run_all() -> void:
 		var item: Dictionary = state.make_item(i,5)
 		varieties[item.name]=true
 	check(varieties.size()>=50,"At least fifty differentiated item combinations")
-	var item: Dictionary = state.make_item(81,3)
+	var equipment_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	equipment_rng.seed=81
+	var item: Dictionary = state.make_equipment(Equipment.templates()[0],equipment_rng,3)
 	state.run.inventory.append(item)
 	var baseline: Dictionary = state.stats()
 	check(state.equip(item.uid),"Equipment accepted")
-	check(state.stats()!=baseline,"Equipment changes statistics")
+	check(state.stats().flat_damage>baseline.flat_damage,"Equipment changes statistics")
 	state.unequip("staff" if item.slot=="staff" else "ring1")
 	check(state.stats()==baseline,"Unequip removes bonuses exactly")
 	check(state.equip(item.uid,"ring1" if item.slot=="staff" else "staff")==false,"Slot mismatch rejected")

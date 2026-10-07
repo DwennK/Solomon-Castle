@@ -29,6 +29,10 @@ var hint: String = ""
 var village_texture: Texture2D
 var ended: bool = false
 var gate_body: StaticBody2D
+var audio_check: float = 0.0
+var boss_music_hold: float = 0.0
+var impact_trauma: float = 0.0
+var visual_clock: float = 0.0
 
 func _ready() -> void:
 	combat = CombatSystem.new()
@@ -45,8 +49,12 @@ func clear_world() -> void:
 	loot.clear()
 
 func load_floor(number: int, resume: bool = false) -> void:
+	var returning: bool = not State.run.get("return_position",[]).is_empty() and number==int(State.run.get("return_floor",1))
 	changing = true
+	Sound.stop_world()
+	boss_music_hold = 0.0
 	clear_world()
+	impact_trauma = 0.0
 	State.run.floor = number
 	village = number == 0
 	dungeon = Dungeon.new()
@@ -100,11 +108,17 @@ func load_floor(number: int, resume: bool = false) -> void:
 		camera.position = Vector2(768,510)-player.position
 		camera.position_smoothing_enabled = false
 	camera.make_current()
+	var atmosphere: WorldAtmosphere = WorldAtmosphere.new()
+	atmosphere.world = self
+	add_child(atmosphere)
 	State.run.deepest = maxi(int(State.run.deepest),number)
 	if not resume:
 		snapshot()
-		State.mark_checkpoint()
+		State.mark_checkpoint("Retour au village" if village else ("Retour par le portail" if returning else "Arrivée dans l’étage"))
 		State.save_game()
+	Sound.listener_position = player.global_position
+	Sound.set_music("village" if village else "exploration")
+	if not resume: Sound.play("portal")
 	ended = false
 	changing = false
 	floor_changed.emit()
@@ -136,6 +150,17 @@ func add_prop(record: Dictionary, label: String = "") -> void:
 
 func _physics_process(delta: float) -> void:
 	if changing or ended or not is_instance_valid(player): return
+	visual_clock += delta
+	impact_trauma = maxf(0,impact_trauma-delta*2.5)
+	camera.offset = Vector2.ZERO if State.options.reduced_effects else Vector2(sin(visual_clock*47),cos(visual_clock*53))*impact_trauma*3.0
+	audio_check -= delta
+	boss_music_hold = maxf(0.0,boss_music_hold-delta)
+	if audio_check<=0.0 and not village:
+		audio_check = 0.4
+		for enemy: TowerEnemy in enemies:
+			if enemy.boss and not enemy.dead and enemy.active and enemy.position.distance_to(player.position)<850 and (enemy.record.id!="boss" or floor_data.get("gate_open",true)):
+				boss_music_hold = 5.0
+		Sound.set_music("boss" if boss_music_hold>0.0 else "exploration")
 	if village:
 		player.position = player.position.clamp(Vector2(285,350),Vector2(1240,790))
 		camera.position = Vector2(768,510)-player.position
@@ -210,16 +235,16 @@ func open_prop(prop: WorldProp) -> void:
 		floor_data.has_key = true
 		State.message.emit("La clé du gardien a été trouvée. Le sceau peut être ouvert.")
 	var gold: int = 8+int(State.run.floor)*3
-	State.run.gold += gold
+	State.add_gold(gold)
 	if prop.record.kind=="chest":
 		var item: Dictionary = State.make_item(int(State.run.seed)+int(State.run.floor)*163+int(prop.record.id.hash()),int(State.run.floor))
 		loot.append({"kind":"item","item":item,"pos":Dungeon.pair(prop.position+Vector2(35,25))})
 		State.run.mp_potions += 1
 		prop.texture = Catalog.texture("chest_open")
-		Sound.play("chest")
+		Sound.play("chest",prop.global_position)
 	else:
 		if int(prop.record.id.hash())%2==0: State.run.hp_potions += 1
-		Sound.play("impact")
+		Sound.play("urn",prop.global_position)
 	prop.queue_redraw()
 	if prop.record.id == floor_data.get("key_chest",""): return
 	State.message.emit("+%d or%s"%[gold," · potion de mana et équipement" if prop.record.kind=="chest" else ""])
@@ -234,7 +259,6 @@ func use_portal() -> void:
 	snapshot()
 	load_floor(0)
 	State.message.emit("Le portail garde votre position et l’état de l’étage.")
-	Sound.play("ritual")
 
 func advance() -> bool:
 	if not floor_data.get("boss","").is_empty() and not floor_data.boss_dead:
@@ -293,32 +317,36 @@ func enemy_killed(enemy: TowerEnemy) -> void:
 	State.add_xp((19.0+int(State.run.floor)*4.5)*(9 if enemy.boss else 1))
 	loot.append({"kind":"gold","amount":6+int(State.run.floor)*2,"pos":Dungeon.pair(enemy.position)})
 	if enemy.boss:
-		if enemy.record.id == "boss": floor_data.boss_dead = true
+		if enemy.record.id == "boss":
+			floor_data.boss_dead = true
+			State.run.insight = int(State.run.get("insight",1))+1
 		if enemy.record.id == "guardian": floor_data.guardian_dead = true
 		loot.append({"kind":"item","item":State.make_item(int(State.run.seed)+int(State.run.floor)*97,int(State.run.floor)+4),"pos":Dungeon.pair(enemy.position+Vector2(40,0))})
-		State.message.emit("%s vaincu."%enemy.definition.title)
+		State.message.emit("%s vaincu.%s"%[enemy.definition.title," +1 Éclat de savoir." if enemy.record.id=="boss" else ""])
 		if int(State.run.floor)==13 and enemy.record.id == "boss":
 			State.message.emit("L’Archiviste est tombé. Rejoignez le sceau du sommet pour achever l’ascension.")
 	elif int(enemy.record.id.hash())%13==0:
 		loot.append({"kind":"health","pos":Dungeon.pair(enemy.position+Vector2(20,15))})
 	effect(enemy.position,Color("acbaac"),50 if enemy.boss else 25)
-	Sound.play("enemy")
+	Sound.play("boss_death" if enemy.boss else "enemy_death",enemy.global_position)
 
 func collect_loot() -> void:
 	for i: int in range(loot.size()-1,-1,-1):
 		var drop: Dictionary = loot[i]
-		if player.position.distance_to(Dungeon.vec(drop.pos))>65+State.rank("reach")*45: continue
+		if player.position.distance_to(Dungeon.vec(drop.pos))>player.cached_stats.pickup_radius: continue
 		if drop.kind=="item":
-			if State.run.inventory.size()>=48: continue
+			if State.run.inventory.size()>=48:
+				State.notify_limited("bag_full","Sac plein (48/48) : l’objet reste au sol. Vendez un objet au village.")
+				continue
 			State.run.inventory.append(drop.item)
 			State.message.emit("Objet trouvé : "+drop.item.name)
-		elif drop.kind=="gold": State.run.gold += drop.amount
+		elif drop.kind=="gold": State.add_gold(int(drop.amount))
 		elif drop.kind=="health": State.run.hp_potions += 1
 		loot.remove_at(i)
-		Sound.play("loot")
+		Sound.play("item" if drop.kind=="item" else ("potion" if drop.kind=="health" else "loot"))
 
-func hazard(pos: Vector2,radius: float,damage: float,delay: float,color: Color,duration: float = 0.2) -> void:
-	zones.append({"pos":pos,"radius":radius,"damage":damage,"delay":delay,"life":duration,"color":color,"kind":"hostile","tick":0.0})
+func hazard(pos: Vector2,radius: float,damage: float,delay: float,color: Color,duration: float = 0.2, damage_type: String = "physical") -> void:
+	zones.append({"pos":pos,"radius":radius,"damage":damage,"delay":delay,"life":duration,"color":color,"kind":"hostile","damage_type":damage_type,"tick":0.0})
 
 func friendly_zone(pos: Vector2,kind: String,radius: float,duration: float,power: float) -> void:
 	zones.append({"pos":pos,"radius":radius,"damage":power,"delay":0.0,"life":duration,"color":Color("98cf8d") if kind=="acid" else Color("86bfcf"),"kind":kind,"tick":0.0})
@@ -336,7 +364,7 @@ func update_zones(delta: float) -> void:
 		if z.kind=="hostile":
 			z.tick -= delta
 			if z.tick<=0 and player.position.distance_to(z.pos)<z.radius:
-				player.take_damage(z.damage)
+				player.take_damage(z.damage,z.get("damage_type","physical"))
 				z.tick = 0.8
 		else:
 			for enemy: TowerEnemy in enemies.duplicate():
@@ -354,6 +382,8 @@ func player_died() -> void:
 	if ended: return
 	ended = true
 	State.die()
+	Sound.stop_world()
+	Sound.set_music("")
 	Sound.play("death")
 	died.emit()
 
@@ -364,13 +394,17 @@ func cycle_spell() -> void:
 	if not State.run.fusion.is_empty(): learned.append(State.run.fusion.id)
 	if learned.is_empty(): return
 	State.run.active = learned[(learned.find(State.run.active)+1)%learned.size()]
+	Sound.stop_channel()
+	Sound.play("spell_switch")
 	State.message.emit(Catalog.title(State.run.active))
 
-func effect(pos: Vector2,color: Color,radius: float) -> void:
-	if effects: effects.add_burst(pos,color,radius)
+func effect(pos: Vector2,color: Color,radius: float,style: String = "impact") -> void:
+	if effects: effects.add_burst(pos,color,radius,style)
+	if radius>=100 and is_instance_valid(player) and pos.distance_to(player.position)<650:
+		impact_trauma = minf(1.0,impact_trauma+radius/350.0)
 
-func beam(a: Vector2,b: Vector2,color: Color,width: float,life: float = 0.1,cone: bool = false) -> void:
-	if effects: effects.add_beam(a,b,color,width,life,cone)
+func beam(a: Vector2,b: Vector2,color: Color,width: float,life: float = 0.1,cone: bool = false,style: String = "lightning") -> void:
+	if effects: effects.add_beam(a,b,color,width,life,cone,style)
 
 func _draw() -> void:
 	if village:

@@ -43,7 +43,8 @@ func setup(owner_world: Node2D, value: Dictionary) -> void:
 func _ready() -> void:
 	visual = ActorVisual.new()
 	visual.texture = Catalog.texture(record.kind)
-	visual.target_height = 145 if boss else (96 if record.kind == "zombie" or record.kind == "knight" else 83)
+	visual.kind = record.kind
+	visual.target_height = 176 if boss else (116 if record.kind == "zombie" or record.kind == "knight" else 103)
 	add_child(visual)
 	if boss:
 		var shape: CircleShape2D = CircleShape2D.new()
@@ -65,8 +66,10 @@ func _physics_process(delta: float) -> void:
 	fear = maxf(0,fear-delta)
 	if burn>0:
 		burn -= delta
-		take_damage(8.0*delta,Vector2.ZERO, true)
+		take_damage(CombatSystem.BURN_DPS*delta,Vector2.ZERO, true)
 		if dead: return
+	visual.frozen = frozen>0
+	visual.burning = burn>0
 	visual.tint = Color("8ac9ed") if frozen>0 or slow_time>0 else Color.WHITE
 	if frozen>0:
 		visual.moving = false
@@ -128,7 +131,7 @@ func release_attack() -> void:
 				else:
 					for i: int in range(9): world.enemy_bolt(position,Vector2.RIGHT.rotated(i*TAU/9.0),damage,210,Color("d8b080"))
 			"boss_plague":
-				for i: int in range(3): world.hazard(attack_target+Vector2(i*90-90,0),85,damage,1.1,Color("9caf49"),5.0)
+				for i: int in range(3): world.hazard(attack_target+Vector2(i*90-90,0),85,damage,1.1,Color("9caf49"),5.0,"poison")
 			"boss_demon":
 				for i: int in range(5): world.enemy_bolt(position,direction.rotated((i-2)*0.22),damage,260,Color("ff9757"))
 				if phase%2 == 0: world.hazard(attack_target,150,damage,1.2,Color("ed8a48"))
@@ -151,8 +154,8 @@ func release_attack() -> void:
 			world.enemy_bolt(position,direction.rotated(-0.22),damage,220,Color("b384e5"))
 	else:
 		if position.distance_to(world.player.position)<78: world.player.take_damage(damage)
-		if behavior == "poison": world.hazard(position,60,damage*0.4,0.3,Color("8aab61"),3.0)
-	Sound.play("enemy")
+		if behavior == "poison": world.hazard(position,60,damage*0.4,0.3,Color("8aab61"),3.0,"poison")
+	Sound.play("boss_attack" if boss else ("enemy_bow" if behavior=="ranged" else ("enemy_magic" if behavior in ["caster","imp","ghost"] else "enemy_melee")),global_position)
 	queue_redraw()
 
 func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = false) -> void:
@@ -166,7 +169,13 @@ func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = fal
 		record.dead = true
 		record.hp = 0.0
 		world.enemy_killed(self)
-		queue_free()
+		collision_layer = 0
+		collision_mask = 0
+		set_physics_process(false)
+		visual.moving = false
+		var death: Tween = create_tween()
+		death.tween_property(visual,"dying",1.0,0.65)
+		death.tween_callback(queue_free)
 
 func chill(duration: float, factor: float = 0.5) -> void:
 	slow_time = maxf(slow_time,duration)
@@ -179,7 +188,14 @@ func _draw() -> void:
 	if dead: return
 	if hp<max_hp or boss:
 		var width: float = 95 if boss else 48
-		draw_rect(Rect2(-width/2,-(152 if boss else 95),width,4),Color("1a2026"))
-		draw_rect(Rect2(-width/2,-(152 if boss else 95),width*maxf(0,hp/max_hp),4),Color("c8986c") if boss else Color("a56360"))
+		draw_rect(Rect2(-width/2,-(182 if boss else 117),width,4),Color("1a2026"))
+		draw_rect(Rect2(-width/2,-(182 if boss else 117),width*maxf(0,hp/max_hp),4),Color("c8986c") if boss else Color("a56360"))
 	if telegraph>0:
-		draw_arc(Vector2.ZERO,52 if boss else 27,0,TAU,32,Color(1,0.55,0.3,0.8),3,true)
+		var radius: float = 52 if boss else 29
+		var time: float = 1.0-telegraph/(0.85 if boss else (0.45 if definition.values.behavior in ["ranged","caster","imp","ghost"] else 0.30))
+		var warning: Color = Color("ffb06d")
+		ArcaneArt.glow(self,Vector2.ZERO,radius*1.4,Color(warning,0.17))
+		draw_arc(Vector2.ZERO,radius,-PI/2,-PI/2+TAU*clampf(time,0,1),48,Color(warning,0.85),2.5,true)
+		var direction: Vector2 = position.direction_to(attack_target)
+		var tip: Vector2 = direction*(radius+10)
+		draw_polyline(PackedVector2Array([tip-direction.rotated(-0.55)*9,tip,tip-direction.rotated(0.55)*9]),Color(warning,0.8),2,true)

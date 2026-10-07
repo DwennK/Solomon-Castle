@@ -4,8 +4,8 @@ extends Node2D
 var world: Node2D
 var direction: Vector2 = Vector2.RIGHT
 var profile: Dictionary = {}
-var speed: float = 510.0
-var lifetime: float = 2.1
+var speed: float = CombatSystem.PROJECTILE_SPEED
+var lifetime: float = CombatSystem.PROJECTILE_LIFETIME
 var hostile: bool = false
 var damage: float = 10.0
 var color: Color = Color.WHITE
@@ -14,6 +14,7 @@ var pulse: float = 0.0
 var homing: bool = false
 var target: TowerEnemy
 var impact_done: bool = false
+var age: float = 0.0
 
 func _ready() -> void:
 	if not hostile:
@@ -22,11 +23,12 @@ func _ready() -> void:
 		homing = "missile" in profile.elements
 		speed *= 1.0+State.rank("potent",profile.snapshot)*0.2
 		if profile.id == "ball_lightning":
-			speed = 170.0
-			lifetime = 3.0
+			speed = CombatSystem.ORB_SPEED
+			lifetime = CombatSystem.ORB_LIFETIME
 	if homing: target = world.combat.nearest(position+direction*140,340)
 
 func _physics_process(delta: float) -> void:
+	age += delta
 	lifetime -= delta
 	if lifetime<=0:
 		queue_free()
@@ -41,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		return
 	position += step
 	history.push_front(position)
-	if history.size()>7: history.pop_back()
+	if history.size()>(8 if hostile or State.options.reduced_effects else 18): history.pop_back()
 	if hostile:
 		if Geometry2D.get_closest_point_to_segment(world.player.position,previous,position).distance_to(world.player.position)<22:
 			world.player.take_damage(damage)
@@ -50,11 +52,11 @@ func _physics_process(delta: float) -> void:
 		if profile.id == "ball_lightning":
 			pulse -= delta
 			if pulse<=0:
-				pulse = 0.25
-				var victim: TowerEnemy = world.combat.nearest(position,125)
+				pulse = CombatSystem.ORB_PULSE_INTERVAL
+				var victim: TowerEnemy = world.combat.nearest(position,CombatSystem.ORB_PULSE_RADIUS)
 				if victim:
 					world.beam(position,victim.position+Vector2(0,-15),color,3)
-					victim.take_damage(damage*0.35)
+					victim.take_damage(damage*CombatSystem.ORB_PULSE_RATIO)
 		for enemy: TowerEnemy in world.enemies:
 			if enemy.dead: continue
 			if Geometry2D.get_closest_point_to_segment(enemy.position,previous,position).distance_to(enemy.position)<(36 if enemy.boss else 24):
@@ -73,10 +75,8 @@ func impact(enemy: TowerEnemy) -> void:
 	if enemy:
 		enemy.take_damage(damage,direction*60)
 		if id == "frost_missile" and not enemy.dead: enemy.freeze(0.8)
-	var explosion_rank: int = State.rank("explode",profile.snapshot)
-	if id == "fire_missile" or (id == "fire" and explosion_rank>0):
-		world.combat.explosion(position,60+explosion_rank*18,damage*0.55,color)
-	elif id == "frost_missile": world.combat.explosion(position,75,damage*0.3,color,0.5)
+	if world.combat.splash_ratio(profile)>0:
+		world.combat.explosion(position,world.combat.splash_radius(profile),damage*world.combat.splash_ratio(profile),color,0.5 if id=="frost_missile" else 0.0)
 	else: world.effect(position,color,25)
 	var ember_rank: int = State.rank("embers",profile.snapshot)
 	if "fire" in profile.elements and ember_rank>0 and not profile.get("ember",false):
@@ -86,12 +86,49 @@ func impact(enemy: TowerEnemy) -> void:
 			child.ember = true
 			child.snapshot = {"embers":0}
 			world.spawn_projectile(position,Vector2.RIGHT.rotated(i*TAU/(ember_rank*3)),child,0.3)
-	Sound.play("impact")
+	Sound.impact(id,global_position)
 	queue_free()
 
 func _draw() -> void:
-	for i: int in range(1,history.size()):
-		draw_line(history[i]-position,history[i-1]-position,Color(color,0.45*(1.0-float(i)/history.size())),maxf(1,7-i),true)
-	draw_circle(Vector2.ZERO,13 if profile.get("id","")=="ball_lightning" else 7,Color(color,0.2))
-	draw_circle(Vector2.ZERO,7 if profile.get("id","")=="ball_lightning" else 4,color)
-	draw_circle(Vector2(-1,-1),2,Color.WHITE)
+	draw_set_transform(Vector2(0,-32))
+	var id: String = profile.get("id","hostile")
+	var fire: bool = id in ["fire","fire_missile"]
+	var frost: bool = id=="frost_missile"
+	var orb: bool = id=="ball_lightning"
+	var head: float = 15.0 if orb else (9.0 if fire else 6.0)
+	var glow: float = 0.35 if State.options.reduced_effects else 0.75
+	if history.size()>1:
+		var points: PackedVector2Array = PackedVector2Array()
+		var core: PackedColorArray = PackedColorArray()
+		var bloom: PackedColorArray = PackedColorArray()
+		for i: int in range(history.size()):
+			var f: float = 1.0-float(i)/history.size()
+			points.append(history[i]-position)
+			core.append(Color(color,f*0.8))
+			bloom.append(Color(color,f*0.13))
+		# Two batched polylines instead of two draw calls per trail segment.
+		draw_polyline_colors(points,bloom,head*1.4,true)
+		draw_polyline_colors(points,core,2.5,true)
+		if not hostile and not State.options.reduced_effects:
+			for i: int in range(3,history.size(),4):
+				var f: float = 1.0-float(i)/history.size()
+				var particle: Vector2 = points[i]+direction.orthogonal()*sin(age*16+i*1.7)*9*(1-f)
+				if frost: ArcaneArt.crystal(self,particle,direction,4*f,Color(color,f))
+				else: draw_circle(particle,1.5,Color(color,f))
+	ArcaneArt.glow(self,Vector2.ZERO,head*4,Color(color,glow))
+	if orb:
+		ArcaneArt.rune(self,Vector2.ZERO,head+3,Color(color,0.8),age*3,8)
+		for i: int in range(3):
+			var a: float = age*5+i*TAU/3
+			var d: Vector2 = Vector2.from_angle(a)
+			draw_polyline(PackedVector2Array([d*8,d.rotated(0.2)*22,d.rotated(-0.15)*31]),Color(color,0.8),1.5,true)
+	elif frost:
+		ArcaneArt.crystal(self,Vector2.ZERO,direction,14,Color("a9ecff"))
+	elif fire:
+		for i: int in range(7,0,-1):
+			var p: Vector2 = -direction*i*3+direction.orthogonal()*sin(age*28-i)*i*0.6
+			draw_circle(p,head*(1-float(i)/9),Color(color,0.7))
+		draw_circle(Vector2.ZERO,head*0.7,Color("ffd9a0"))
+	else:
+		ArcaneArt.crystal(self,Vector2.ZERO,direction,head*1.6,color)
+	draw_circle(direction*2,3.0 if orb else 2.2,Color("fff5dc"))

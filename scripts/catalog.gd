@@ -25,6 +25,13 @@ func ids(kind: String) -> Array:
 func texture(id: String) -> Texture2D:
 	if textures.has(id): return textures[id]
 	var path: String = "res://assets/art/" + id + ".png"
+	var v2_path: String = "res://assets/art/v2/" + id + ".png"
+	if ResourceLoader.exists(v2_path): path = v2_path
 	var result: Texture2D = load(path) as Texture2D if ResourceLoader.exists(path) else null
 	textures[id] = result
 	return result
+
+func skill_texture(id: String) -> Texture2D:
+	if ResourceLoader.exists("res://assets/art/v2/"+id+".png"): return texture(id)
+	var d: ContentDefinition = definition(id)
+	return texture(d.icon if d else id)

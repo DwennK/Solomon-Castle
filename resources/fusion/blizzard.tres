@@ -6,7 +6,7 @@
 script = ExtResource("1")
 id = "blizzard"
 title = "Rayon de blizzard"
-description = "Rayon traversant qui fige et frappe en chaîne."
+description = "Rayon traversant qui fige les ennemis."
 kind = "fusion"
 icon = "lightning"
 max_rank = 1

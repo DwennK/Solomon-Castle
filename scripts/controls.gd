@@ -25,8 +25,34 @@ static func setup(bindings: Dictionary = {}, pad_bindings: Dictionary = {}) -> v
 		event.button_index = pads[action]
 		InputMap.action_add_event(action, event)
 
-static func caption(action: String) -> String:
+static var using_pad: bool = false
+static var pad_device: int = 0
+static var pad_name: String = ""
+
+static func observe(event: InputEvent) -> void:
+	if (event is InputEventJoypadButton and event.pressed) or (event is InputEventJoypadMotion and event.axis in [JOY_AXIS_LEFT_X,JOY_AXIS_LEFT_Y,JOY_AXIS_RIGHT_X,JOY_AXIS_RIGHT_Y] and absf(event.axis_value)>(0.2 if event.axis in [JOY_AXIS_LEFT_X,JOY_AXIS_LEFT_Y] else 0.23)):
+		using_pad = true
+		pad_device = event.device
+		pad_name = Input.get_joy_name(event.device)
+	elif (event is InputEventKey and event.pressed) or (event is InputEventMouseButton and event.pressed) or (event is InputEventMouseMotion and event.relative.length()>3):
+		using_pad = false
+
+static func disconnected(device: int, connected: bool) -> void:
+	if not connected and device == pad_device: using_pad = false
+
+static func pad_caption(code: int) -> String:
+	var names: Dictionary = {JOY_BUTTON_A:"A",JOY_BUTTON_B:"B",JOY_BUTTON_X:"X",JOY_BUTTON_Y:"Y",JOY_BUTTON_BACK:"Select",JOY_BUTTON_START:"Start",JOY_BUTTON_LEFT_SHOULDER:"LB",JOY_BUTTON_RIGHT_SHOULDER:"RB",JOY_BUTTON_DPAD_UP:"↑",JOY_BUTTON_DPAD_DOWN:"↓",JOY_BUTTON_DPAD_LEFT:"←",JOY_BUTTON_DPAD_RIGHT:"→",JOY_BUTTON_LEFT_STICK:"L3",JOY_BUTTON_RIGHT_STICK:"R3",JOY_BUTTON_GUIDE:"Guide"}
+	if "playstation" in pad_name.to_lower() or "dualshock" in pad_name.to_lower() or "dualsense" in pad_name.to_lower() or "ps4" in pad_name.to_lower() or "ps5" in pad_name.to_lower():
+		names.merge({JOY_BUTTON_A:"×",JOY_BUTTON_B:"○",JOY_BUTTON_X:"□",JOY_BUTTON_Y:"△",JOY_BUTTON_LEFT_SHOULDER:"L1",JOY_BUTTON_RIGHT_SHOULDER:"R1",JOY_BUTTON_BACK:"Share",JOY_BUTTON_START:"Options"},true)
+	return names.get(code,"Bouton %d" % code)
+
+static func caption(action: String, keyboard_only: bool = false) -> String:
+	if using_pad and not keyboard_only:
+		for event: InputEvent in InputMap.action_get_events(action):
+			if event is InputEventJoypadButton: return pad_caption(event.button_index)
+		if action == "fire": return "Stick D"
+		if action.begins_with("move_"): return "Stick G"
 	for event: InputEvent in InputMap.action_get_events(action):
 		if event is InputEventKey:
-			return OS.get_keycode_string(event.physical_keycode)
+			return OS.get_keycode_string(event.physical_keycode).replace("Escape","Échap").replace("Space","Espace")
 	return action
