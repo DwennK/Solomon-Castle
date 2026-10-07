@@ -128,7 +128,7 @@ func all_text(node: Node) -> String:
 
 func capture(name: String) -> void:
 	await settle()
-	await RenderingServer.frame_post_draw
+	RenderingServer.force_draw()
 	var rendered: Image=get_viewport().get_texture().get_image()
 	rendered.save_png("res://outputs/equipment-ui/"+name+".png")
 	captures.append({"name":name,"width":rendered.get_width(),"height":rendered.get_height()})
