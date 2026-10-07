@@ -46,7 +46,7 @@ func clear_world() -> void:
 	enemies.clear()
 	props.clear()
 	zones.clear()
-	loot.clear()
+	loot = [] # Detach: clearing the shared array would erase uncollected saved rewards.
 
 func load_floor(number: int, resume: bool = false) -> void:
 	var returning: bool = not State.run.get("return_position",[]).is_empty() and number==int(State.run.get("return_floor",1))
@@ -73,6 +73,7 @@ func load_floor(number: int, resume: bool = false) -> void:
 		var key: String = str(number)
 		if not State.run.floors.has(key): State.run.floors[key] = Dungeon.generate(State.run.seed,number,State.run.difficulty)
 		floor_data = State.run.floors[key]
+		LootRules.prepare_floor(floor_data,int(State.run.seed),int(State.run.difficulty))
 		dungeon.build(floor_data)
 		dungeon.interior.mount_decorations(actors)
 		loot = floor_data.loot
@@ -143,7 +144,7 @@ func setup_village() -> void:
 	add_prop({"id":"healer","kind":"healer","pos":[1050,715]},"Ysee · healing")
 	add_prop({"id":"tower","kind":"portal","pos":[768,380]},"Enter the tower")
 	if State.run.shop.is_empty():
-		for i: int in range(6): State.run.shop.append(State.make_item(int(State.run.seed)+i*337+int(State.run.deepest)*7,int(State.run.deepest)))
+		for i: int in range(6): State.run.shop.append(LootRules.make_item(int(State.run.seed)+i*337+int(State.run.deepest)*7,int(State.run.deepest),false,true))
 
 func add_prop(record: Dictionary, label: String = "") -> void:
 	var prop: WorldProp = WorldProp.new()
@@ -187,7 +188,7 @@ func _physics_process(delta: float) -> void:
 		collect_loot()
 	var nearest_prop: WorldProp = closest_prop()
 	if nearest_prop:
-		var label: String = {"chest":"Open chest","urn":"Break urn","merchant":"Talk to Basile","teacher":"Study with Orme","healer":"Rest for free","tower":"Enter the tower","entry":"Back to the village","exit":"Ascend to the next floor","gate":"Open the guardian’s seal"}.get(nearest_prop.record.id,{"chest":"Open chest","urn":"Break urn"}.get(nearest_prop.record.kind,"Interact"))
+		var label: String = {"chest":"Open chest","merchant":"Talk to Basile","teacher":"Study with Orme","healer":"Rest for free","tower":"Enter the tower","entry":"Back to the village","exit":"Ascend to the next floor","gate":"Open the guardian’s seal"}.get(nearest_prop.record.id,{"chest":"Open chest"}.get(nearest_prop.record.kind,"Interact"))
 		hint = "[%s]  %s"%[Controls.caption("interact"),label]
 	if Input.is_action_just_pressed("interact"): interact()
 	if Input.is_action_just_pressed("portal"): use_portal()
@@ -203,7 +204,7 @@ func closest_prop() -> WorldProp:
 	var found: WorldProp
 	var best: float = 120
 	for prop: WorldProp in props:
-		if prop.record.kind=="torch" or prop.record.get("opened",false): continue
+		if prop.record.kind in ["torch","urn"] or prop.record.get("opened",false): continue
 		var distance: float = prop.position.distance_to(player.position)
 		if distance<best:
 			found = prop
@@ -228,31 +229,74 @@ func interact() -> void:
 	elif id=="entry": use_portal()
 	elif id=="exit": advance()
 	elif id=="gate": unlock_gate()
-	elif prop.record.kind in ["chest","urn"]: open_prop(prop)
+	elif prop.record.kind=="chest": open_prop(prop)
 
 func enter_tower() -> void:
 	load_floor(int(State.run.return_floor))
 
 func open_prop(prop: WorldProp) -> void:
-	if prop.record.opened: return
+	if prop.record.kind!="chest" or prop.record.get("opened",false): return
 	prop.record.opened = true
-	if prop.record.id == floor_data.get("key_chest",""):
-		floor_data.has_key = true
-		State.message.emit("The guardian’s key has been found. The seal can be opened.")
-	var gold: int = 8+int(State.run.floor)*3
-	State.add_gold(gold)
-	if prop.record.kind=="chest":
-		var item: Dictionary = State.make_item(int(State.run.seed)+int(State.run.floor)*163+int(prop.record.id.hash()),int(State.run.floor))
-		loot.append({"kind":"item","item":item,"pos":Dungeon.pair(prop.position+Vector2(35,25))})
-		State.run.mp_potions += 1
-		prop.refresh_texture()
-		Sound.play("chest",prop.global_position)
-	else:
-		if int(prop.record.id.hash())%2==0: State.run.hp_potions += 1
-		Sound.play("urn",prop.global_position)
+	var key_found: bool = prop.record.id == floor_data.get("key_chest","")
+	if key_found: floor_data.has_key = true
+	grant_container_reward(prop)
+	prop.refresh_texture()
+	Sound.play("chest",prop.global_position)
+	State.message.emit("The guardian’s key has been found. The seal can be opened." if key_found else "Chest opened · collect the loot.")
+
+func grant_container_reward(prop: WorldProp) -> void:
+	var reward: Dictionary = prop.record.get("reward",{})
+	add_supplies(reward,prop.position)
+	if reward.get("equipment",false):
+		var item: Dictionary = LootRules.make_item(int(State.run.seed)+int(State.run.floor)*163+int(prop.record.id.hash()),int(State.run.floor))
+		loot.append({"kind":"item","item":item,"pos":Dungeon.pair(prop.position+Vector2(35,30))})
+
+func add_supplies(reward: Dictionary, pos: Vector2) -> void:
+	var gold: int = int(reward.get("gold",0))
+	if gold>0:
+		var merged: bool = false
+		for drop: Dictionary in loot:
+			if drop.kind=="gold" and Dungeon.vec(drop.pos).distance_to(pos)<72 and dungeon.visible_line(Dungeon.vec(drop.pos),pos):
+				drop.amount += gold
+				merged = true
+				break
+		if not merged: loot.append({"kind":"gold","amount":gold,"pos":Dungeon.pair(pos+Vector2(0,24))})
+	for kind: String in ["health","mana"]:
+		if int(reward.get(kind,0))>0:
+			loot.append({"kind":kind,"pos":Dungeon.pair(pos+Vector2(-24 if kind=="health" else 24,36))})
+
+func break_urn(prop: WorldProp) -> void:
+	if prop.record.kind!="urn" or prop.record.get("opened",false): return
+	prop.record.opened = true
+	prop.opened_time = 0.0
+	grant_container_reward(prop)
+	Sound.play("urn",prop.global_position)
 	prop.queue_redraw()
-	if prop.record.id == floor_data.get("key_chest",""): return
-	State.message.emit("+%d gold%s"%[gold," · mana potion and equipment" if prop.record.kind=="chest" else ""])
+
+func urn_on_segment(a: Vector2, b: Vector2) -> WorldProp:
+	var found: WorldProp
+	var best: float = INF
+	for prop: WorldProp in props:
+		if prop.record.kind!="urn" or prop.record.get("opened",false): continue
+		var hit: Vector2 = Geometry2D.get_closest_point_to_segment(prop.position,a,b)
+		if hit.distance_to(prop.position)>22 or not dungeon.visible_line(a,prop.position): continue
+		var distance: float = a.distance_squared_to(hit)
+		if distance<best:
+			found = prop
+			best = distance
+	return found
+
+func break_urns_in_radius(origin: Vector2, radius: float) -> void:
+	for prop: WorldProp in props:
+		if prop.record.kind=="urn" and not prop.record.get("opened",false) and origin.distance_to(prop.position)<=radius and dungeon.visible_line(origin,prop.position):
+			break_urn(prop)
+
+func break_urns_in_cone(origin: Vector2, aim: Vector2, distance: float, width: float) -> void:
+	for prop: WorldProp in props:
+		if prop.record.kind!="urn" or prop.record.get("opened",false): continue
+		var offset: Vector2 = prop.position-origin
+		if offset.length()<=distance and aim.dot(offset.normalized())>cos(width) and dungeon.visible_line(origin,prop.position):
+			break_urn(prop)
 
 func use_portal() -> void:
 	if village:
@@ -320,18 +364,19 @@ func enemy_bolt(pos: Vector2,direction: Vector2,damage: float,speed: float,color
 func enemy_killed(enemy: TowerEnemy) -> void:
 	enemies.erase(enemy)
 	State.add_xp((19.0+int(State.run.floor)*4.5)*(9 if enemy.boss else 1))
-	loot.append({"kind":"gold","amount":6+int(State.run.floor)*2,"pos":Dungeon.pair(enemy.position)})
+	add_supplies(enemy.record.get("reward",{}),enemy.position)
 	if enemy.boss:
 		if enemy.record.id == "boss":
 			floor_data.boss_dead = true
 			State.run.insight = int(State.run.get("insight",1))+1
 		if enemy.record.id == "guardian": floor_data.guardian_dead = true
-		loot.append({"kind":"item","item":State.make_item(int(State.run.seed)+int(State.run.floor)*97,int(State.run.floor)+4),"pos":Dungeon.pair(enemy.position+Vector2(40,0))})
+		add_supplies({"gold":35+int(State.run.floor)*5},enemy.position)
+		if enemy.record.id=="boss":
+			loot.append({"kind":"item","item":LootRules.make_item(int(State.run.seed)+int(State.run.floor)*97,int(State.run.floor),true),"pos":Dungeon.pair(enemy.position+Vector2(40,0))})
 		State.message.emit("%s defeated.%s"%[enemy.definition.title," +1 Knowledge Shard." if enemy.record.id=="boss" else ""])
 		if int(State.run.floor)==13 and enemy.record.id == "boss":
 			State.message.emit("The Archivist has fallen. Reach the summit seal to complete the ascent.")
-	elif int(enemy.record.id.hash())%13==0:
-		loot.append({"kind":"health","pos":Dungeon.pair(enemy.position+Vector2(20,15))})
+
 	effect(enemy.position,Color("acbaac"),50 if enemy.boss else 25)
 	Sound.play("boss_death" if enemy.boss else "enemy_death",enemy.global_position)
 
@@ -347,8 +392,9 @@ func collect_loot() -> void:
 			State.message.emit("Item found: "+drop.item.name)
 		elif drop.kind=="gold": State.add_gold(int(drop.amount))
 		elif drop.kind=="health": State.run.hp_potions += 1
+		elif drop.kind=="mana": State.run.mp_potions += 1
 		loot.remove_at(i)
-		Sound.play("item" if drop.kind=="item" else ("potion" if drop.kind=="health" else "loot"))
+		Sound.play("item" if drop.kind=="item" else ("potion" if drop.kind in ["health","mana"] else "loot"))
 
 func hazard(pos: Vector2,radius: float,damage: float,delay: float,color: Color,duration: float = 0.2, damage_type: String = "physical") -> void:
 	zones.append({"pos":pos,"radius":radius,"damage":damage,"delay":delay,"life":duration,"color":color,"kind":"hostile","damage_type":damage_type,"tick":0.0})
@@ -372,6 +418,7 @@ func update_zones(delta: float) -> void:
 				player.take_damage(z.damage,z.get("damage_type","physical"))
 				z.tick = 0.8
 		else:
+			if z.kind=="acid": break_urns_in_radius(z.pos,z.radius)
 			for enemy: TowerEnemy in enemies.duplicate():
 				if enemy.position.distance_to(z.pos)<z.radius and dungeon.visible_line(z.pos,enemy.position):
 					if z.kind=="acid": enemy.take_damage(z.damage*delta,Vector2.ZERO,true)

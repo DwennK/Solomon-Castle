@@ -123,13 +123,14 @@ func run_all() -> void:
 	state.fresh(345)
 	state.learn("ice")
 	state.run.floors["1"]=Dungeon.generate(345,1)
-	state.run.floors["1"].props[0].opened=true
+	var saved_chest: Dictionary = state.run.floors["1"].props.filter(func(p: Dictionary) -> bool: return p.kind=="chest")[0]
+	saved_chest.opened=true
 	state.mark_checkpoint()
 	check(state.save_game(),"Save succeeds")
 	var saved_seed: int = state.run.seed
 	state.run.seed=0
 	check(state.load_game() and state.run.seed==saved_seed,"Save round-trip")
-	check(state.run.floors["1"].props[0].opened,"Claimed chest persists")
+	check(state.run.floors["1"].props.any(func(p: Dictionary) -> bool: return p.id==saved_chest.id and p.opened),"Claimed chest persists")
 	check(state.save_game(),"Backup generated")
 	var broken: FileAccess = FileAccess.open(state.save_path,FileAccess.WRITE)
 	broken.store_string("{broken");broken.close()

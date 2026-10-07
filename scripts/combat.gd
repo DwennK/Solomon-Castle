@@ -131,6 +131,13 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 			world.beam(previous.position,candidate.position,p.color,3,0.1,false,id)
 			targets.append(candidate)
 			previous = candidate
+	if id in ["lightning","flame_lash"]:
+		var urn: WorldProp = world.urn_on_segment(origin,end)
+		if urn: world.break_urn(urn)
+	else:
+		var urn_width: float = 0.30+State.rank("cone",p.snapshot)*0.12 if id in ["ice","steam"] else 0.13
+		if id=="steam": urn_width += 0.18
+		world.break_urns_in_cone(origin,player.aim,distance,urn_width)
 	world.beam(origin,end,p.color,13 if id in ["ice","steam"] else 4,0.07,id in ["ice","steam"],id)
 	if id=="blizzard":
 		# One chain budget for the beam; a target cannot be hit twice in one tick.
@@ -173,6 +180,7 @@ func nearest(origin: Vector2, radius: float, excluded: Array = []) -> TowerEnemy
 
 func explosion(position: Vector2, radius: float, damage: float, color: Color, freeze_time: float = 0.0) -> void:
 	world.effect(position,color,radius)
+	if damage>0: world.break_urns_in_radius(position,radius)
 	for enemy: TowerEnemy in world.enemies.duplicate():
 		if not is_instance_valid(enemy) or enemy.dead: continue
 		if position.distance_to(enemy.position)<radius and world.dungeon.visible_line(position,enemy.position):
@@ -227,6 +235,7 @@ func emit_embers(origin: Vector2, p: Dictionary, damage: float) -> void:
 		world.spawn_projectile(origin,Vector2.RIGHT.rotated(i*TAU/count),child,0.6)
 
 func orb_pulse(origin: Vector2, p: Dictionary) -> void:
+	world.break_urns_in_radius(origin,ORB_PULSE_RADIUS)
 	var targets: Array = []
 	var previous: Vector2 = origin
 	for i: int in range(1+State.rank("chain",p.snapshot)):
@@ -241,6 +250,7 @@ func hurricane(player: MagePlayer, delta: float) -> void:
 	var rank_value: int = clampi(State.rank("hurricane"),0,8)
 	var dps: float = [0,10,15,18,21,24,25,26,27][rank_value]*State.stats().damage
 	player.storm_active = true
+	world.break_urns_in_radius(player.position,520)
 	for enemy: TowerEnemy in world.enemies.duplicate():
 		var offset: Vector2 = enemy.position-player.position
 		if enemy.dead or offset.length()>520: continue
@@ -256,6 +266,7 @@ func ether_pulse(player: MagePlayer) -> void:
 	player.ether_charges=0;player.ether_timer=0.0
 	if charges<=0: return
 	world.effect(player.position,COLORS.missile,320)
+	world.break_urns_in_radius(player.position,320)
 	for enemy: TowerEnemy in world.enemies.duplicate():
 		if enemy.dead or enemy.position.distance_to(player.position)>320 or not world.dungeon.visible_line(player.position,enemy.position): continue
 		enemy.apply_ether(charges)

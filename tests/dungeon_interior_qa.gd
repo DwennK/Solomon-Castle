@@ -45,7 +45,7 @@ func run_qa() -> void:
 			# Closed/open state still reaches the same live prop.
 			var chest: WorldProp
 			for prop: WorldProp in world.props:
-				if prop.record.id=="chest_1": chest = prop
+				if prop.record.kind=="chest": chest = prop
 			world.open_prop(chest)
 			check(chest.record.opened,"Chest opens with new interior")
 			await frames(4)

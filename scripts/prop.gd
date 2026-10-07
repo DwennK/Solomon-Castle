@@ -33,7 +33,14 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var kind: String = record.kind
-	if kind=="urn" and record.get("opened",false): return
+	if kind=="urn" and record.get("opened",false):
+		# Short ceramic fragments, then a quiet persistent shard pile.
+		var progress: float = minf(1.0,opened_time*3.0)
+		for i: int in range(6):
+			var direction: Vector2 = Vector2.from_angle(i*2.39996)
+			var p: Vector2 = direction*(7+13*progress)+Vector2(0,-sin(progress*PI)*22)
+			draw_colored_polygon(PackedVector2Array([p+Vector2(-3,2),p+Vector2(0,-4),p+Vector2(4,1)]),environment_tint*Color("ae9680"))
+		return
 	var height: float = {"torch":100,"chest":65,"chest_open":65,"portal":125,"stairs":150,"merchant":115,"teacher":120,"healer":112,"urn":58}.get(kind,65)
 	if kind in ["chest","urn","stairs","torch"]:
 		draw_set_transform(Vector2(0,1),0,Vector2(1,0.22))

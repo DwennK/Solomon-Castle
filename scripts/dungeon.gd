@@ -68,7 +68,9 @@ static func generate(seed_value: int, floor_number: int, difficulty: int = 0) ->
 		key_chest = "chest_%d"%rng.randi_range(1,rooms.size()-2)
 		var p: Vector2 = to_world(room_center(rooms[-1]))
 		enemies.append({"id":"boss","kind":boss,"pos":[p.x,p.y],"hp":-1.0,"dead":false})
-	return {"grid":grid,"rooms":rooms,"enemies":enemies,"props":props,"loot":[],"revealed":[],"boss":boss,"boss_dead":false,"key_chest":key_chest,"has_key":false,"gate_open":boss.is_empty(),"gate_cells":gate_cells,"guardian_dead":floor_number!=13,"entry":pair(to_world(room_center(rooms[0]))),"exit":pair(to_world(room_center(rooms[-1]))+Vector2(0,-128)),"number":floor_number}
+	var result: Dictionary = {"grid":grid,"rooms":rooms,"enemies":enemies,"props":props,"loot":[],"revealed":[],"boss":boss,"boss_dead":false,"key_chest":key_chest,"has_key":false,"gate_open":boss.is_empty(),"gate_cells":gate_cells,"guardian_dead":floor_number!=13,"entry":pair(to_world(room_center(rooms[0]))),"exit":pair(to_world(room_center(rooms[-1]))+Vector2(0,-128)),"number":floor_number}
+	LootRules.prepare_floor(result,seed_value,difficulty)
+	return result
 
 static func room_center(r: Array) -> Vector2i:
 	return Vector2i(int(r[0])+int(r[2]/2),int(r[1])+int(r[3]/2))

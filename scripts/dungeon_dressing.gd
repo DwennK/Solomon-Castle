@@ -49,6 +49,7 @@ func build_room(index: int,style: String) -> void:
 		add_architecture(3,Vector2(left+width*0.20,top-23),70,false)
 
 func place_prop(id: String,p: Vector2,footprint: Vector2) -> void:
+	if not interior.dungeon.data.props.any(func(record: Dictionary) -> bool: return record.id==id): return
 	if not interior.dungeon.walkable(p,22): return
 	# Avoid door mouths even when a corridor happens to connect to this bay.
 	if not wall_clear(Vector2(p.x,interior.dungeon.data.rooms[interior.dungeon.room_at(p)][1]*64),footprint.x) and not id.begins_with("torch"):

@@ -57,11 +57,26 @@ func _physics_process(delta: float) -> void:
 			if pulse<=0:
 				pulse = CombatSystem.ORB_PULSE_INTERVAL
 				world.combat.orb_pulse(position,profile)
+		var hit_enemy: TowerEnemy
+		var hit_distance: float = INF
 		for enemy: TowerEnemy in world.enemies:
 			if enemy.dead: continue
-			if Geometry2D.get_closest_point_to_segment(enemy.position,previous,position).distance_to(enemy.position)<(36 if enemy.boss else 24):
-				impact(enemy)
+			var point: Vector2 = Geometry2D.get_closest_point_to_segment(enemy.position,previous,position)
+			if point.distance_to(enemy.position)<(36 if enemy.boss else 24) and previous.distance_squared_to(point)<hit_distance:
+				hit_enemy = enemy
+				hit_distance = previous.distance_squared_to(point)
+		var urn: WorldProp = world.urn_on_segment(previous,position)
+		if urn:
+			var point: Vector2 = Geometry2D.get_closest_point_to_segment(urn.position,previous,position)
+			if previous.distance_squared_to(point)<hit_distance:
+				position = point
+				world.break_urn(urn)
+				impact(null)
 				return
+		if hit_enemy:
+			position = Geometry2D.get_closest_point_to_segment(hit_enemy.position,previous,position)
+			impact(hit_enemy)
+			return
 	queue_redraw()
 
 func impact(enemy: TowerEnemy) -> void:

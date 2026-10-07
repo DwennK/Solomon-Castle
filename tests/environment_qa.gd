@@ -83,19 +83,27 @@ func visual_qa() -> void:
 			for pool: Dictionary in child.pools:
 				for cell: Vector2i in pool.cells:
 					check(world.dungeon.cells.has(cell) and world.dungeon.interior.source_reaches(pool.source,Dungeon.to_world(cell)),"Light mesh excludes walls and occluded rooms")
-	var chest: WorldProp = find_prop("chest_1")
+	var chest: WorldProp
+	for prop: WorldProp in world.props:
+		if prop.record.kind=="chest": chest = prop; break
+	var chest_id: String = chest.record.id
 	world.player.position = chest.position+Vector2(0,48); world.camera.reset_smoothing()
 	await capture("chest-closed")
 	check(world.closest_prop()==chest,"Chest visual foot is the actual interaction position")
 	world.interact()
 	check(chest.record.opened and chest.texture==EnvironmentArt.prop("chest",true),"Chest interaction uses the matching open sprite")
 	await capture("chest-open")
-	var urn: WorldProp = find_prop("urn_1")
-	world.player.position = urn.position+Vector2(0,36); world.interact()
+	var urn: WorldProp
+	for prop: WorldProp in world.props:
+		if prop.record.kind=="urn": urn = prop; break
+	var urn_id: String = urn.record.id
+	world.player.position = urn.position+Vector2(0,36)
+	world.player.aim = Vector2.UP
+	world.combat.channel(world.player,world.combat.profile("lightning"),1.0/60)
 	check(urn.record.opened,"Urn still breaks from its displayed position")
 	world.snapshot()
 	world.load_floor(1,true); freeze()
-	check(find_prop("chest_1").record.opened and find_prop("urn_1").record.opened,"Opened states survive reload with new layout")
+	check(find_prop(chest_id).record.opened and find_prop(urn_id).record.opened,"Opened states survive reload with new layout")
 	var route: PackedVector2Array = world.dungeon.path(Dungeon.vec(world.floor_data.entry),Dungeon.to_world(Dungeon.room_center(world.floor_data.rooms[1])))
 	for point: Vector2 in route:
 		if world.dungeon.room_at(point)<0:
