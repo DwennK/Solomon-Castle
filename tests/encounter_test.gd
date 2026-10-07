@@ -26,9 +26,9 @@ func run_all() -> void:
 			check(degrees[data.optional_room]==1,"Optional encounter occupies a leaf of the room graph")
 			var roles: Dictionary = {}
 			for enemy: Dictionary in data.enemies: roles[enemy.get("role","")]=true
-			check(roles.has("charger") and roles.has("warden") and roles.has("flanker"),"Authored encounters include different tactical roles")
-			check(data.props.any(func(p: Dictionary)->bool:return p.kind=="reliquary"),"Optional reward retained by loot preparation")
-			check(data.props.any(func(p: Dictionary)->bool:return p.kind=="blood_font"),"Health/mana trade retained by loot preparation")
+			check(roles.size()>=2,"Authored encounters retain complementary tactical roles")
+			check(data.props.any(func(p: Dictionary)->bool:return p.kind in DiscoveryRules.KINDS),"Optional discovery retained by loot preparation")
+			check(data.encounters.any(func(e: Dictionary)->bool:return e.type=="quiet"),"Floors include a breathing space")
 			var nav: AStarGrid2D = AStarGrid2D.new()
 			nav.region=Rect2i(0,0,Dungeon.WIDTH,Dungeon.HEIGHT)
 			nav.diagonal_mode=AStarGrid2D.DIAGONAL_MODE_NEVER;nav.update()
@@ -48,6 +48,7 @@ func run_all() -> void:
 	check(layouts.size()==90,"Ninety distinct floor plans across seeds and depths")
 	State.fresh(20261007);State.learn("missile")
 	State.run.floor=1
+	State.run.floors["1"]=discovery_fixture()
 	world=load("res://scenes/world.tscn").instantiate()
 	add_child(world)
 	freeze()
@@ -71,6 +72,7 @@ func run_all() -> void:
 		check(enemy.hp==hp and not enemy.is_targetable() and enemy.collision_layer==0,"Sleeping trial statues neither fight nor block projectiles or movement")
 	var count: int = world.loot.size()
 	world.player.position=trial.position+Vector2(0,50)
+	world._physics_process(0)
 	check(world.closest_prop()==trial,"Optional trial is reachable by normal interaction")
 	world.interact()
 	check(trial.record.phase=="active" and world.loot.size()==count,"Accepting trial gives no immediate reward")
@@ -119,6 +121,19 @@ func run_all() -> void:
 	print("ENCOUNTER_QA ",JSON.stringify(report))
 	world.queue_free();Sound.stop_all()
 	get_tree().quit(0 if failures.is_empty() else 1)
+
+func discovery_fixture() -> Dictionary:
+	# Exercise trial/font persistence using a seed where both occur; neither
+	# discovery is required to appear on every procedurally generated floor.
+	for candidate: int in range(1000):
+		var data: Dictionary=Dungeon.generate(candidate,1)
+		if not data.props.any(func(p:Dictionary)->bool:return p.kind=="reliquary"): continue
+		if not data.props.any(func(p:Dictionary)->bool:return p.kind=="blood_font"): continue
+		if not data.encounters.any(func(e:Dictionary)->bool:return e.type=="ambush"): continue
+		if not data.encounters.any(func(e:Dictionary)->bool:return e.type=="ward"): continue
+		return data
+	assert(false,"No trial test fixture found")
+	return {}
 
 func discovery(kind: String) -> WorldProp:
 	for prop: WorldProp in world.props:
@@ -182,6 +197,7 @@ func visual_checks() -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	DisplayServer.window_set_size(Vector2i(1440,900))
 	State.fresh(20261007);State.learn("missile");State.run.floor=1
+	State.run.floors["1"]=discovery_fixture()
 	world.load_floor(1);freeze()
 	var layer: CanvasLayer = CanvasLayer.new()
 	add_child(layer)

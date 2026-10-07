@@ -23,8 +23,8 @@ func _ready() -> void:
 		add_child(actor)
 
 func refresh_texture() -> void:
-	if record.kind in ["reliquary","blood_font"]:
-		texture=EnvironmentArt.prop("chest" if record.kind=="reliquary" else "urn",record.get("opened",false))
+	if DiscoveryRules.is_discovery(record.kind):
+		texture=EnvironmentArt.MASONRY if record.kind=="hidden_cache" and not record.get("opened",false) else EnvironmentArt.prop("urn" if record.kind in ["blood_font","oath_altar"] else "chest",record.get("opened",false))
 		return
 	texture = EnvironmentArt.prop(record.kind,record.get("opened",false)) if environment else null
 	if not texture: texture = Catalog.texture("chest_open" if record.get("opened",false) and record.kind=="chest" else record.kind)
@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var kind: String = record.kind
-	if kind in ["reliquary","blood_font"]:
+	if DiscoveryRules.is_discovery(kind):
 		draw_discovery(kind)
 		return
 	if kind=="urn" and record.get("opened",false):
@@ -87,8 +87,19 @@ func _draw() -> void:
 
 func draw_discovery(kind: String) -> void:
 	var used: bool = record.get("opened",false)
-	var color: Color = Color("c6a4eb") if kind=="reliquary" else Color("c97879")
+	var color: Color = {"reliquary":Color("c6a4eb"),"cursed_cache":Color("e48a92"),"archive":Color("8acbd4"),"oath_altar":Color("edb269"),"hidden_cache":Color("9ca6aa")}.get(kind,Color("c97879"))
 	if used: color=Color("716b70")
+	if kind=="hidden_cache" and not used:
+		draw_texture_rect_region(EnvironmentArt.MASONRY,Rect2(-40,-72,80,72),Rect2(0,0,128,128),environment_tint)
+		draw_polyline(PackedVector2Array([Vector2(-8,-70),Vector2(5,-52),Vector2(-5,-35),Vector2(13,-14),Vector2(4,0)]),Color("171c22"),3,true)
+		return
+	if kind=="archive":
+		var shelves: Texture2D = EnvironmentArt.furniture(1)
+		var size: Vector2 = shelves.get_size()*115.0/shelves.get_width()
+		draw_texture_rect(shelves,Rect2(Vector2(-size.x/2,-size.y),size),false,environment_tint if not used else environment_tint.darkened(0.3))
+		if not used: ArcaneArt.glow(self,Vector2(0,-33),35,Color(color,0.12))
+		draw_string(font,Vector2(-72,30),"Forgotten archive",HORIZONTAL_ALIGNMENT_LEFT,-1,17,color)
+		return
 	var phase: String = record.get("phase","idle")
 	var radius: float = 58.0 if kind=="reliquary" else 40.0
 	draw_set_transform(Vector2(0,8),0,Vector2(1,0.48))
@@ -99,7 +110,7 @@ func draw_discovery(kind: String) -> void:
 		var size: Vector2 = texture.get_size()*(85.0 if kind=="reliquary" else 48.0)/texture.get_width()
 		draw_texture_rect(texture,Rect2(Vector2(-size.x/2,-size.y),size),false,color)
 	if not used:
-		var caption: String = "Blood font" if kind=="blood_font" else ("Claim reward" if phase=="ready" else ("Trial active" if phase=="active" else "Optional trial"))
+		var caption: String = DiscoveryRules.caption(record)
 		var width: float = font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17).x
 		draw_string_outline(font,Vector2(-width/2,34),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17,3,Color("15121c"))
 		draw_string(font,Vector2(-width/2,34),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,17,color)

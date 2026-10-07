@@ -95,6 +95,7 @@ func stats() -> Dictionary:
 	var s: Dictionary = {"max_hp":110.0+ranks.life*24, "max_mana":100.0+ranks.mana*28, "mana_regen":7.5+ranks.regen*2.5, "hp_regen":0.12, "damage":1.0+ranks.power*0.14, "cast_speed":1.0+ranks.haste*0.10, "cost_reduction":ranks.economy*0.09, "speed":220.0*(1.0+ranks.rush*0.07), "resistance":ranks.resist*0.07,"flat_damage":0.0,"poison_resistance":0.0,"gold_bonus":0.0,"mana_recovery":0.0,"hp_recovery":0.0}
 	for key: String in bonuses:
 		if key in s: s[key] += float(bonuses[key])*(220.0 if key=="speed" else 1.0)
+	if int(run.get("floor_oath",-1))==int(run.get("floor",0)) and int(run.get("floor",0))>0: s.damage *= 1.20
 	s.mana_regen *= 1.0+s.mana_recovery
 	s.hp_regen *= 1.0+s.hp_recovery
 	s.telekinesis = rank("reach")>0
@@ -182,6 +183,13 @@ func offers(excluded: Array = []) -> Array:
 		var fusion: String = fusion_choices[rng.randi_range(0, fusion_choices.size()-1)]
 		run.offers.append(fusion)
 		choices.erase(fusion)
+	# A first signature upgrade is offered early, while leaving the player free
+	# to select another path. Rerolls still prefer unseen alternatives.
+	if int(run.pending[0]) in [2,3,5,8]:
+		for id: String in signature_choices(int(run.pending[0])):
+			if learned_rank(id)==0 and id in choices and id not in run.offers:
+				run.offers.append(id);choices.erase(id)
+				break
 	while run.offers.size() < (4 if rank("creativity")>0 else 3):
 		if choices.is_empty():
 			choices = fallback.filter(func(id: String) -> bool: return id not in run.offers)
@@ -190,6 +198,22 @@ func offers(excluded: Array = []) -> Array:
 		run.offers.append(choices[index])
 		choices.remove_at(index)
 	return run.offers
+
+func signature_choices(level: int = -1) -> Array[String]:
+	var available: Array[String] = eligible(int(run.level) if level<0 else level)
+	var result: Array[String] = []
+	var primary: String = run.get("active","")
+	var elements: Array = Catalog.definition(primary).values.get("elements",[primary]) if Catalog.definition(primary) else []
+	var choices: Dictionary = {"missile":["multishot","potent"],"fire":["explode","embers"],"ice":["cone","chill"],"lightning":["chain","stun"]}
+	for element: String in elements:
+		for id: String in choices.get(element,[]):
+			if id in available: result.append(id)
+	return result
+
+func upgrade_message(id: String) -> String:
+	var moments: Dictionary = {"multishot":"More missiles per cast: spread your fire across a pack.","explode":"Larger explosions: gather enemies before firing.","cone":"Wider ice stream: sweep across a group.","chain":"More lightning targets: draw enemies close together."}
+	if Catalog.definition(id).kind=="fusion": return "Fusion forged: %s. Try your new spell in the next encounter."%Catalog.title(id)
+	return "%s · %s"%[Catalog.title(id),moments[id]] if moments.has(id) else ""
 
 func can_reroll() -> bool:
 	if run.get("insight",1)<=0 or run.pending.is_empty() or run.offers.is_empty(): return false
@@ -238,6 +262,8 @@ func choose(id: String) -> bool:
 	if not id in eligible(int(run.pending[0])):
 		return false
 	learn(id)
+	var moment: String = upgrade_message(id)
+	if not moment.is_empty(): message.emit(moment)
 	run.pending.pop_front()
 	run.offers = []
 	return true
@@ -357,6 +383,7 @@ func win() -> void:
 func next_difficulty() -> void:
 	run.difficulty = mini(4,int(run.difficulty)+1)
 	run.hardcore = run.hardcore or int(run.difficulty) == 4
+	run.erase("floor_oath")
 	run.floors = {}
 	run.floor = 0
 	run.deepest = 1

@@ -339,6 +339,7 @@ func make_grade() -> void:
 
 func on_interaction(kind: String) -> void:
 	match kind:
+		"archive", "oath_altar": show_discovery()
 		"initial": show_initial()
 		"merchant": show_merchant()
 		"teacher": show_teacher()
@@ -426,6 +427,25 @@ func show_pause() -> void:
 	button(v,"Save",func()->void:world.snapshot();var ok:bool=State.save_game();label(v,"Game saved." if ok else SaveStore.last_error))
 	button(v,"Options & controls",func()->void:options_return="pause";show_options())
 	button(v,"Save and return to menu",func()->void:world.snapshot();State.save_game();close_modal();show_menu())
+	focus_first(v)
+
+func show_discovery() -> void:
+	var prop: WorldProp = world.pending_discovery
+	if not is_instance_valid(prop): return
+	var v: VBoxContainer = panel(DiscoveryRules.caption(prop.record),DiscoveryRules.hint(prop.record),"discovery",680)
+	if prop.record.kind=="archive":
+		var choices: Array[String] = State.signature_choices()
+		var title: String = "No eligible spell lesson" if choices.is_empty() else "Learn %s"%Catalog.title(choices[0])
+		button(v,title,func()->void:
+			if world.resolve_discovery("lesson"): close_modal(),choices.is_empty())
+		if not choices.is_empty(): label(v,Catalog.definition(choices[0]).description,17)
+		button(v,"Take two Knowledge Shards · reroll future upgrades",func()->void:
+			if world.resolve_discovery("insight"): close_modal())
+	else:
+		label(v,"The damage bonus applies only on this floor. Returning here preserves it. Health is paid immediately; the offer cannot kill you.",18)
+		button(v,"Offer %d health · gain 20%% damage"%ceili(State.stats().max_hp*0.25),func()->void:
+			if world.resolve_discovery("accept"): close_modal(),State.run.hp<=State.stats().max_hp*0.25)
+	button(v,"Leave it untouched",close_modal)
 	focus_first(v)
 
 func show_teacher() -> void:

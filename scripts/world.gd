@@ -36,6 +36,7 @@ var visual_clock: float = 0.0
 const PORTAL_DURATION: float = 2.4
 var portal_remaining: float = 0.0
 var portal_origin: Vector2
+var pending_discovery: WorldProp
 
 func _ready() -> void:
 	combat = CombatSystem.new()
@@ -55,6 +56,7 @@ func load_floor(number: int, resume: bool = false) -> void:
 	var returning: bool = not State.run.get("return_position",[]).is_empty() and number==int(State.run.get("return_floor",1))
 	changing = true
 	portal_remaining = 0.0
+	pending_discovery = null
 	Sound.stop_world()
 	boss_music_hold = 0.0
 	clear_world()
@@ -219,7 +221,7 @@ func closest_prop() -> WorldProp:
 	var found: WorldProp
 	var best: float = 120
 	for prop: WorldProp in props:
-		if prop.record.kind in ["torch","urn"] or prop.record.get("opened",false): continue
+		if prop.record.kind in ["torch","urn","hidden_cache"] or prop.record.get("opened",false): continue
 		if not village and prop.record.id!="gate" and not dungeon.explored_position(prop.position): continue
 		var distance: float = prop.position.distance_to(player.position)
 		if distance<best:
@@ -246,7 +248,7 @@ func interact() -> void:
 	elif id=="exit": advance()
 	elif id=="gate": unlock_gate()
 	elif prop.record.kind=="chest": open_prop(prop)
-	elif prop.record.kind in ["reliquary","blood_font"]: use_discovery(prop)
+	elif DiscoveryRules.is_discovery(prop.record.kind): use_discovery(prop)
 
 func enter_tower() -> void:
 	load_floor(int(State.run.return_floor))
@@ -283,7 +285,11 @@ func add_supplies(reward: Dictionary, pos: Vector2) -> void:
 			loot.append({"kind":kind,"pos":Dungeon.pair(pos+Vector2(-24 if kind=="health" else 24,36))})
 
 func break_urn(prop: WorldProp) -> void:
-	if prop.record.kind!="urn" or prop.record.get("opened",false): return
+	if prop.record.kind=="hidden_cache":
+		if not dungeon.explored_position(prop.position): return
+		claim_cache(prop)
+		return
+	if prop.record.kind not in ["urn","hidden_cache"] or prop.record.get("opened",false): return
 	prop.record.opened = true
 	prop.opened_time = 0.0
 	grant_container_reward(prop)
@@ -294,7 +300,7 @@ func urn_on_segment(a: Vector2, b: Vector2) -> WorldProp:
 	var found: WorldProp
 	var best: float = INF
 	for prop: WorldProp in props:
-		if prop.record.kind!="urn" or prop.record.get("opened",false): continue
+		if prop.record.kind not in ["urn","hidden_cache"] or prop.record.get("opened",false): continue
 		var hit: Vector2 = Geometry2D.get_closest_point_to_segment(prop.position,a,b)
 		if hit.distance_to(prop.position)>22 or not dungeon.visible_line(a,prop.position): continue
 		var distance: float = a.distance_squared_to(hit)
@@ -305,12 +311,12 @@ func urn_on_segment(a: Vector2, b: Vector2) -> WorldProp:
 
 func break_urns_in_radius(origin: Vector2, radius: float) -> void:
 	for prop: WorldProp in props:
-		if prop.record.kind=="urn" and not prop.record.get("opened",false) and origin.distance_to(prop.position)<=radius and dungeon.visible_line(origin,prop.position):
+		if prop.record.kind in ["urn","hidden_cache"] and not prop.record.get("opened",false) and origin.distance_to(prop.position)<=radius and dungeon.visible_line(origin,prop.position):
 			break_urn(prop)
 
 func break_urns_in_cone(origin: Vector2, aim: Vector2, distance: float, width: float) -> void:
 	for prop: WorldProp in props:
-		if prop.record.kind!="urn" or prop.record.get("opened",false): continue
+		if prop.record.kind not in ["urn","hidden_cache"] or prop.record.get("opened",false): continue
 		var offset: Vector2 = prop.position-origin
 		if offset.length()<=distance and aim.dot(offset.normalized())>cos(width) and dungeon.visible_line(origin,prop.position):
 			break_urn(prop)
@@ -377,7 +383,7 @@ func snapshot() -> void:
 	floor_data.visited_rooms = dungeon.visited_rooms.keys()
 	floor_data.visibility_version = Dungeon.VISIBILITY_VERSION
 	floor_data.loot = loot
-	State.run.floors[str(State.run.floor)] = floor_data
+	State.run.floors[str(int(State.run.floor))] = floor_data
 
 func spawn_projectile(pos: Vector2, direction: Vector2, profile: Dictionary, lifetime: float = 2.1) -> void:
 	var shot: MagicProjectile = MagicProjectile.new()
@@ -402,7 +408,7 @@ func enemy_bolt(pos: Vector2,direction: Vector2,damage: float,speed: float,color
 
 func enemy_killed(enemy: TowerEnemy) -> void:
 	enemies.erase(enemy)
-	State.add_xp((19.0+int(State.run.floor)*4.5)*(9 if enemy.boss else 1))
+	State.add_xp((19.0+int(State.run.floor)*4.5)*(9 if enemy.boss else 1)*float(enemy.record.get("xp_scale",1.0)))
 	update_discoveries()
 	add_supplies(enemy.record.get("reward",{}),enemy.position)
 	if enemy.boss:
@@ -570,14 +576,19 @@ func protection_for(target: TowerEnemy) -> float:
 	return 0.0
 
 func discovery_hint(prop: WorldProp) -> String:
-	if prop.record.kind=="blood_font": return "Blood font: spend 20% max health to refill mana (once)"
-	match prop.record.get("phase","idle"):
-		"active": return "Defeat the awakened sentries to unseal the rare item"
-		"ready": return "Claim the reliquary's rare equipment"
-	return "Optional trial: awaken three sentries for rare equipment"
+	return DiscoveryRules.hint(prop.record)
 
 func use_discovery(prop: WorldProp) -> void:
 	if prop.record.get("opened",false): return
+	if prop.record.kind=="archive":
+		pending_discovery=prop
+		interaction.emit("archive")
+		return
+	if prop.record.kind=="oath_altar":
+		pending_discovery=prop
+		interaction.emit("oath_altar")
+		return
+	if prop.record.kind=="hidden_cache": return
 	if prop.record.kind=="blood_font":
 		var cost: float = State.stats().max_hp*0.20
 		if State.run.hp<=cost or State.run.mp>=State.stats().max_mana:
@@ -592,9 +603,9 @@ func use_discovery(prop: WorldProp) -> void:
 		if phase=="idle":
 			prop.record.phase="active"
 			for enemy: TowerEnemy in enemies:
-				if not enemy.record.get("trial",false): continue
+				if not enemy.record.get("trial",false) or int(enemy.record.get("encounter_room",-1))!=int(prop.record.get("room",-2)): continue
 				enemy.awaken(1.1)
-			State.message.emit("Trial accepted. Defeat the three sentries; you may retreat.")
+			State.message.emit("Trial accepted. Defeat the sentries; you may retreat.")
 		elif phase=="ready":
 			prop.record.opened=true
 			prop.record.phase="claimed"
@@ -609,8 +620,44 @@ func use_discovery(prop: WorldProp) -> void:
 
 func update_discoveries() -> void:
 	for prop: WorldProp in props:
-		if prop.record.kind!="reliquary" or prop.record.get("phase","idle")!="active": continue
-		var guards_left: bool = enemies.any(func(enemy: TowerEnemy)->bool:return not enemy.dead and enemy.record.get("trial",false))
+		if prop.record.kind not in ["reliquary","cursed_cache"] or prop.record.get("phase","idle")!="active": continue
+		var guards_left: bool = enemies.any(func(enemy: TowerEnemy)->bool:return not enemy.dead and enemy.record.get("trial",false) and int(enemy.record.get("encounter_room",-1))==int(prop.record.get("room",-2)))
 		if not guards_left:
 			prop.record.phase="ready"
 			State.message.emit("The reliquary is unsealed. Return to claim its reward.")
+
+func claim_cache(prop: WorldProp) -> void:
+	if prop.record.get("opened",false): return
+	prop.record.opened=true
+	var item: Dictionary = LootRules.make_item(int(State.run.seed)+int(State.run.floor)*919,int(State.run.floor))
+	loot.append({"kind":"item","item":item,"pos":Dungeon.pair(prop.position+Vector2(0,40))})
+	prop.refresh_texture();prop.queue_redraw()
+	effect(prop.position,Color("d9c194"),55)
+	State.message.emit("The masonry crumbles. A forgotten cache is revealed.")
+	snapshot();State.save_game()
+
+func resolve_discovery(choice: String) -> bool:
+	if not is_instance_valid(pending_discovery) or pending_discovery.record.get("opened",false): return false
+	var prop: WorldProp = pending_discovery
+	if prop.record.kind=="archive":
+		if choice=="lesson":
+			var options: Array[String] = State.signature_choices()
+			if options.is_empty(): return false
+			State.learn(options[0])
+			State.message.emit("The archive teaches %s."%Catalog.title(options[0]))
+		elif choice=="insight":
+			State.run.insight=int(State.run.get("insight",0))+2
+			State.message.emit("Two Knowledge Shards recovered.")
+		else: return false
+	elif prop.record.kind=="oath_altar":
+		if choice!="accept" or State.run.hp<=State.stats().max_hp*0.25: return false
+		State.run.hp-=State.stats().max_hp*0.25
+		State.run.floor_oath=int(State.run.floor)
+		State.message.emit("Oath accepted. +20% damage on this floor.")
+	else: return false
+	prop.record.opened=true
+	prop.refresh_texture();prop.queue_redraw()
+	player.refresh_stats();State.changed.emit()
+	snapshot();State.save_game()
+	pending_discovery=null
+	return true

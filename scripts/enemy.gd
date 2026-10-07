@@ -40,9 +40,11 @@ func setup(owner_world: Node2D, value: Dictionary) -> void:
 	var floor_number: int = int(State.run.floor)
 	var scaling: float = (1.0+float(floor_number-1)*0.16)*pow(1.65,int(State.run.difficulty))
 	max_hp = float(definition.values.hp) * (pow(1.8,int(State.run.difficulty)) if boss else scaling)
+	max_hp *= float(record.get("vital_scale",1.0))
 	max_hp *= 1.0-clampf(float(record.get("ether_reduction",0.0)),0.0,0.8)
 	hp = max_hp if record.hp<0 else float(record.hp)
 	damage = float(definition.values.damage)*(1.0+float(floor_number-1)*0.07)*pow(1.35,int(State.run.difficulty))
+	damage *= float(record.get("damage_scale",1.0))
 	speed = float(definition.values.speed)
 	position = Dungeon.vec(record.pos)
 	if record.get("trial",false) and not record.get("awakened",false): collision_layer=0;collision_mask=0

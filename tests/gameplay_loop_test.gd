@@ -1,0 +1,139 @@
+extends Node
+var checks: int = 0
+var failures: Array[String] = []
+var world: GameWorld
+var main: Node
+var kinds: Dictionary = {}
+var encounters: Dictionary = {}
+
+func check(ok: bool,label: String) -> void:
+	checks+=1
+	if not ok: failures.append(label);push_error(label)
+
+func _ready() -> void:
+	if not State.qa: get_tree().quit(1);return
+	State.save_path="user://qa_gameplay_loop.json"
+	call_deferred("run_all")
+
+func freeze() -> void:
+	world.set_physics_process(false);world.player.set_physics_process(false);world.player.qa_controlled=true
+	for enemy: TowerEnemy in world.enemies: enemy.set_physics_process(false)
+
+func load_empty(number: int = 1) -> void:
+	var data: Dictionary = Dungeon.generate(872,number)
+	data.enemies=[];data.encounters=[];data.props=[];data.boss="";data.gate_open=true;data.gate_cells=[]
+	State.run.floors[str(number)]=data
+	world.load_floor(number);freeze()
+
+func add_discovery(kind: String) -> WorldProp:
+	var record: Dictionary = {"id":"qa_"+kind,"kind":kind,"pos":Dungeon.pair(world.player.position+Vector2(48,0)),"opened":false,"phase":"idle","room":0}
+	world.floor_data.props.append(record);world.add_prop(record)
+	return world.props[-1]
+
+func run_all() -> void:
+	for seed_value: int in range(25):
+		for number: int in range(1,14):
+			var data: Dictionary = Dungeon.generate(seed_value,number)
+			var consecutive: int = 0
+			for encounter: Dictionary in data.encounters:
+				encounters[encounter.type]=true
+				var pack: Array = data.enemies.filter(func(e: Dictionary)->bool:return int(e.get("encounter_room",-1))==int(encounter.room) and not e.get("trial",false))
+				consecutive=0 if encounter.type=="quiet" else consecutive+1
+				check(consecutive<=2,"Calm room interrupts long strings of combat")
+				check(pack.is_empty() if encounter.type=="quiet" else not pack.is_empty(),"Encounter population matches its purpose")
+				var positions: Dictionary={}
+				for e: Dictionary in pack: positions[str(e.pos)]=true
+				check(positions.size()==pack.size(),"Distinct spawn tiles for every pack")
+			var discoveries: int = 0
+			for prop: Dictionary in data.props:
+				if prop.kind in DiscoveryRules.KINDS: kinds[prop.kind]=true;discoveries+=1
+			check(discoveries==1,"One unpredictable optional destination per floor")
+			check(JSON.stringify(data)==JSON.stringify(Dungeon.generate(seed_value,number)),"New generation remains deterministic")
+	check(kinds.size()==5 and encounters.size()==8,"All discovery and encounter variants occur across seeds")
+	State.fresh(872);State.learn("missile");State.run.floor=1
+	world=load("res://scenes/world.tscn").instantiate();add_child(world);load_empty()
+	world.use_portal();world.update_portal(1)
+	check(not world.village and world.portal_remaining>0,"Portal cannot escape instantly")
+	world.player.invulnerable=0;world.player.take_damage(1)
+	check(world.portal_remaining==0 and not world.village,"Damage interrupts portal")
+	world.use_portal();world.player.position.x+=8;world.update_portal(0.1)
+	check(world.portal_remaining==0,"Movement interrupts portal")
+	world.use_portal();world.player.qa_fire=true;world.player._physics_process(0.01);world.player.qa_fire=false
+	check(world.portal_remaining==0,"Casting interrupts portal")
+	world.player.velocity=Vector2.ZERO
+	world.use_portal();var pos: Vector2=world.player.position
+	world.update_portal(GameWorld.PORTAL_DURATION)
+	check(world.village,"Completing the channel reaches village")
+	world.enter_tower();freeze()
+	check(world.player.position.distance_to(pos)<2,"Return restores position")
+	State.run.level=3
+	var archive: WorldProp=add_discovery("archive")
+	world.pending_discovery=archive
+	check(world.resolve_discovery("lesson") and State.rank("multishot")==1,"Archive grants its advertised signature lesson")
+	world.pending_discovery=archive
+	check(not world.resolve_discovery("insight"),"Archive cannot grant both choices")
+	var altar: WorldProp=add_discovery("oath_altar")
+	world.pending_discovery=altar;State.run.hp=1
+	check(not world.resolve_discovery("accept") and not altar.record.opened,"Altar cannot kill player or consume refused offer")
+	State.run.hp=State.stats().max_hp;var damage: float=State.stats().damage
+	check(world.resolve_discovery("accept") and is_equal_approx(State.stats().damage,damage*1.2),"Altar pays health for a real floor damage bonus")
+	world.snapshot();State.mark_checkpoint();State.save_game();State.load_game()
+	world.load_floor(1,true);freeze()
+	check(is_equal_approx(State.stats().damage,damage*1.2),"Floor oath survives save and reload")
+	load_empty(2)
+	check(is_equal_approx(State.stats().damage,damage),"Floor oath never leaks to another floor")
+	var cache: WorldProp=add_discovery("hidden_cache")
+	world.dungeon.reveal(world.player.position)
+	var drops: int=world.loot.size()
+	world.break_urn(cache);world.break_urn(cache)
+	check(cache.record.opened and world.loot.size()==drops+1,"Breaking a hidden cache produces exactly one item")
+	for element: String in ["missile","fire","ice","lightning"]:
+		State.fresh(7);State.learn(element);State.run.level=2;State.run.pending=[2]
+		var signature: String={"missile":"multishot","fire":"explode","ice":"cone","lightning":"chain"}[element]
+		check(signature in State.offers(),"First level-up offers a visible transformation for "+element)
+		check(State.choose(signature) and State.learned_rank(signature)==1,"Signature choice actually changes the learned build")
+		check(not State.upgrade_message(signature).is_empty(),"Signature upgrade explains its tactical use")
+	if "--visual" in OS.get_cmdline_user_args(): await visual_checks()
+	var report: Dictionary={"checks":checks,"failures":failures,"discovery_kinds":kinds.keys(),"encounter_types":encounters.keys(),"engine":Engine.get_version_info().string}
+	DirAccess.make_dir_recursive_absolute("res://outputs/gameplay-loop")
+	var file: FileAccess=FileAccess.open("res://outputs/gameplay-loop/report.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
+	print("GAMEPLAY_LOOP_QA ",JSON.stringify(report))
+	world.queue_free();Sound.stop_all();get_tree().quit(0 if failures.is_empty() else 1)
+
+func visual_checks() -> void:
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	DisplayServer.window_set_size(Vector2i(1440,900))
+	State.fresh(872);State.learn("missile");State.run.level=3;State.run.floor=1
+	main=load("res://scenes/main.tscn").instantiate();add_child(main);main.start_game()
+	world.queue_free();world=main.world;load_empty()
+	var archive: WorldProp=add_discovery("archive")
+	world.pending_discovery=archive;main.show_discovery()
+	await capture("archive-choice-1440x900")
+	DisplayServer.window_set_size(Vector2i(960,600));await capture("archive-choice-960x600")
+	var shard_button: Button
+	for candidate: Node in main.find_children("*","Button",true,false):
+		if candidate.text.begins_with("Take two Knowledge"): shard_button=candidate
+	check(is_instance_valid(shard_button),"Archive exposes a real choice button")
+	if shard_button:
+		shard_button.pressed.emit()
+		check(archive.record.opened and State.run.insight==3,"Archive choice button grants shards and consumes the discovery")
+	main.close_modal();DisplayServer.window_set_size(Vector2i(1440,900))
+	world.use_portal();world.update_portal(1.0)
+	await capture("portal-channel-1440x900")
+	world.cancel_portal()
+	for kind: String in DiscoveryRules.KINDS:
+		load_empty();var prop: WorldProp=add_discovery(kind)
+		world.dungeon.reveal(world.player.position);world.camera.reset_smoothing()
+		await capture(kind+"-1440x900")
+
+func position_in_boss_room() -> void:
+	var room: Array=world.floor_data.rooms[-1]
+	world.player.position=TowerLayout.open_position(world.floor_data.grid,room,Dungeon.room_center(room)+Vector2i(0,1))
+	world.dungeon.reveal(world.player.position)
+
+func capture(label: String) -> void:
+	DirAccess.make_dir_recursive_absolute("res://outputs/gameplay-loop")
+	world.camera.reset_smoothing()
+	for i: int in range(12): await get_tree().process_frame
+	RenderingServer.force_draw()
+	get_viewport().get_texture().get_image().save_png("res://outputs/gameplay-loop/"+label+".png")
