@@ -30,20 +30,26 @@ func fresh(seed_value: int = 0, difficulty: int = 0, hardcore: bool = false) -> 
 	changed.emit()
 
 func rank(id: String, snapshot: Dictionary = {}) -> int:
-	return int((snapshot if not snapshot.is_empty() else run.get("skills", {})).get(id, 0))
+	return effective_rank(id, learned_rank(id,snapshot), equipment_bonuses())
 
 func stats() -> Dictionary:
-	var s: Dictionary = {"max_hp":110.0+rank("life")*24, "max_mana":100.0+rank("mana")*28, "mana_regen":7.5+rank("regen")*2.5, "hp_regen":0.12, "damage":1.0+rank("power")*0.14, "cast_speed":1.0+rank("haste")*0.12, "cost_reduction":rank("economy")*0.09, "speed":220.0*(1.0+rank("rush")*0.07), "resistance":rank("resist")*0.07}
-	for slot: String in run.get("equipped", {}):
-		var item: Dictionary = find_item(run.equipped[slot])
-		for key: String in item.get("bonuses", {}):
-			if key == "speed":
-				s.speed += 220.0 * float(item.bonuses[key])
-			else:
-				s[key] = float(s.get(key, 0.0)) + float(item.bonuses[key])
+	var bonuses: Dictionary = equipment_bonuses()
+	var ranks: Dictionary = {}
+	for id: String in ["life","mana","regen","power","haste","economy","rush","resist"]:
+		ranks[id] = effective_rank(id,learned_rank(id),bonuses)
+	var s: Dictionary = {"max_hp":110.0+ranks.life*24, "max_mana":100.0+ranks.mana*28, "mana_regen":7.5+ranks.regen*2.5, "hp_regen":0.12, "damage":1.0+ranks.power*0.14, "cast_speed":1.0+ranks.haste*0.12, "cost_reduction":ranks.economy*0.09, "speed":220.0*(1.0+ranks.rush*0.07), "resistance":ranks.resist*0.07,"flat_damage":0.0,"poison_resistance":0.0,"gold_bonus":0.0,"xp_bonus":0.0,"mana_recovery":0.0,"hp_recovery":0.0}
+	for key: String in bonuses:
+		if key in s: s[key] += float(bonuses[key])*(220.0 if key=="speed" else 1.0)
+	s.mana_regen *= 1.0+s.mana_recovery
+	s.hp_regen *= 1.0+s.hp_recovery
+	s.telekinesis = float(bonuses.get("grant:reach",0))>0
+	s.meditation = float(bonuses.get("grant:meditation",0))>0
+	s.mental_focus = float(bonuses.get("grant:mental_focus",0))>0
+	s.pickup_radius = 65.0+learned_rank("reach")*45.0+(180.0 if s.telekinesis else 0.0)
+	s.poison_resistance = clampf(s.poison_resistance,0.0,1.0)
 	s.cost_reduction = clampf(s.cost_reduction, 0.0, 0.8)
 	s.resistance = clampf(s.resistance, 0.0, 0.75)
-	s.cast_speed = minf(s.cast_speed, 3.0)
+	s.cast_speed = maxf(s.cast_speed, 0.1)
 	return s
 
 func pay_mana(base: float) -> bool:
@@ -57,7 +63,7 @@ func xp_threshold(level: int) -> float:
 	return 32.0 + level * 19.0 + pow(level, 1.5) * 2.0
 
 func add_xp(amount: float) -> void:
-	run.xp += amount
+	run.xp += amount*(1.0+stats().xp_bonus)
 	while run.xp >= xp_threshold(run.level):
 		run.xp -= xp_threshold(run.level)
 		run.level += 1
@@ -71,17 +77,17 @@ func eligible(level: int) -> Array[String]:
 		for id: String in Catalog.ids(kind):
 			var d: ContentDefinition = Catalog.definition(id)
 			var cap: int = mini(d.max_rank, 12) if kind == "primary" and level < 25 else d.max_rank
-			if level < d.min_level or rank(id) >= cap:
+			if level < d.min_level or learned_rank(id) >= cap:
 				continue
-			if not d.prerequisite.is_empty() and rank(d.prerequisite) == 0:
+			if not d.prerequisite.is_empty() and learned_rank(d.prerequisite) == 0:
 				continue
-			if kind == "secondary" and rank(id) == 0 and run.secondary.size() >= (3 if level >= 20 else 2):
+			if kind == "secondary" and learned_rank(id) == 0 and run.secondary.size() >= (3 if level >= 20 else 2):
 				continue
 			result.append(id)
 	if level % 5 == 0:
 		for id: String in Catalog.ids("fusion"):
 			var elements: Array = Catalog.definition(id).values.elements
-			if rank(elements[0]) > 0 and rank(elements[1]) > 0:
+			if learned_rank(elements[0]) > 0 and learned_rank(elements[1]) > 0:
 				result.append(id)
 	return result
 
@@ -113,7 +119,7 @@ func learn(id: String) -> bool:
 		run.fusion = {"id":id,"snapshot":run.skills.duplicate(true),"level":run.level}
 		run.active = id
 	else:
-		run.skills[id] = rank(id) + 1
+		run.skills[id] = learned_rank(id) + 1
 		if d.kind == "secondary" and not id in run.secondary:
 			run.secondary.append(id)
 		if d.kind == "primary" and run.active.is_empty():
@@ -140,16 +146,11 @@ func find_item(uid: String) -> Dictionary:
 func make_item(seed_value: int, tier: int) -> Dictionary:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = seed_value
-	var bases: Array = Catalog.ids("item")
-	var affixes: Array = Catalog.ids("affix")
-	var base: ContentDefinition = Catalog.definition(bases[rng.randi_range(0,bases.size()-1)])
-	var affix: ContentDefinition = Catalog.definition(affixes[rng.randi_range(0,affixes.size()-1)])
 	var rarity: int = clampi(rng.randi_range(0,2) + int(tier / 8),0,2)
-	var scale_value: float = (1.0 + 0.10*tier)*(1.0+rarity*0.4)
-	var bonus: Dictionary = {base.values.stat: float(base.values.amount)*scale_value}
-	bonus[affix.values.stat] = float(bonus.get(affix.values.stat,0.0)) + float(affix.values.amount)*scale_value
-	run.serial += 1
-	return {"uid":"item_%d_%d" % [run.seed,run.serial],"base":base.id,"name":base.title+" "+affix.title,"slot":base.values.slot,"rarity":rarity,"bonuses":bonus,"price":35+int(tier*12+rarity*42)}
+	var candidates: Array[Dictionary] = []
+	for template: Dictionary in Equipment.templates():
+		if template.rarity==rarity: candidates.append(template)
+	return make_equipment(candidates[rng.randi_range(0,candidates.size()-1)],rng,tier)
 
 func equip(uid: String, slot: String = "") -> bool:
 	var item: Dictionary = find_item(uid)
@@ -160,14 +161,12 @@ func equip(uid: String, slot: String = "") -> bool:
 	for key: String in run.equipped:
 		if run.equipped[key] == uid: run.equipped[key] = ""
 	run.equipped[slot] = uid
-	clamp_vitals()
-	changed.emit()
+	refresh_equipment()
 	return true
 
 func unequip(slot: String) -> void:
 	if run.equipped.has(slot): run.equipped[slot] = ""
-	clamp_vitals()
-	changed.emit()
+	refresh_equipment()
 
 func clamp_vitals() -> void:
 	var s: Dictionary = stats()
@@ -292,3 +291,51 @@ func apply_options() -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(0.0001, options.volume)))
 	if DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if options.fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
+
+func learned_rank(id: String, snapshot: Dictionary = {}) -> int:
+	return int((snapshot if not snapshot.is_empty() else run.get("skills", {})).get(id, 0))
+
+func equipment_bonuses() -> Dictionary:
+	var result: Dictionary = {}
+	for uid: String in run.get("equipped", {}).values():
+		var item: Dictionary = find_item(uid)
+		for key: String in item.get("bonuses", {}):
+			result[key] = float(result.get(key,0.0))+float(item.bonuses[key])
+	return result
+
+func effective_rank(id: String, learned: int, bonuses: Dictionary) -> int:
+	var specific: int = int(bonuses.get("skill:"+id,0))
+	# All-skills improves acquired skills, without learning the entire grimoire.
+	var extra: int = specific+(int(bonuses.get("all_skills",0)) if learned+specific>0 else 0)
+	if extra<=0: return learned
+	var definition: ContentDefinition = Catalog.definition(id)
+	if not definition: return learned
+	var cap: int = 11 if id=="shield" else definition.max_rank+7
+	if id in ["meditation","reach"]: return learned
+	return maxi(learned,mini(cap,learned+extra))
+
+func secondary_skills() -> Array:
+	var result: Array = run.get("secondary",[]).duplicate()
+	for id: String in Catalog.ids("secondary"):
+		if result.size()>=(3 if run.get("level",1)>=20 else 2): break
+		if id not in result and rank(id)>0: result.append(id)
+	return result
+
+func refresh_equipment() -> void:
+	var active: String = run.get("active","")
+	if active.is_empty() or (active in Catalog.ids("primary") and rank(active)==0):
+		run.active = ""
+		for id: String in Catalog.ids("primary"):
+			if rank(id)>0:
+				run.active=id
+				break
+	clamp_vitals()
+	changed.emit()
+
+func add_gold(amount: int) -> void:
+	run.gold += int(round(amount*(1.0+stats().gold_bonus)))
+
+func make_equipment(template: Dictionary, rng: RandomNumberGenerator, tier: int = 1) -> Dictionary:
+	var bonus: Dictionary = Equipment.roll(template,rng)
+	run.serial += 1
+	return {"uid":"item_%d_%d"%[run.seed,run.serial],"template":template.id,"name":Equipment.item_name(template.slot,bonus),"slot":template.slot,"rarity":template.rarity,"bonuses":bonus,"price":35+maxi(0,tier)*12+int(template.rarity)*42}
