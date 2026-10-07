@@ -70,6 +70,7 @@ func _physics_process(delta: float) -> void:
 	State.run.mp = minf(cached_stats.max_mana,float(State.run.mp)+regen*delta)
 	State.run.hp = minf(cached_stats.max_hp,float(State.run.hp)+cached_stats.hp_regen*delta)
 	harden_active=false;storm_active=false
+	if firing: world.cancel_portal()
 	if firing and not world.village and not State.run.active.is_empty(): world.combat.fire(self,delta)
 	if not harden_active: ice_armor=0.0
 	if State.run.active=="missile" and State.rank("ether_charge")>0:
@@ -81,7 +82,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		ether_charges=0;ether_timer=0.0
 	for i: int in range(3):
-		if Input.is_action_just_pressed("secondary_%d"%i): world.combat.secondary(self,i)
+		if Input.is_action_just_pressed("secondary_%d"%i):
+			world.cancel_portal()
+			world.combat.secondary(self,i)
 	if Input.is_action_just_pressed("hp_potion") and State.potion("hp"): Sound.play("potion")
 	if Input.is_action_just_pressed("mp_potion") and State.potion("mp"): Sound.play("mana")
 	queue_redraw()
@@ -90,6 +93,7 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 	if invulnerable>0.0 or State.run.dead: return
 	if damage_type=="poison": amount *= 1.0-cached_stats.poison_resistance
 	if amount<=0.0: return
+	world.cancel_portal()
 	resting=0.0
 	if ice_armor>0:
 		var blocked: float = minf(ice_armor,amount*(1.0-cached_stats.resistance))
@@ -112,6 +116,10 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 func _draw() -> void:
 	var time: float = visual.elapsed if visual else 0.0
 	var color: Color = CombatSystem.COLORS.get(State.run.get("active","missile"),Color("83ddeb"))
+	if world and world.portal_remaining>0:
+		var progress: float = 1.0-world.portal_remaining/GameWorld.PORTAL_DURATION
+		ArcaneArt.rune(self,Vector2.ZERO,48,Color("81dfeb"),time*0.6,8)
+		draw_arc(Vector2.ZERO,54,-PI/2,-PI/2+TAU*progress,64,Color("d1faff"),4,true)
 	if shield>0:
 		var center: Vector2 = Vector2(0,-40)
 		ArcaneArt.glow(self,center,62,Color(0.35,0.7,1,0.24))

@@ -82,7 +82,11 @@ func start(owner_main: Node) -> void:
 			var before: Dictionary = world.floor_data.duplicate(true)
 			var pos: Vector2 = world.player.position
 			var living_ids: Array = world.enemies.map(func(e: TowerEnemy)->String:return e.record.id)
+			world.player.qa_fire=false
+			world.player.qa_direction=Vector2.ZERO
+			await frames(2)
 			world.use_portal()
+			await frames(160)
 			check(world.village,"Portal reaches village")
 			world.enter_tower()
 			check(world.player.position.distance_to(pos)<2,"Portal restores exact position")

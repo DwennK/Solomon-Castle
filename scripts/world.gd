@@ -33,6 +33,9 @@ var audio_check: float = 0.0
 var boss_music_hold: float = 0.0
 var impact_trauma: float = 0.0
 var visual_clock: float = 0.0
+const PORTAL_DURATION: float = 2.4
+var portal_remaining: float = 0.0
+var portal_origin: Vector2
 
 func _ready() -> void:
 	combat = CombatSystem.new()
@@ -51,6 +54,7 @@ func clear_world() -> void:
 func load_floor(number: int, resume: bool = false) -> void:
 	var returning: bool = not State.run.get("return_position",[]).is_empty() and number==int(State.run.get("return_floor",1))
 	changing = true
+	portal_remaining = 0.0
 	Sound.stop_world()
 	boss_music_hold = 0.0
 	clear_world()
@@ -196,11 +200,14 @@ func _physics_process(delta: float) -> void:
 	var nearest_prop: WorldProp = closest_prop()
 	if nearest_prop:
 		var label: String = {"chest":"Open chest","merchant":"Talk to Basile","teacher":"Study with Orme","healer":"Rest for free","tower":"Enter the tower","entry":"Back to the village","exit":"Ascend to the next floor","gate":"Open the guardian’s seal"}.get(nearest_prop.record.id,{"chest":"Open chest"}.get(nearest_prop.record.kind,"Interact"))
-		if nearest_prop.record.kind in ["reliquary","blood_font"]: label=discovery_hint(nearest_prop)
+		if DiscoveryRules.is_discovery(nearest_prop.record.kind): label=discovery_hint(nearest_prop)
 		hint = "[%s]  %s"%[Controls.caption("interact"),label]
 	if Input.is_action_just_pressed("interact"): interact()
 	if Input.is_action_just_pressed("portal"): use_portal()
 	if Input.is_action_just_pressed("cycle_spell"): cycle_spell()
+	if portal_remaining>0:
+		update_portal(delta)
+		if portal_remaining>0: hint = "Opening portal · %.1fs · moving, casting or damage interrupts"%portal_remaining
 	save_timer += delta
 	if save_timer>15:
 		snapshot()
@@ -313,6 +320,26 @@ func use_portal() -> void:
 		if State.run.active.is_empty(): interaction.emit("initial")
 		else: enter_tower()
 		return
+	if ended: return
+	if portal_remaining>0:
+		cancel_portal()
+		return
+	portal_remaining = PORTAL_DURATION
+	portal_origin = player.position
+	State.message.emit("Opening a portal. Hold your ground for 2.4 seconds.")
+
+func cancel_portal() -> void:
+	if portal_remaining<=0: return
+	portal_remaining = 0.0
+	State.message.emit("Portal interrupted.")
+
+func update_portal(delta: float) -> void:
+	if portal_remaining<=0: return
+	if player.position.distance_to(portal_origin)>3.0 or player.velocity.length()>1.0:
+		cancel_portal()
+		return
+	portal_remaining = maxf(0.0,portal_remaining-delta)
+	if portal_remaining>0: return
 	State.run.return_floor = State.run.floor
 	State.run.return_position = Dungeon.pair(player.position)
 	snapshot()
