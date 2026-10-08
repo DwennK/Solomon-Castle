@@ -85,6 +85,7 @@ func run_all() -> void:
 		var layer: CanvasLayer = CanvasLayer.new();add_child(layer)
 		var hud: GameHUD = GameHUD.new();hud.world=world;layer.add_child(hud)
 		await capture("corridor-1440x900")
+		await check_mystery_rendering(fog)
 		DisplayServer.window_set_size(Vector2i(960,600))
 		await capture("corridor-960x600")
 		DisplayServer.window_set_size(Vector2i(1440,900))
@@ -125,6 +126,7 @@ func run_all() -> void:
 		world.load_floor(1);freeze()
 		State.run.floors.erase("1")
 		world.load_floor(1);freeze()
+		State.message.emit("")
 		await capture("generated-entry-1440x900")
 		var route: PackedVector2Array = world.dungeon.path(world.player.position,Dungeon.to_world(Dungeon.room_center(world.floor_data.rooms[1])))
 		for point: Vector2 in route:
@@ -146,6 +148,46 @@ func get_fog() -> DungeonFog:
 func freeze() -> void:
 	world.set_physics_process(false);world.player.qa_controlled=true;world.player.set_physics_process(false)
 	for enemy: TowerEnemy in world.enemies: enemy.set_physics_process(false)
+
+func rendered_image() -> Image:
+	for i: int in range(2): await get_tree().process_frame
+	RenderingServer.force_draw()
+	return get_viewport().get_texture().get_image()
+
+func screen_patch(cell: Vector2i) -> Rect2i:
+	var center: Vector2 = world.get_global_transform_with_canvas()*Dungeon.to_world(cell)
+	return Rect2i(Vector2i(center)-Vector2i(10,10),Vector2i(20,20))
+
+func patch_light(image: Image,patch: Rect2i) -> float:
+	var total: float = 0.0
+	for y: int in range(patch.position.y,patch.end.y):
+		for x: int in range(patch.position.x,patch.end.x): total += image.get_pixel(x,y).get_luminance()
+	return total/(patch.size.x*patch.size.y)
+
+func check_mystery_rendering(fog: DungeonFog) -> void:
+	var before: Image = await rendered_image()
+	var unknown: Rect2i = screen_patch(Vector2i(20,11))
+	check(patch_light(before,unknown)>0.015,"Unentered room has a perceptible floor instead of solid black")
+	# A deliberately bright effect behind the mask must not show through the
+	# architectural preview, even if its own visibility filter is absent.
+	var marker: Polygon2D = Polygon2D.new()
+	marker.position=Dungeon.to_world(Vector2i(20,11))
+	marker.polygon=PackedVector2Array([Vector2(-24,-24),Vector2(24,-24),Vector2(24,24),Vector2(-24,24)])
+	marker.color=Color.MAGENTA
+	world.shots.add_child(marker)
+	var with_effect: Image = await rendered_image()
+	check(before.get_region(unknown).get_data()==with_effect.get_region(unknown).get_data(),"Room silhouette cannot leak hidden spell effects or contents")
+	marker.queue_free()
+	check(not world.dungeon.revealed.has("20,11"),"Architectural preview does not add the room to the minimap")
+	var near: Rect2i = screen_patch(Vector2i(15,12))
+	var distant: Rect2i = screen_patch(Vector2i(11,12))
+	fog.ambience.hide()
+	var without_shade: Image = await rendered_image()
+	var near_ratio: float = patch_light(before,near)/patch_light(without_shade,near)
+	var far_ratio: float = patch_light(before,distant)/patch_light(without_shade,distant)
+	check(near_ratio<0.96 and near_ratio>0.75,"Mage surroundings are darker but retain readable floor detail")
+	check(far_ratio<near_ratio-0.03,"Ambient shade increases gradually away from the mage")
+	fog.ambience.show()
 
 func capture(label: String) -> void:
 	DirAccess.make_dir_recursive_absolute("res://outputs/visibility")
