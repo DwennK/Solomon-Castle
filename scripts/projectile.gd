@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 	lifetime -= delta
 	if lifetime<=0:
 		if not hostile and profile.get("ember",false) and int(profile.get("detonate",0))>0:
-			world.combat.explosion(position,65.0,damage*(1.0+0.2*int(profile.detonate)),color)
+			world.combat.explosion(position,65.0,damage*(1.0+0.2*int(profile.detonate)),color,0.0,"fire")
 		queue_free()
 		return
 	if homing:
@@ -87,6 +87,7 @@ func impact(enemy: TowerEnemy) -> void:
 		queue_free()
 		return
 	var id: String = profile.id
+	world.remnants.spell_mark(position,id)
 	if enemy:
 		enemy.take_damage(damage,direction*60)
 		if id == "frost_missile" and enemy.is_targetable():
@@ -94,7 +95,7 @@ func impact(enemy: TowerEnemy) -> void:
 			enemy.chill(1.0,maxf(0.1,0.55-State.rank("chill",profile.snapshot)*0.045))
 			enemy.knockback+=direction*State.rank("chill",profile.snapshot)*20
 	if world.combat.splash_ratio(profile)>0:
-		world.combat.explosion(position,world.combat.splash_radius(profile),damage*world.combat.splash_ratio(profile),color,0.5 if id=="frost_missile" else 0.0)
+		world.combat.explosion(position,world.combat.splash_radius(profile),damage*world.combat.splash_ratio(profile),color,0.5 if id=="frost_missile" else 0.0,id)
 	else: world.effect(position,color,25)
 	world.combat.emit_embers(position,profile,damage)
 	Sound.impact(id,global_position,String(enemy.record.kind) if is_instance_valid(enemy) else "stone")

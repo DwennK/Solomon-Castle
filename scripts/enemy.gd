@@ -331,7 +331,12 @@ func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = fal
 	# Health feedback must update even while frozen, recovering or offscreen.
 	queue_redraw()
 	knockback += force * (0.2 if boss else 1.0)
-	if not quiet: visual.hit_flash = 0.6
+	if received>0 and world.dungeon.explored_position(position):
+		var metal: bool = record.kind in ["knight","king"] or record.get("elite_kind","")=="bulwark"
+		# Continuous damage is throttled by the visual, independently of combat timers.
+		if visual.react_hit(origin.direction_to(position),0.35 if boss or quiet else 1.0,frozen>0,metal):
+			if frozen>0: Sound.play("ice_armor_hit",global_position,-3.0)
+			elif metal: Sound.hit_material("knight",global_position)
 	if not quiet and hp>0 and hurt_voice_timer<=0:
 		Sound.creature(String(record.kind),"hurt",global_position,false,boss)
 		hurt_voice_timer = 0.8

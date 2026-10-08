@@ -154,6 +154,7 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 	for enemy: TowerEnemy in targets:
 		if not is_instance_valid(enemy) or not enemy.is_targetable(): continue
 		enemy.take_damage(p.damage*delta,player.aim*delta*(70+State.rank("chill",p.snapshot)*35) if "ice" in p.elements else Vector2.ZERO,true)
+		world.remnants.spell_mark(enemy.position,id)
 		if "ice" in p.elements: enemy.chill(0.5,maxf(0.10,0.55-State.rank("chill",p.snapshot)*0.045))
 		var freeze_duration: float = 0.09 if id=="blizzard" else 0.0
 		if "lightning" in p.elements and State.rank("stun",p.snapshot)>0:
@@ -161,7 +162,7 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 		if freeze_duration>0: enemy.freeze(freeze_duration)
 		if id == "flame_lash": enemy.burn = 1.0
 		if enemy.dead and "fire" in p.elements:
-			if splash_ratio(p)>0: explosion(enemy.position,splash_radius(p),p.damage*splash_ratio(p),p.color)
+			if splash_ratio(p)>0: explosion(enemy.position,splash_radius(p),p.damage*splash_ratio(p),p.color,0.0,id)
 			emit_embers(enemy.position,p,p.damage)
 
 func nearest(origin: Vector2, radius: float, excluded: Array = []) -> TowerEnemy:
@@ -175,8 +176,12 @@ func nearest(origin: Vector2, radius: float, excluded: Array = []) -> TowerEnemy
 			found = enemy
 	return found
 
-func explosion(position: Vector2, radius: float, damage: float, color: Color, freeze_time: float = 0.0) -> void:
-	world.effect(position,color,radius)
+func explosion(position: Vector2, radius: float, damage: float, color: Color, freeze_time: float = 0.0, style: String = "") -> void:
+	world.effect(position,color,radius,style)
+	if not style.is_empty():
+		for i: int in range(8):
+			var patch: Vector2 = position+Vector2.from_angle(i*TAU/8)*radius*0.65
+			if world.dungeon.visible_line(position,patch): world.remnants.spell_mark(patch,style,28)
 	if damage>0: world.break_urns_in_radius(position,radius)
 	for enemy: TowerEnemy in world.enemies.duplicate():
 		if not is_instance_valid(enemy) or not enemy.is_targetable(): continue
@@ -204,8 +209,8 @@ func secondary(player: MagePlayer, index: int) -> bool:
 			player.invulnerable = p.duration
 		"shield": player.shield = p.power
 		"circle": world.friendly_zone(player.position,"circle",p.radius,p.duration,rank_value)
-		"freeze": explosion(player.position,p.radius,p.damage,Color("b8eafa"),p.duration)
-		"ring_fire": explosion(player.position,p.radius,p.damage,Color("ff985b"))
+		"freeze": explosion(player.position,p.radius,p.damage,Color("b8eafa"),p.duration,"freeze")
+		"ring_fire": explosion(player.position,p.radius,p.damage,Color("ff985b"),0.0,"ring_fire")
 		"acid": world.friendly_zone(player.position+player.aim*100,"acid",p.radius,p.duration,p.power)
 		"undead":
 			world.effect(player.position,Color("e8e0b2"),300)

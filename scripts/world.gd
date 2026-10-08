@@ -13,6 +13,7 @@ var player: MagePlayer
 var camera: Camera2D
 var actors: Node2D
 var shots: Node2D
+var remnants: CombatRemnants
 var effects: SpellEffects
 var combat: CombatSystem
 var enemies: Array[TowerEnemy] = []
@@ -61,6 +62,9 @@ func load_floor(number: int, resume: bool = false) -> void:
 	village = number == 0
 	dungeon = Dungeon.new()
 	add_child(dungeon)
+	remnants = CombatRemnants.new()
+	remnants.world = self
+	add_child(remnants)
 	actors = Node2D.new()
 	actors.y_sort_enabled = true
 	add_child(actors)
@@ -455,6 +459,9 @@ func enemy_killed(enemy: TowerEnemy) -> void:
 		if int(State.run.floor)==13 and enemy.record.id == "boss":
 			State.message.emit("The Archivist has fallen. Reach the summit seal to complete the ascent.")
 
+	remnants.add_mark(enemy.position,"dust",36 if enemy.boss else 22)
+	if enemy.record.kind in ["skeleton","archer"]: remnants.add_mark(enemy.position,"bone",28)
+	if enemy.frozen>0: remnants.add_mark(enemy.position,"ice",30)
 	effect(enemy.position,Color("acbaac"),50 if enemy.boss else 25)
 	Sound.creature(String(enemy.record.kind),"death",enemy.global_position,false,enemy.boss)
 
@@ -490,6 +497,7 @@ func update_zones(delta: float) -> void:
 			continue
 		z.life -= delta
 		if z.life<=0:
+			if z.kind=="acid": remnants.spell_mark(z.pos,"acid",z.radius)
 			zones.remove_at(i)
 			continue
 		if z.kind=="environment":
@@ -540,6 +548,7 @@ func cycle_spell() -> void:
 
 func effect(pos: Vector2,color: Color,radius: float,style: String = "impact") -> void:
 	if effects: effects.add_burst(pos,color,radius,style)
+	if remnants: remnants.spell_mark(pos,style,radius*0.4)
 	if radius>=100 and is_instance_valid(player) and pos.distance_to(player.position)<650:
 		impact_trauma = minf(1.0,impact_trauma+radius/350.0)
 
