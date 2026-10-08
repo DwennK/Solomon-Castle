@@ -4,3 +4,4 @@ outputs/
 docs/research/
 .DS_Store
 *.tmp
+__pycache__/
