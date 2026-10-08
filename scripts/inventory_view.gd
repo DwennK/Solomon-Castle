@@ -335,7 +335,7 @@ func refresh_details() -> void:
 	var action_slot: String = target_slot
 	if selling:
 		button = action(action_body,"Sell · %d gold" % maxi(1,int(item.price/3)),func()->void:
-			State.sell(action_uid)
+			if State.sell(action_uid): Sound.play("trade")
 			refresh()
 			focus_selection.call_deferred())
 		button.disabled = item.uid in State.run.equipped.values()
@@ -344,16 +344,18 @@ func refresh_details() -> void:
 				if State.run.equipped[slot]!=item.uid: continue
 				action(action_body,"Remove · "+slot_name(slot),func()->void:
 					State.unequip(slot)
+					Sound.play("unequip")
 					refresh()
 					focus_selection.call_deferred())
 	elif removing:
 		button = action(action_body,"Remove · "+slot_name(target_slot),func()->void:
 			State.unequip(action_slot)
+			Sound.play("unequip")
 			refresh()
 			focus_selection.call_deferred())
 	else:
 		button = action(action_body,"Equip staff" if target_slot=="staff" else "Equip — ring "+target_slot[-1],func()->void:
-			State.equip(action_uid,action_slot)
+			if State.equip(action_uid,action_slot): Sound.play("equip_staff" if action_slot=="staff" else "equip_ring")
 			refresh()
 			focus_selection.call_deferred())
 	button.name = "InventoryAction"

@@ -33,6 +33,8 @@ var audio_check: float = 0.0
 var boss_music_hold: float = 0.0
 var impact_trauma: float = 0.0
 var visual_clock: float = 0.0
+var soundscape_timer: float = 0.0
+var distant_sound_timer: float = 7.0
 
 func _ready() -> void:
 	combat = CombatSystem.new()
@@ -110,6 +112,9 @@ func load_floor(number: int, resume: bool = false) -> void:
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 7
 	player.add_child(camera)
+	var audio_listener: AudioListener2D = AudioListener2D.new()
+	player.add_child(audio_listener)
+	audio_listener.make_current()
 	if village:
 		camera.position = Vector2(768,510)-player.position
 		camera.position_smoothing_enabled = false
@@ -129,6 +134,9 @@ func load_floor(number: int, resume: bool = false) -> void:
 		State.save_game()
 	Sound.listener_position = player.global_position
 	Sound.set_music("village" if village else "exploration")
+	Sound.set_environment("village" if village else "tower")
+	soundscape_timer = 0.0
+	distant_sound_timer = 7.0
 	if not resume: Sound.play("portal")
 	ended = false
 	changing = false
@@ -163,16 +171,20 @@ func add_prop(record: Dictionary, label: String = "") -> void:
 func _physics_process(delta: float) -> void:
 	if changing or ended or not is_instance_valid(player): return
 	visual_clock += delta
+	update_soundscape(delta)
 	impact_trauma = maxf(0,impact_trauma-delta*2.5)
 	camera.offset = Vector2.ZERO if State.options.reduced_effects else Vector2(sin(visual_clock*47),cos(visual_clock*53))*impact_trauma*3.0
 	audio_check -= delta
 	boss_music_hold = maxf(0.0,boss_music_hold-delta)
 	if audio_check<=0.0 and not village:
 		audio_check = 0.4
+		var threats: int = 0
 		for enemy: TowerEnemy in enemies:
+			if enemy.is_targetable() and enemy.active and enemy.position.distance_to(player.position)<550 and dungeon.visible_line(enemy.position,player.position): threats += 1
 			if enemy.boss and not enemy.dead and enemy.active and enemy.position.distance_to(player.position)<850 and (enemy.record.id!="boss" or floor_data.get("gate_open",true)):
 				boss_music_hold = 5.0
 		Sound.set_music("boss" if boss_music_hold>0.0 else "exploration")
+		Sound.set_threat(threats)
 	if village:
 		player.position = player.position.clamp(Vector2(285,350),Vector2(1240,790))
 		camera.position = Vector2(768,510)-player.position
@@ -208,6 +220,49 @@ func _physics_process(delta: float) -> void:
 		State.save_game()
 		save_timer = 0
 	queue_redraw()
+
+func update_soundscape(delta: float) -> void:
+	soundscape_timer -= delta
+	distant_sound_timer -= delta
+	if soundscape_timer>0.0: return
+	soundscape_timer = 0.3
+	if village:
+		if distant_sound_timer<=0.0:
+			distant_sound_timer = Sound.rng.randf_range(7.0,13.0)
+			var villagers: Array[WorldProp] = []
+			for prop: WorldProp in props:
+				if prop.record.id in ["merchant","teacher","healer"] and prop.position.distance_to(player.position)<430: villagers.append(prop)
+			if not villagers.is_empty():
+				var prop: WorldProp = villagers[Sound.rng.randi_range(0,villagers.size()-1)]
+				Sound.play("village_"+String(prop.record.id),prop.global_position)
+		return
+	var nearest: Vector2 = Vector2.INF
+	var nearest_distance: float = 320.0
+	for light: Dictionary in dungeon.interior.lights:
+		var distance: float = player.position.distance_to(light.pos)
+		if light.get("torch",false) and distance<nearest_distance and dungeon.visible_line(light.pos,player.position):
+			nearest = light.pos
+			nearest_distance = distance
+	Sound.set_torch(nearest)
+	var room: int = dungeon.room_at(player.position)
+	if room>=0 and room<dungeon.interior.dressing.styles.size(): Sound.set_room(dungeon.interior.dressing.styles[room])
+	else: Sound.set_room("corridor")
+	if distant_sound_timer<=0.0:
+		distant_sound_timer = Sound.rng.randf_range(10.0,19.0)
+		if boss_music_hold<=0.0:
+			var point: Vector2 = player.position+Vector2.RIGHT.rotated(Sound.rng.randf_range(0.0,TAU))*Sound.rng.randf_range(120.0,240.0)
+			var sound_id: String = "room_"+Sound.room_style if not Sound.room_style.is_empty() else "dungeon_stone"
+			if not Sound.room_style.is_empty():
+				# Anchor the detail to the room's actual furnishing, when one was placed.
+				var distance: float = INF
+				for detail: Dictionary in dungeon.interior.wall_details:
+					if int(detail.kind)!=DungeonDressing.TYPES.find(Sound.room_style): continue
+					var foot: Vector2 = Vector2(detail.pos.x,float(detail.wall_base_y)+24.0)
+					if dungeon.room_at(foot)==room and foot.distance_squared_to(player.position)<distance:
+						point = foot
+						distance = foot.distance_squared_to(player.position)
+				if is_inf(distance): return
+			Sound.play(sound_id,point,0.0,1.0,not dungeon.visible_line(point,player.position))
 
 func closest_prop() -> WorldProp:
 	var found: WorldProp
@@ -253,6 +308,7 @@ func open_prop(prop: WorldProp) -> void:
 	grant_container_reward(prop)
 	prop.refresh_texture()
 	Sound.play("chest",prop.global_position)
+	if key_found: Sound.play("key_found")
 	State.message.emit("The guardian’s key has been found. The seal can be opened." if key_found else "Chest opened · collect the loot.")
 
 func grant_container_reward(prop: WorldProp) -> void:
@@ -400,7 +456,7 @@ func enemy_killed(enemy: TowerEnemy) -> void:
 			State.message.emit("The Archivist has fallen. Reach the summit seal to complete the ascent.")
 
 	effect(enemy.position,Color("acbaac"),50 if enemy.boss else 25)
-	Sound.play("boss_death" if enemy.boss else "enemy_death",enemy.global_position)
+	Sound.creature(String(enemy.record.kind),"death",enemy.global_position,false,enemy.boss)
 
 func collect_loot() -> void:
 	for i: int in range(loot.size()-1,-1,-1):
@@ -416,7 +472,9 @@ func collect_loot() -> void:
 		elif drop.kind=="health": State.run.hp_potions += 1
 		elif drop.kind=="mana": State.run.mp_potions += 1
 		loot.remove_at(i)
-		Sound.play("item" if drop.kind=="item" else ("potion" if drop.kind in ["health","mana"] else "loot"))
+		if drop.kind=="item":
+			Sound.play(["item","loot_rare","loot_epic"][clampi(int(drop.item.rarity),0,2)])
+		else: Sound.play("potion" if drop.kind in ["health","mana"] else "loot")
 
 func hazard(pos: Vector2,radius: float,damage: float,delay: float,color: Color,duration: float = 0.2, damage_type: String = "physical") -> void:
 	zones.append({"pos":pos,"radius":radius,"damage":damage,"delay":delay,"life":duration,"color":color,"kind":"hostile","damage_type":damage_type,"tick":0.0})
@@ -535,7 +593,7 @@ func unlock_gate() -> bool:
 		if prop.record.id == "gate": prop.record.opened=true;prop.hide()
 	dungeon.queue_redraw()
 	State.message.emit("The seal fades. The guardian awaits.")
-	Sound.play("ritual")
+	Sound.play("seal_open")
 	return true
 
 func wake_encounter(room: int) -> void:

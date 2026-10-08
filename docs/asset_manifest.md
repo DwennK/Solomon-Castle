@@ -20,9 +20,11 @@ Les six prompts et la charte sont conservés dans `docs/art_prompts.md`. Le mouv
 
 ## Audio
 
-`assets/audio/` : 78 ressources originales régénérées par `tools/make_audio.py` : quatre thèmes Ogg Vorbis stéréo et 74 WAV PCM 16 bits mono, tous à 44 100 Hz. Les effets comprennent variantes, cinq canalisations continues, sorts et fusions distincts, rituels, attaques ennemies, impacts, potions, objets, pas et événements. Aucun échantillon externe. Mixage à 24 voix spatialisées, priorités, limitation de cadence, fondus musicaux et limiteur. Voir [audio.md](audio.md) et `assets/audio/audio_manifest.json`.
+`assets/audio/` contient 268 ressources dérivées de 16 collections gratuites : musiques composées, voix enregistrées, matières, effets et ambiances. Licences CC0, CC BY 3.0 et CC BY 4.0 ; aucun achat, compte ou service distant n’est nécessaire pendant le jeu.
 
-Le pack [Kenney Impact Sounds](https://kenney.nl/assets/impact-sounds) a été consulté et sa mention CC0 vérifiée, mais aucun de ses fichiers n’est inclus. Il n’existe donc pas d’attribution audio externe à ajouter à cette version.
+Les crédits, sources, licences et adaptations figurent dans [Audio-Attribution.txt](licenses/Audio-Attribution.txt) et dans le jeu, **Credits → Audio credits**. Les crédits intégrés sont compilés dans chaque export. `assets/audio/sources.json` fixe les URL et SHA-256 des téléchargements ; `audio_manifest.json` relie chaque fichier livré à ses fichiers sources. Les musiques sont de Marcelo Fernandez, cynicmusic, yd, Matthew Pablo, tcarisland et Tsorthan Grove. Les effets et ambiances proviennent de Little Robot Sound Factory, rubberduck, ArcadeParty, TinyWorlds, PagDev, LEGIT Audio, IgnasD, Augmentality / Brandon Morris et Thimras.
+
+Le générateur synthétique précédent a été remplacé par `tools/import_free_audio.py`. Les sources brutes restent dans le cache ignoré `outputs/audio-sources/`. Voir [audio.md](audio.md) pour les traitements, le mixage et la validation.
 
 ## Moteur et dépendances
 

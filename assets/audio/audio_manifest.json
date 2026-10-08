@@ -1,548 +1,4314 @@
 {
-  "missile": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -21.19,
-    "channels": 1
-  },
-  "missile_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -21.75,
-    "channels": 1
-  },
-  "missile_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.2,
-    "channels": 1
-  },
-  "fire": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.84,
-    "channels": 1
-  },
-  "fire_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.46,
-    "channels": 1
-  },
-  "fire_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.27,
-    "channels": 1
-  },
-  "impact_arcane": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -24.09,
-    "channels": 1
-  },
-  "impact_arcane_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.38,
-    "channels": 1
-  },
-  "impact_arcane_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -23.5,
-    "channels": 1
-  },
-  "impact_fire": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.36,
-    "channels": 1
-  },
-  "impact_fire_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -23.09,
-    "channels": 1
-  },
-  "impact_fire_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.6,
-    "channels": 1
-  },
-  "impact_ice": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.68,
-    "channels": 1
-  },
-  "impact_ice_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -24.93,
-    "channels": 1
-  },
-  "impact_ice_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.77,
-    "channels": 1
-  },
-  "impact_lightning": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -23.86,
-    "channels": 1
-  },
-  "impact_lightning_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -23.03,
-    "channels": 1
-  },
-  "impact_lightning_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -23.45,
-    "channels": 1
-  },
-  "enemy_melee": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -25.35,
-    "channels": 1
-  },
-  "enemy_melee_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -25.8,
-    "channels": 1
-  },
-  "enemy_melee_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -24.99,
-    "channels": 1
-  },
-  "enemy_bow": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -27.0,
-    "channels": 1
-  },
-  "enemy_bow_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -24.29,
-    "channels": 1
-  },
-  "enemy_bow_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -26.6,
-    "channels": 1
-  },
-  "enemy_magic": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -21.09,
-    "channels": 1
-  },
-  "enemy_magic_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.83,
-    "channels": 1
-  },
-  "enemy_magic_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.95,
-    "channels": 1
-  },
-  "enemy_death": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.82,
-    "channels": 1
-  },
-  "enemy_death_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.87,
-    "channels": 1
-  },
-  "enemy_death_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.88,
-    "channels": 1
-  },
-  "step_stone": {
-    "seconds": 0.18,
-    "loop": false,
-    "peak_db": -5.68,
-    "rms_db": -24.44,
-    "channels": 1
-  },
-  "step_stone_2": {
-    "seconds": 0.18,
-    "loop": false,
-    "peak_db": -5.68,
-    "rms_db": -24.11,
-    "channels": 1
-  },
-  "step_stone_3": {
-    "seconds": 0.18,
-    "loop": false,
-    "peak_db": -5.68,
-    "rms_db": -23.64,
-    "channels": 1
-  },
-  "step_gravel": {
-    "seconds": 0.22,
-    "loop": false,
-    "peak_db": -5.68,
-    "rms_db": -25.61,
-    "channels": 1
-  },
-  "step_gravel_2": {
-    "seconds": 0.22,
-    "loop": false,
-    "peak_db": -5.68,
-    "rms_db": -25.44,
-    "channels": 1
-  },
-  "step_gravel_3": {
-    "seconds": 0.22,
-    "loop": false,
-    "peak_db": -5.68,
-    "rms_db": -26.22,
-    "channels": 1
-  },
-  "loot": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -19.87,
-    "channels": 1
-  },
-  "loot_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -18.49,
-    "channels": 1
-  },
-  "loot_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -19.03,
-    "channels": 1
-  },
-  "hurt": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -23.26,
-    "channels": 1
-  },
-  "hurt_2": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -24.87,
-    "channels": 1
-  },
-  "hurt_3": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.09,
-    "channels": 1
-  },
-  "fire_missile": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.58,
-    "channels": 1
-  },
-  "frost_missile": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.94,
-    "channels": 1
-  },
-  "ball_lightning": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.56,
-    "channels": 1
-  },
-  "impact": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.17,
-    "channels": 1
-  },
-  "enemy": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -24.29,
-    "channels": 1
-  },
-  "potion": {
-    "seconds": 1.15,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -16.84,
-    "channels": 1
-  },
-  "mana": {
-    "seconds": 1.25,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -17.61,
-    "channels": 1
-  },
-  "item": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -16.64,
-    "channels": 1
-  },
-  "ui": {
-    "seconds": 0.12,
-    "loop": false,
-    "peak_db": -5.68,
-    "rms_db": -17.19,
-    "channels": 1
-  },
-  "spell_switch": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -18.76,
-    "channels": 1
-  },
-  "chest": {
-    "seconds": 1.1,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -19.79,
-    "channels": 1
-  },
-  "urn": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.82,
-    "channels": 1
-  },
-  "teleport": {
-    "seconds": 1.3,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -18.84,
-    "channels": 1
-  },
-  "portal": {
-    "seconds": 1.8,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.37,
-    "channels": 1
-  },
-  "ritual": {
-    "seconds": 1.8,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -21.28,
-    "channels": 1
-  },
-  "shield": {
-    "seconds": 1.4,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.11,
-    "channels": 1
-  },
-  "shield_hit": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -21.85,
-    "channels": 1
-  },
-  "circle": {
-    "seconds": 2.0,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -21.41,
-    "channels": 1
-  },
-  "freeze": {
-    "seconds": 1.5,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -24.35,
-    "channels": 1
-  },
-  "ring_fire": {
-    "seconds": 1.5,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -23.83,
-    "channels": 1
-  },
-  "acid": {
-    "seconds": 1.4,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -21.53,
-    "channels": 1
-  },
-  "undead": {
-    "seconds": 2.0,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -19.68,
-    "channels": 1
-  },
-  "death": {
-    "seconds": 3.5,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -16.44,
-    "channels": 1
-  },
-  "victory": {
-    "seconds": 5.5,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -19.61,
-    "channels": 1
-  },
-  "level_up": {
-    "seconds": 2.5,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -16.22,
-    "channels": 1
-  },
-  "boss_death": {
-    "seconds": 2.8,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -22.94,
-    "channels": 1
-  },
-  "boss_attack": {
-    "seconds": 0.75,
-    "loop": false,
-    "peak_db": -3.1,
-    "rms_db": -20.27,
-    "channels": 1
-  },
-  "channel_lightning": {
-    "seconds": 3.05,
-    "loop": true,
-    "peak_db": -6.38,
-    "rms_db": -20.96,
-    "channels": 1
-  },
-  "channel_ice": {
-    "seconds": 3.05,
-    "loop": true,
-    "peak_db": -6.38,
-    "rms_db": -19.07,
-    "channels": 1
-  },
-  "channel_flame_lash": {
-    "seconds": 3.05,
-    "loop": true,
-    "peak_db": -6.38,
-    "rms_db": -19.19,
-    "channels": 1
-  },
-  "channel_steam": {
-    "seconds": 3.05,
-    "loop": true,
-    "peak_db": -6.38,
-    "rms_db": -20.17,
-    "channels": 1
-  },
-  "channel_blizzard": {
-    "seconds": 3.05,
-    "loop": true,
-    "peak_db": -6.38,
-    "rms_db": -19.46,
-    "channels": 1
-  },
   "music_menu": {
-    "seconds": 50.526,
+    "file": "music_menu.ogg",
+    "seconds": 226.348,
     "loop": true,
-    "peak_db": -5.04,
-    "rms_db": -18.94,
-    "channels": 2
+    "peak_db": -2.19,
+    "rms_db": -25.05,
+    "channels": 2,
+    "sources": [
+      {
+        "collection": "dark-chamber",
+        "file": "Dark chamber.mp3"
+      }
+    ],
+    "sha256": "0e08600a9f3dd0684218be2ad55fb7c53b3e8adfc90b90ac3105cc53e10feee7"
   },
   "music_village": {
-    "seconds": 43.636,
+    "file": "music_village.ogg",
+    "seconds": 95.842,
     "loop": true,
-    "peak_db": -5.04,
-    "rms_db": -16.66,
-    "channels": 2
+    "peak_db": -4.48,
+    "rms_db": -19.98,
+    "channels": 2,
+    "sources": [
+      {
+        "collection": "town-theme-rpg",
+        "file": "TownTheme.mp3"
+      }
+    ],
+    "sha256": "e94fdd1e81101aead26934163af0e6b86b7b04a17788577c30dfb84ba5735640"
   },
   "music_exploration": {
-    "seconds": 60.0,
-    "loop": true,
-    "peak_db": -5.04,
-    "rms_db": -18.11,
-    "channels": 2
+    "file": "music_exploration.ogg",
+    "seconds": 203.126,
+    "loop": false,
+    "peak_db": -2.17,
+    "rms_db": -24.79,
+    "channels": 2,
+    "sources": [
+      {
+        "collection": "dungeon-ambience",
+        "file": "dungeon002_0.ogg"
+      }
+    ],
+    "sha256": "ef907be2d97feeab9292b4a32b4eb2d42761a38bf2a3b5417183528fd85e6d11"
   },
   "music_boss": {
-    "seconds": 34.286,
+    "file": "music_boss.ogg",
+    "seconds": 76.464,
     "loop": true,
-    "peak_db": -5.04,
-    "rms_db": -18.0,
-    "channels": 2
+    "peak_db": -7.18,
+    "rms_db": -20.08,
+    "channels": 2,
+    "sources": [
+      {
+        "collection": "dark-descent",
+        "file": "Dark Descent_0.mp3"
+      }
+    ],
+    "sha256": "8cf91fd7280d7e4fe5931035f3bf963580526b4dbbc206a19e23ce65c5b0ca27"
+  },
+  "ambience_cave": {
+    "file": "ambience_cave.ogg",
+    "seconds": 53.419,
+    "loop": true,
+    "peak_db": -7.84,
+    "rms_db": -21.95,
+    "channels": 2,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Ambience_Cave_00.wav"
+      }
+    ],
+    "sha256": "f66ffb61de00b7723879002e96a31cfa55584ca3f57a94d61a3652a3a1efe167"
+  },
+  "ambience_torch": {
+    "file": "ambience_torch.ogg",
+    "seconds": 28.264,
+    "loop": true,
+    "peak_db": -2.53,
+    "rms_db": -25.04,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fireplace-sound-loop",
+        "file": "fire.wav"
+      }
+    ],
+    "sha256": "43229eb6fb9020eb040737991d31f728520bc1ac5473bac553bcf45f8a69c8db"
+  },
+  "missile": {
+    "file": "missile.wav",
+    "seconds": 0.694,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.62,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_01.ogg"
+      }
+    ],
+    "sha256": "68f716528d2e86d1f7de599d3951c5f8d813f8d1cafe436c7165eab7b5653296"
+  },
+  "fire": {
+    "file": "fire.wav",
+    "seconds": 1.213,
+    "loop": false,
+    "peak_db": -3.95,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fire-staff-sound-effects",
+        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 1-Audio.wav"
+      }
+    ],
+    "sha256": "2bb1e734428d4545d2da318d62f9cedbeb8d448f34a7d9cbcff20453adff01a3"
+  },
+  "impact_arcane": {
+    "file": "impact_arcane.wav",
+    "seconds": 0.523,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.76,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_02.ogg"
+      }
+    ],
+    "sha256": "8e497fd2478164a55db7e963c91d9e669bcdea2d5b57a890118ee85127024f3e"
+  },
+  "impact_fire": {
+    "file": "impact_fire.wav",
+    "seconds": 1.614,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.84,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_fire_03.ogg"
+      }
+    ],
+    "sha256": "88b0462a5a54d0dc9c6fe212e0e39a280bd27613420d87d355da2145d18a593e"
+  },
+  "impact_ice": {
+    "file": "impact_ice.wav",
+    "seconds": 0.62,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.01,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-breakingshattering",
+        "file": "extracted/IceShatters/LedasLuzta.ogg"
+      }
+    ],
+    "sha256": "6c340e4ba012a3f4907e358951d8a34c5b1026749195f9f990a49be096439ae8"
+  },
+  "impact_lightning": {
+    "file": "impact_lightning.wav",
+    "seconds": 0.711,
+    "loop": false,
+    "peak_db": -2.55,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "spell-sounds",
+        "file": "electricspell.ogg"
+      }
+    ],
+    "sha256": "4a56eaae20346f7188ffb3207a41e4ed2fd1c6a1c1f5f87668df2c922866d1b5"
+  },
+  "loot": {
+    "file": "loot.wav",
+    "seconds": 0.355,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -30.62,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/item_coins_01.ogg"
+      }
+    ],
+    "sha256": "a56b320b03585f055a890f24e816fe8e48d41146fe8b9945a7a04b3940cb3234"
+  },
+  "hurt": {
+    "file": "hurt.wav",
+    "seconds": 0.444,
+    "loop": false,
+    "peak_db": -3.34,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell1.wav"
+      }
+    ],
+    "sha256": "6098453dc160f5b52698f48c59c318cc2ac927fb530016d97c3572c1b20a87b6"
+  },
+  "enemy_melee": {
+    "file": "enemy_melee.wav",
+    "seconds": 0.242,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.88,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_01.ogg"
+      }
+    ],
+    "sha256": "e17645f8f5395966345d11afedee3e7afec46fff4cc915d9aba8574753098b4a"
+  },
+  "enemy_bow": {
+    "file": "enemy_bow.wav",
+    "seconds": 0.172,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.98,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_01.ogg"
+      }
+    ],
+    "sha256": "654244f90518db5efd528d6fcec86d687f26bea129e5516b0f9c964af4e5fdc8"
+  },
+  "enemy_magic": {
+    "file": "enemy_magic.wav",
+    "seconds": 1.13,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.81,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_01.wav"
+      }
+    ],
+    "sha256": "5a3627f71ae29b6d97ded79b3da7cb0c8e807f4a75efc1b9a4c88a42cedbbc45"
+  },
+  "enemy_death": {
+    "file": "enemy_death.wav",
+    "seconds": 0.823,
+    "loop": false,
+    "peak_db": -5.98,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_die_01.ogg"
+      }
+    ],
+    "sha256": "823a9ef779fb4f9b47825d8ee8fafc52d49229ea8391e6db4e99ba0a72c82596"
+  },
+  "step_stone": {
+    "file": "step_stone.wav",
+    "seconds": 0.316,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.16,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "different-steps-on-wood-stone-leaves-gravel-and-mud",
+        "file": "extracted/stone01.ogg"
+      }
+    ],
+    "sha256": "b3cf80e91a93c55fa449cc3c66202605081c5e57348ee67048dff164bfcce050"
+  },
+  "step_gravel": {
+    "file": "step_gravel.wav",
+    "seconds": 0.231,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.06,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_00.wav"
+      }
+    ],
+    "sha256": "0e84b6f0b853dbcf6d8378220a7f725bc36bf2e9f88baf45163935b10c3b1d42"
+  },
+  "missile_2": {
+    "file": "missile_2.wav",
+    "seconds": 0.519,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.21,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_02.ogg"
+      }
+    ],
+    "sha256": "5066c252e43e25b2bf30a70c240611bc800c1f9bde1dec768c95d7f05dd4dab6"
+  },
+  "fire_2": {
+    "file": "fire_2.wav",
+    "seconds": 1.25,
+    "loop": false,
+    "peak_db": -5.0,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fire-staff-sound-effects",
+        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 2-Audio.wav"
+      }
+    ],
+    "sha256": "b1ffebbee97408fca9a4965325b03163a65b0879391e4b8f4cd4470cb3b46fa3"
+  },
+  "impact_arcane_2": {
+    "file": "impact_arcane_2.wav",
+    "seconds": 0.521,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.84,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_02.ogg"
+      }
+    ],
+    "sha256": "57cf6c3338ce2b2d2c2f28dcec1486c3256d2612df2825f2a5a13183d94e6ea0"
+  },
+  "impact_fire_2": {
+    "file": "impact_fire_2.wav",
+    "seconds": 1.264,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.71,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_fire_04.ogg"
+      }
+    ],
+    "sha256": "1aef0c2e5002f82d1253d1ad2be4bff35e425020a11cb7348d903dff3baf7927"
+  },
+  "impact_ice_2": {
+    "file": "impact_ice_2.wav",
+    "seconds": 0.536,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.88,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-breakingshattering",
+        "file": "extracted/IceShatters/LedasLuzta2.ogg"
+      }
+    ],
+    "sha256": "fdc42455a0519f9bcb5501cfdeea5752c323d85e0d8fb9a0aec60ad74b2b97c6"
+  },
+  "impact_lightning_2": {
+    "file": "impact_lightning_2.wav",
+    "seconds": 0.712,
+    "loop": false,
+    "peak_db": -2.42,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "spell-sounds",
+        "file": "electricspell.ogg"
+      }
+    ],
+    "sha256": "152d283cf59944f6ca725f16d831e2eb1ba5e7550a0a5a189ce2cab5f3173c48"
+  },
+  "loot_2": {
+    "file": "loot_2.wav",
+    "seconds": 0.566,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.7,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/item_coins_02.ogg"
+      }
+    ],
+    "sha256": "ee86163cc44fa9527afddf787378bf025f3cbc46e1ca593491410e32696ac473"
+  },
+  "hurt_2": {
+    "file": "hurt_2.wav",
+    "seconds": 0.396,
+    "loop": false,
+    "peak_db": -3.57,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell2.wav"
+      }
+    ],
+    "sha256": "bd9a8ef83db1efdaa1a429ff41a201510e14140f28565b8a74810535f60b6efe"
+  },
+  "enemy_melee_2": {
+    "file": "enemy_melee_2.wav",
+    "seconds": 0.28,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.96,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_02.ogg"
+      }
+    ],
+    "sha256": "0f0264c74da7314f2acf735c561d830f2a0441da64d794c1810a455452555915"
+  },
+  "enemy_bow_2": {
+    "file": "enemy_bow_2.wav",
+    "seconds": 0.227,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.44,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_02.ogg"
+      }
+    ],
+    "sha256": "0710c3c092f3a30eeb2ad0db25a3ff0697bed6eff4e50986fdf596a1381e2705"
+  },
+  "enemy_magic_2": {
+    "file": "enemy_magic_2.wav",
+    "seconds": 1.048,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.38,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_01.wav"
+      }
+    ],
+    "sha256": "6cf2280b0bb6559f8ba7d6336de049f563d5e44accfe20f49b16e19acadf69db"
+  },
+  "enemy_death_2": {
+    "file": "enemy_death_2.wav",
+    "seconds": 0.743,
+    "loop": false,
+    "peak_db": -5.96,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_die_01.ogg"
+      }
+    ],
+    "sha256": "6e70fbc767474b60c4ce407e4996803ff9c8b4bfec62161c876acb4ad9f21071"
+  },
+  "step_stone_2": {
+    "file": "step_stone_2.wav",
+    "seconds": 0.293,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.14,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "different-steps-on-wood-stone-leaves-gravel-and-mud",
+        "file": "extracted/stone01.ogg"
+      }
+    ],
+    "sha256": "fe847d0dfb63990d464c3b6b3b03a7ba48866e4f50fd9a4077f4a609307af76e"
+  },
+  "step_gravel_2": {
+    "file": "step_gravel_2.wav",
+    "seconds": 0.272,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.34,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_01.wav"
+      }
+    ],
+    "sha256": "fbc4e2d4339ddff6aee3e556cd222d9407adc3bdf0fcdc2ec0144fbc318f9eb7"
+  },
+  "missile_3": {
+    "file": "missile_3.wav",
+    "seconds": 0.667,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.6,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_01.ogg"
+      }
+    ],
+    "sha256": "f8fd23460b9c1433974a013fe56580662f3c2eb0156cc2b04b4bc6bba0668652"
+  },
+  "fire_3": {
+    "file": "fire_3.wav",
+    "seconds": 1.25,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.82,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fire-staff-sound-effects",
+        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 3-Audio.wav"
+      }
+    ],
+    "sha256": "005ccf768161a8fb6308f508661b2bb47c4c5a6aed97d281c06fa10a2eae952d"
+  },
+  "impact_arcane_3": {
+    "file": "impact_arcane_3.wav",
+    "seconds": 0.504,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_02.ogg"
+      }
+    ],
+    "sha256": "608ad798d24db778153420dc5d2dd87c03db130871c3f529460f3b3ca0406ff1"
+  },
+  "impact_fire_3": {
+    "file": "impact_fire_3.wav",
+    "seconds": 1.205,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.58,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_fire_05.ogg"
+      }
+    ],
+    "sha256": "ea8d9941af947af7d84840339a23a8305971c25c3deae95d0f2a724bd7a5bc6b"
+  },
+  "impact_ice_3": {
+    "file": "impact_ice_3.wav",
+    "seconds": 0.856,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.01,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-breakingshattering",
+        "file": "extracted/IceShatters/LedasLuzta4.ogg"
+      }
+    ],
+    "sha256": "b04d6b7e9e3a15ec9741023c35b8aacaeb6d3761ea37a31ee83133169445e01d"
+  },
+  "impact_lightning_3": {
+    "file": "impact_lightning_3.wav",
+    "seconds": 0.712,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.59,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "spell-sounds",
+        "file": "electricspell.ogg"
+      }
+    ],
+    "sha256": "109637478f65ba69fb1ad8a99a7faf500849a697d789c8855a2ae11cd8553eb6"
+  },
+  "loot_3": {
+    "file": "loot_3.wav",
+    "seconds": 0.471,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.15,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/item_coins_03.ogg"
+      }
+    ],
+    "sha256": "49d046f952402851200cdbd2bec5407b340251fea00cfa5a8347c066a11ddd64"
+  },
+  "hurt_3": {
+    "file": "hurt_3.wav",
+    "seconds": 0.267,
+    "loop": false,
+    "peak_db": -6.17,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell3.wav"
+      }
+    ],
+    "sha256": "99f6d7dcc26591f419525455cb67118bb34aadeb9573800d5250af566517af14"
+  },
+  "enemy_melee_3": {
+    "file": "enemy_melee_3.wav",
+    "seconds": 0.281,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_03.ogg"
+      }
+    ],
+    "sha256": "acb706e17bbc83615cb12ade1b24e5b53cc19e19b732286879fd15be77682e3e"
+  },
+  "enemy_bow_3": {
+    "file": "enemy_bow_3.wav",
+    "seconds": 0.223,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.63,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_03.ogg"
+      }
+    ],
+    "sha256": "f14a6a57be1b0d3fbf4fcb91d29546223124ca2f0977804841daa882e44bd192"
+  },
+  "enemy_magic_3": {
+    "file": "enemy_magic_3.wav",
+    "seconds": 0.979,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.44,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_01.wav"
+      }
+    ],
+    "sha256": "d9ef0152b1d7fc1a579f9d309c78cd412e2d51b08778cc8df291631313f472c7"
+  },
+  "enemy_death_3": {
+    "file": "enemy_death_3.wav",
+    "seconds": 0.678,
+    "loop": false,
+    "peak_db": -5.94,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_die_01.ogg"
+      }
+    ],
+    "sha256": "ec86d3cda793a773e48bcd867963c5f26db1f879740d0e6e065e4bfcaf68555c"
+  },
+  "step_stone_3": {
+    "file": "step_stone_3.wav",
+    "seconds": 0.274,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.18,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "different-steps-on-wood-stone-leaves-gravel-and-mud",
+        "file": "extracted/stone01.ogg"
+      }
+    ],
+    "sha256": "a5f13b534b94299408e4ded97fb07692af4c8b4232452d7d16552bb588457f2c"
+  },
+  "step_gravel_3": {
+    "file": "step_gravel_3.wav",
+    "seconds": 0.289,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -31.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_02.wav"
+      }
+    ],
+    "sha256": "e5e5ddd4f1b541a3764a4d73079a734d73541570dda4cf777be9f717424e82c5"
+  },
+  "fire_missile": {
+    "file": "fire_missile.wav",
+    "seconds": 1.4,
+    "loop": false,
+    "peak_db": -3.91,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_01.ogg"
+      },
+      {
+        "collection": "fire-staff-sound-effects",
+        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 5-Audio.wav"
+      }
+    ],
+    "sha256": "f540d4c967ab50cdbb8d8eb4c13710a8d6de92bca7811449f75d338c47ecd895"
+  },
+  "frost_missile": {
+    "file": "frost_missile.wav",
+    "seconds": 0.837,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.73,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_01.wav"
+      },
+      {
+        "collection": "ice-breakingshattering",
+        "file": "extracted/IceShatters/LedasLuzta5.ogg"
+      }
+    ],
+    "sha256": "74d67a116bccf5e131e6d076d417860a61a89836186b324d11ba74e348d3a6ef"
+  },
+  "ball_lightning": {
+    "file": "ball_lightning.wav",
+    "seconds": 1.043,
+    "loop": false,
+    "peak_db": -4.21,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "spell-sounds",
+        "file": "electricspell2.ogg"
+      }
+    ],
+    "sha256": "1a81e6fada88fca34b224ae6cc75fba4dcbb48dd0e8ef9048d7ee2a96af45d88"
+  },
+  "impact": {
+    "file": "impact.wav",
+    "seconds": 0.458,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -29.7,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "60a2c4ee47838518872aa7056957baea6ac30e8cbce29be3c20dfdf8efae3614"
+  },
+  "enemy": {
+    "file": "enemy.wav",
+    "seconds": 0.831,
+    "loop": false,
+    "peak_db": -3.85,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_monster_03.ogg"
+      }
+    ],
+    "sha256": "91d56fae1ba86632e5252ef551f4dee705097f11ad1996f4b59c1149242be4d9"
+  },
+  "boss_attack": {
+    "file": "boss_attack.wav",
+    "seconds": 3.869,
+    "loop": false,
+    "peak_db": -3.03,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "f03832e6c8ab4ceebc4f7de6a7507fc3be24c1d4f51559fb02118356efc57059"
+  },
+  "boss_death": {
+    "file": "boss_death.wav",
+    "seconds": 5.812,
+    "loop": false,
+    "peak_db": -4.38,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      }
+    ],
+    "sha256": "0654d509a75df6f1884cba2aeb8f8facf4af28aa8d0e8f924de990a44e22a8dd"
+  },
+  "potion": {
+    "file": "potion.wav",
+    "seconds": 1.316,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.58,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Water_00.wav"
+      },
+      {
+        "collection": "spell-sounds",
+        "file": "healing.ogg"
+      }
+    ],
+    "sha256": "cf3d08c9536a062fda260400db575073889d11b4334c7d39f3cdb00337f69b3f"
+  },
+  "mana": {
+    "file": "mana.wav",
+    "seconds": 1.265,
+    "loop": false,
+    "peak_db": -2.71,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "spell-sounds",
+        "file": "healing.ogg"
+      }
+    ],
+    "sha256": "617f1148d8d220169cd6b341613c0616e2af85289a8431044fa79dc4f5aeb400"
+  },
+  "item": {
+    "file": "item.wav",
+    "seconds": 0.227,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.22,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/item_gem_01.ogg"
+      }
+    ],
+    "sha256": "e2dacf4979c0ff2f230d925289218e47101ea00394c7ac321842bb9b022d903e"
+  },
+  "ui": {
+    "file": "ui.wav",
+    "seconds": 0.15,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.01,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/book_01.ogg"
+      }
+    ],
+    "sha256": "c9ae708e54a9381247b17a64da8b3dc59040f4dcc9bcc295799b8da24fe25b1e"
+  },
+  "spell_switch": {
+    "file": "spell_switch.wav",
+    "seconds": 0.248,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.95,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/book_03.ogg"
+      }
+    ],
+    "sha256": "e41525debda6508208968dfb4a52aea35866bd741484fd257bdb5322f364a997"
+  },
+  "chest": {
+    "file": "chest.wav",
+    "seconds": 0.328,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.12,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/lock_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/wood_02.ogg"
+      }
+    ],
+    "sha256": "89a3aba23ca5cefffaa8a2619add1ac4bb832b1656c7f5b6f168ee5812d030ba"
+  },
+  "urn": {
+    "file": "urn.wav",
+    "seconds": 1.129,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.32,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      },
+      {
+        "collection": "ice-breakingshattering",
+        "file": "extracted/IceShatters/LedasLuzta33.ogg"
+      }
+    ],
+    "sha256": "311f8f0eacd459a073a35e2d0fdc0c5d407fe1c49c1b28f79da65c8b3fc82450"
+  },
+  "ritual": {
+    "file": "ritual.wav",
+    "seconds": 3.484,
+    "loop": false,
+    "peak_db": -8.0,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_02.wav"
+      }
+    ],
+    "sha256": "627e2675c1d13efde7f72cd502f130930379cc431baef758814e3d3423cd90c4"
+  },
+  "teleport": {
+    "file": "teleport.wav",
+    "seconds": 1.179,
+    "loop": false,
+    "peak_db": -4.92,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "spell-sounds",
+        "file": "teleport.ogg"
+      }
+    ],
+    "sha256": "cb62287411970a8d4a8734a801c5bebe8cb84af0cccc76dd68bd65141c88ba53"
+  },
+  "portal": {
+    "file": "portal.wav",
+    "seconds": 5.788,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.87,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_03.wav"
+      }
+    ],
+    "sha256": "d9669dddc1a075f8a4c4417a6221ce65e6fff6f7106c945f2e504f3521a4c3b6"
+  },
+  "shield": {
+    "file": "shield.wav",
+    "seconds": 1.857,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.34,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_00.wav"
+      }
+    ],
+    "sha256": "ccf1c997ea14a64d8263be97db2c8e894dcdc18c6024360c24269c7a16d9554e"
+  },
+  "shield_hit": {
+    "file": "shield_hit.wav",
+    "seconds": 0.528,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.64,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_02.ogg"
+      }
+    ],
+    "sha256": "79c898bb504b254c6d3f924ef40f8ecc4aa91d83dd99452df84a76ca1741bbfd"
+  },
+  "circle": {
+    "file": "circle.wav",
+    "seconds": 4.354,
+    "loop": false,
+    "peak_db": -6.64,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_04.wav"
+      }
+    ],
+    "sha256": "6dccc53b02a78870af23f48079658a4db4d559d1b907e7ec5daca32fd89bca5b"
+  },
+  "freeze": {
+    "file": "freeze.wav",
+    "seconds": 1.126,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.46,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-breakingshattering",
+        "file": "extracted/IceShatters/LedasLuzta4.ogg"
+      }
+    ],
+    "sha256": "10c706a2c7048244b9637f68a17726f0858af260e3706ea1100d4bf6155ccebc"
+  },
+  "ring_fire": {
+    "file": "ring_fire.wav",
+    "seconds": 2.0,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.5,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fire-staff-sound-effects",
+        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 12-Audio.wav"
+      }
+    ],
+    "sha256": "1ef4dedc25bb6a090101cf44a192ea6184ad5abdd6988efe879d8899ff6182c3"
+  },
+  "acid": {
+    "file": "acid.wav",
+    "seconds": 0.505,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.9,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_slime_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_slime_04.ogg"
+      }
+    ],
+    "sha256": "dcda9e0fb679f18032f65489bb81ecdca7ee535dc2b4623cbbe3bf97138df83e"
+  },
+  "undead": {
+    "file": "undead.wav",
+    "seconds": 2.539,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.01,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_04.wav"
+      }
+    ],
+    "sha256": "a1f924f764e16146a4d3e3c013d286404dbbfc49291fafa7bf382e656d3bfa0c"
+  },
+  "death": {
+    "file": "death.wav",
+    "seconds": 5.065,
+    "loop": false,
+    "peak_db": -3.71,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Jingle_Lose_00.wav"
+      }
+    ],
+    "sha256": "d965c7cece23ffa18cb0185d2e9f0530ff4389c328aa51c429cab7201a43fecb"
+  },
+  "victory": {
+    "file": "victory.wav",
+    "seconds": 7.612,
+    "loop": false,
+    "peak_db": -3.43,
+    "rms_db": -18.42,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Jingle_Win_00.wav"
+      }
+    ],
+    "sha256": "9eb10326c496c9cb920d607236ae1f97aa4fc697035f4af375826667118e6430"
+  },
+  "level_up": {
+    "file": "level_up.wav",
+    "seconds": 3.563,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.97,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Jingle_Achievement_00.wav"
+      }
+    ],
+    "sha256": "76284b118c990ec053adc6c2cb1e0cbc1f52198750cabf97a66d021540618edd"
+  },
+  "creature_skeleton_idle": {
+    "file": "creature_skeleton_idle.wav",
+    "seconds": 0.463,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.16,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "9e65e0fbc90a5777f71db0592d63922fe57cb0fca6abe18ba64abb7d8a2f5473"
+  },
+  "creature_skeleton_idle_2": {
+    "file": "creature_skeleton_idle_2.wav",
+    "seconds": 0.721,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.7,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      }
+    ],
+    "sha256": "a6dea6dd276be0867d87e3a7441a681ea3a15748f91729c61a3a1c4102a7eb75"
+  },
+  "creature_skeleton_idle_3": {
+    "file": "creature_skeleton_idle_3.wav",
+    "seconds": 0.715,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.8,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      }
+    ],
+    "sha256": "a0ee7331e8f7896f3f192276db1eb412ccffd62a278804b010d4ce217dbc6bfc"
+  },
+  "creature_skeleton_alert": {
+    "file": "creature_skeleton_alert.wav",
+    "seconds": 0.784,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.2,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "681ba608fe4882a4a33b3b809c0d2a8f3520f751baab45003d3f3681a949e2b8"
+  },
+  "creature_skeleton_alert_2": {
+    "file": "creature_skeleton_alert_2.wav",
+    "seconds": 1.008,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -29.88,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      }
+    ],
+    "sha256": "550cc184a4aa7372a5a9f20ef63a8cfb0dd2c46722d610911f45f7477462dbf5"
+  },
+  "creature_skeleton_alert_3": {
+    "file": "creature_skeleton_alert_3.wav",
+    "seconds": 0.903,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.53,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      }
+    ],
+    "sha256": "32f835172ffd3906455eb0b278d96565ff8f6310aa1ecfb12e3b6150527c0622"
+  },
+  "creature_skeleton_attack": {
+    "file": "creature_skeleton_attack.wav",
+    "seconds": 0.463,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.16,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "9e65e0fbc90a5777f71db0592d63922fe57cb0fca6abe18ba64abb7d8a2f5473"
+  },
+  "creature_skeleton_attack_2": {
+    "file": "creature_skeleton_attack_2.wav",
+    "seconds": 0.721,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.7,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      }
+    ],
+    "sha256": "a6dea6dd276be0867d87e3a7441a681ea3a15748f91729c61a3a1c4102a7eb75"
+  },
+  "creature_skeleton_attack_3": {
+    "file": "creature_skeleton_attack_3.wav",
+    "seconds": 0.715,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.8,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      }
+    ],
+    "sha256": "a0ee7331e8f7896f3f192276db1eb412ccffd62a278804b010d4ce217dbc6bfc"
+  },
+  "creature_skeleton_hurt": {
+    "file": "creature_skeleton_hurt.wav",
+    "seconds": 0.463,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.16,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "9e65e0fbc90a5777f71db0592d63922fe57cb0fca6abe18ba64abb7d8a2f5473"
+  },
+  "creature_skeleton_hurt_2": {
+    "file": "creature_skeleton_hurt_2.wav",
+    "seconds": 0.721,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.7,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      }
+    ],
+    "sha256": "a6dea6dd276be0867d87e3a7441a681ea3a15748f91729c61a3a1c4102a7eb75"
+  },
+  "creature_skeleton_hurt_3": {
+    "file": "creature_skeleton_hurt_3.wav",
+    "seconds": 0.715,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.8,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      }
+    ],
+    "sha256": "a0ee7331e8f7896f3f192276db1eb412ccffd62a278804b010d4ce217dbc6bfc"
+  },
+  "creature_skeleton_death": {
+    "file": "creature_skeleton_death.wav",
+    "seconds": 0.638,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.99,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_04.ogg"
+      }
+    ],
+    "sha256": "9339d37e454484eef2cb4496b0c101569701bc3fe85576e332ff7a5296d5d34e"
+  },
+  "creature_skeleton_death_2": {
+    "file": "creature_skeleton_death_2.wav",
+    "seconds": 0.973,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.02,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_04.ogg"
+      }
+    ],
+    "sha256": "a37b228105c495276b1c30f981a3b05ec781a0e7c77040874e3e225a7a7368e3"
+  },
+  "creature_skeleton_death_3": {
+    "file": "creature_skeleton_death_3.wav",
+    "seconds": 0.903,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.43,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_04.ogg"
+      }
+    ],
+    "sha256": "460d02fd8a2b11719c32f068b95741014b5cee92a1d43630f7a31f7b49db9c65"
+  },
+  "creature_skeleton_step": {
+    "file": "creature_skeleton_step.wav",
+    "seconds": 0.458,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -29.7,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "60a2c4ee47838518872aa7056957baea6ac30e8cbce29be3c20dfdf8efae3614"
+  },
+  "creature_skeleton_step_2": {
+    "file": "creature_skeleton_step_2.wav",
+    "seconds": 0.639,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -30.09,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      }
+    ],
+    "sha256": "ab3b1f9a461dd6b2ac21275861618b10d546dbb41c5449a160654943e106a50a"
+  },
+  "creature_skeleton_step_3": {
+    "file": "creature_skeleton_step_3.wav",
+    "seconds": 0.715,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.99,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      }
+    ],
+    "sha256": "06549e3a0e9437cc0aaff4cf072d386f71be092815944685994a76e762621e19"
+  },
+  "creature_zombie_idle": {
+    "file": "creature_zombie_idle.wav",
+    "seconds": 0.524,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.15,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "5d6ba7a0e55c689bb1d4c43388dfcaa1c0c0aab52caaa970f4a67edad39b92cc"
+  },
+  "creature_zombie_idle_2": {
+    "file": "creature_zombie_idle_2.wav",
+    "seconds": 0.634,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.04,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "e564478d7b14d97feeafc925296759f530fded1d16deab1b718e9a8b214b5b42"
+  },
+  "creature_zombie_idle_3": {
+    "file": "creature_zombie_idle_3.wav",
+    "seconds": 0.592,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.16,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell9.wav"
+      }
+    ],
+    "sha256": "60fed139b7d0a627dd6f587da795939425e9a36befdb347043c4871e257d90d6"
+  },
+  "creature_zombie_alert": {
+    "file": "creature_zombie_alert.wav",
+    "seconds": 0.504,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.73,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "4973c3aa531a935ab25e76400f376286567b73258081f8edfb33c704910750bd"
+  },
+  "creature_zombie_alert_2": {
+    "file": "creature_zombie_alert_2.wav",
+    "seconds": 0.572,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.19,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "e1c2163bc640d537f4c9829c3c2c21d3278a76038450d91d60cbabbc348ca942"
+  },
+  "creature_zombie_alert_3": {
+    "file": "creature_zombie_alert_3.wav",
+    "seconds": 0.507,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.31,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell9.wav"
+      }
+    ],
+    "sha256": "572d59e1d991d07d1a9ccb7d21cad0b89c687cdaa43db8abfa411088dc3a0819"
+  },
+  "creature_zombie_attack": {
+    "file": "creature_zombie_attack.wav",
+    "seconds": 0.566,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.26,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell4.wav"
+      }
+    ],
+    "sha256": "08e28be4ed8178b0a02af3f610d6b1dd128e77d2902a46026f26878ef9debc80"
+  },
+  "creature_zombie_attack_2": {
+    "file": "creature_zombie_attack_2.wav",
+    "seconds": 0.582,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.09,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell5.wav"
+      }
+    ],
+    "sha256": "1bc22c362e5cb392dba8ab179215f1c7ee81ea4519297aa19f03c4ee1e8c21b4"
+  },
+  "creature_zombie_attack_3": {
+    "file": "creature_zombie_attack_3.wav",
+    "seconds": 0.443,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.28,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell6.wav"
+      }
+    ],
+    "sha256": "6964afed75098f993d37e131feb96caa51cc79a2b3778ee129fceec331a8caa3"
+  },
+  "creature_zombie_hurt": {
+    "file": "creature_zombie_hurt.wav",
+    "seconds": 0.566,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.26,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell4.wav"
+      }
+    ],
+    "sha256": "08e28be4ed8178b0a02af3f610d6b1dd128e77d2902a46026f26878ef9debc80"
+  },
+  "creature_zombie_hurt_2": {
+    "file": "creature_zombie_hurt_2.wav",
+    "seconds": 0.582,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.09,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell5.wav"
+      }
+    ],
+    "sha256": "1bc22c362e5cb392dba8ab179215f1c7ee81ea4519297aa19f03c4ee1e8c21b4"
+  },
+  "creature_zombie_hurt_3": {
+    "file": "creature_zombie_hurt_3.wav",
+    "seconds": 0.443,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.28,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell6.wav"
+      }
+    ],
+    "sha256": "6964afed75098f993d37e131feb96caa51cc79a2b3778ee129fceec331a8caa3"
+  },
+  "creature_zombie_death": {
+    "file": "creature_zombie_death.wav",
+    "seconds": 0.758,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.31,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieDeath1.wav"
+      }
+    ],
+    "sha256": "e4e2ae847b2eaf2e18d1196f0414ed6acf9dfd91937c5d3f56d18ce63d1c7bdb"
+  },
+  "creature_zombie_death_2": {
+    "file": "creature_zombie_death_2.wav",
+    "seconds": 0.698,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.9,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieDeath2.wav"
+      }
+    ],
+    "sha256": "81cddeff30c837f47e34069fa61e1265c4dd189e5b8eada98691269685c95ebf"
+  },
+  "creature_zombie_death_3": {
+    "file": "creature_zombie_death_3.wav",
+    "seconds": 0.847,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.15,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieDeath3.wav"
+      }
+    ],
+    "sha256": "4c7e1d027c3a1b7f905c7fed223b3cf3d5322906d055f4c39876535eefb413ae"
+  },
+  "creature_zombie_step": {
+    "file": "creature_zombie_step.wav",
+    "seconds": 0.231,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.06,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_00.wav"
+      }
+    ],
+    "sha256": "0e84b6f0b853dbcf6d8378220a7f725bc36bf2e9f88baf45163935b10c3b1d42"
+  },
+  "creature_zombie_step_2": {
+    "file": "creature_zombie_step_2.wav",
+    "seconds": 0.272,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.34,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_01.wav"
+      }
+    ],
+    "sha256": "fbc4e2d4339ddff6aee3e556cd222d9407adc3bdf0fcdc2ec0144fbc318f9eb7"
+  },
+  "creature_zombie_step_3": {
+    "file": "creature_zombie_step_3.wav",
+    "seconds": 0.289,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -31.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_02.wav"
+      }
+    ],
+    "sha256": "e5e5ddd4f1b541a3764a4d73079a734d73541570dda4cf777be9f717424e82c5"
+  },
+  "creature_beast_idle": {
+    "file": "creature_beast_idle.wav",
+    "seconds": 0.167,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.67,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_monster_01.ogg"
+      }
+    ],
+    "sha256": "d2021d03c2756e9ca60a6f32cd208368d3d46ef6e1866bcc42fd2ebcc2e064c5"
+  },
+  "creature_beast_idle_2": {
+    "file": "creature_beast_idle_2.wav",
+    "seconds": 0.143,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.81,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_monster_02.ogg"
+      }
+    ],
+    "sha256": "7d258c64b736fff336df31b081887e71d8556eab5ec248506cd02efd7d98029e"
+  },
+  "creature_beast_idle_3": {
+    "file": "creature_beast_idle_3.wav",
+    "seconds": 0.891,
+    "loop": false,
+    "peak_db": -2.52,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_monster_03.ogg"
+      }
+    ],
+    "sha256": "b3efd412611b46d5f198638a3236cb91f4db9100d68a45b67d469f45bc239283"
+  },
+  "creature_beast_alert": {
+    "file": "creature_beast_alert.wav",
+    "seconds": 0.656,
+    "loop": false,
+    "peak_db": -6.18,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_roar_01.ogg"
+      }
+    ],
+    "sha256": "068e27575b66ea4c21451bdc87ed6305e359c73a3f4f67480050d279a6077469"
+  },
+  "creature_beast_alert_2": {
+    "file": "creature_beast_alert_2.wav",
+    "seconds": 0.999,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.78,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_roar_02.ogg"
+      }
+    ],
+    "sha256": "f4992fbb004eccde6f02b9759a6cac65eb40557678f88bf1e0fc75ffe36fa521"
+  },
+  "creature_beast_alert_3": {
+    "file": "creature_beast_alert_3.wav",
+    "seconds": 0.943,
+    "loop": false,
+    "peak_db": -2.74,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_roar_03.ogg"
+      }
+    ],
+    "sha256": "324a55f49c0d55a88db4c3e347c732b8a52b67524628a81138332bd6b95c6c4c"
+  },
+  "creature_beast_attack": {
+    "file": "creature_beast_attack.wav",
+    "seconds": 0.656,
+    "loop": false,
+    "peak_db": -6.18,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_roar_01.ogg"
+      }
+    ],
+    "sha256": "068e27575b66ea4c21451bdc87ed6305e359c73a3f4f67480050d279a6077469"
+  },
+  "creature_beast_attack_2": {
+    "file": "creature_beast_attack_2.wav",
+    "seconds": 0.999,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.78,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_roar_02.ogg"
+      }
+    ],
+    "sha256": "f4992fbb004eccde6f02b9759a6cac65eb40557678f88bf1e0fc75ffe36fa521"
+  },
+  "creature_beast_attack_3": {
+    "file": "creature_beast_attack_3.wav",
+    "seconds": 0.943,
+    "loop": false,
+    "peak_db": -2.74,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_roar_03.ogg"
+      }
+    ],
+    "sha256": "324a55f49c0d55a88db4c3e347c732b8a52b67524628a81138332bd6b95c6c4c"
+  },
+  "creature_beast_hurt": {
+    "file": "creature_beast_hurt.wav",
+    "seconds": 0.558,
+    "loop": false,
+    "peak_db": -3.15,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_hurt_01.ogg"
+      }
+    ],
+    "sha256": "eb690af839ca6a49248d679f5207e3d8a4f5b0d87069aef32ed0c3301f566ac0"
+  },
+  "creature_beast_hurt_2": {
+    "file": "creature_beast_hurt_2.wav",
+    "seconds": 0.507,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.88,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_hurt_02.ogg"
+      }
+    ],
+    "sha256": "ebe8bd0f4e0a06233300344a1b8e1b6495cce1a57a9a65ede433f7b7ce07523a"
+  },
+  "creature_beast_hurt_3": {
+    "file": "creature_beast_hurt_3.wav",
+    "seconds": 0.512,
+    "loop": false,
+    "peak_db": -3.13,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_hurt_01.ogg"
+      }
+    ],
+    "sha256": "b8693a4eccff6dce0161a8259107c2eff566574a02edf3226a48a540c99af8ba"
+  },
+  "creature_beast_death": {
+    "file": "creature_beast_death.wav",
+    "seconds": 0.869,
+    "loop": false,
+    "peak_db": -4.64,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_die_01.ogg"
+      }
+    ],
+    "sha256": "28d3a69a7d67d62c4bca94148b88fef3fba21feaba4d5051200a81dc2ce325ec"
+  },
+  "creature_beast_death_2": {
+    "file": "creature_beast_death_2.wav",
+    "seconds": 0.831,
+    "loop": false,
+    "peak_db": -4.64,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_die_01.ogg"
+      }
+    ],
+    "sha256": "1d47a5c0cbc834bc3cf63c4c5732f119caadc075365f7d5604a5736bfdc4c36b"
+  },
+  "creature_beast_death_3": {
+    "file": "creature_beast_death_3.wav",
+    "seconds": 0.797,
+    "loop": false,
+    "peak_db": -4.64,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_die_01.ogg"
+      }
+    ],
+    "sha256": "330ac55082cbcd1fbd132ae3723185ff54e018fc3f3a194aff8a9ec60ede5035"
+  },
+  "creature_beast_step": {
+    "file": "creature_beast_step.wav",
+    "seconds": 0.231,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.06,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_00.wav"
+      }
+    ],
+    "sha256": "0e84b6f0b853dbcf6d8378220a7f725bc36bf2e9f88baf45163935b10c3b1d42"
+  },
+  "creature_beast_step_2": {
+    "file": "creature_beast_step_2.wav",
+    "seconds": 0.272,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.34,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_01.wav"
+      }
+    ],
+    "sha256": "fbc4e2d4339ddff6aee3e556cd222d9407adc3bdf0fcdc2ec0144fbc318f9eb7"
+  },
+  "creature_beast_step_3": {
+    "file": "creature_beast_step_3.wav",
+    "seconds": 0.289,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -31.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_02.wav"
+      }
+    ],
+    "sha256": "e5e5ddd4f1b541a3764a4d73079a734d73541570dda4cf777be9f717424e82c5"
+  },
+  "creature_armor_idle": {
+    "file": "creature_armor_idle.wav",
+    "seconds": 0.463,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.13,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_01.ogg"
+      }
+    ],
+    "sha256": "fe4739ee199847260552a5d6ac2b276283314847e7c4d763e3e0cae728aa20f1"
+  },
+  "creature_armor_idle_2": {
+    "file": "creature_armor_idle_2.wav",
+    "seconds": 0.528,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.19,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_02.ogg"
+      }
+    ],
+    "sha256": "5efe90a1a05658dd61ef61e49ee51b3f7da7b7b5059f0bb800e91271a43666a1"
+  },
+  "creature_armor_idle_3": {
+    "file": "creature_armor_idle_3.wav",
+    "seconds": 0.661,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.22,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      }
+    ],
+    "sha256": "08df3dc3fc74536a4706b58dd323712e715c139647a24c6b6a1a3d58a45470c3"
+  },
+  "creature_armor_alert": {
+    "file": "creature_armor_alert.wav",
+    "seconds": 0.463,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.13,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_01.ogg"
+      }
+    ],
+    "sha256": "fe4739ee199847260552a5d6ac2b276283314847e7c4d763e3e0cae728aa20f1"
+  },
+  "creature_armor_alert_2": {
+    "file": "creature_armor_alert_2.wav",
+    "seconds": 0.528,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.19,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_02.ogg"
+      }
+    ],
+    "sha256": "5efe90a1a05658dd61ef61e49ee51b3f7da7b7b5059f0bb800e91271a43666a1"
+  },
+  "creature_armor_alert_3": {
+    "file": "creature_armor_alert_3.wav",
+    "seconds": 0.661,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.22,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      }
+    ],
+    "sha256": "08df3dc3fc74536a4706b58dd323712e715c139647a24c6b6a1a3d58a45470c3"
+  },
+  "creature_armor_attack": {
+    "file": "creature_armor_attack.wav",
+    "seconds": 0.475,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.64,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_01.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell1.wav"
+      }
+    ],
+    "sha256": "66a3ac7206e53163f9214aa341fff8c5ae399396a844584bcdf104e320730c0f"
+  },
+  "creature_armor_attack_2": {
+    "file": "creature_armor_attack_2.wav",
+    "seconds": 0.528,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.4,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_02.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell2.wav"
+      }
+    ],
+    "sha256": "ba6188e3d7e647823297a8bc1da8c40f1547285d5fe65f9728c26ec4d2fa4da9"
+  },
+  "creature_armor_attack_3": {
+    "file": "creature_armor_attack_3.wav",
+    "seconds": 0.661,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.16,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell3.wav"
+      }
+    ],
+    "sha256": "e9fe303c13fbb7fa455bf9d2e9e880ee981b472d8770f4bbb172e7927829dd17"
+  },
+  "creature_armor_hurt": {
+    "file": "creature_armor_hurt.wav",
+    "seconds": 0.475,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.64,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_01.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell1.wav"
+      }
+    ],
+    "sha256": "66a3ac7206e53163f9214aa341fff8c5ae399396a844584bcdf104e320730c0f"
+  },
+  "creature_armor_hurt_2": {
+    "file": "creature_armor_hurt_2.wav",
+    "seconds": 0.528,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.4,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_02.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell2.wav"
+      }
+    ],
+    "sha256": "ba6188e3d7e647823297a8bc1da8c40f1547285d5fe65f9728c26ec4d2fa4da9"
+  },
+  "creature_armor_hurt_3": {
+    "file": "creature_armor_hurt_3.wav",
+    "seconds": 0.661,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.16,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanYell3.wav"
+      }
+    ],
+    "sha256": "e9fe303c13fbb7fa455bf9d2e9e880ee981b472d8770f4bbb172e7927829dd17"
+  },
+  "creature_armor_death": {
+    "file": "creature_armor_death.wav",
+    "seconds": 0.595,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.76,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_01.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanDeath1.wav"
+      }
+    ],
+    "sha256": "b7185eb00c30373b335648c7b30472cd16178e11dfc8e31df39f87e107961ffe"
+  },
+  "creature_armor_death_2": {
+    "file": "creature_armor_death_2.wav",
+    "seconds": 0.593,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_02.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanDeath1.wav"
+      }
+    ],
+    "sha256": "7ca3e8b6f67c768f8a176bccccc88f53687e6261597322d71b821cd50c455184"
+  },
+  "creature_armor_death_3": {
+    "file": "creature_armor_death_3.wav",
+    "seconds": 0.666,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.72,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanDeath1.wav"
+      }
+    ],
+    "sha256": "90af8b7cab690de17a3c9c1038017e4824ede2a712172e67d697fc0209788f57"
+  },
+  "creature_armor_step": {
+    "file": "creature_armor_step.wav",
+    "seconds": 0.409,
+    "loop": false,
+    "peak_db": -3.53,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      }
+    ],
+    "sha256": "b76e7335fdf0dcc44a3d217d73e157274327504a4346355c5fa6de272da8ac9f"
+  },
+  "creature_armor_step_2": {
+    "file": "creature_armor_step_2.wav",
+    "seconds": 0.366,
+    "loop": false,
+    "peak_db": -4.74,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      }
+    ],
+    "sha256": "c147f14e1eff24dd4f9b7098938a65beea18f1f6f9de44216a2f72b0f6b5900d"
+  },
+  "creature_armor_step_3": {
+    "file": "creature_armor_step_3.wav",
+    "seconds": 0.733,
+    "loop": false,
+    "peak_db": -2.22,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      }
+    ],
+    "sha256": "5e508bb7ac9a4c2632e1597d4e2e4c3e9d7b482c95059ded9c960a7107681479"
+  },
+  "creature_wraith_idle": {
+    "file": "creature_wraith_idle.wav",
+    "seconds": 0.861,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.57,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "0bbf91aa698ec83e2c9af2c0517b59d2e9a516a87c0e8dfda91a2c67186bac69"
+  },
+  "creature_wraith_idle_2": {
+    "file": "creature_wraith_idle_2.wav",
+    "seconds": 0.87,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.64,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "7b8c51f1733919ff1278b61f080960bb8fc39fe28896e3cd7088469ed95e2635"
+  },
+  "creature_wraith_idle_3": {
+    "file": "creature_wraith_idle_3.wav",
+    "seconds": 0.933,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.45,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell9.wav"
+      }
+    ],
+    "sha256": "da409f8e50721f9f8ac42a7929533ae55a3ceb075257b9c46aca8b98a87ac97b"
+  },
+  "creature_wraith_alert": {
+    "file": "creature_wraith_alert.wav",
+    "seconds": 0.678,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.21,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "254bceb503d6222a0958b8bc5a77488bcb336fadc9baea3bdea3c751e0575410"
+  },
+  "creature_wraith_alert_2": {
+    "file": "creature_wraith_alert_2.wav",
+    "seconds": 0.726,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.51,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "5b463e2457a34c0971c097b182e01d780232032492e9c5cb3517ddf3475a8103"
+  },
+  "creature_wraith_alert_3": {
+    "file": "creature_wraith_alert_3.wav",
+    "seconds": 0.681,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.66,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell9.wav"
+      }
+    ],
+    "sha256": "e7e519d6e0ab7286cb0c45086d4ca4bc56712c927d8712e68f0e7dede89b0170"
+  },
+  "creature_wraith_attack": {
+    "file": "creature_wraith_attack.wav",
+    "seconds": 0.678,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.21,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "254bceb503d6222a0958b8bc5a77488bcb336fadc9baea3bdea3c751e0575410"
+  },
+  "creature_wraith_attack_2": {
+    "file": "creature_wraith_attack_2.wav",
+    "seconds": 0.726,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.51,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "5b463e2457a34c0971c097b182e01d780232032492e9c5cb3517ddf3475a8103"
+  },
+  "creature_wraith_attack_3": {
+    "file": "creature_wraith_attack_3.wav",
+    "seconds": 0.681,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.66,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell9.wav"
+      }
+    ],
+    "sha256": "e7e519d6e0ab7286cb0c45086d4ca4bc56712c927d8712e68f0e7dede89b0170"
+  },
+  "creature_wraith_hurt": {
+    "file": "creature_wraith_hurt.wav",
+    "seconds": 0.678,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.21,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "254bceb503d6222a0958b8bc5a77488bcb336fadc9baea3bdea3c751e0575410"
+  },
+  "creature_wraith_hurt_2": {
+    "file": "creature_wraith_hurt_2.wav",
+    "seconds": 0.726,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.51,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "5b463e2457a34c0971c097b182e01d780232032492e9c5cb3517ddf3475a8103"
+  },
+  "creature_wraith_hurt_3": {
+    "file": "creature_wraith_hurt_3.wav",
+    "seconds": 0.681,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.66,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell9.wav"
+      }
+    ],
+    "sha256": "e7e519d6e0ab7286cb0c45086d4ca4bc56712c927d8712e68f0e7dede89b0170"
+  },
+  "creature_wraith_death": {
+    "file": "creature_wraith_death.wav",
+    "seconds": 0.779,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.43,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "2b371c2656062513c4bf6c8ae088aeb5b6838cfe8361890cf043f4101a1587b7"
+  },
+  "creature_wraith_death_2": {
+    "file": "creature_wraith_death_2.wav",
+    "seconds": 0.85,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.33,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "2ddc05315ec486bd905c7b49ede630c2b1cd992f2cc11417782672c3b084a3ad"
+  },
+  "creature_wraith_death_3": {
+    "file": "creature_wraith_death_3.wav",
+    "seconds": 0.841,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.63,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell9.wav"
+      }
+    ],
+    "sha256": "b1bd05fc05f190c66ad2452297cf897619a314cb18fcb68c6b4d25c255b148b2"
+  },
+  "creature_wraith_step": {
+    "file": "creature_wraith_step.wav",
+    "seconds": 0.294,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.11,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_01.ogg"
+      }
+    ],
+    "sha256": "dd3d1a84a548d0f9d669ed1dd44e3ff8026e7cd67413abadd42a6c5759c7ed3f"
+  },
+  "creature_wraith_step_2": {
+    "file": "creature_wraith_step_2.wav",
+    "seconds": 0.422,
+    "loop": false,
+    "peak_db": -3.17,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_02.ogg"
+      }
+    ],
+    "sha256": "794024d6b44685a78ddaf484aac0d64bb9b5eee16d6cce664da32a8e540fb311"
+  },
+  "creature_wraith_step_3": {
+    "file": "creature_wraith_step_3.wav",
+    "seconds": 0.39,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.11,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_03.ogg"
+      }
+    ],
+    "sha256": "b12f64f004e4197a4a83e59425bd9bad6146a492768f141dc57615889ee3d19e"
+  },
+  "creature_imp_idle": {
+    "file": "creature_imp_idle.wav",
+    "seconds": 2.8,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.59,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_00.wav"
+      }
+    ],
+    "sha256": "85b67c005d172066a6d4cddb2511d14433fc3ca6a7df228eaade98ee8a8467da"
+  },
+  "creature_imp_idle_2": {
+    "file": "creature_imp_idle_2.wav",
+    "seconds": 0.628,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_01.wav"
+      }
+    ],
+    "sha256": "c0b5c880a8cdc2053a082a94f806dd706606238edbf53da347790aa3ddc51ddc"
+  },
+  "creature_imp_idle_3": {
+    "file": "creature_imp_idle_3.wav",
+    "seconds": 2.209,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_02.wav"
+      }
+    ],
+    "sha256": "9b47a62f05eef8a8a0ccccd305c961bfe61d4c18f2d83bf5e8083da471026133"
+  },
+  "creature_imp_alert": {
+    "file": "creature_imp_alert.wav",
+    "seconds": 0.628,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_01.wav"
+      }
+    ],
+    "sha256": "c0b5c880a8cdc2053a082a94f806dd706606238edbf53da347790aa3ddc51ddc"
+  },
+  "creature_imp_alert_2": {
+    "file": "creature_imp_alert_2.wav",
+    "seconds": 2.209,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_02.wav"
+      }
+    ],
+    "sha256": "9b47a62f05eef8a8a0ccccd305c961bfe61d4c18f2d83bf5e8083da471026133"
+  },
+  "creature_imp_alert_3": {
+    "file": "creature_imp_alert_3.wav",
+    "seconds": 0.872,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.76,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_03.wav"
+      }
+    ],
+    "sha256": "84a36ca1a09fc509f41c3195d3807ba42d92cc7b520601e953f27a42310191a8"
+  },
+  "creature_imp_attack": {
+    "file": "creature_imp_attack.wav",
+    "seconds": 2.209,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_02.wav"
+      }
+    ],
+    "sha256": "9b47a62f05eef8a8a0ccccd305c961bfe61d4c18f2d83bf5e8083da471026133"
+  },
+  "creature_imp_attack_2": {
+    "file": "creature_imp_attack_2.wav",
+    "seconds": 0.872,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.76,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_03.wav"
+      }
+    ],
+    "sha256": "84a36ca1a09fc509f41c3195d3807ba42d92cc7b520601e953f27a42310191a8"
+  },
+  "creature_imp_attack_3": {
+    "file": "creature_imp_attack_3.wav",
+    "seconds": 1.446,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.73,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_04.wav"
+      }
+    ],
+    "sha256": "30d4e5c46b1bbb14336e6c0018d6b253216103f5cbdafdc9d886d52460021661"
+  },
+  "creature_imp_hurt": {
+    "file": "creature_imp_hurt.wav",
+    "seconds": 0.872,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.76,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_03.wav"
+      }
+    ],
+    "sha256": "84a36ca1a09fc509f41c3195d3807ba42d92cc7b520601e953f27a42310191a8"
+  },
+  "creature_imp_hurt_2": {
+    "file": "creature_imp_hurt_2.wav",
+    "seconds": 1.446,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.73,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_04.wav"
+      }
+    ],
+    "sha256": "30d4e5c46b1bbb14336e6c0018d6b253216103f5cbdafdc9d886d52460021661"
+  },
+  "creature_imp_hurt_3": {
+    "file": "creature_imp_hurt_3.wav",
+    "seconds": 2.8,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.59,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_00.wav"
+      }
+    ],
+    "sha256": "85b67c005d172066a6d4cddb2511d14433fc3ca6a7df228eaade98ee8a8467da"
+  },
+  "creature_imp_death": {
+    "file": "creature_imp_death.wav",
+    "seconds": 1.446,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.73,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_04.wav"
+      }
+    ],
+    "sha256": "30d4e5c46b1bbb14336e6c0018d6b253216103f5cbdafdc9d886d52460021661"
+  },
+  "creature_imp_death_2": {
+    "file": "creature_imp_death_2.wav",
+    "seconds": 2.8,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.59,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_00.wav"
+      }
+    ],
+    "sha256": "85b67c005d172066a6d4cddb2511d14433fc3ca6a7df228eaade98ee8a8467da"
+  },
+  "creature_imp_death_3": {
+    "file": "creature_imp_death_3.wav",
+    "seconds": 0.628,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Goblin_01.wav"
+      }
+    ],
+    "sha256": "c0b5c880a8cdc2053a082a94f806dd706606238edbf53da347790aa3ddc51ddc"
+  },
+  "creature_imp_step": {
+    "file": "creature_imp_step.wav",
+    "seconds": 0.294,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.11,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_01.ogg"
+      }
+    ],
+    "sha256": "dd3d1a84a548d0f9d669ed1dd44e3ff8026e7cd67413abadd42a6c5759c7ed3f"
+  },
+  "creature_imp_step_2": {
+    "file": "creature_imp_step_2.wav",
+    "seconds": 0.422,
+    "loop": false,
+    "peak_db": -3.17,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_02.ogg"
+      }
+    ],
+    "sha256": "794024d6b44685a78ddaf484aac0d64bb9b5eee16d6cce664da32a8e540fb311"
+  },
+  "creature_imp_step_3": {
+    "file": "creature_imp_step_3.wav",
+    "seconds": 0.39,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.11,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/blade_03.ogg"
+      }
+    ],
+    "sha256": "b12f64f004e4197a4a83e59425bd9bad6146a492768f141dc57615889ee3d19e"
+  },
+  "creature_demon_idle": {
+    "file": "creature_demon_idle.wav",
+    "seconds": 2.496,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.25,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "fb604bfd6dcaa005c663264bfd374f38d965dfcf6d4a1bfd02826586fd8d95ac"
+  },
+  "creature_demon_idle_2": {
+    "file": "creature_demon_idle_2.wav",
+    "seconds": 2.375,
+    "loop": false,
+    "peak_db": -3.52,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      }
+    ],
+    "sha256": "6a186f98c8ee3eec2f7b5d9a52c03e0937e8fd76d72c0e08ea49e1a5bcc46396"
+  },
+  "creature_demon_idle_3": {
+    "file": "creature_demon_idle_3.wav",
+    "seconds": 2.252,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.35,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "2130e98df19b6efb6b74e164f7a906752efef4bc842009735ed13c1be3b21502"
+  },
+  "creature_demon_alert": {
+    "file": "creature_demon_alert.wav",
+    "seconds": 4.673,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.66,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "3947ae7e78ced47a49ef1d2de98eed371b7dc7e2e1a0714fa2289d8dd7f349b1"
+  },
+  "creature_demon_alert_2": {
+    "file": "creature_demon_alert_2.wav",
+    "seconds": 5.821,
+    "loop": false,
+    "peak_db": -2.61,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      }
+    ],
+    "sha256": "11c056bbd2bb140331fe9d10dcdea322899564d74c1d8f6bb7e0d138ac8c3b11"
+  },
+  "creature_demon_alert_3": {
+    "file": "creature_demon_alert_3.wav",
+    "seconds": 4.144,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.61,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "94683282f8809cf9ca7f44f6304a4f44445299e56d08cf8e3c06e1a48dfb2d6c"
+  },
+  "creature_demon_attack": {
+    "file": "creature_demon_attack.wav",
+    "seconds": 2.496,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.25,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "fb604bfd6dcaa005c663264bfd374f38d965dfcf6d4a1bfd02826586fd8d95ac"
+  },
+  "creature_demon_attack_2": {
+    "file": "creature_demon_attack_2.wav",
+    "seconds": 2.375,
+    "loop": false,
+    "peak_db": -3.52,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      }
+    ],
+    "sha256": "6a186f98c8ee3eec2f7b5d9a52c03e0937e8fd76d72c0e08ea49e1a5bcc46396"
+  },
+  "creature_demon_attack_3": {
+    "file": "creature_demon_attack_3.wav",
+    "seconds": 2.252,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.35,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "2130e98df19b6efb6b74e164f7a906752efef4bc842009735ed13c1be3b21502"
+  },
+  "creature_demon_hurt": {
+    "file": "creature_demon_hurt.wav",
+    "seconds": 2.496,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.25,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "fb604bfd6dcaa005c663264bfd374f38d965dfcf6d4a1bfd02826586fd8d95ac"
+  },
+  "creature_demon_hurt_2": {
+    "file": "creature_demon_hurt_2.wav",
+    "seconds": 2.375,
+    "loop": false,
+    "peak_db": -3.52,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      }
+    ],
+    "sha256": "6a186f98c8ee3eec2f7b5d9a52c03e0937e8fd76d72c0e08ea49e1a5bcc46396"
+  },
+  "creature_demon_hurt_3": {
+    "file": "creature_demon_hurt_3.wav",
+    "seconds": 2.252,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.35,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "2130e98df19b6efb6b74e164f7a906752efef4bc842009735ed13c1be3b21502"
+  },
+  "creature_demon_death": {
+    "file": "creature_demon_death.wav",
+    "seconds": 4.673,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.66,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "3947ae7e78ced47a49ef1d2de98eed371b7dc7e2e1a0714fa2289d8dd7f349b1"
+  },
+  "creature_demon_death_2": {
+    "file": "creature_demon_death_2.wav",
+    "seconds": 5.821,
+    "loop": false,
+    "peak_db": -2.61,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      }
+    ],
+    "sha256": "11c056bbd2bb140331fe9d10dcdea322899564d74c1d8f6bb7e0d138ac8c3b11"
+  },
+  "creature_demon_death_3": {
+    "file": "creature_demon_death_3.wav",
+    "seconds": 4.144,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.61,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_00.wav"
+      }
+    ],
+    "sha256": "94683282f8809cf9ca7f44f6304a4f44445299e56d08cf8e3c06e1a48dfb2d6c"
+  },
+  "creature_demon_step": {
+    "file": "creature_demon_step.wav",
+    "seconds": 0.306,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.07,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_00.wav"
+      }
+    ],
+    "sha256": "ff084be78df15ab33021cff3480f5fb5e3d8c8d31dc6b0583188f1bbe57e3bd5"
+  },
+  "creature_demon_step_2": {
+    "file": "creature_demon_step_2.wav",
+    "seconds": 0.359,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.23,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_01.wav"
+      }
+    ],
+    "sha256": "abc8e4c58d66b964d467270eca31b6a6b963d2d7505e95089c1b07a93d0837e3"
+  },
+  "creature_demon_step_3": {
+    "file": "creature_demon_step_3.wav",
+    "seconds": 0.376,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -30.99,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Footsteps/Footstep_Dirt_02.wav"
+      }
+    ],
+    "sha256": "843cd049191768ef3037cf861acbdcb8a64760bccfb5373695d848b14ac67aa3"
+  },
+  "channel_lightning": {
+    "file": "channel_lightning.wav",
+    "seconds": 3.1,
+    "loop": true,
+    "peak_db": -2.48,
+    "rms_db": -23.1,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "spell-sounds",
+        "file": "electricspell.ogg"
+      }
+    ],
+    "sha256": "27e6294a5c48fe4ba703c3e2e694c95c9a847ecb833f6427d957e619cf03c291"
+  },
+  "channel_ice": {
+    "file": "channel_ice.wav",
+    "seconds": 5.6,
+    "loop": true,
+    "peak_db": -2.3,
+    "rms_db": -23.1,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-breakingshattering",
+        "file": "extracted/IceShatters/LedasLuzta4.ogg"
+      }
+    ],
+    "sha256": "31e687ee4f89a677af3b735ed0b8054cd1ef92b93f6090e180b5db0fbf8000c9"
+  },
+  "channel_flame_lash": {
+    "file": "channel_flame_lash.wav",
+    "seconds": 5.6,
+    "loop": true,
+    "peak_db": -7.01,
+    "rms_db": -23.1,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fireplace-sound-loop",
+        "file": "fire.wav"
+      }
+    ],
+    "sha256": "f31e14e3f17698e7a4c0987b5635d14a03a65392b111d73c76b3ba25aaa631ce"
+  },
+  "channel_steam": {
+    "file": "channel_steam.wav",
+    "seconds": 5.6,
+    "loop": true,
+    "peak_db": -8.54,
+    "rms_db": -23.1,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fireplace-sound-loop",
+        "file": "fire.wav"
+      }
+    ],
+    "sha256": "5480c07abe87510da4c126c4ed758d76d8bef1770324e5aeef64533cd325e16e"
+  },
+  "channel_blizzard": {
+    "file": "channel_blizzard.wav",
+    "seconds": 5.6,
+    "loop": true,
+    "peak_db": -2.16,
+    "rms_db": -24.21,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-breakingshattering",
+        "file": "extracted/IceShatters/LedasLuzta4.ogg"
+      }
+    ],
+    "sha256": "fd7d2ffc58175dc35f24432b02e2661c8f9c68646fc7ea2c5b54706338e9a225"
+  },
+  "dungeon_creak": {
+    "file": "dungeon_creak.wav",
+    "seconds": 0.535,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.52,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/wood_01.ogg"
+      }
+    ],
+    "sha256": "789d6f014025f84af9dfa6c9873c88f5a9d7ed7c9d837f2f2ae67933d15cc0ad"
+  },
+  "dungeon_stone": {
+    "file": "dungeon_stone.wav",
+    "seconds": 1.005,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -29.38,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "6f322ad408a4db21070ba1dc0e4b946cc8b382a3cd1576b9c145ca6aec68fc3b"
+  },
+  "dungeon_creak_2": {
+    "file": "dungeon_creak_2.wav",
+    "seconds": 0.453,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.6,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/wood_02.ogg"
+      }
+    ],
+    "sha256": "6ba28ebffbd7b2825cc51b78cde15d6b68932b9b64d7a06ca4617989a9e2f4cc"
+  },
+  "dungeon_stone_2": {
+    "file": "dungeon_stone_2.wav",
+    "seconds": 1.228,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -29.24,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      }
+    ],
+    "sha256": "9553a3e6abec64084bf3decf4605a718356c1c0f53f77917e2d13d18abc93be4"
+  },
+  "dungeon_creak_3": {
+    "file": "dungeon_creak_3.wav",
+    "seconds": 0.564,
+    "loop": false,
+    "peak_db": -2.47,
+    "rms_db": -23.1,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/wood_03.ogg"
+      }
+    ],
+    "sha256": "1cfa2e2106f6094bcfbfa3f87cddf51a5ad263f58a9866730a761fb137eb030a"
+  },
+  "dungeon_stone_3": {
+    "file": "dungeon_stone_3.wav",
+    "seconds": 1.198,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.56,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      }
+    ],
+    "sha256": "1200a7bbbb420442dfd1f07c79f7fa6ee4ac0d6f7f12ee4c49cfe643fc0179b6"
+  },
+  "music_tower": {
+    "file": "music_tower.ogg",
+    "seconds": 128.72,
+    "loop": false,
+    "peak_db": -4.96,
+    "rms_db": -20.0,
+    "channels": 2,
+    "sources": [
+      {
+        "collection": "dark-tower-ambience",
+        "file": "DarkTowerAmbience_0.mp3"
+      }
+    ],
+    "sha256": "0045ee41753f4b5172ce0695c763947ac84531535c89d9903fba281721dba1a0"
+  },
+  "music_caverns": {
+    "file": "music_caverns.ogg",
+    "seconds": 192.73,
+    "loop": false,
+    "peak_db": -2.83,
+    "rms_db": -20.03,
+    "channels": 2,
+    "sources": [
+      {
+        "collection": "the-deeper-caverns",
+        "file": "the_deeper_caverns.flac"
+      }
+    ],
+    "sha256": "fbb02bcc36936971018ac891b64100215e676d1ca8a31af9fb444864900306c4"
+  },
+  "ambience_village": {
+    "file": "ambience_village.ogg",
+    "seconds": 52.0,
+    "loop": true,
+    "peak_db": -3.69,
+    "rms_db": -23.26,
+    "channels": 2,
+    "sources": [
+      {
+        "collection": "park-ambiences",
+        "file": "park_ambience_birds.wav"
+      }
+    ],
+    "sha256": "c1730f6bdfb07dde3ef599f87fd8583cfc84b11720875d1364cbaccd048389a2"
+  },
+  "ambience_crypt": {
+    "file": "ambience_crypt.ogg",
+    "seconds": 24.0,
+    "loop": true,
+    "peak_db": -2.03,
+    "rms_db": -26.96,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/bubble_02.ogg"
+      }
+    ],
+    "sha256": "d946448d1b4c3f7ea9b623af7358873d54d510cb6bf5b3a7a2fc7b53a5863834"
+  },
+  "room_crypt": {
+    "file": "room_crypt.wav",
+    "seconds": 0.681,
+    "loop": false,
+    "peak_db": -6.82,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/bubble_02.ogg"
+      }
+    ],
+    "sha256": "b4f719971547eed7f900871dcc6f98a715e99e547d2386fb19ae70ec4b35c02e"
+  },
+  "ambience_library": {
+    "file": "ambience_library.ogg",
+    "seconds": 24.0,
+    "loop": true,
+    "peak_db": -2.0,
+    "rms_db": -32.14,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/wood_03.ogg"
+      }
+    ],
+    "sha256": "3563919550ac50e3e90d3cb6e2d6fbf0b542c801a6071410ea7185aa6849fc22"
+  },
+  "room_library": {
+    "file": "room_library.wav",
+    "seconds": 0.44,
+    "loop": false,
+    "peak_db": -3.56,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/wood_03.ogg"
+      }
+    ],
+    "sha256": "1930f9acba1a9d7965485c9f45fb2c8aa1f8f4e7d9bbc8e63f7d2213e9aab8ed"
+  },
+  "ambience_prison": {
+    "file": "ambience_prison.ogg",
+    "seconds": 24.0,
+    "loop": true,
+    "peak_db": -2.12,
+    "rms_db": -29.68,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      }
+    ],
+    "sha256": "61e4be168ae59bec3b7dabada7636ffb545882bc047caca91e7fbb8cefd9ba65"
+  },
+  "room_prison": {
+    "file": "room_prison.wav",
+    "seconds": 0.74,
+    "loop": false,
+    "peak_db": -3.99,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_02.ogg"
+      }
+    ],
+    "sha256": "7e5da0763e19aadbd439293d8a6be46e7272542bc3a134f25aa1ef3dea31bc03"
+  },
+  "ambience_laboratory": {
+    "file": "ambience_laboratory.ogg",
+    "seconds": 24.0,
+    "loop": true,
+    "peak_db": -2.07,
+    "rms_db": -28.29,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/loop_bubbles_02.ogg"
+      }
+    ],
+    "sha256": "3473d2bf10da163ca929e72978ef9a7e50f1bee3d65a619fdd33ee306a53f0c4"
+  },
+  "room_laboratory": {
+    "file": "room_laboratory.wav",
+    "seconds": 3.0,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.97,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/loop_bubbles_02.ogg"
+      }
+    ],
+    "sha256": "0ff04b0067f8e6a7f383afb774b2973cdc40854e09580e2bdd44dc6bc2dab19d"
+  },
+  "ambience_chapel": {
+    "file": "ambience_chapel.ogg",
+    "seconds": 24.0,
+    "loop": true,
+    "peak_db": -14.54,
+    "rms_db": -26.89,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_04.wav"
+      }
+    ],
+    "sha256": "dbd0ec59716d2fa517bcba48ae57e9639e2d17b5a56d6d38b8d4ff452cc7f299"
+  },
+  "room_chapel": {
+    "file": "room_chapel.wav",
+    "seconds": 6.513,
+    "loop": false,
+    "peak_db": -9.53,
+    "rms_db": -20.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_04.wav"
+      }
+    ],
+    "sha256": "b230580faab0d713c21c8fde86bf897fb62f6db02017b60f74b778f5744b3c59"
+  },
+  "ambience_ruins": {
+    "file": "ambience_ruins.ogg",
+    "seconds": 24.0,
+    "loop": true,
+    "peak_db": -1.91,
+    "rms_db": -36.37,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_04.ogg"
+      }
+    ],
+    "sha256": "174a08169e2c8812210c8c3e413610f8abda6f750ac7ab82030ab80de086e38e"
+  },
+  "room_ruins": {
+    "file": "room_ruins.wav",
+    "seconds": 0.613,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.05,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_04.ogg"
+      }
+    ],
+    "sha256": "a843cd154adcab859764e4e304c5c2a311d86c884f36fb49fa09856050bbfc97"
+  },
+  "material_bone": {
+    "file": "material_bone.wav",
+    "seconds": 0.467,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.13,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "c44eac47a234c409206cab618fc90914c1642cceb9ae24d07113fe6f1c1100cb"
+  },
+  "material_flesh": {
+    "file": "material_flesh.wav",
+    "seconds": 0.323,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -32.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_01.ogg"
+      }
+    ],
+    "sha256": "7dbb6a18a5f58c663dee3faf848659fabdbe318e08347101a7f7db21501ef872"
+  },
+  "material_metal": {
+    "file": "material_metal.wav",
+    "seconds": 0.437,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.01,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_01.ogg"
+      }
+    ],
+    "sha256": "81db8d0f4925e7523abe3e789fa26bacb5963dab42601e168a49bdb6c7446168"
+  },
+  "material_ethereal": {
+    "file": "material_ethereal.wav",
+    "seconds": 0.835,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.5,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_02.ogg"
+      }
+    ],
+    "sha256": "29c74b8bb66afe1352fb9928c7584d1554a4f27eb7d6afe70fa01d25dc18b900"
+  },
+  "material_stone": {
+    "file": "material_stone.wav",
+    "seconds": 0.533,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -29.88,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_01.ogg"
+      }
+    ],
+    "sha256": "6b571f966dd7b8aaf41964d40967900e4a9106d09f8cffd7475793954950897e"
+  },
+  "material_bone_2": {
+    "file": "material_bone_2.wav",
+    "seconds": 0.715,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -29.31,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      }
+    ],
+    "sha256": "b12165f5a67fedf30d4b55c04d785cf23a6bdfcf04057720234c0be4cdaf5980"
+  },
+  "material_flesh_2": {
+    "file": "material_flesh_2.wav",
+    "seconds": 0.309,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_02.ogg"
+      }
+    ],
+    "sha256": "59337808aa9329c8da6d5c58e76d95fa143fd52aba8e1a7c31faa47520412e94"
+  },
+  "material_metal_2": {
+    "file": "material_metal_2.wav",
+    "seconds": 0.528,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.64,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_02.ogg"
+      }
+    ],
+    "sha256": "79c898bb504b254c6d3f924ef40f8ecc4aa91d83dd99452df84a76ca1741bbfd"
+  },
+  "material_ethereal_2": {
+    "file": "material_ethereal_2.wav",
+    "seconds": 0.79,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.78,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_02.ogg"
+      }
+    ],
+    "sha256": "f81f32c3941aea9a30190c915d98a67611ac097bd8650c55efd7c45af8afacfb"
+  },
+  "material_stone_2": {
+    "file": "material_stone_2.wav",
+    "seconds": 0.746,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -30.09,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_02.ogg"
+      }
+    ],
+    "sha256": "feadc34a3f631a9dc6efd655c9bb52fe6ac6a71aed84de49ec6b1b8fe34c4321"
+  },
+  "material_bone_3": {
+    "file": "material_bone_3.wav",
+    "seconds": 0.715,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.71,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      }
+    ],
+    "sha256": "96ba1b0996cf0e3cf4cffb37abe1b4f9b33a86c58d00efb448f68814b0710a88"
+  },
+  "material_flesh_3": {
+    "file": "material_flesh_3.wav",
+    "seconds": 0.532,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.69,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_03.ogg"
+      }
+    ],
+    "sha256": "08a99b766c65cb01177f2bfe6c02376e2cb5e5e483188a4876d9ca221f1d0f32"
+  },
+  "material_metal_3": {
+    "file": "material_metal_3.wav",
+    "seconds": 0.344,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.09,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      }
+    ],
+    "sha256": "d87e1a9bba95cfe81dd0e346d1f7a7e0e9a2c6922f25ce1ce0e556db295fede2"
+  },
+  "material_ethereal_3": {
+    "file": "material_ethereal_3.wav",
+    "seconds": 0.753,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.97,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_02.ogg"
+      }
+    ],
+    "sha256": "b03c7adc65d0cafa791cc3f3886666cd5aad8c31b60641545061463eee5b7897"
+  },
+  "material_stone_3": {
+    "file": "material_stone_3.wav",
+    "seconds": 0.837,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.04,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_03.ogg"
+      }
+    ],
+    "sha256": "c737ce1be992103b6abb3d857459eca77e32c3856b9c72bda4811d4a3cc8f0fb"
+  },
+  "inventory_open": {
+    "file": "inventory_open.wav",
+    "seconds": 0.363,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.59,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Inventory_Open_00.wav"
+      }
+    ],
+    "sha256": "304b427e94dbb0f091156d646d476da3622333322ecc80ef96bffc327a601353"
+  },
+  "book_open": {
+    "file": "book_open.wav",
+    "seconds": 0.978,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.62,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/book_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/book_04.ogg"
+      }
+    ],
+    "sha256": "5b023b9bdcee818971d0a8228e7dbebd10c1d59d738ff21e8ecf10f4d481b609"
+  },
+  "equip_staff": {
+    "file": "equip_staff.wav",
+    "seconds": 0.461,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.04,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/spell_01.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/wood_04.ogg"
+      }
+    ],
+    "sha256": "052d688564014ad5ccd04ffd38ddc8b70b0fca21b9a2607a636ec9518da4faf2"
+  },
+  "equip_ring": {
+    "file": "equip_ring.wav",
+    "seconds": 0.404,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -31.22,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/item_gem_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_01.ogg"
+      }
+    ],
+    "sha256": "b5bff65e39960f1f7e0e0ed0c171161da1b22ea39b4d812809bf3d42bf5ad2d4"
+  },
+  "unequip": {
+    "file": "unequip.wav",
+    "seconds": 1.01,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.65,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Inventory_Open_01.wav"
+      }
+    ],
+    "sha256": "8a48511650ac55224cb6f2d7a8c44d348ccaf391c7e673a78da99e858bf4ff9a"
+  },
+  "trade": {
+    "file": "trade.wav",
+    "seconds": 0.471,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.15,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/item_coins_03.ogg"
+      }
+    ],
+    "sha256": "49d046f952402851200cdbd2bec5407b340251fea00cfa5a8347c066a11ddd64"
+  },
+  "key_found": {
+    "file": "key_found.wav",
+    "seconds": 0.817,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -30.07,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/lock_02.ogg"
+      },
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_01.wav"
+      }
+    ],
+    "sha256": "53522e0abdaaa5bede26017fe92e2438a4df6c6454301c58e589b57bc524140f"
+  },
+  "seal_open": {
+    "file": "seal_open.wav",
+    "seconds": 5.897,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -31.84,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/stones_04.ogg"
+      },
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_03.wav"
+      }
+    ],
+    "sha256": "1c7e58bf6e083309c25d1a6d7571266367d5aaeb2c8e5779fd7dc4bba980d387"
+  },
+  "loot_rare": {
+    "file": "loot_rare.wav",
+    "seconds": 0.845,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -30.31,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/item_gem_03.ogg"
+      },
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_01.wav"
+      }
+    ],
+    "sha256": "984cd1c7074f918c38ceb6e85b1345f36fbf016d4be8ea6215750906e6a63989"
+  },
+  "loot_epic": {
+    "file": "loot_epic.wav",
+    "seconds": 3.122,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -29.65,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/item_gem_03.ogg"
+      },
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Jingle_Achievement_00.wav"
+      }
+    ],
+    "sha256": "c63e2856454c2ec3e409d3c3568876ef19fdfd1c046c3120c22fff5a5f3e7bb4"
+  },
+  "encounter": {
+    "file": "encounter.wav",
+    "seconds": 1.591,
+    "loop": false,
+    "peak_db": -5.3,
+    "rms_db": -20.0,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/creature_roar_03.ogg"
+      }
+    ],
+    "sha256": "cf9b075248655458ae513f2586e32362eb561252ae775bcf65a338dc61a50899"
+  },
+  "village_merchant": {
+    "file": "village_merchant.wav",
+    "seconds": 0.528,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.58,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_02.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/wood_04.ogg"
+      }
+    ],
+    "sha256": "4cc95efbd77c9a23e9a512f73cffdb1e2e315090c038dbfba67865f8328e01c9"
+  },
+  "village_teacher": {
+    "file": "village_teacher.wav",
+    "seconds": 0.978,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -28.19,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/book_04.ogg"
+      }
+    ],
+    "sha256": "165e8fd543de436e28882721839a476cb0eaa9c100e1a5cd20ae853ed3410901"
+  },
+  "village_healer": {
+    "file": "village_healer.wav",
+    "seconds": 0.58,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.95,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/splash_02.ogg"
+      }
+    ],
+    "sha256": "f365666157e015aa8683b01acc5ea2c411ce4e50dd84ba5354d58d570772a86c"
+  },
+  "boss_king_alert": {
+    "file": "boss_king_alert.wav",
+    "seconds": 0.997,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanDeath2.wav"
+      }
+    ],
+    "sha256": "f5f8e16041a98852f52714d72b8a81b624e404a05280182877fd027962fe818e"
+  },
+  "boss_king_warning": {
+    "file": "boss_king_warning.wav",
+    "seconds": 0.616,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.52,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      }
+    ],
+    "sha256": "20c0e07ce513b050ec2dd7096b3b1adabfa7fb4840ea43fa0151e4c1fad6931e"
+  },
+  "boss_king_death": {
+    "file": "boss_king_death.wav",
+    "seconds": 1.177,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.89,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/chain_03.ogg"
+      },
+      {
+        "collection": "80-cc0-rpg-sfx",
+        "file": "extracted/metal_03.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/humanDeath2.wav"
+      }
+    ],
+    "sha256": "aa507c077e170a0ee05f308ce2c8ddee1522b497b983701bc4c254723921b090"
+  },
+  "boss_plague_alert": {
+    "file": "boss_plague_alert.wav",
+    "seconds": 0.791,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -25.05,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_06.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "d320a42647ecd59970c048919557efe382ad379a801ce818f4ea45d46bf1efc2"
+  },
+  "boss_plague_warning": {
+    "file": "boss_plague_warning.wav",
+    "seconds": 0.402,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.28,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_06.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "98854ace8f0f81a7efb539679a595bb27a24c1ee1cbadf19165c980a76419253"
+  },
+  "boss_plague_death": {
+    "file": "boss_plague_death.wav",
+    "seconds": 0.907,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.93,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_06.ogg"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell8.wav"
+      }
+    ],
+    "sha256": "ede5f96be23e8a7e42f9af9da61a0d73d17aa7554d38cde19389912af02d8ab2"
+  },
+  "boss_demon_alert": {
+    "file": "boss_demon_alert.wav",
+    "seconds": 5.452,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.1,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      },
+      {
+        "collection": "fire-staff-sound-effects",
+        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 12-Audio.wav"
+      }
+    ],
+    "sha256": "b6d878a0a745fd1b3c9f4d4669b547c93a4b1f129f587b7aadd81c483c131f0f"
+  },
+  "boss_demon_warning": {
+    "file": "boss_demon_warning.wav",
+    "seconds": 0.571,
+    "loop": false,
+    "peak_db": -5.14,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      },
+      {
+        "collection": "fire-staff-sound-effects",
+        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 12-Audio.wav"
+      }
+    ],
+    "sha256": "0431f3e0b08b2d1eb0775404a2daa6c6f9312b227f1c2bb46e1396c33e2a10b4"
+  },
+  "boss_demon_death": {
+    "file": "boss_demon_death.wav",
+    "seconds": 6.69,
+    "loop": false,
+    "peak_db": -3.3,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Dragon_Growl_01.wav"
+      },
+      {
+        "collection": "fire-staff-sound-effects",
+        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 12-Audio.wav"
+      }
+    ],
+    "sha256": "074e892d664e68bcfcfd4740eda73d076ec3bb2edad0ac906347de73a6852459"
+  },
+  "boss_lich_alert": {
+    "file": "boss_lich_alert.wav",
+    "seconds": 4.307,
+    "loop": false,
+    "peak_db": -5.5,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_02.wav"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "b84816316db102be3b842e70d68763009e59d51aad2620b5721aa34ed1699e67"
+  },
+  "boss_lich_warning": {
+    "file": "boss_lich_warning.wav",
+    "seconds": 0.62,
+    "loop": false,
+    "peak_db": -7.27,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_02.wav"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "c29e8cfbef597ebadc8020e55aed4c5866aebd3346fdaf545c0a59003e422dda"
+  },
+  "boss_lich_death": {
+    "file": "boss_lich_death.wav",
+    "seconds": 5.281,
+    "loop": false,
+    "peak_db": -6.13,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "fantasy-sound-effects-library",
+        "file": "extracted/Fantasy Sound Library/Wav/Spell_02.wav"
+      },
+      {
+        "collection": "zombie-skeleton-monster-voice-effects",
+        "file": "extracted/Voice Effects Zombie-Skeleton-Monster Human Male/zombieYell7.wav"
+      }
+    ],
+    "sha256": "8bdd4ff129351a669634ea7ef662e33d440a720f0d96ed8ac13ef7101fb75125"
   }
 }

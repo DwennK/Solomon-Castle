@@ -112,7 +112,7 @@ func panel(title: String, subtitle: String = "", kind: String = "general", width
 	destroy_modal()
 	modal_kind = kind
 	get_tree().paused = is_instance_valid(world)
-	if get_tree().paused: Sound.stop_world()
+	if get_tree().paused: Sound.pause_world()
 	modal = Control.new()
 	modal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	ui.add_child(modal)
@@ -452,7 +452,9 @@ func show_merchant() -> void:
 		var item_box: PanelContainer = PanelContainer.new();v.add_child(item_box)
 		item_box.add_theme_stylebox_override("panel",GameTheme.panel(Color("18181a"),rarity_color(item.rarity).darkened(0.6),12))
 		var item_body: VBoxContainer = VBoxContainer.new();item_box.add_child(item_body)
-		button(item_body,"%s · %d gold"%[item.name,item.price],func()->void:State.buy(item.uid);Sound.play("loot");show_merchant(),State.run.gold<item.price or State.run.inventory.size()>=48,"staff" if item.slot=="staff" else "ring")
+		button(item_body,"%s · %d gold"%[item.name,item.price],func()->void:
+			if State.buy(item.uid): Sound.play("trade")
+			show_merchant(),State.run.gold<item.price or State.run.inventory.size()>=48,"staff" if item.slot=="staff" else "ring")
 		label(item_body,item_description(item),16,rarity_color(item.rarity))
 	button(v,"Back to the village",close_modal)
 	focus_first(v)
@@ -461,7 +463,7 @@ func buy_potion(kind: String) -> void:
 	if State.run.gold<18: return
 	State.run.gold-=18
 	State.run[kind+"_potions"]+=1
-	Sound.play("loot")
+	Sound.play("trade")
 	show_merchant()
 
 func rarity_color(rarity: int) -> Color:
@@ -474,10 +476,11 @@ func item_description(item: Dictionary) -> String:
 	return ["Enchanted","Rare","Epic"][int(item.rarity)]+" · "+" / ".join(bits)
 
 func show_inventory(selling: bool = false) -> void:
+	Sound.play("inventory_open")
 	destroy_modal()
 	modal_kind = "inventory"
 	get_tree().paused = is_instance_valid(world)
-	if get_tree().paused: Sound.stop_world()
+	if get_tree().paused: Sound.pause_world()
 	var inventory: InventoryView = InventoryView.new()
 	inventory.selling = selling
 	inventory.close_requested.connect(close_modal)
@@ -494,10 +497,11 @@ func on_inventory_section(section_name: String) -> void:
 		"merchant": show_merchant()
 
 func show_skills() -> void:
+	Sound.play("book_open")
 	destroy_modal()
 	modal_kind="skills"
 	get_tree().paused=is_instance_valid(world)
-	if get_tree().paused: Sound.stop_world()
+	if get_tree().paused: Sound.pause_world()
 	var grimoire: GrimoireView=GrimoireView.new()
 	grimoire.close_requested.connect(close_modal)
 	grimoire.section_requested.connect(on_inventory_section)
@@ -571,9 +575,23 @@ func show_options() -> void:
 
 func show_credits() -> void:
 	var v: VBoxContainer = panel("Credits","The Tower of Ash · version 0.2","credits",880)
-	label(v,"An independent game made with Godot 4.7.2.\n\nOriginal GDScript code. Original illustrations generated with ImageGen, then cut out and integrated. Original synthesized music and sound effects.\n\nInspired by the mechanics of Solomon’s Keep, created by Raptisoft. No code, characters, sounds, or artwork from that game are reused. This project is not affiliated with Raptisoft.\n\nGodot Engine: MIT license. Full notices and asset provenance are in docs/asset_manifest.md.",19)
+	label(v,"An independent game made with Godot 4.7.2.\n\nOriginal GDScript code. Original illustrations generated with ImageGen, then cut out and integrated. Music and sound effects from independent creators, used under CC0 and Creative Commons Attribution licenses. See Audio credits for authors, sources and licenses.\n\nInspired by the mechanics of Solomon’s Keep, created by Raptisoft. No code, characters, sounds, or artwork from that game are reused. This project is not affiliated with Raptisoft.\n\nGodot Engine: MIT license. Full notices and asset provenance are in docs/asset_manifest.md.",19)
+	button(v,"Audio credits",show_audio_credits)
 	button(v,"Back",show_menu)
 	focus_first(v)
+
+func show_audio_credits() -> void:
+	var v: VBoxContainer = panel("Audio credits","Composed music and recorded sound · free licensed resources","credits",1000)
+	section(v,"Music")
+	for entry: Array in AudioCredits.MUSIC:
+		label(v,"%s\n%s · %s\nhttps://opengameart.org/content/%s"%entry,17)
+	section(v,"Sound effects & ambience")
+	for entry: Array in AudioCredits.EFFECTS:
+		label(v,"%s\n%s · %s\nhttps://opengameart.org/content/%s"%entry,17)
+	label(v,AudioCredits.LICENSES,16)
+	label(v,AudioCredits.CHANGES,16)
+	button(v,"Back",show_credits)
+	# Keep the authors at the top; focusing the last button would scroll past them.
 
 func safe_focus(reference: WeakRef) -> void:
 	# Wait for container layout before ScrollContainer follows keyboard focus.

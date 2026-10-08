@@ -34,6 +34,7 @@ func _ready() -> void:
 	chapters.add_theme_constant_override("separation",5)
 	for entry: Array in [["primary","Magic"],["secondary","Rituals"],["passive","Knowledge"],["fusion","Fusion"]]:
 		var tab: Button=CodexShell.button(chapters,entry[1],func()->void:
+			Sound.play("book_open",Vector2.INF,-5.0)
 			chapter=entry[0];list_scroll.scroll_vertical=0;refresh_list())
 		tab.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 		tabs[entry[0]]=tab

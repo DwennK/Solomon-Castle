@@ -1,0 +1,100 @@
+THE TOWER OF ASH - AUDIO ATTRIBUTION
+
+Third-party music and recordings are NOT covered by any project-code license.
+Adaptations: excerpts, fades, loop crossfades, level balancing, resampling;
+some effects are layered, pitched, filtered or reverberated. No endorsement implied.
+
+80-cc0-rpg-sfx
+Author: rubberduck
+Source: https://opengameart.org/content/80-cc0-rpg-sfx
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+fantasy-sound-effects-library
+Author: Little Robot Sound Factory
+Source: https://opengameart.org/content/fantasy-sound-effects-library
+License: CC-BY-3.0 - https://creativecommons.org/licenses/by/3.0/
+
+zombie-skeleton-monster-voice-effects
+Author: ArcadeParty
+Source: https://opengameart.org/content/zombie-skeleton-monster-voice-effects
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+different-steps-on-wood-stone-leaves-gravel-and-mud
+Author: TinyWorlds
+Source: https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+fireplace-sound-loop
+Author: PagDev
+Source: https://opengameart.org/content/fireplace-sound-loop
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+fire-staff-sound-effects
+Author: LEGIT Audio
+Source: https://opengameart.org/content/fire-staff-sound-effects
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+ice-breakingshattering
+Author: IgnasD
+Source: https://opengameart.org/content/ice-breakingshattering
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+spell-sounds
+Author: Augmentality (Brandon Morris)
+Source: https://opengameart.org/content/spell-sounds
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+dark-chamber
+Author: Marcelo Fernandez
+Source: https://opengameart.org/content/dark-chamber
+License: CC-BY-4.0 - https://creativecommons.org/licenses/by/4.0/
+
+dark-descent
+Author: Matthew Pablo
+Source: https://opengameart.org/content/dark-descent
+License: CC-BY-3.0 - https://creativecommons.org/licenses/by/3.0/
+
+dungeon-ambience
+Author: yd
+Source: https://opengameart.org/content/dungeon-ambience
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+town-theme-rpg
+Author: cynicmusic
+Source: https://opengameart.org/content/town-theme-rpg
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+dark-tower-ambience
+Author: tcarisland
+Source: https://opengameart.org/content/dark-tower-ambience
+License: CC-BY-4.0 - https://creativecommons.org/licenses/by/4.0/
+
+the-deeper-caverns
+Author: Tsorthan Grove
+Source: https://opengameart.org/content/the-deeper-caverns
+License: CC-BY-4.0 - https://creativecommons.org/licenses/by/4.0/
+
+40-cc0-water-splash-slime-sfx
+Author: rubberduck
+Source: https://opengameart.org/content/40-cc0-water-splash-slime-sfx
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+park-ambiences
+Author: Thimras
+Source: https://opengameart.org/content/park-ambiences
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+Author links:
+Marcelo Fernandez: http://www.marcelofernandezmusic.com
+Matthew Pablo: http://www.matthewpablo.com
+Little Robot Sound Factory: http://www.littlerobotsoundfactory.com
+cynicmusic: http://cynicmusic.com and http://pixelsphere.org
+
+Dark chamber: the author attribution notice explicitly grants CC BY 4.0;
+the OGA category tag says 3.0. This project uses the explicit CC BY 4.0 notice.
+Spell sounds: distributed under the offered CC0 option.
+
+Per-output source files: assets/audio/audio_manifest.json
+Pinned downloads and checksums: assets/audio/sources.json
+The same author, source and license information is available in the game:
+Credits > Audio credits.

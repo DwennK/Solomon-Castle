@@ -150,6 +150,7 @@ func channel(player: MagePlayer, p: Dictionary, delta: float) -> void:
 				world.beam(previous.position,candidate.position,p.color,3,0.1,false,id)
 				targets.append(candidate);previous=candidate
 			break
+	if not targets.is_empty(): Sound.hit_material(String(targets[0].record.kind),targets[0].global_position)
 	for enemy: TowerEnemy in targets:
 		if not is_instance_valid(enemy) or not enemy.is_targetable(): continue
 		enemy.take_damage(p.damage*delta,player.aim*delta*(70+State.rank("chill",p.snapshot)*35) if "ice" in p.elements else Vector2.ZERO,true)
@@ -180,6 +181,7 @@ func explosion(position: Vector2, radius: float, damage: float, color: Color, fr
 	for enemy: TowerEnemy in world.enemies.duplicate():
 		if not is_instance_valid(enemy) or not enemy.is_targetable(): continue
 		if position.distance_to(enemy.position)<radius and world.dungeon.visible_line(position,enemy.position):
+			if damage>0: Sound.hit_material(String(enemy.record.kind),enemy.global_position)
 			if freeze_time>0: enemy.freeze(freeze_time)
 			enemy.take_damage(damage,position.direction_to(enemy.position)*90)
 

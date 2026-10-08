@@ -1,0 +1,209 @@
+{
+  "80-cc0-rpg-sfx": {
+    "author": "rubberduck",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/80-cc0-rpg-sfx",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/80-CC0-RPG-SFX_0.zip",
+        "file": "80-CC0-RPG-SFX_0.zip",
+        "sha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd"
+      }
+    ]
+  },
+  "fantasy-sound-effects-library": {
+    "author": "Little Robot Sound Factory",
+    "license": "CC-BY-3.0",
+    "page": "https://opengameart.org/content/fantasy-sound-effects-library",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/Fantasy%20Sound%20Library.zip",
+        "file": "Fantasy Sound Library.zip",
+        "sha256": "5649523e6be5180f81141bc00f9a1597a1297f193896b7295e6ffebaeb41bb53"
+      }
+    ]
+  },
+  "zombie-skeleton-monster-voice-effects": {
+    "author": "ArcadeParty",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/zombie-skeleton-monster-voice-effects",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/Voice%20Effects%20Zombie-Skeleton-Monster%20Human%20Male.zip",
+        "file": "Voice Effects Zombie-Skeleton-Monster Human Male.zip",
+        "sha256": "041ef356efc5d947db903530d68eb55b7e6fbfb77b96fdd092ab81eb8be59d57"
+      }
+    ]
+  },
+  "different-steps-on-wood-stone-leaves-gravel-and-mud": {
+    "author": "TinyWorlds",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/%5Bkdd%5DDifferentSteps_0.zip",
+        "file": "[kdd]DifferentSteps_0.zip",
+        "sha256": "987d072b7deaa65177e005ddd8185f2351be7c9a76cd7575dea560549c39b33b"
+      }
+    ]
+  },
+  "fireplace-sound-loop": {
+    "author": "PagDev",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/fireplace-sound-loop",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/fire.wav",
+        "file": "fire.wav",
+        "sha256": "85ca0cc60d0c037fff8b185e31ad1fcdbda6ce45eee17c3ee1318d1b8f59e330"
+      }
+    ]
+  },
+  "fire-staff-sound-effects": {
+    "author": "LEGIT Audio",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/fire-staff-sound-effects",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/legit_audio_fire_staff_-_free_0.zip",
+        "file": "legit_audio_fire_staff_-_free_0.zip",
+        "sha256": "8c0668fdde03de52b9b201e672244992ae739438937d4bef6908d1618a86b020"
+      }
+    ]
+  },
+  "ice-breakingshattering": {
+    "author": "IgnasD",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/ice-breakingshattering",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/IceShatters_0.zip",
+        "file": "IceShatters_0.zip",
+        "sha256": "b84ea396fac1af183dd2cb205a01edaa94b493ffb36965eafe59912e41cf9eb7"
+      }
+    ]
+  },
+  "spell-sounds": {
+    "author": "Augmentality (Brandon Morris)",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/spell-sounds",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/healing.ogg",
+        "file": "healing.ogg",
+        "sha256": "4600822379d18992e9f526b718395dc752821b6218ca5728fb2d5ea9cf774c6d"
+      },
+      {
+        "url": "https://opengameart.org/sites/default/files/teleport.ogg",
+        "file": "teleport.ogg",
+        "sha256": "dc4e4d1ca3fff8b2a849df80cc38393abec833987ca9315c82d89738f60e7176"
+      },
+      {
+        "url": "https://opengameart.org/sites/default/files/electricspell.ogg",
+        "file": "electricspell.ogg",
+        "sha256": "c1c3fa48c7c209f8b8abc7423b3bd3f17dc489af3c4a92eb1fa20fe2adc447dc"
+      },
+      {
+        "url": "https://opengameart.org/sites/default/files/electricspell2.ogg",
+        "file": "electricspell2.ogg",
+        "sha256": "5fcb8824064d9dba2e3880d439a44b798ecdc2a58041cd028f094d774302a9a1"
+      }
+    ]
+  },
+  "dark-chamber": {
+    "author": "Marcelo Fernandez",
+    "license": "CC-BY-4.0",
+    "page": "https://opengameart.org/content/dark-chamber",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/Dark%20chamber.mp3",
+        "file": "Dark chamber.mp3",
+        "sha256": "2b5d4fb921b8c84c4e7f9efb07323b67ce02df445d81ab22c148fd0502667164"
+      }
+    ]
+  },
+  "dark-descent": {
+    "author": "Matthew Pablo",
+    "license": "CC-BY-3.0",
+    "page": "https://opengameart.org/content/dark-descent",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/Dark%20Descent_0.mp3",
+        "file": "Dark Descent_0.mp3",
+        "sha256": "a835debcb0d86077000ecf33440b9d04b0d715c1bd78e222010dc6838538803e"
+      }
+    ]
+  },
+  "dungeon-ambience": {
+    "author": "yd",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/dungeon-ambience",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/dungeon002_0.ogg",
+        "file": "dungeon002_0.ogg",
+        "sha256": "18da6d6c4492d744f5ebde5bb128a636770df4197d2d4a0b5e8d65df6e27f57b"
+      }
+    ]
+  },
+  "town-theme-rpg": {
+    "author": "cynicmusic",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/town-theme-rpg",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/TownTheme.mp3",
+        "file": "TownTheme.mp3",
+        "sha256": "2657861d5107d4a3c01ef81cb6a4d61ddd5e7a054b6da57e658373d79d0c3466"
+      }
+    ]
+  },
+  "dark-tower-ambience": {
+    "author": "tcarisland",
+    "license": "CC-BY-4.0",
+    "page": "https://opengameart.org/content/dark-tower-ambience",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/DarkTowerAmbience_0.mp3",
+        "file": "DarkTowerAmbience_0.mp3",
+        "sha256": "d55d77878cb049d0af5990346ee1eae736aa7c7de249e1079cad0bcfa5e92c4a"
+      }
+    ]
+  },
+  "the-deeper-caverns": {
+    "author": "Tsorthan Grove",
+    "license": "CC-BY-4.0",
+    "page": "https://opengameart.org/content/the-deeper-caverns",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/the_deeper_caverns.flac",
+        "file": "the_deeper_caverns.flac",
+        "sha256": "895d2d438e0063ca688bbc6b3639c214d8e4a55e22b4b7b8b2a572bc7c947950"
+      }
+    ]
+  },
+  "40-cc0-water-splash-slime-sfx": {
+    "author": "rubberduck",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/40-cc0-water-splash-slime-sfx",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/water-splash-slime-sfx.zip",
+        "file": "water-splash-slime-sfx.zip",
+        "sha256": "7cd39abb49d4362a37ba18dc0e454c7dc1d08029d4e5b683149046bc237b2eba"
+      }
+    ]
+  },
+  "park-ambiences": {
+    "author": "Thimras",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/park-ambiences",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/park_ambience_birds.wav",
+        "file": "park_ambience_birds.wav",
+        "sha256": "dc1a5ac34b89cab7f8f261b53a23da7c1c5e3cc895aae4cb6fb4a1a04001b2af"
+      }
+    ]
+  }
+}

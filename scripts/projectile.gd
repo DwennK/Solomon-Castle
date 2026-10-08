@@ -97,7 +97,7 @@ func impact(enemy: TowerEnemy) -> void:
 		world.combat.explosion(position,world.combat.splash_radius(profile),damage*world.combat.splash_ratio(profile),color,0.5 if id=="frost_missile" else 0.0)
 	else: world.effect(position,color,25)
 	world.combat.emit_embers(position,profile,damage)
-	Sound.impact(id,global_position)
+	Sound.impact(id,global_position,String(enemy.record.kind) if is_instance_valid(enemy) else "stone")
 	queue_free()
 
 func _draw() -> void:

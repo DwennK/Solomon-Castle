@@ -4,7 +4,7 @@
 
 A single-player, top-down action RPG for macOS and Windows, built with Godot 4.7.2. Start as an apprentice in Ember Hamlet, shape your spell build, and climb a procedural tower to face the Ash Archivist.
 
-Inspired by the mechanics of **Solomon’s Keep**, with original code, generated artwork, and synthesized audio. An independent project, not affiliated with Raptisoft.
+Inspired by the mechanics of **Solomon’s Keep**, with original code, generated artwork, and freely licensed music and recorded sound effects. An independent project, not affiliated with Raptisoft.
 
 ![The Tower of Ash — main menu](docs/screenshots/menu-english.png)
 
@@ -142,7 +142,7 @@ Archive filenames retain their historical names for script compatibility. Fresh 
 
 ## Credits and project notes
 
-Original GDScript implementation, ImageGen-generated illustrations, and synthesized music and sound effects. No code, characters, sounds, or graphics from Solomon’s Keep are reused. Godot is distributed under the MIT license; font and engine notices are included with the project and packaged builds.
+Original GDScript implementation, ImageGen-generated illustrations, and freely licensed composed music and recorded sound effects (CC0 / CC BY; see in-game Audio credits and docs/licenses/Audio-Attribution.txt). No code, characters, sounds, or graphics from Solomon’s Keep are reused. Godot is distributed under the MIT license; font and engine notices are included with the project and packaged builds.
 
 - [Asset provenance and license notices](docs/asset_manifest.md)
 - [Architecture](docs/architecture.md)

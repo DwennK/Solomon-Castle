@@ -34,6 +34,10 @@ var charge_direction: Vector2 = Vector2.ZERO
 var recovery_time: float = 0.0
 var preparing_charge: bool = false
 var warded: bool = false
+var voice_timer: float = 0.0
+var hurt_voice_timer: float = 0.0
+var foot_distance: float = 0.0
+var audio_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var counter_time: float = 0.0
 var interrupt_damage: float = 0.0
 var shield_facing: Vector2 = Vector2.DOWN
@@ -64,6 +68,8 @@ func setup(owner_world: Node2D, value: Dictionary) -> void:
 	active = bool(record.get("awakened",false))
 	if record.get("trial",false) and not record.get("awakened",false): collision_layer=0;collision_mask=0
 	path_timer = float(get_instance_id()%100)/100.0
+	audio_rng.seed = String(record.id).hash()+int(State.run.seed)
+	voice_timer = audio_rng.randf_range(1.5,7.0)
 
 func _ready() -> void:
 	visual = ActorVisual.new()
@@ -95,7 +101,20 @@ func _physics_process(delta: float) -> void:
 	if distance>1200:
 		visual.moving = false
 		return
-	if not record.has("encounter_room") and distance<670 and world.dungeon.visible_line(position,player.position): active = true
+	var audible_line: bool = world.dungeon.visible_line(position,player.position)
+	hurt_voice_timer = maxf(0.0,hurt_voice_timer-delta)
+	voice_timer -= delta
+	if not record.has("encounter_room") and distance<670 and audible_line and not active:
+		active = true
+		Sound.creature(String(record.kind),"alert",global_position,false,boss)
+		if boss: set_meta("boss_announced",true)
+		voice_timer = audio_rng.randf_range(4.0,8.0)
+	if boss and active and distance<670 and audible_line and not get_meta("boss_announced",false):
+		Sound.creature(String(record.kind),"alert",global_position,false,true)
+		set_meta("boss_announced",true)
+	if voice_timer<=0.0 and frozen<=0.0:
+		Sound.creature(String(record.kind),"idle",global_position,not audible_line,boss)
+		voice_timer = audio_rng.randf_range(5.0,11.0)
 	if not active: return
 	counter_time = maxf(0,counter_time-delta)
 	slow_time = maxf(0,slow_time-delta)
@@ -174,6 +193,7 @@ func _physics_process(delta: float) -> void:
 			if world.dungeon.visible_line(position,predicted): attack_target=predicted
 		interrupt_damage=0.0
 		telegraph = 1.1 if interruptible_caster() else (0.85 if boss else (0.45 if preferred>100 else 0.30))
+		if boss: Sound.boss_warning(String(record.kind),global_position)
 		visual.attack = 1.0
 		queue_redraw()
 		return
@@ -216,7 +236,12 @@ func _physics_process(delta: float) -> void:
 	if defend and world.dungeon.room_at(position)==home_room and world.dungeon.room_at(position+motion*48.0)!=home_room: motion=Vector2.ZERO
 	velocity = motion*speed*(slow_factor if slow_time>0 else 1.0)+knockback
 	knockback = knockback.move_toward(Vector2.ZERO,delta*600)
+	var before_move: Vector2 = position
 	move_and_slide()
+	foot_distance += position.distance_to(before_move)
+	if foot_distance>72.0:
+		foot_distance = 0.0
+		Sound.creature(String(record.kind),"step",global_position,not audible_line,boss)
 	visual.moving = velocity.length()>4
 	queue_redraw()
 
@@ -226,6 +251,7 @@ func follow_home_path() -> Vector2:
 	return Vector2.ZERO
 
 func release_attack() -> void:
+	Sound.creature(String(record.kind),"attack",global_position,false,boss)
 	if preparing_charge:
 		preparing_charge=false
 		charge_direction=position.direction_to(attack_target)
@@ -278,7 +304,10 @@ func release_attack() -> void:
 	else:
 		if position.distance_to(world.player.position)<78: world.player.take_damage(damage)
 		if behavior == "poison": world.hazard(position,60,damage*0.4,0.3,Color("8aab61"),3.0,"poison")
-	Sound.play("boss_attack" if boss else ("enemy_bow" if behavior=="ranged" else ("enemy_magic" if behavior in ["caster","imp","ghost"] else "enemy_melee")),global_position)
+	var weapon_sound: String = "enemy_bow" if behavior=="ranged" else ("enemy_magic" if behavior in ["caster","imp","ghost","boss_lich"] else "enemy_melee")
+	if behavior=="boss_plague": weapon_sound = "acid"
+	elif behavior=="boss_demon": weapon_sound = "fire"
+	Sound.play(weapon_sound,global_position)
 	queue_redraw()
 
 func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = false, source: Vector2 = Vector2.INF) -> void:
@@ -303,6 +332,9 @@ func take_damage(amount: float, force: Vector2 = Vector2.ZERO, quiet: bool = fal
 	queue_redraw()
 	knockback += force * (0.2 if boss else 1.0)
 	if not quiet: visual.hit_flash = 0.6
+	if not quiet and hp>0 and hurt_voice_timer<=0:
+		Sound.creature(String(record.kind),"hurt",global_position,false,boss)
+		hurt_voice_timer = 0.8
 	if hp<=0:
 		dead = true
 		record.dead = true

@@ -1,16 +1,18 @@
-"""Validate generated and mixer-recorded audio; no playback or personal audio access."""
+"""Validate shipped audio, source traceability and recorded Godot mixer output."""
 from pathlib import Path
 import json
+import hashlib
 import numpy as np
 import soundfile as sf
 
 ROOT=Path(__file__).resolve().parents[1]
 AUDIO=ROOT/'assets/audio'
 manifest=json.loads((AUDIO/'audio_manifest.json').read_text())
+sources=json.loads((AUDIO/'sources.json').read_text())
 failures=[]
 report={}
 for name,meta in manifest.items():
- path=AUDIO/(name+('.ogg' if name.startswith('music_') else '.wav'))
+ path=AUDIO/meta['file']
  x,sr=sf.read(path,always_2d=True)
  peak=float(np.max(np.abs(x)))
  rms=float(np.sqrt(np.mean(x*x)))
@@ -18,9 +20,13 @@ for name,meta in manifest.items():
  if sr!=44100 or x.shape[1]!=meta['channels']: failures.append(name+': format')
  if not np.isfinite(x).all() or peak>=.99 or rms<.0001: failures.append(name+': clipping/silence/nonfinite')
  if abs(len(x)/sr-meta['seconds'])>.002: failures.append(name+': duration')
+ if hashlib.sha256(path.read_bytes()).hexdigest()!=meta['sha256']: failures.append(name+': checksum')
+ if not meta.get('sources') or any(s['collection'] not in sources for s in meta['sources']): failures.append(name+': provenance')
  if meta['loop'] and seam>.025: failures.append(name+': loop seam')
  if not meta['loop'] and np.max(np.abs(x[[0,-1]]))>.001: failures.append(name+': boundary click')
  report[name]={'peak_db':round(20*np.log10(peak),2),'rms_db':round(20*np.log10(rms),2),'loop_seam':round(seam,6)}
+for path in AUDIO.iterdir():
+ if path.suffix in ['.wav','.ogg'] and path.stem not in manifest: failures.append(path.name+': untracked audio asset')
 recording=ROOT/'outputs/audio-qa/gameplay-mix.wav'
 if recording.exists():
  x,sr=sf.read(recording,always_2d=True)
