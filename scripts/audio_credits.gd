@@ -10,6 +10,10 @@ const MUSIC: Array[Array] = [
 	["The Deeper Caverns", "Tsorthan Grove", "CC BY 4.0", "the-deeper-caverns"],
 ]
 const EFFECTS: Array[Array] = [
+	["Magic SFX Sample", "ViRiX Dreamcore (David McKee) · soundcloud.com/virix", "CC BY 3.0", "magic-sfx-sample"],
+	["Ice and Electricity Magic", "Iwan 'qubodup' Gabovitch · opengameart.org/users/qubodup", "CC BY 3.0", "ice-electricity-magic"],
+	["Ice spells", "bart · source recording: Stephan / pdsounds", "CC0", "ice-spells"],
+	["Steam release sounds", "bart", "CC0", "steam-release-sounds"],
 	["Fantasy Sound Effects Library", "Little Robot Sound Factory · littlerobotsoundfactory.com", "CC BY 3.0", "fantasy-sound-effects-library"],
 	["80 CC0 RPG SFX", "rubberduck", "CC0", "80-cc0-rpg-sfx"],
 	["Zombie / Skeleton / Monster Voice Effects", "ArcadeParty", "CC0", "zombie-skeleton-monster-voice-effects"],

@@ -243,6 +243,7 @@ func orb_pulse(origin: Vector2, p: Dictionary) -> void:
 		victim.take_damage(p.damage*ORB_PULSE_RATIO)
 		if State.rank("stun",p.snapshot)>0: victim.freeze(0.05+State.rank("stun",p.snapshot)*0.08)
 		targets.append(victim);previous=victim.position
+	if not targets.is_empty(): Sound.play("orb_pulse",origin)
 
 func hurricane(player: MagePlayer, delta: float) -> void:
 	var rank_value: int = clampi(State.rank("hurricane"),0,8)
@@ -259,6 +260,7 @@ func ether_pulse(player: MagePlayer) -> void:
 	var charges: int = mini(player.ether_charges,State.rank("ether_charge"))
 	player.ether_charges=0;player.ether_timer=0.0
 	if charges<=0: return
+	Sound.play("ether_pulse",player.global_position)
 	world.effect(player.position,COLORS.missile,320)
 	world.break_urns_in_radius(player.position,320)
 	for enemy: TowerEnemy in world.enemies.duplicate():

@@ -20,9 +20,9 @@ Les six prompts et la charte sont conservés dans `docs/art_prompts.md`. Le mouv
 
 ## Audio
 
-`assets/audio/` contient 268 ressources dérivées de 16 collections gratuites : musiques composées, voix enregistrées, matières, effets et ambiances. Licences CC0, CC BY 3.0 et CC BY 4.0 ; aucun achat, compte ou service distant n’est nécessaire pendant le jeu.
+`assets/audio/` contient 338 ressources dérivées de 20 collections gratuites : musiques composées, voix enregistrées, matières, effets et ambiances. Licences CC0, CC BY 3.0 et CC BY 4.0 ; aucun achat, compte ou service distant n’est nécessaire pendant le jeu.
 
-Les crédits, sources, licences et adaptations figurent dans [Audio-Attribution.txt](licenses/Audio-Attribution.txt) et dans le jeu, **Credits → Audio credits**. Les crédits intégrés sont compilés dans chaque export. `assets/audio/sources.json` fixe les URL et SHA-256 des téléchargements ; `audio_manifest.json` relie chaque fichier livré à ses fichiers sources. Les musiques sont de Marcelo Fernandez, cynicmusic, yd, Matthew Pablo, tcarisland et Tsorthan Grove. Les effets et ambiances proviennent de Little Robot Sound Factory, rubberduck, ArcadeParty, TinyWorlds, PagDev, LEGIT Audio, IgnasD, Augmentality / Brandon Morris et Thimras.
+Les crédits, sources, licences et adaptations figurent dans [Audio-Attribution.txt](licenses/Audio-Attribution.txt) et dans le jeu, **Credits → Audio credits**. Les crédits intégrés sont compilés dans chaque export. `assets/audio/sources.json` fixe les URL et SHA-256 des téléchargements ; `audio_manifest.json` relie chaque fichier livré à ses fichiers sources. Les musiques sont de Marcelo Fernandez, cynicmusic, yd, Matthew Pablo, tcarisland et Tsorthan Grove. Les effets et ambiances proviennent de Little Robot Sound Factory, rubberduck, ArcadeParty, TinyWorlds, PagDev, LEGIT Audio, IgnasD, Augmentality / Brandon Morris, Thimras, ViRiX Dreamcore (David McKee), Iwan « qubodup » Gabovitch et bart (dont un enregistrement public de Stephan / pdsounds).
 
 Le générateur synthétique précédent a été remplacé par `tools/import_free_audio.py`. Les sources brutes restent dans le cache ignoré `outputs/audio-sources/`. Voir [audio.md](audio.md) pour les traitements, le mixage et la validation.
 

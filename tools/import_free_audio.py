@@ -9,6 +9,9 @@ import argparse
 import hashlib
 import json
 import math
+import shutil
+import subprocess
+from types import SimpleNamespace
 import urllib.request
 import zipfile
 
@@ -51,6 +54,15 @@ def fetch_sources(fetch):
                         if Path(name).is_absolute() or '..' in Path(name).parts:
                             raise ValueError('Unsafe archive member')
                     archive.extractall(folder / 'extracted')
+            if target.suffix == '.7z' and not (folder / 'extracted').exists():
+                tar = shutil.which('bsdtar')
+                if not tar:
+                    raise SystemExit('Rebuilding this source requires bsdtar (libarchive; bundled with macOS).')
+                names = subprocess.check_output([tar, '-tf', str(target)], text=True).splitlines()
+                if any(Path(name).is_absolute() or '..' in Path(name).parts for name in names):
+                    raise ValueError('Unsafe archive member')
+                (folder / 'extracted').mkdir()
+                subprocess.run([tar, '-xf', str(target), '-C', str(folder / 'extracted')], check=True)
 
 
 def read(slug, filename, speed=1.0, start=0.0, seconds=None, stereo=False):
@@ -342,6 +354,9 @@ def build():
         save('dungeon_creak'+suffix, echo(rpg('wood_0'+str(i+1), speed=.65), .5), rms=.07)
         save('dungeon_stone'+suffix, echo(rpg('stones_0'+str(i+1), speed=.65), .6), rms=.08)
     living_soundscape()
+    # Spell-specific art direction replaces the old generic spell excerpts.
+    from design_spell_audio import build_spells
+    build_spells(SimpleNamespace(**globals()))
     (OUT/'audio_manifest.json').write_text(json.dumps(MANIFEST, indent=2)+'\n')
     print(f'Built {len(MANIFEST)} assets from {len(SOURCES)} free sources.')
 

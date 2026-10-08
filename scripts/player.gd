@@ -94,6 +94,7 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 	if ice_armor>0:
 		var blocked: float = minf(ice_armor,amount*(1.0-cached_stats.resistance))
 		ice_armor-=blocked
+		if blocked>0: Sound.play("ice_armor_hit",global_position)
 		amount=maxf(0.0,amount-blocked/(1.0-cached_stats.resistance))
 		if amount<=0.0: return
 	var absorbed: bool = shield>0.0 and damage_type!="poison"

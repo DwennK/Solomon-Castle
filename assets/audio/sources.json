@@ -205,5 +205,53 @@
         "sha256": "dc1a5ac34b89cab7f8f261b53a23da7c1c5e3cc895aae4cb6fb4a1a04001b2af"
       }
     ]
+  },
+  "magic-sfx-sample": {
+    "author": "ViRiX Dreamcore (David McKee)",
+    "license": "CC-BY-3.0",
+    "page": "https://opengameart.org/content/magic-sfx-sample",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/Magic%20SFX%20Preview%20Pack.zip",
+        "file": "Magic SFX Preview Pack.zip",
+        "sha256": "77f964847ade8e84728a64cfc901d1d18b51459963c68e9f48bd19b0d0d8aa4e"
+      }
+    ]
+  },
+  "ice-electricity-magic": {
+    "author": "Iwan 'qubodup' Gabovitch",
+    "license": "CC-BY-3.0",
+    "page": "https://opengameart.org/content/ice-electricity-magic",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/qubodupIceAndElectricitySpells.7z",
+        "file": "qubodupIceAndElectricitySpells.7z",
+        "sha256": "e38bf3046f1503d7bad52894ff6d3d4d2e18d595746ab68151667c84a1b12a8d"
+      }
+    ]
+  },
+  "ice-spells": {
+    "author": "bart (based on a public-domain recording by Stephan / pdsounds)",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/ice-spells",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/icespells.zip",
+        "file": "icespells.zip",
+        "sha256": "45f02a204fc7cc896a17487080376c521ac2e564fe3da4d24cffa0086f8d6a54"
+      }
+    ]
+  },
+  "steam-release-sounds": {
+    "author": "bart",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/steam-release-sounds",
+    "downloads": [
+      {
+        "url": "https://opengameart.org/sites/default/files/steam_hisses.zip",
+        "file": "steam_hisses.zip",
+        "sha256": "7dc5ae6f43ef0e9a47b8333e1e1508463cb64877ab06baa0259c643a9ab4677f"
+      }
+    ]
   }
 }

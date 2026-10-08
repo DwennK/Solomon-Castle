@@ -84,6 +84,33 @@ Author: Thimras
 Source: https://opengameart.org/content/park-ambiences
 License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
 
+magic-sfx-sample
+Author: ViRiX Dreamcore (David McKee)
+Source: https://opengameart.org/content/magic-sfx-sample
+License: CC-BY-3.0 - https://creativecommons.org/licenses/by/3.0/
+
+ice-electricity-magic
+Author: Iwan 'qubodup' Gabovitch
+Source: https://opengameart.org/content/ice-electricity-magic
+License: CC-BY-3.0 - https://creativecommons.org/licenses/by/3.0/
+
+ice-spells
+Author: bart (based on a public-domain recording by Stephan / pdsounds)
+Source: https://opengameart.org/content/ice-spells
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+steam-release-sounds
+Author: bart
+Source: https://opengameart.org/content/steam-release-sounds
+License: CC0-1.0 - https://creativecommons.org/publicdomain/zero/1.0/
+
+Some of the sounds in this project were created by ViRiX Dreamcore
+(David Mckee) www.soundcloud.com/virix.
+Ice and Electricity Magic by Iwan 'qubodup' Gabovitch
+http://opengameart.org/users/qubodup
+Adaptations: elemental layering, transient selection, envelopes, equalization,
+resampling, level balancing, granular overlap and seamless sustained loops.
+
 Author links:
 Marcelo Fernandez: http://www.marcelofernandezmusic.com
 Matthew Pablo: http://www.matthewpablo.com

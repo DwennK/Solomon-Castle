@@ -3,6 +3,9 @@ extends Node
 
 const EFFECTS: Array[String] = ["missile","fire","fire_missile","frost_missile","ball_lightning","impact","impact_arcane","impact_fire","impact_ice","impact_lightning","hurt","enemy","enemy_melee","enemy_bow","enemy_magic","enemy_death","boss_attack","boss_death","potion","mana","loot","item","ui","spell_switch","ritual","chest","urn","teleport","portal","shield","shield_hit","circle","freeze","ring_fire","acid","undead","death","victory","level_up","step_stone","step_gravel"]
 const CHANNELS: Array[String] = ["lightning","ice","flame_lash","steam","blizzard"]
+const SPELL_CASTS: Array[String] = ["missile","fire","fire_missile","frost_missile","ball_lightning","teleport","shield","shield_hit","circle","freeze","ring_fire","acid","undead"]
+const SPELL_DETAILS: Array[String] = ["impact_fire_missile","impact_frost_missile","impact_ball_lightning","orb_pulse","ether_pulse","ice_armor_hit"]
+const SPELL_IMPACTS: Dictionary = {"missile":"arcane","fire":"fire","fire_missile":"fire_missile","frost_missile":"frost_missile","ball_lightning":"ball_lightning"}
 const FAMILIES: Array[String] = ["skeleton","zombie","beast","armor","wraith","imp","demon"]
 const CREATURE_EVENTS: Array[String] = ["idle","alert","attack","hurt","death","step"]
 const ROOMS: Array[String] = ["crypt","library","prison","laboratory","chapel","ruins"]
@@ -24,7 +27,9 @@ var music_context: String = ""
 var channel_voice: AudioStreamPlayer
 var channel_id: String = ""
 var channel_timeout: float = 0.0
+var channel_deadline_msec: int = 0
 var channel_gain: float = 0.0
+var channel_released: bool = false
 var listener_position: Vector2 = Vector2.ZERO
 var enabled: bool = true
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -61,6 +66,10 @@ func _ready() -> void:
 	var effect_ids: Array[String] = EFFECTS.duplicate()
 	effect_ids.append_array(["dungeon_creak","dungeon_stone"])
 	effect_ids.append_array(DETAILS)
+	effect_ids.append_array(SPELL_DETAILS)
+	for id: String in CHANNELS:
+		effect_ids.append("cast_"+id)
+		effect_ids.append("release_"+id)
 	for boss: String in BOSSES:
 		for event: String in ["alert","warning","death"]: effect_ids.append("boss_"+boss+"_"+event)
 	for family: String in FAMILIES:
@@ -123,9 +132,9 @@ func _ready() -> void:
 		add_child(player)
 		music_players.append(player)
 	channel_voice = AudioStreamPlayer.new()
-	channel_voice.bus = "GameAudio"
 	channel_voice.volume_db = -80
-	channel_voice.bus = "WorldEffects"
+	# Authored magic already has its own short tails; room reverb blurred rapid casts.
+	channel_voice.bus = "GameAudio"
 	add_child(channel_voice)
 	var ambient_ids: Array[String] = ["cave","torch","village"]
 	ambient_ids.append_array(ROOMS)
@@ -177,10 +186,15 @@ func _process(delta: float) -> void:
 		music_players[i].stream_paused = paused and music_context=="exploration"
 		music_players[i].volume_db = linear_to_db(maxf(0.0001,music_weights[i]*music_volume))-7.0+2.0*tension-4.0*danger_gain-(7.0 if paused else 0.0)
 		if music_weights[i]==0.0 and target==0.0: music_players[i].stop()
-	channel_timeout = maxf(0.0,channel_timeout-delta)
+	# Physics may refresh the channel just before a long render frame. Subtracting
+	# that frame's entire delta would falsely release a still-held spell.
+	channel_timeout = maxf(0.0,(channel_deadline_msec-Time.get_ticks_msec())/1000.0)
 	var active: bool = channel_timeout>0.0 and not paused
+	if not active and not channel_id.is_empty() and not channel_released:
+		channel_released = true
+		if not paused: play("release_"+channel_id,listener_position)
 	channel_gain = move_toward(channel_gain,1.0 if active else 0.0,delta/0.065)
-	channel_voice.volume_db = linear_to_db(maxf(0.0001,channel_gain*effects_volume))-9.0-5.0*danger_gain
+	channel_voice.volume_db = linear_to_db(maxf(0.0001,channel_gain*effects_volume))-13.0-5.0*danger_gain
 	if channel_gain==0.0 and channel_voice.playing:
 		channel_voice.stop()
 		channel_id = ""
@@ -238,18 +252,32 @@ func start_track(context: String) -> void:
 
 func sustain(id: String) -> void:
 	if not enabled or get_tree().paused or not channel_streams.has(id): return
-	channel_timeout = 0.09
-	if channel_id==id and channel_voice.playing: return
+	channel_deadline_msec = Time.get_ticks_msec()+110
+	channel_timeout = 0.11
+	if channel_id==id and channel_voice.playing and not channel_released: return
+	# Switching or retriggering cancels the previous phase rather than stacking it.
+	clear_channel_phases()
 	channel_id = id
+	channel_released = false
 	channel_gain = 0.0
 	channel_voice.volume_db = -80
 	channel_voice.stream = channel_streams[id]
-	channel_voice.play()
+	channel_voice.pitch_scale = rng.randf_range(0.98,1.02)
+	channel_voice.play(rng.randf_range(0.0,maxf(0.0,channel_voice.stream.get_length()-1.0)))
+	play("cast_"+id,listener_position)
+
+func clear_channel_phases() -> void:
+	for voice: AudioStreamPlayer2D in voices:
+		var id: String = String(voice.get_meta("sound_id",""))
+		if id.begins_with("cast_") or id.begins_with("release_"): voice.stop()
 
 func stop_channel() -> void:
 	channel_timeout = 0.0
+	channel_deadline_msec = 0
 	channel_gain = 0.0
 	channel_id = ""
+	channel_released = false
+	clear_channel_phases()
 	if is_instance_valid(channel_voice): channel_voice.stop()
 
 func play(id: String, position: Vector2 = Vector2.INF, gain_adjust: float = 0.0, pitch: float = 1.0, occluded: bool = false) -> bool:
@@ -259,11 +287,20 @@ func play(id: String, position: Vector2 = Vector2.INF, gain_adjust: float = 0.0,
 	var interval: int = 65 if id.begins_with("impact") else (280 if id.begins_with("step") else 90)
 	if id.begins_with("creature_"): interval = 240 if id.ends_with("_step") else 450
 	if id=="loot": interval = 180
+	if id=="orb_pulse": interval = 170
+	if id=="ice_armor_hit": interval = 220
 	if id.begins_with("loot_"): interval = 1400
 	if id.begins_with("room_") or id.begins_with("village_"): interval = 5000
 	if now-int(last_played.get(id,-10000))<interval: return false
 	if position!=Vector2.INF and position.distance_to(listener_position)>1100: return false
 	var priority: int = int(PRIORITY.get(id,3))
+	var spell: bool = id in SPELL_CASTS or id in SPELL_DETAILS or id.begins_with("impact_") or id.begins_with("cast_") or id.begins_with("release_")
+	if spell: priority = maxi(priority,5)
+	if id.begins_with("impact_") or id=="orb_pulse":
+		var impacts: int = 0
+		for voice: AudioStreamPlayer2D in voices:
+			if voice.playing and (String(voice.get_meta("sound_id","")).begins_with("impact_") or voice.get_meta("sound_id","")=="orb_pulse"): impacts += 1
+		if impacts>=6: return false
 	if id.begins_with("creature_"):
 		priority = 1 if id.ends_with("_idle") or id.ends_with("_step") else (6 if id.ends_with("_alert") else 4)
 	if id.begins_with("dungeon_"): priority = 0
@@ -285,6 +322,7 @@ func play(id: String, position: Vector2 = Vector2.INF, gain_adjust: float = 0.0,
 	last_played[id] = now
 	chosen.stream = variants[index]
 	chosen.bus = "GameAudio" if position==Vector2.INF else "WorldEffects"
+	if spell: chosen.bus = "GameAudio"
 	if occluded and position!=Vector2.INF: chosen.bus = "OccludedEffects"
 	chosen.global_position = listener_position if position==Vector2.INF else position
 	chosen.panning_strength = 0.0 if position==Vector2.INF else 0.65
@@ -299,6 +337,9 @@ func play(id: String, position: Vector2 = Vector2.INF, gain_adjust: float = 0.0,
 	if id in ["inventory_open","book_open","equip_staff","equip_ring","unequip","trade"]: gain = -14.0
 	if id in ["ui","spell_switch"]: gain = -16.0
 	if id in ["death","victory","level_up"]: gain = -10.0
+	if spell: gain = -9.0 if id.begins_with("impact_") else -7.0
+	if id.begins_with("release_"): gain = -15.0
+	if id in ["orb_pulse","ice_armor_hit"]: gain = -16.0
 	gain += gain_adjust
 	chosen.set_meta("gain",gain)
 	chosen.set_meta("priority",priority)
@@ -377,10 +418,7 @@ func set_room(style: String) -> void:
 	room_players[room_target].play(rng.randf_range(0.0,5.0))
 
 func impact(id: String, position: Vector2, target_kind: String = "stone") -> void:
-	var kind: String = "arcane"
-	if id in ["fire","fire_missile"]: kind = "fire"
-	elif id=="frost_missile": kind = "ice"
-	elif id=="ball_lightning": kind = "lightning"
+	var kind: String = SPELL_IMPACTS.get(id,"arcane")
 	play("impact_"+kind,position)
 	hit_material(target_kind,position)
 

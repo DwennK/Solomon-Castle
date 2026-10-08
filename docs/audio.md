@@ -2,7 +2,7 @@
 
 ## Ressources
 
-268 fichiers locaux (39,4 Mio), issus de 16 collections gratuites sous CC0 / CC BY. Aucun son de Solomon’s Keep. Les 78 ressources synthétiques précédentes sont remplacées ; le jeu ne dépend d’aucun service audio distant.
+338 fichiers locaux (41,8 Mio), issus de 20 collections gratuites sous CC0 / CC BY. Aucun son de Solomon’s Keep. Les 78 ressources synthétiques précédentes sont remplacées ; le jeu ne dépend d’aucun service audio distant.
 
 | Contexte | Composition | Auteur | Durée adaptée |
 |---|---|---|---|
@@ -16,6 +16,31 @@
 Les pistes menu, village et boss sont recadrées et raccordées avec un fondu de boucle. Les trois compositions d’exploration alternent sans répétition immédiate, avec 9 à 17 secondes de transition vers le silence entre deux pistes ; les changements d’étage ne relancent pas le morceau. Leur lecture et le compte à rebours du silence se suspendent en pause. Les bruitages sont convertis à 44,1 kHz mono, débarrassés du silence de bord, équilibrés et fondus sur leurs extrémités. Certaines textures combinent plusieurs sources avec filtrage, variation de hauteur ou réverbération. Les musiques et ambiances sont en Ogg Vorbis, les effets courts en WAV PCM 16 bits.
 
 Crédits complets : [Audio-Attribution.txt](licenses/Audio-Attribution.txt). Ils sont aussi accessibles dans le jeu et compilés dans les exports. Le manifeste `assets/audio/audio_manifest.json` donne chaque fichier source, durée, format, niveau et SHA-256. `sources.json` fixe les téléchargements et leurs empreintes. Les notices des auteurs priment sur les étiquettes de collection ; le cas Dark chamber (notice CC BY 4.0, étiquette 3.0) y est documenté.
+
+## Identité sonore des sorts
+
+104 fichiers de sorts sont dessinés spécifiquement, dont 70 nouveaux fichiers de variantes et de phases. Le départ des projectiles dure 0,28 à 0,50 seconde ; leurs attaques deviennent audibles en moins de 25 ms dans le fichier. Les tirs répétés ne superposent plus des mélodies ou des traînes de plusieurs secondes.
+
+| Sort | Signature |
+|---|---|
+| Missile astral | Impulsion magique nette et souffle court |
+| Boule de feu | Embrasement grave, souffle puis combustion à l’impact |
+| Foudre | Décharge initiale, arcs électriques entretenus, dissipation brève |
+| Jet de glace | Fractures cristallines, souffle froid et fragments |
+| Missile de feu | Noyau arcanique et combustion, conservés à l’impact |
+| Missile de givre | Noyau arcanique, fracture et éclats glacés à l’impact |
+| Boule de foudre | Masse arcanique électrifiée ; impulsions uniquement lorsqu’elle touche une cible |
+| Fouet de flammes | Feu et arcs électriques entrelacés |
+| Vapeur | Véritables enregistrements de jets et sifflements de vapeur |
+| Blizzard | Souffle glacé, cristaux et arcs électriques |
+| Téléportation / bouclier / cercle | Aspiration puis départ ; résonance protectrice ; soin lumineux |
+| Gel / anneau de feu / acide / peur des morts-vivants | Expansion de glace ; déflagration ; liquide et corrosion ; aspiration sombre |
+
+Nouvelles sources : [Magic SFX Sample de ViRiX](https://opengameart.org/content/magic-sfx-sample), [Ice & Electricity Magic de qubodup](https://opengameart.org/content/ice-electricity-magic), [Ice spells](https://opengameart.org/content/ice-spells) et [Steam release sounds](https://opengameart.org/content/steam-release-sounds) de bart. Les deux premières sont sous CC BY 3.0, les deux autres sous CC0 ; crédits intégraux dans la notice et dans le jeu.
+
+Chaque sort et chaque phase courte a trois variantes. Les canalisations ont une attaque unique, huit secondes de texture bouclée avec grains irréguliers et une extinction propre à l’élément. Maintenir le bouton ne relance pas l’attaque ; changer de sort, ouvrir un menu ou quitter le monde coupe les phases précédentes. Une échéance monotone évite de relancer artificiellement un sort à cause du delta d’une image lente. Les contacts d’orbe, l’impulsion d’éther et les impacts sur l’armure de glace disposent de sons dédiés.
+
+Les nouveaux sorts n’ajoutent pas de réverbération de pièce à leurs fins déjà dessinées, pour préserver la lisibilité. Les canalisations restent sous leurs transitoires d’attaque. Six impacts simultanés maximum laissent de la place aux nouveaux tirs et aux alertes.
 
 ## Créatures et environnement
 
@@ -45,9 +70,12 @@ Les cinq sorts continus utilisent des textures échantillonnées à niveau modé
 ./tools/godot.sh --headless --path . --editor --import --quit
 ./tools/godot.sh --path . --resolution 1440x900 tests/audio_qa.tscn -- --qa
 .tools-venv/bin/python tools/check_audio.py
+.tools-venv/bin/python tools/check_spell_audio.py
 ./tools/godot.sh --headless --path . tests/tests.tscn -- --test
 ```
 
 `tools/make_audio.py` est un alias vers ce pipeline et ne régénère plus les anciens sons. L’encodeur Vorbis est alimenté par blocs pour éviter un plantage natif observé avec les longues pistes. Les dépendances Python restent celles de `tools/audio-requirements.txt` et ne sont pas embarquées dans le jeu.
 
 La QA native utilise les sauvegardes de test et enregistre le vrai mélange Godot dans `outputs/audio-qa/gameplay-mix.wav`. Elle vérifie les textures de salle, le village, les silences et rotations de la musique, les matières, les alertes des quatre boss avant attaque, le filtrage des murs, les ouvertures réelles d’inventaire et de grimoire, ainsi que les déclenchements réels des ennemis, la portée, l’atténuation, les budgets de voix, les transitions, les canalisations, la pause, les volumes et l’accès aux crédits. Le contrôle des fichiers vérifie silence, saturation, coutures de boucles, formats, empreintes et provenance. Ces mesures ne remplacent pas l’appréciation musicale du joueur.
+
+Pour reconstruire uniquement les sorts : `.tools-venv/bin/python tools/design_spell_audio.py`. L’import complet appelle la même fonction. L’extraction initiale de l’archive 7z de qubodup requiert `bsdtar` (libarchive, fourni sur macOS) ; aucun outil supplémentaire n’est nécessaire pour jouer ou exporter. `tools/render_spell_preview.py` produit une audition hors moteur avec un déroulé JSON, et une comparaison avec les anciens sons lorsque `outputs/spell-audio/before/` est présent.

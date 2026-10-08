@@ -91,93 +91,105 @@
   },
   "missile": {
     "file": "missile.wav",
-    "seconds": 0.694,
+    "seconds": 0.28,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -21.62,
+    "peak_db": -2.4,
+    "rms_db": -15.92,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_01.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "68f716528d2e86d1f7de599d3951c5f8d813f8d1cafe436c7165eab7b5653296"
+    "sha256": "f52d7ec3903c757e536b7161166222d274aed74ca870a3e36c43ada2f29de6d5"
   },
   "fire": {
     "file": "fire.wav",
-    "seconds": 1.213,
+    "seconds": 0.43,
     "loop": false,
-    "peak_db": -3.95,
-    "rms_db": -18.42,
+    "peak_db": -4.06,
+    "rms_db": -15.92,
     "channels": 1,
     "sources": [
       {
-        "collection": "fire-staff-sound-effects",
-        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 1-Audio.wav"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "2bb1e734428d4545d2da318d62f9cedbeb8d448f34a7d9cbcff20453adff01a3"
+    "sha256": "9e5e70592a272c348d6030cb97b0b72748609e2309178aa55a2f1a62787bb488"
   },
   "impact_arcane": {
     "file": "impact_arcane.wav",
-    "seconds": 0.523,
+    "seconds": 0.23,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -21.76,
+    "peak_db": -3.06,
+    "rms_db": -16.48,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_02.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
       }
     ],
-    "sha256": "8e497fd2478164a55db7e963c91d9e669bcdea2d5b57a890118ee85127024f3e"
+    "sha256": "c6503e9c58e5b71b63b4914b8cd7eb9b88155c20bbe54ea2e9431758e20ff38b"
   },
   "impact_fire": {
     "file": "impact_fire.wav",
-    "seconds": 1.614,
+    "seconds": 0.638,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -24.84,
+    "peak_db": -3.59,
+    "rms_db": -16.48,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_fire_03.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
       }
     ],
-    "sha256": "88b0462a5a54d0dc9c6fe212e0e39a280bd27613420d87d355da2145d18a593e"
+    "sha256": "47ccbd324934862a436a8bd582cf1938d18b106c265d0574e2d0a7e28860e288"
   },
   "impact_ice": {
     "file": "impact_ice.wav",
-    "seconds": 0.62,
+    "seconds": 0.55,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -26.01,
+    "rms_db": -26.3,
     "channels": 1,
     "sources": [
       {
-        "collection": "ice-breakingshattering",
-        "file": "extracted/IceShatters/LedasLuzta.ogg"
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
       }
     ],
-    "sha256": "6c340e4ba012a3f4907e358951d8a34c5b1026749195f9f990a49be096439ae8"
+    "sha256": "baf31ebc57ccca8b741357c47607798b10e00f96344beefeaf0d25d0171206cc"
   },
   "impact_lightning": {
     "file": "impact_lightning.wav",
-    "seconds": 0.711,
+    "seconds": 0.32,
     "loop": false,
-    "peak_db": -2.55,
-    "rms_db": -18.42,
+    "peak_db": -2.16,
+    "rms_db": -21.33,
     "channels": 1,
     "sources": [
       {
-        "collection": "spell-sounds",
-        "file": "electricspell.ogg"
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
       }
     ],
-    "sha256": "4a56eaae20346f7188ffb3207a41e4ed2fd1c6a1c1f5f87668df2c922866d1b5"
+    "sha256": "6118bf3fcbfc6731d22a407ca8b23ef181a9ddeee16a2aafbb62d3126d891101"
   },
   "loot": {
     "file": "loot.wav",
@@ -301,93 +313,105 @@
   },
   "missile_2": {
     "file": "missile_2.wav",
-    "seconds": 0.519,
+    "seconds": 0.28,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -22.21,
+    "rms_db": -15.92,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_02.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "5066c252e43e25b2bf30a70c240611bc800c1f9bde1dec768c95d7f05dd4dab6"
+    "sha256": "759adb1d478006ed7e842e75a60ecb5d56366f093481ef1c7870da2c3b658d9c"
   },
   "fire_2": {
     "file": "fire_2.wav",
-    "seconds": 1.25,
+    "seconds": 0.43,
     "loop": false,
-    "peak_db": -5.0,
-    "rms_db": -18.42,
+    "peak_db": -4.29,
+    "rms_db": -15.92,
     "channels": 1,
     "sources": [
       {
-        "collection": "fire-staff-sound-effects",
-        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 2-Audio.wav"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "b1ffebbee97408fca9a4965325b03163a65b0879391e4b8f4cd4470cb3b46fa3"
+    "sha256": "059a61c2c6aef74ff191cd1b38996ec52e1a4c6494b17ab37dcd89501fcf7702"
   },
   "impact_arcane_2": {
     "file": "impact_arcane_2.wav",
-    "seconds": 0.521,
+    "seconds": 0.23,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -21.84,
+    "peak_db": -3.31,
+    "rms_db": -16.48,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_02.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
       }
     ],
-    "sha256": "57cf6c3338ce2b2d2c2f28dcec1486c3256d2612df2825f2a5a13183d94e6ea0"
+    "sha256": "6057b3cf638f40cb756b2c5a08f39ef7503a68882d83ac664fab649b3b37d31e"
   },
   "impact_fire_2": {
     "file": "impact_fire_2.wav",
-    "seconds": 1.264,
+    "seconds": 0.65,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -25.71,
+    "peak_db": -3.34,
+    "rms_db": -16.48,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_fire_04.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
       }
     ],
-    "sha256": "1aef0c2e5002f82d1253d1ad2be4bff35e425020a11cb7348d903dff3baf7927"
+    "sha256": "3470d5886e7d3c3b73b26458d2cd3e19b1e7019c46c53178fa9a7da8a9865c0b"
   },
   "impact_ice_2": {
     "file": "impact_ice_2.wav",
-    "seconds": 0.536,
+    "seconds": 0.55,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -27.88,
+    "rms_db": -25.23,
     "channels": 1,
     "sources": [
       {
-        "collection": "ice-breakingshattering",
-        "file": "extracted/IceShatters/LedasLuzta2.ogg"
+        "collection": "ice-spells",
+        "file": "extracted/ice.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
       }
     ],
-    "sha256": "fdc42455a0519f9bcb5501cfdeea5752c323d85e0d8fb9a0aec60ad74b2b97c6"
+    "sha256": "df806a62c29f0e0f08297d58071a3f06e0fb343ee6fd98084d3cd1e501ff0c85"
   },
   "impact_lightning_2": {
     "file": "impact_lightning_2.wav",
-    "seconds": 0.712,
+    "seconds": 0.32,
     "loop": false,
-    "peak_db": -2.42,
-    "rms_db": -18.42,
+    "peak_db": -2.16,
+    "rms_db": -21.94,
     "channels": 1,
     "sources": [
       {
-        "collection": "spell-sounds",
-        "file": "electricspell.ogg"
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
       }
     ],
-    "sha256": "152d283cf59944f6ca725f16d831e2eb1ba5e7550a0a5a189ce2cab5f3173c48"
+    "sha256": "76026fbb20cbee33499c6c4351a74f1a2cc17fa0661b6a20b1d029ac15ec6f1a"
   },
   "loot_2": {
     "file": "loot_2.wav",
@@ -511,93 +535,105 @@
   },
   "missile_3": {
     "file": "missile_3.wav",
-    "seconds": 0.667,
+    "seconds": 0.278,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -21.6,
+    "rms_db": -16.73,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_01.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "f8fd23460b9c1433974a013fe56580662f3c2eb0156cc2b04b4bc6bba0668652"
+    "sha256": "3d41a5981dc641cd1ad9de00da6c36a21546db7e5e8a90bb3524fcc5388ddae9"
   },
   "fire_3": {
     "file": "fire_3.wav",
-    "seconds": 1.25,
+    "seconds": 0.423,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -18.82,
+    "peak_db": -4.02,
+    "rms_db": -15.92,
     "channels": 1,
     "sources": [
       {
-        "collection": "fire-staff-sound-effects",
-        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 3-Audio.wav"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "005ccf768161a8fb6308f508661b2bb47c4c5a6aed97d281c06fa10a2eae952d"
+    "sha256": "95047e9f51c353a34c5ab181e2dc55e23dfa7b4574a84fdd7e34d846f0262d05"
   },
   "impact_arcane_3": {
     "file": "impact_arcane_3.wav",
-    "seconds": 0.504,
+    "seconds": 0.23,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -22.08,
+    "peak_db": -2.28,
+    "rms_db": -16.48,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_02.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
       }
     ],
-    "sha256": "608ad798d24db778153420dc5d2dd87c03db130871c3f529460f3b3ca0406ff1"
+    "sha256": "8a7810015d866b55361c66a7c38f7a2fc9b13b8c65a026f4db088f0d57e01ee6"
   },
   "impact_fire_3": {
     "file": "impact_fire_3.wav",
-    "seconds": 1.205,
+    "seconds": 0.643,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -19.58,
+    "peak_db": -3.29,
+    "rms_db": -16.48,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_fire_05.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
       }
     ],
-    "sha256": "ea8d9941af947af7d84840339a23a8305971c25c3deae95d0f2a724bd7a5bc6b"
+    "sha256": "373301198423494c192444f869a94240aa036e12ba42682573279cf167810e09"
   },
   "impact_ice_3": {
     "file": "impact_ice_3.wav",
-    "seconds": 0.856,
+    "seconds": 0.55,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -25.01,
+    "rms_db": -26.05,
     "channels": 1,
     "sources": [
       {
-        "collection": "ice-breakingshattering",
-        "file": "extracted/IceShatters/LedasLuzta4.ogg"
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
       }
     ],
-    "sha256": "b04d6b7e9e3a15ec9741023c35b8aacaeb6d3761ea37a31ee83133169445e01d"
+    "sha256": "943b8bf89c2fd1479f76ff920766e52100c9e93c1fa5189c1f5d5420d10ab455"
   },
   "impact_lightning_3": {
     "file": "impact_lightning_3.wav",
-    "seconds": 0.712,
+    "seconds": 0.32,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -18.59,
+    "rms_db": -22.89,
     "channels": 1,
     "sources": [
       {
-        "collection": "spell-sounds",
-        "file": "electricspell.ogg"
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
       }
     ],
-    "sha256": "109637478f65ba69fb1ad8a99a7faf500849a697d789c8855a2ae11cd8553eb6"
+    "sha256": "fdad026806e5df59f0130b37953ed137e97cf26f7ad32cce37e29a213feb8346"
   },
   "loot_3": {
     "file": "loot_3.wav",
@@ -721,56 +757,64 @@
   },
   "fire_missile": {
     "file": "fire_missile.wav",
-    "seconds": 1.4,
+    "seconds": 0.46,
     "loop": false,
-    "peak_db": -3.91,
-    "rms_db": -18.42,
+    "peak_db": -2.29,
+    "rms_db": -15.92,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/spell_01.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
       },
       {
-        "collection": "fire-staff-sound-effects",
-        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 5-Audio.wav"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
       }
     ],
-    "sha256": "f540d4c967ab50cdbb8d8eb4c13710a8d6de92bca7811449f75d338c47ecd895"
+    "sha256": "4befb4585ef4057c03bf547742d4a33844fadcd121821630be90689c967b2880"
   },
   "frost_missile": {
     "file": "frost_missile.wav",
-    "seconds": 0.837,
+    "seconds": 0.4,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -20.73,
+    "rms_db": -18.11,
     "channels": 1,
     "sources": [
       {
-        "collection": "fantasy-sound-effects-library",
-        "file": "extracted/Fantasy Sound Library/Wav/Spell_01.wav"
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
       },
       {
-        "collection": "ice-breakingshattering",
-        "file": "extracted/IceShatters/LedasLuzta5.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
       }
     ],
-    "sha256": "74d67a116bccf5e131e6d076d417860a61a89836186b324d11ba74e348d3a6ef"
+    "sha256": "1481b910035a40f9e235ffc6977bf9f534078c93aca1ccb50e627012b6e9ffc0"
   },
   "ball_lightning": {
     "file": "ball_lightning.wav",
-    "seconds": 1.043,
+    "seconds": 0.5,
     "loop": false,
-    "peak_db": -4.21,
-    "rms_db": -18.42,
+    "peak_db": -2.16,
+    "rms_db": -18.54,
     "channels": 1,
     "sources": [
       {
-        "collection": "spell-sounds",
-        "file": "electricspell2.ogg"
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
       }
     ],
-    "sha256": "1a81e6fada88fca34b224ae6cc75fba4dcbb48dd0e8ef9048d7ee2a96af45d88"
+    "sha256": "b17fa9a56876ed3ca7e70033d865a571441b19142c5ae4c34ae29a11c13b32bc"
   },
   "impact": {
     "file": "impact.wav",
@@ -966,18 +1010,22 @@
   },
   "teleport": {
     "file": "teleport.wav",
-    "seconds": 1.179,
+    "seconds": 0.546,
     "loop": false,
-    "peak_db": -4.92,
-    "rms_db": -18.42,
+    "peak_db": -2.16,
+    "rms_db": -18.51,
     "channels": 1,
     "sources": [
       {
-        "collection": "spell-sounds",
-        "file": "teleport.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "cb62287411970a8d4a8734a801c5bebe8cb84af0cccc76dd68bd65141c88ba53"
+    "sha256": "e49aaacfcfb7f25588788b23baa1f9bd0d19de42a51b9df4bd1b7926248cab95"
   },
   "portal": {
     "file": "portal.wav",
@@ -996,112 +1044,132 @@
   },
   "shield": {
     "file": "shield.wav",
-    "seconds": 1.857,
+    "seconds": 0.564,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -19.34,
+    "rms_db": -18.44,
     "channels": 1,
     "sources": [
       {
-        "collection": "fantasy-sound-effects-library",
-        "file": "extracted/Fantasy Sound Library/Wav/Spell_00.wav"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
       }
     ],
-    "sha256": "ccf1c997ea14a64d8263be97db2c8e894dcdc18c6024360c24269c7a16d9554e"
+    "sha256": "5554964b7b1ce14665983577d9e087da8d7cfcd6d94a8238702ee8b3aa8f4e83"
   },
   "shield_hit": {
     "file": "shield_hit.wav",
-    "seconds": 0.528,
+    "seconds": 0.19,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -20.64,
+    "peak_db": -3.2,
+    "rms_db": -17.08,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/metal_02.ogg"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
       }
     ],
-    "sha256": "79c898bb504b254c6d3f924ef40f8ecc4aa91d83dd99452df84a76ca1741bbfd"
+    "sha256": "13e7477b32cb22412d5fe3e8526174d04c5763ae8493192e376f9cdd37aefaa1"
   },
   "circle": {
     "file": "circle.wav",
-    "seconds": 4.354,
+    "seconds": 1.072,
     "loop": false,
-    "peak_db": -6.64,
-    "rms_db": -18.42,
+    "peak_db": -2.16,
+    "rms_db": -21.6,
     "channels": 1,
     "sources": [
       {
-        "collection": "fantasy-sound-effects-library",
-        "file": "extracted/Fantasy Sound Library/Wav/Spell_04.wav"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Healing Full.wav"
       }
     ],
-    "sha256": "6dccc53b02a78870af23f48079658a4db4d559d1b907e7ec5daca32fd89bca5b"
+    "sha256": "c0207199cf246c7ceaf103c4ad676dc24e3b057bde3446c9444c09f7f326f2b2"
   },
   "freeze": {
     "file": "freeze.wav",
-    "seconds": 1.126,
+    "seconds": 0.949,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -24.46,
+    "rms_db": -23.1,
     "channels": 1,
     "sources": [
       {
-        "collection": "ice-breakingshattering",
-        "file": "extracted/IceShatters/LedasLuzta4.ogg"
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
       }
     ],
-    "sha256": "10c706a2c7048244b9637f68a17726f0858af260e3706ea1100d4bf6155ccebc"
+    "sha256": "0702b9a2635143bcc5c3b09d896bb6345270a83ea77f83c3e65b645bb8539b61"
   },
   "ring_fire": {
     "file": "ring_fire.wav",
-    "seconds": 2.0,
+    "seconds": 1.098,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -22.5,
+    "peak_db": -2.77,
+    "rms_db": -17.08,
     "channels": 1,
     "sources": [
       {
-        "collection": "fire-staff-sound-effects",
-        "file": "extracted/LEGIT Audio_FIRE STAFF - FREE/Wavs/LEGIT_FIR_Fire_Staff 12-Audio.wav"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "1ef4dedc25bb6a090101cf44a192ea6184ad5abdd6988efe879d8899ff6182c3"
+    "sha256": "c15572f0de2e2e26947c9276f5d0594d0811b541078f0cefc26e4a59f2872a80"
   },
   "acid": {
     "file": "acid.wav",
-    "seconds": 0.505,
+    "seconds": 0.777,
     "loop": false,
     "peak_db": -2.16,
-    "rms_db": -21.9,
+    "rms_db": -25.72,
     "channels": 1,
     "sources": [
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/creature_slime_02.ogg"
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_04.ogg"
       },
       {
-        "collection": "80-cc0-rpg-sfx",
-        "file": "extracted/creature_slime_04.ogg"
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #1.wav"
       }
     ],
-    "sha256": "dcda9e0fb679f18032f65489bb81ecdca7ee535dc2b4623cbbe3bf97138df83e"
+    "sha256": "7fb8b698018b4e84ec88b52a9912819a81a2a10573a566d0a07604fe39768c86"
   },
   "undead": {
     "file": "undead.wav",
-    "seconds": 2.539,
+    "seconds": 0.857,
     "loop": false,
-    "peak_db": -2.16,
-    "rms_db": -19.01,
+    "peak_db": -4.22,
+    "rms_db": -17.08,
     "channels": 1,
     "sources": [
       {
-        "collection": "fantasy-sound-effects-library",
-        "file": "extracted/Fantasy Sound Library/Wav/Goblin_04.wav"
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "a1f924f764e16146a4d3e3c013d286404dbbfc49291fafa7bf382e656d3bfa0c"
+    "sha256": "0e0e27d5452237f2c927fd8a62ba447b6ef5f39dc3fdc93b6e4d140370ba907d"
   },
   "death": {
     "file": "death.wav",
@@ -3208,78 +3276,122 @@
   },
   "channel_lightning": {
     "file": "channel_lightning.wav",
-    "seconds": 3.1,
+    "seconds": 8.0,
     "loop": true,
-    "peak_db": -2.48,
-    "rms_db": -23.1,
+    "peak_db": -2.16,
+    "rms_db": -22.3,
     "channels": 1,
     "sources": [
       {
-        "collection": "spell-sounds",
-        "file": "electricspell.ogg"
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
       }
     ],
-    "sha256": "27e6294a5c48fe4ba703c3e2e694c95c9a847ecb833f6427d957e619cf03c291"
+    "sha256": "aec31a3a17fd5701d5c9195bf10ad33f3cfa9cd6da98f0c1d492c2da485edd27"
   },
   "channel_ice": {
     "file": "channel_ice.wav",
-    "seconds": 5.6,
+    "seconds": 8.0,
     "loop": true,
-    "peak_db": -2.3,
-    "rms_db": -23.1,
+    "peak_db": -2.16,
+    "rms_db": -20.46,
     "channels": 1,
     "sources": [
       {
-        "collection": "ice-breakingshattering",
-        "file": "extracted/IceShatters/LedasLuzta4.ogg"
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "ice-spells",
+        "file": "extracted/ice.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "31e687ee4f89a677af3b735ed0b8054cd1ef92b93f6090e180b5db0fbf8000c9"
+    "sha256": "b2a4d032d854bb3ac445449e4d510f26ca59e1f23c72a39cde0f0eb434ef2e55"
   },
   "channel_flame_lash": {
     "file": "channel_flame_lash.wav",
-    "seconds": 5.6,
+    "seconds": 8.0,
     "loop": true,
-    "peak_db": -7.01,
-    "rms_db": -23.1,
+    "peak_db": -5.05,
+    "rms_db": -19.58,
     "channels": 1,
     "sources": [
       {
-        "collection": "fireplace-sound-loop",
-        "file": "fire.wav"
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
       }
     ],
-    "sha256": "f31e14e3f17698e7a4c0987b5635d14a03a65392b111d73c76b3ba25aaa631ce"
+    "sha256": "22cc68b8301648274f2e7331088fdcc7644b362a92d3f8921da79b15dff091ca"
   },
   "channel_steam": {
     "file": "channel_steam.wav",
-    "seconds": 5.6,
+    "seconds": 8.0,
     "loop": true,
-    "peak_db": -8.54,
-    "rms_db": -23.1,
+    "peak_db": -3.95,
+    "rms_db": -19.58,
     "channels": 1,
     "sources": [
       {
-        "collection": "fireplace-sound-loop",
-        "file": "fire.wav"
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #1.wav"
+      },
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #2.wav"
+      },
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #3.wav"
       }
     ],
-    "sha256": "5480c07abe87510da4c126c4ed758d76d8bef1770324e5aeef64533cd325e16e"
+    "sha256": "642f719e248d76b1bd948efba7f4d43b1a82372e01be8a17b3fc1177acf5e9fb"
   },
   "channel_blizzard": {
     "file": "channel_blizzard.wav",
-    "seconds": 5.6,
+    "seconds": 8.0,
     "loop": true,
-    "peak_db": -2.16,
-    "rms_db": -24.21,
+    "peak_db": -3.45,
+    "rms_db": -19.58,
     "channels": 1,
     "sources": [
       {
-        "collection": "ice-breakingshattering",
-        "file": "extracted/IceShatters/LedasLuzta4.ogg"
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
       }
     ],
-    "sha256": "fd7d2ffc58175dc35f24432b02e2661c8f9c68646fc7ea2c5b54706338e9a225"
+    "sha256": "adc607720481b4aa337b9228991b4e74173539c538ec2e675bf9173aa90587e3"
   },
   "dungeon_creak": {
     "file": "dungeon_creak.wav",
@@ -4310,5 +4422,1323 @@
       }
     ],
     "sha256": "8bdd4ff129351a669634ea7ef662e33d440a720f0d96ed8ac13ef7101fb75125"
+  },
+  "impact_fire_missile": {
+    "file": "impact_fire_missile.wav",
+    "seconds": 0.66,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -16.63,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "eb3ce91a0ec5310374a6f3ef4069451c6961508e0a08be68959d8d904bbba190"
+  },
+  "impact_frost_missile": {
+    "file": "impact_frost_missile.wav",
+    "seconds": 0.7,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.69,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "d0b0c62e0d680bfb27c6e18d97460f4661502c0e10ece42bd775436d835853e9"
+  },
+  "impact_ball_lightning": {
+    "file": "impact_ball_lightning.wav",
+    "seconds": 0.58,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.24,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "a1dcc549b1db16b9b80bee35214b3ca3aa2b9389f4bbc13b1442c483f08d936a"
+  },
+  "orb_pulse": {
+    "file": "orb_pulse.wav",
+    "seconds": 0.16,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.73,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      }
+    ],
+    "sha256": "e65596be791d0c5758dd7dbe0f621802b7c1304184aac5f108a73655be497b5b"
+  },
+  "ether_pulse": {
+    "file": "ether_pulse.wav",
+    "seconds": 0.606,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.75,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "20227487854d15f3e45d2131b5e26a724c944ac74201888a63eac78b0c88b69b"
+  },
+  "ice_armor_hit": {
+    "file": "ice_armor_hit.wav",
+    "seconds": 0.26,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -32.07,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      }
+    ],
+    "sha256": "009c752017aafc840b0856c96f165903ca8707c9bd60cbe0b95d7b70da5b40e3"
+  },
+  "fire_missile_2": {
+    "file": "fire_missile_2.wav",
+    "seconds": 0.46,
+    "loop": false,
+    "peak_db": -2.42,
+    "rms_db": -15.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "e04523bf2b19d35bcee7125ec1e8e9e1f96b8ff47694647e40a31ba7d67e3576"
+  },
+  "frost_missile_2": {
+    "file": "frost_missile_2.wav",
+    "seconds": 0.4,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.35,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/ice.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "bdd7a9f4a78bf05b6a2e5adc011f14356f84f283a22fb0b4ab56d88ad220bd02"
+  },
+  "ball_lightning_2": {
+    "file": "ball_lightning_2.wav",
+    "seconds": 0.5,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.97,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "f0b36712fd26b7def33edf14a79fd7551a5282a74454f78bf08bed8dc309ef98"
+  },
+  "impact_fire_missile_2": {
+    "file": "impact_fire_missile_2.wav",
+    "seconds": 0.66,
+    "loop": false,
+    "peak_db": -2.36,
+    "rms_db": -16.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "dc56a5b56ae9da9a4932b5a3bc995e821b9ea1db7189864b6831dd16e8569a77"
+  },
+  "impact_frost_missile_2": {
+    "file": "impact_frost_missile_2.wav",
+    "seconds": 0.7,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.56,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/ice.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "01a2a125744b93157ec6dc59875c29194c750a4b4cb6d83d4f1f4e8109537168"
+  },
+  "impact_ball_lightning_2": {
+    "file": "impact_ball_lightning_2.wav",
+    "seconds": 0.58,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.04,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "4c8ca361c72cc9a7c9924a76a40d6bcd03aa302327fbc63d0b21e7c419167a8b"
+  },
+  "teleport_2": {
+    "file": "teleport_2.wav",
+    "seconds": 0.563,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.51,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "f1c715819cf4f956d92b929dc7a0c1a01d16858244e7b430c479e55462d74134"
+  },
+  "shield_2": {
+    "file": "shield_2.wav",
+    "seconds": 0.569,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.38,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "c55f39e72f993f90920f23691595a93e7a26863359055d3e369afc595391a034"
+  },
+  "shield_hit_2": {
+    "file": "shield_hit_2.wav",
+    "seconds": 0.19,
+    "loop": false,
+    "peak_db": -3.38,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "60c42ef30542aa2b8c557054c55087a86f4d1ca2dfebe3e2fba40831195877bf"
+  },
+  "circle_2": {
+    "file": "circle_2.wav",
+    "seconds": 1.082,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.4,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Healing Full.wav"
+      }
+    ],
+    "sha256": "91cf0fd4ef83b9df1c341f2829f9a273e8be688caf2b1e5eef980fc99974888f"
+  },
+  "freeze_2": {
+    "file": "freeze_2.wav",
+    "seconds": 0.949,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.34,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/ice.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      }
+    ],
+    "sha256": "006f73b141d98fee519aedc2a317c21243b064b43945ab97fea91d7563b29c27"
+  },
+  "ring_fire_2": {
+    "file": "ring_fire_2.wav",
+    "seconds": 1.103,
+    "loop": false,
+    "peak_db": -3.24,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "027b1e2d6771bae1453ddb80bffab603119a8d5dfe18e4b236f60a5ff03caed3"
+  },
+  "acid_2": {
+    "file": "acid_2.wav",
+    "seconds": 0.769,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -26.71,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_05.ogg"
+      },
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #2.wav"
+      }
+    ],
+    "sha256": "80aea6edffe38ff4a4aaaf8ef7647499437e36122945126e709b4f56a8825fc9"
+  },
+  "undead_2": {
+    "file": "undead_2.wav",
+    "seconds": 0.821,
+    "loop": false,
+    "peak_db": -4.22,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "ca9592c812942e28b86d0381c0f6ab503f381915f4fd5a80c7c3b3157b1eb7c7"
+  },
+  "orb_pulse_2": {
+    "file": "orb_pulse_2.wav",
+    "seconds": 0.16,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.07,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      }
+    ],
+    "sha256": "1971a0c0e07a0b96f3b300496ef18d82d041cb75d07007709f940f77e58505e7"
+  },
+  "ether_pulse_2": {
+    "file": "ether_pulse_2.wav",
+    "seconds": 0.619,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.04,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "53b2c12a58b812f10c015d18e7203c359152e2dd4250344079f0ae413a3c7546"
+  },
+  "ice_armor_hit_2": {
+    "file": "ice_armor_hit_2.wav",
+    "seconds": 0.26,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.89,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/ice.wav"
+      }
+    ],
+    "sha256": "392d28a27ad015333490031bb95bb0ed2c88cdc1cc49a0307a48517533baad94"
+  },
+  "fire_missile_3": {
+    "file": "fire_missile_3.wav",
+    "seconds": 0.46,
+    "loop": false,
+    "peak_db": -2.26,
+    "rms_db": -15.92,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "e965f653d179096e95c4c80bd9deeb38e40d726be88c79181e3fd36e8ba0f3f5"
+  },
+  "frost_missile_3": {
+    "file": "frost_missile_3.wav",
+    "seconds": 0.4,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.34,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "1c66a626d0fab1b1615e8bbb2de2a686da3d3cbd4e00593272ba71bda45d3cbc"
+  },
+  "ball_lightning_3": {
+    "file": "ball_lightning_3.wav",
+    "seconds": 0.5,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -20.31,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "0f072be8e068c5d27f77c937d651f109073caa972144bd6aaf0ee913ea76670d"
+  },
+  "impact_fire_missile_3": {
+    "file": "impact_fire_missile_3.wav",
+    "seconds": 0.66,
+    "loop": false,
+    "peak_db": -2.72,
+    "rms_db": -16.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "2f47568b05295bf272d7792b0716adffa3a3a78068e342ba4b46f4e718ec5e24"
+  },
+  "impact_frost_missile_3": {
+    "file": "impact_frost_missile_3.wav",
+    "seconds": 0.7,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.65,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "e7b7f8d466a1aa3a254f28271a407951c675b8b72e73e6f557298535e2c37673"
+  },
+  "impact_ball_lightning_3": {
+    "file": "impact_ball_lightning_3.wav",
+    "seconds": 0.58,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.79,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "a645c5f3c14f5c314740d6788d0696d274e1c68aae8848b44a0b389f519d83b9"
+  },
+  "teleport_3": {
+    "file": "teleport_3.wav",
+    "seconds": 0.563,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.76,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "c6e2b4df388e377626ac884f04e0404bf449a084ffd7f41c43455258711a2865"
+  },
+  "shield_3": {
+    "file": "shield_3.wav",
+    "seconds": 0.557,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -19.37,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "b6836e6dedf23bd63210331a80a146bc7d594ce16dc5c8f22768eec1d7369f85"
+  },
+  "shield_hit_3": {
+    "file": "shield_hit_3.wav",
+    "seconds": 0.19,
+    "loop": false,
+    "peak_db": -3.11,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      }
+    ],
+    "sha256": "76227c74dd1c529d401987d6c04174a188aaaf3b3eab0e8edd6edad65484a53f"
+  },
+  "circle_3": {
+    "file": "circle_3.wav",
+    "seconds": 1.088,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -21.55,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Healing Full.wav"
+      }
+    ],
+    "sha256": "ed329654ec08a974a6089fae8e34c5027091e10a5ed9ab5b1c5bec25c257e6b9"
+  },
+  "freeze_3": {
+    "file": "freeze_3.wav",
+    "seconds": 0.945,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.02,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      }
+    ],
+    "sha256": "69463f19f7cda1a4db5b560f68de0569a6fb51a33f824cd5d586f6999c52a4be"
+  },
+  "ring_fire_3": {
+    "file": "ring_fire_3.wav",
+    "seconds": 1.08,
+    "loop": false,
+    "peak_db": -2.76,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "b70e31558804d31fd85d9440795956900906555d6fae3ad5e6b4cc306ad9fd5e"
+  },
+  "acid_3": {
+    "file": "acid_3.wav",
+    "seconds": 0.772,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -27.73,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "40-cc0-water-splash-slime-sfx",
+        "file": "extracted/slime_06.ogg"
+      },
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #3.wav"
+      }
+    ],
+    "sha256": "b9cf8c8fff301d856c67087ed1216c740bd973e5f556e4e0743a1c78ae18924b"
+  },
+  "undead_3": {
+    "file": "undead_3.wav",
+    "seconds": 0.789,
+    "loop": false,
+    "peak_db": -4.05,
+    "rms_db": -17.08,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "ee78a9ab60ee048e48c694a4a1f4af2a578da58982594c16a6c698a5ac5b5ca1"
+  },
+  "orb_pulse_3": {
+    "file": "orb_pulse_3.wav",
+    "seconds": 0.16,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -24.6,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      }
+    ],
+    "sha256": "4d4403a2734bdb661c54470903e213135cbfa9f646953b80ad20b140075f648d"
+  },
+  "ether_pulse_3": {
+    "file": "ether_pulse_3.wav",
+    "seconds": 0.602,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -18.75,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Misc 02.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "4884b430fdacd9275bb9b6af0180124202f1b2ed528951e70ce868e11862846c"
+  },
+  "ice_armor_hit_3": {
+    "file": "ice_armor_hit_3.wav",
+    "seconds": 0.242,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -32.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      }
+    ],
+    "sha256": "b00302bd5fad8360767c60025ffe05c0cfdf4ae21938a599b8f1e2e6f3f30e7b"
+  },
+  "cast_lightning": {
+    "file": "cast_lightning.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.17,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      }
+    ],
+    "sha256": "7439f63f5bb1062a0afefd3ccde9413802c8cc3bfe2e3b5478838e491152ae38"
+  },
+  "release_lightning": {
+    "file": "release_lightning.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.95,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      }
+    ],
+    "sha256": "dc7a3b76a29a3e73940b6b2530a0fb8bfba7a7f8568bf216d3445e6bcca37fa9"
+  },
+  "cast_lightning_2": {
+    "file": "cast_lightning_2.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.5,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      }
+    ],
+    "sha256": "f16e2517eb107b6907fd51419ca1cfad4b9436ca4c12f725c69f0ff1da1529e2"
+  },
+  "release_lightning_2": {
+    "file": "release_lightning_2.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -22.36,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      }
+    ],
+    "sha256": "bb25e393f0e8dd8765e757e03a6f5b979013b60044658cab2b7ffe4a11bacee8"
+  },
+  "cast_lightning_3": {
+    "file": "cast_lightning_3.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.01,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      }
+    ],
+    "sha256": "824bc9fc9e9e06495d05dc83a66cd296a184d55dfeef5373b3c1a4f6aacd2c71"
+  },
+  "release_lightning_3": {
+    "file": "release_lightning_3.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -23.16,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      }
+    ],
+    "sha256": "01da5b8dc2c580f6e4983867a648a25ee81d2cb6c89a61abd0972372df47c4ae"
+  },
+  "cast_ice": {
+    "file": "cast_ice.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.47,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "49e7d2965b32a3bb84bf82b361a0504000299185c48749fbca71455d5a924db0"
+  },
+  "release_ice": {
+    "file": "release_ice.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -8.27,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "1e7e3d995e8af5f0766b448df66704543d3b8c11ca05d126607d65ba0c26776f"
+  },
+  "cast_ice_2": {
+    "file": "cast_ice_2.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.61,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/ice.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "a2de2a7781954fbb26de5a0e33d94a519a5f4c55a5ffdf6d140430ce5720504c"
+  },
+  "release_ice_2": {
+    "file": "release_ice_2.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -5.2,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/ice.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "3daba1c398cf43c34b2c3b6141812caba7c4c21179927ee5c5517973d68f452d"
+  },
+  "cast_ice_3": {
+    "file": "cast_ice_3.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.85,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "7ee7b4e88ff836372c147711f1dc16574ae74c400b1c0e6ba479ccf123e7efda"
+  },
+  "release_ice_3": {
+    "file": "release_ice_3.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -7.4,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-spells",
+        "file": "extracted/coldsnap.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "c2f071b01e55fc42b48b78c4d408d4509416bf328a00d3f5225e9d98e90b8598"
+  },
+  "cast_flame_lash": {
+    "file": "cast_flame_lash.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -5.84,
+    "rms_db": -16.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      }
+    ],
+    "sha256": "f2c93b8a1ddee035c2c5265613193c6858b5922046389fe9906cbb528a8b9f18"
+  },
+  "release_flame_lash": {
+    "file": "release_flame_lash.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -9.91,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      }
+    ],
+    "sha256": "d89ef3256c02619ede7cc36e62fcd962d8c8ab87514584804b292ee09d6a7099"
+  },
+  "cast_flame_lash_2": {
+    "file": "cast_flame_lash_2.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -4.55,
+    "rms_db": -16.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      }
+    ],
+    "sha256": "6e8597d9464254d48a23abc8466d45689f162311a68698c7d849327f5b91249d"
+  },
+  "release_flame_lash_2": {
+    "file": "release_flame_lash_2.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -8.87,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      }
+    ],
+    "sha256": "9ca65f99d991213207dace3e00eb2f93c4147f72b226a33bdb27bc9781c55bc2"
+  },
+  "cast_flame_lash_3": {
+    "file": "cast_flame_lash_3.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -5.61,
+    "rms_db": -16.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      }
+    ],
+    "sha256": "5d3ab50b9291ee26a462df31c4ab12e6254ef64593fdf5726f5c4817802b7f02"
+  },
+  "release_flame_lash_3": {
+    "file": "release_flame_lash_3.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -8.51,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Fire impact 1.wav"
+      }
+    ],
+    "sha256": "7ddd3aeb3e3e23001375b5181815fcf2574ef82562f3f27d93b78f6f287460b5"
+  },
+  "cast_steam": {
+    "file": "cast_steam.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.57,
+    "rms_db": -16.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #1.wav"
+      }
+    ],
+    "sha256": "e0765104a11216b2a4800c0badea4e87892b818596ea3e29b5a2c4031c415e18"
+  },
+  "release_steam": {
+    "file": "release_steam.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -6.37,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #1.wav"
+      }
+    ],
+    "sha256": "2a1796841f9dca0cce1119adf3c81559f0ac7435e766b83e74e952195284a2b2"
+  },
+  "cast_steam_2": {
+    "file": "cast_steam_2.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.43,
+    "rms_db": -16.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #2.wav"
+      }
+    ],
+    "sha256": "bcc7fbe8c64ce7de723a830aaef49c398dd42f36dfd3bbdfa415faaa655bded3"
+  },
+  "release_steam_2": {
+    "file": "release_steam_2.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -6.14,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #2.wav"
+      }
+    ],
+    "sha256": "0ec91d3ed1c8b99ef224021fa33cd66ca77f3168dc901f49d331b3989e767b47"
+  },
+  "cast_steam_3": {
+    "file": "cast_steam_3.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.63,
+    "rms_db": -16.48,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #3.wav"
+      }
+    ],
+    "sha256": "4fdb5162e031aa59df6476d24399db7550c934fc79cd87fb37af9d8f620c117e"
+  },
+  "release_steam_3": {
+    "file": "release_steam_3.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -7.64,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "steam-release-sounds",
+        "file": "extracted/steam hisses - Marker #3.wav"
+      }
+    ],
+    "sha256": "ff1522cd5b5d7ef2b94dbc835c73bb73eab34aca2f0ee10e7d0633a98120f9aa"
+  },
+  "cast_blizzard": {
+    "file": "cast_blizzard.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -16.51,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "6dd5c677ccf853ef89544889bde53c56c25f9727dcb1a867f85b0a18c2e50e6e"
+  },
+  "release_blizzard": {
+    "file": "release_blizzard.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -7.43,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "c576203fbaa09e0224801162987e905f0ed6e2376e08a6bada415d6cddfdcd85"
+  },
+  "cast_blizzard_2": {
+    "file": "cast_blizzard_2.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -16.62,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "a61d2b146865c3a80d4dabd98abaea7358ab662126360676f1af1cd108bb8f58"
+  },
+  "release_blizzard_2": {
+    "file": "release_blizzard_2.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -8.67,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage02.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "00378c172b86a3d73da6e2c693733e72b13780c761abbd35854f359bb78c6575"
+  },
+  "cast_blizzard_3": {
+    "file": "cast_blizzard_3.wav",
+    "seconds": 0.3,
+    "loop": false,
+    "peak_db": -2.16,
+    "rms_db": -17.29,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "259322e1d4c78ce0cbf25ed99246d8e4934a72b58da13efe7d7c7966834cc307"
+  },
+  "release_blizzard_3": {
+    "file": "release_blizzard_3.wav",
+    "seconds": 0.27,
+    "loop": false,
+    "peak_db": -7.62,
+    "rms_db": -21.94,
+    "channels": 1,
+    "sources": [
+      {
+        "collection": "ice-electricity-magic",
+        "file": "extracted/qubodupIceAndElectricitySpells/qubodupElectricityDamage01.flac"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Ice attack 2.wav"
+      },
+      {
+        "collection": "magic-sfx-sample",
+        "file": "extracted/Wind effects 5.wav"
+      }
+    ],
+    "sha256": "3154064026f4d2d87dc243d29c69487e9a658c0b84998dc7c5e1bf77c7a1a5b3"
   }
 }

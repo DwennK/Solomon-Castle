@@ -38,7 +38,7 @@ func _ready() -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(Vector2i(1440,900))
 	await wait(0.1)
-	check(Sound.streams.size()==Sound.EFFECTS.size()+Sound.FAMILIES.size()*Sound.CREATURE_EVENTS.size()+2+Sound.DETAILS.size()+Sound.BOSSES.size()*3,"All effects and creature families loaded")
+	check(Sound.streams.size()==Sound.EFFECTS.size()+Sound.FAMILIES.size()*Sound.CREATURE_EVENTS.size()+2+Sound.DETAILS.size()+Sound.BOSSES.size()*3+Sound.SPELL_DETAILS.size()+Sound.CHANNELS.size()*2,"All effects and creature families loaded")
 	check(Sound.channel_streams.size()==5,"Five distinct continuous spells loaded")
 	check(Sound.tracks.size()==6,"Six music themes loaded")
 	check(Sound.music_context=="menu","Menu selects its own score")
@@ -65,6 +65,7 @@ func _ready() -> void:
 	var bus: int = AudioServer.get_bus_index("GameAudio")
 	AudioServer.add_bus_effect(bus,recorder)
 	recorder.set_recording_active(true)
+	await spell_checks()
 	await living_checks()
 	var enemy: TowerEnemy = main.world.enemies[0]
 	var old_position: Vector2 = enemy.position
@@ -266,6 +267,62 @@ func _ready() -> void:
 	get_tree().paused = false
 	await wait(0.2)
 	get_tree().quit(0 if failures.is_empty() else 1)
+
+func spell_checks() -> void:
+	Sound.stop_world()
+	Sound.last_played.clear()
+	for id: String in Sound.SPELL_CASTS:
+		check(Sound.streams[id].size()==3,"Spell has three authored variations: "+id)
+	for id: String in Sound.SPELL_IMPACTS:
+		Sound.stop_world()
+		Sound.last_played.clear()
+		Sound.impact(id,Sound.listener_position,"stone")
+		check(Sound.last_played.has("impact_"+String(Sound.SPELL_IMPACTS[id])),"Impact retains spell identity: "+id)
+	for id: String in Sound.CHANNELS:
+		Sound.stop_world()
+		Sound.last_played.clear()
+		Sound.sustain(id)
+		check(Sound.last_played.has("cast_"+id),"Channel starts with its own transient: "+id)
+		var started: int = Sound.last_played["cast_"+id]
+		Sound._process(.25)
+		check(not Sound.channel_released,"A long render delta cannot release a freshly refreshed channel: "+id)
+		for i: int in range(8):
+			await wait(.025)
+			Sound.sustain(id)
+		check(Sound.last_played["cast_"+id]==started,"Holding cast does not repeat the attack: "+id)
+		await wait(.24)
+		check(not Sound.channel_voice.playing and Sound.last_played.has("release_"+id),"Release finishes the channel with its own tail: "+id)
+		await wait(.1)
+	Sound.last_played.clear()
+	Sound.sustain("ice")
+	await wait(.02)
+	Sound.sustain("lightning")
+	check(Sound.channel_id=="lightning" and not Sound.last_played.has("release_ice"),"Switching channels cancels the old tail")
+	for voice: AudioStreamPlayer2D in Sound.voices:
+		if voice.playing: check(voice.get_meta("sound_id","")!="cast_ice","Old channel attack cannot linger after switching")
+	Sound.last_played.clear()
+	main.show_pause()
+	await wait(.2)
+	check(not Sound.last_played.has("release_lightning") and not Sound.channel_voice.playing,"Pause cancels all spell phases without a spurious release")
+	main.close_modal()
+	Sound.sustain("steam")
+	Sound.stop_world()
+	await wait(.2)
+	check(not Sound.last_played.has("release_steam"),"World teardown never emits a spell release")
+	Sound.last_played.clear()
+	main.world.combat.orb_pulse(Vector2(100000,100000),main.world.combat.profile("ball_lightning"))
+	check(not Sound.last_played.has("orb_pulse"),"An orb in empty space does not emit false contact feedback")
+	for i: int in range(12):
+		Sound.last_played.erase("impact_fire")
+		Sound.play("impact_fire",Sound.listener_position)
+	var impact_count: int = 0
+	for voice: AudioStreamPlayer2D in Sound.voices:
+		if voice.playing and String(voice.get_meta("sound_id","")).begins_with("impact_"): impact_count += 1
+	check(impact_count==6,"Dense multishot impacts have a six-voice ceiling")
+	Sound.last_played.erase("missile")
+	check(Sound.play("missile",Sound.listener_position),"A new cast remains audible during impact saturation")
+	Sound.stop_world()
+	Sound.set_environment("tower")
 
 func living_checks() -> void:
 	Sound.last_played.clear()
