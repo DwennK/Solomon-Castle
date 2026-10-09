@@ -244,7 +244,10 @@ func visual_checks() -> void:
 	main=load("res://scenes/main.tscn").instantiate();add_child(main)
 	main.start_game();main.world.player.qa_controlled=true
 	main.show_level();await capture("four-choices-1440x900")
-	var button: Button=find_choice(main.modal,"Ice Armor")
+	var level_view: LevelUpView=main.modal
+	level_view.cards.harden.grab_focus()
+	await get_tree().create_timer(0.2,true).timeout
+	var button: Button=level_view.confirm
 	check(button!=null,"Fourth choice has an actual input button")
 	if button:
 		var parent: Node=button.get_parent()

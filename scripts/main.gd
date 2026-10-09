@@ -396,29 +396,28 @@ func on_level_pending() -> void:
 func show_level() -> void:
 	if State.run.pending.is_empty(): return
 	Sound.play("level_up")
-	var offered: Array = State.offers()
-	var v: VBoxContainer = panel("Level %d — choose your knowledge"%int(State.run.pending[0]),"Time is paused · %d choices pending. Theoretical DPS per enemy, before resistance, with mana available. Range in units (u)."%State.run.pending.size(),"level",1140)
-	var reroll_button: Button = button(v,"Reroll choices · 1 shard (%d available)" % State.run.get("insight",1),func()->void:
+	destroy_modal()
+	modal_kind = "level"
+	get_tree().paused = is_instance_valid(world)
+	if get_tree().paused: Sound.pause_world()
+	var view: LevelUpView = LevelUpView.new()
+	view.offered = State.offers().duplicate()
+	modal = view
+	ui.add_child(view)
+	view.choice_requested.connect(func(id: String)->void:
+		if State.choose(id):
+			world.player.refresh_stats()
+			world.snapshot()
+			State.save_game()
+			close_modal()
+		else:
+			view.committed=false
+			view.confirm.disabled=false)
+	view.reroll_requested.connect(func()->void:
 		world.snapshot()
-		if State.reroll(): show_level(),not State.can_reroll())
-	reroll_button.tooltip_text = "Start with one shard and earn one per main guardian. Previous choices are avoided; a unique fusion or a choice with no alternative may return."
-	label(v,"Knowledge shards: 1 at the start, then 1 per main guardian. Each reroll costs 1 shard.",14,GameTheme.MUTED)
-	if not State.can_reroll(): label(v,"No shards remaining." if State.run.get("insight",1)<=0 else "No other eligible upgrades.",14,GameTheme.MUTED)
-	var grid: GridContainer = GridContainer.new();grid.columns = 2 if offered.size()==4 else 3;v.add_child(grid)
-	for id: String in offered:
-		var d: ContentDefinition = Catalog.definition(id)
-		var note: String = ""
-		var body: VBoxContainer = choice_card(grid,d.title,d.description,d.id,func()->void:
-			if State.choose(id):
-				world.player.refresh_stats()
-				world.snapshot()
-				State.save_game()
-				close_modal(),note)
-		add_skill_details(body,id,true)
-	if offered.is_empty():
-		button(v,"All knowledge mastered — continue",func()->void:State.run.pending.pop_front();State.run.offers=[];close_modal())
-		focus_first(v)
-	else: focus_first(grid)
+		if State.reroll(): show_level())
+	view.continue_requested.connect(func()->void:
+		State.run.pending.pop_front();State.run.offers=[];close_modal())
 
 func show_pause() -> void:
 	var v: VBoxContainer = panel("A moment of respite","The game is paused.","pause",620)

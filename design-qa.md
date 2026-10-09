@@ -65,3 +65,35 @@ Ajouter `--preview` après `--qa` au runner `codex_ui.tscn` laisse l'aperçu ouv
 Pas de défaut P0/P1/P2 restant dans les surfaces vérifiées. La maquette montrait davantage de variété d'objets que le catalogue graphique actuel ; les deux familles réelles d'équipements gardent leurs illustrations existantes.
 
 final result: passed
+
+
+## 2026-10-09 — Level-up tarot cards
+
+Source visual truth: `outputs/level-up/selected-concept.png` (third displayed ImageGen concept, 1483×1061). The user requested its implementation with all existing combat information retained, clear current/next skill levels, and explicit skill categories.
+
+Implementation: `outputs/level-up/reference-size.png`, exact native GPU SubViewport 1483×1061, density 1; no enlargement or normalization. Reference and implementation opened together, both level 3 with Flash Freeze / Chain Lightning / Ring of Fire and Chain Lightning selected. Actual gameplay behind the modal is the village rather than the illustrative dungeon in the concept.
+
+Full-view comparison: three independent illustrated parchment cards, brass borders, dim game background, central confirmation and secondary reroll. Intentional changes: shorter illustrations and a denser detail area preserve the complete live statistics requested by the user; categories and compact current/next rank lines replace the mock's sparse summaries. Existing Cinzel and Lato fonts are retained. Actual skill icons identify abilities sharing an elemental illustration. Cards stay aligned rather than lifting the selected one, keeping comparative rows stable.
+
+Required fidelity surfaces:
+- Typography: Cinzel titles; Lato categories, compact 15-unit level comparisons, descriptions and complete combat details. Text checked at 1440×900 and 960×600. Long descriptions wrap inside their own scroll viewport; confirmation remains visible.
+- Spacing: 48-unit side margins, 20-unit card gaps, fixed footer. Three and four choices fit the game's 1440×900 logical canvas. Screenshot requested at 1920×1080 was constrained by macOS to 1728×1080; report records the actual dimensions, not an assumed 1920 capture.
+- Colors: ivory/gold on dark game backdrop, dark ink on warm parchment, a single discreet current/next rank line. Selection uses a brighter border/paper and the named confirmation button, without a redundant status footer.
+- Images: six generated illustrations and one generated frame are integrated, preserving aspect ratio; provenance and final prompts are in `assets/ui/level-up/SOURCES.md`. No illustration placeholders.
+- Content: `SkillDetails.text(id,true)` is reused in full. Learned ranks and equipment-adjusted ranks are differentiated, including binary effects granted by equipment. Fusion creation/refresh displays snapshot character levels instead of fictitious upgrade ranks. Category labels distinguish primary spells, active rituals, general/elemental/major passives and fusion spells.
+
+Focused comparison: `outputs/level-up/equipment-fusion-passive.png` was read at native 1440×900 to inspect current/next ranks, equipment values, fusion snapshot explanation and full damage/DPS/mana comparisons. `four-cards-960x600.png` checks the fourth choice and fixed confirmation at minimum desktop size. No extra cropped image was needed because these regions were readable in the native images.
+
+Correction history:
+1. P1: inherited codex frame covered text with oversized leather edges. Replaced it with a dedicated generated narrow tarot border and corrected content margins; final captures show unobstructed text.
+2. P1: inner paper intercepted card clicks. It now passes pointer events to the selectable card; native mouse tests select all four choices.
+3. P2: bulky current/next rank panel. Replaced the entire panel and its headings with one compact line, such as `Lv. 2 → 3`; fusion snapshots and equipment adjustments remain explicit.
+4. P2: image height reduced the useful detailed text area. Reduced illustration height and removed redundant new-knowledge copy, retaining the complete statistics.
+5. Removed the redundant Select this knowledge / Selected footer, returning its height to detailed statistics.
+6. QA runner: route mouse/keyboard events directly through the native viewport to avoid desktop focus/coordinate interference. Final run reports no failures or shutdown warnings.
+
+Validation: 97 native UI checks, 101 skill/combat regression checks, 92 UX regression checks, all passed (290 total). UI coverage includes three/four choices, card selection without learning, explicit confirmation, keyboard confirmation, multiple pending levels, reroll cost/disabled state, equipment ranks, binary passives, fusion snapshots and exhausted-choice continuation. Save paths are QA-only. Windows and mobile were not tested; this is a desktop Godot surface. Git diff whitespace check passed.
+
+Findings: no remaining actionable P0/P1/P2 findings. Long statistical descriptions intentionally scroll inside the card while its level header and the confirmation remain fixed. Native screenshot evidence is local. This report records source validation, not an export or release.
+
+final result: passed

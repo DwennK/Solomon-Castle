@@ -134,7 +134,7 @@ func run_all() -> void:
 	await click(reroll_button)
 	check(State.run.insight==1 and main.modal_kind=="level","Real reroll click stays in pending level")
 	await capture("03-rerolled")
-	var choose: Button=find_button(main.modal,"Choose")
+	var choose: Button=(main.modal as LevelUpView).confirm
 	await click(choose)
 	check(State.run.pending.is_empty() and main.modal_kind.is_empty(),"Choice after reroll consumes level and resumes")
 	main.show_skills();await capture("04-grimoire")
